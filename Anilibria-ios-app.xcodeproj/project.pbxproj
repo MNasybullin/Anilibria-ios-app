@@ -17,6 +17,7 @@
 		27F5E59F287EA83400BCF61C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E59C287EA83400BCF61C /* Colors.xcassets */; };
 		27F5E5A0287EAA5D00BCF61C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A2287EAA5D00BCF61C /* Localizable.strings */; };
 		27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A5287EAC8100BCF61C /* SwiftGen */; };
+		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		27F5E59C287EA83400BCF61C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		27F5E5A3287EAA6E00BCF61C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		27F5E5A5287EAC8100BCF61C /* SwiftGen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftGen; sourceTree = "<group>"; };
+		27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 		27F5E54B287C6DCA00BCF61C = {
 			isa = PBXGroup;
 			children = (
+				27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */,
 				27F5E5A5287EAC8100BCF61C /* SwiftGen */,
 				27F5E556287C6DCA00BCF61C /* Anilibria-ios-app */,
 				27F5E555287C6DCA00BCF61C /* Products */,
@@ -87,6 +90,7 @@
 			buildConfigurationList = 27F5E568287C6DCB00BCF61C /* Build configuration list for PBXNativeTarget "Anilibria-ios-app" */;
 			buildPhases = (
 				27F5E5A4287EAB8700BCF61C /* SwiftGen */,
+				27F5E5A7287EBC6100BCF61C /* SwiftLint */,
 				27F5E550287C6DCA00BCF61C /* Sources */,
 				27F5E551287C6DCA00BCF61C /* Frameworks */,
 				27F5E552287C6DCA00BCF61C /* Resources */,
@@ -139,6 +143,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */,
 				27F5E564287C6DCB00BCF61C /* LaunchScreen.storyboard in Resources */,
 				27F5E5A0287EAA5D00BCF61C /* Localizable.strings in Resources */,
 				27F5E59D287EA83400BCF61C /* Generated in Resources */,
@@ -170,6 +175,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT\"/SwiftGen/runswiftgen.sh\n";
+		};
+		27F5E5A7287EBC6100BCF61C /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint --config .swiftlint.yml\nelse\n    echo \"error: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n    exit 1\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
