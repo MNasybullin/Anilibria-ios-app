@@ -17,7 +17,8 @@ export PATH
 if which swiftgen >/dev/null; then
   swiftgen config run --config SwiftGen/swiftgen.yml
 else
-    echo "warning: SwiftGen not installed, download it from https://github.com/SwiftGen/SwiftGen"
+    echo "error: SwiftGen not installed, download it from https://github.com/SwiftGen/SwiftGen"
+    exit 1
 fi
 
 for file in Anilibria-ios-app/Generated/*
