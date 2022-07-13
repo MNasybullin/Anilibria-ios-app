@@ -13,10 +13,10 @@
 		27F5E55F287C6DCA00BCF61C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E55D287C6DCA00BCF61C /* Main.storyboard */; };
 		27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E560287C6DCB00BCF61C /* Assets.xcassets */; };
 		27F5E564287C6DCB00BCF61C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E562287C6DCB00BCF61C /* LaunchScreen.storyboard */; };
-		27F5E599287EA80800BCF61C /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E598287EA80800BCF61C /* swiftgen.yml */; };
 		27F5E59D287EA83400BCF61C /* Generated in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E59A287EA83400BCF61C /* Generated */; };
 		27F5E59F287EA83400BCF61C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E59C287EA83400BCF61C /* Colors.xcassets */; };
 		27F5E5A0287EAA5D00BCF61C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A2287EAA5D00BCF61C /* Localizable.strings */; };
+		27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A5287EAC8100BCF61C /* SwiftGen */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,10 +28,10 @@
 		27F5E560287C6DCB00BCF61C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27F5E563287C6DCB00BCF61C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27F5E565287C6DCB00BCF61C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		27F5E598287EA80800BCF61C /* swiftgen.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		27F5E59A287EA83400BCF61C /* Generated */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Generated; sourceTree = "<group>"; };
 		27F5E59C287EA83400BCF61C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		27F5E5A3287EAA6E00BCF61C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		27F5E5A5287EAC8100BCF61C /* SwiftGen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftGen; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +48,7 @@
 		27F5E54B287C6DCA00BCF61C = {
 			isa = PBXGroup;
 			children = (
-				27F5E598287EA80800BCF61C /* swiftgen.yml */,
+				27F5E5A5287EAC8100BCF61C /* SwiftGen */,
 				27F5E556287C6DCA00BCF61C /* Anilibria-ios-app */,
 				27F5E555287C6DCA00BCF61C /* Products */,
 			);
@@ -86,6 +86,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27F5E568287C6DCB00BCF61C /* Build configuration list for PBXNativeTarget "Anilibria-ios-app" */;
 			buildPhases = (
+				27F5E5A4287EAB8700BCF61C /* SwiftGen */,
 				27F5E550287C6DCA00BCF61C /* Sources */,
 				27F5E551287C6DCA00BCF61C /* Frameworks */,
 				27F5E552287C6DCA00BCF61C /* Resources */,
@@ -143,12 +144,34 @@
 				27F5E59D287EA83400BCF61C /* Generated in Resources */,
 				27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */,
 				27F5E55F287C6DCA00BCF61C /* Main.storyboard in Resources */,
-				27F5E599287EA80800BCF61C /* swiftgen.yml in Resources */,
+				27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */,
 				27F5E59F287EA83400BCF61C /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		27F5E5A4287EAB8700BCF61C /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/newInputFile",
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT\"/SwiftGen/runswiftgen.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		27F5E550287C6DCA00BCF61C /* Sources */ = {

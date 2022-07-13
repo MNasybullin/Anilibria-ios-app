@@ -1,5 +1,5 @@
-input_dir: Anilibria-ios-app/
-output_dir: Anilibria-ios-app/Generated/
+input_dir: ../Anilibria-ios-app/
+output_dir: ../Anilibria-ios-app/Generated/
 
 
 xcassets:
@@ -15,11 +15,12 @@ xcassets:
     
 strings:
   inputs:
-    - Localizable.strings
+    - ru.lproj
   outputs:
     - templateName: structured-swift5
       params:
         publicAccess: true
+        enumName: Strings
       output: Strings+Generated.swift
 
 
