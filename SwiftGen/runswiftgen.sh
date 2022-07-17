@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if test !Anilibria-ios-app/Generated; then
+mkdir Anilibria-ios-app/Generated
+fi
+
 for file in Anilibria-ios-app/Generated/*
 do
     if [ -f $file ]
