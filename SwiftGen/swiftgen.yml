@@ -22,6 +22,8 @@ strings:
         publicAccess: true
         enumName: Strings
       output: Strings+Generated.swift
+      
+
 
 
 
