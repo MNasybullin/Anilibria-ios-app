@@ -23,7 +23,14 @@ strings:
         enumName: Strings
       output: Strings+Generated.swift
       
-
+ib:
+  inputs:
+    - .
+  outputs:
+    - templateName: scenes-swift5
+      output: IB-Scenes+Generated.swift
+    - templateName: segues-swift5
+      output: IB-Segues+Generated.swift
 
 
 
