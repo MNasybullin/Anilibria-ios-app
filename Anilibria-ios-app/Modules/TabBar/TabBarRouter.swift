@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 
-typealias EntryPoint = TabBarViewProtocol & UITabBarController
-
 protocol TabBarRouterProtocol: AnyObject {
+    typealias EntryPoint = TabBarViewProtocol & UITabBarController
+    
     var entry: EntryPoint! { get }
     
     static func start() -> TabBarRouterProtocol
