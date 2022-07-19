@@ -11,7 +11,7 @@ protocol TabBarInteractorProtocol: AnyObject {
     var presenter: TabBarPresenterProtocol! { get set }
 }
 
-class TabBarInteractor: TabBarInteractorProtocol {
+final class TabBarInteractor: TabBarInteractorProtocol {
     var presenter: TabBarPresenterProtocol!
     
 }

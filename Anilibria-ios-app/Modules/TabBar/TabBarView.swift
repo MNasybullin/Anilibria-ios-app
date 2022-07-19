@@ -12,7 +12,7 @@ protocol TabBarViewProtocol: AnyObject {
     var presenter: TabBarPresenterProtocol! { get set }
 }
 
-class TabBarViewController: UITabBarController, TabBarViewProtocol {
+final class TabBarViewController: UITabBarController, TabBarViewProtocol {
     var presenter: TabBarPresenterProtocol!
     
     override func viewDidLoad() {

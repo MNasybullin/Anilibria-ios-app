@@ -13,7 +13,7 @@ protocol HomePresenterProtocol: AnyObject {
     var view: HomeViewProtocol! { get set }
 }
 
-class HomePresenter: HomePresenterProtocol {
+final class HomePresenter: HomePresenterProtocol {
     var router: HomeRouterProtocol!
     
     var interactor: HomeInteractorProtocol!

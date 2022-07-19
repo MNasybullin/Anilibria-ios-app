@@ -11,7 +11,7 @@ protocol HomeInteractorProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
 }
 
-class HomeInteractor: HomeInteractorProtocol {
+final class HomeInteractor: HomeInteractorProtocol {
     unowned var presenter: HomePresenterProtocol!
     
 }

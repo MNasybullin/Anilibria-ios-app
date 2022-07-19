@@ -12,7 +12,7 @@ protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
 }
 
-class HomeView: UIViewController, HomeViewProtocol {
+final class HomeView: UIViewController, HomeViewProtocol {
     var presenter: HomePresenterProtocol!
     
 }

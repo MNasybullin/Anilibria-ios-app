@@ -21,7 +21,7 @@ protocol TabBarRouterProtocol: AnyObject {
                                     image: UIImage) -> UIViewController
 }
 
-class TabBarRouter: TabBarRouterProtocol {
+final class TabBarRouter: TabBarRouterProtocol {
     var entry: EntryPoint!
     
     static func start() -> TabBarRouterProtocol {

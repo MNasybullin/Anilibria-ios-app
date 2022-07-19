@@ -13,7 +13,7 @@ protocol TabBarPresenterProtocol: AnyObject {
     var view: TabBarViewProtocol! { get set }
 }
 
-class TabBarPresenter: TabBarPresenterProtocol {
+final class TabBarPresenter: TabBarPresenterProtocol {
     var router: TabBarRouterProtocol!
     
     var interactor: TabBarInteractorProtocol!

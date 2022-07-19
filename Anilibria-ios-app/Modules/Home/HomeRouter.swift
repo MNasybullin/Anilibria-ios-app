@@ -16,7 +16,7 @@ protocol HomeRouterProtocol: AnyObject {
     static func start() -> HomeRouterProtocol
 }
 
-class HomeRouter: HomeRouterProtocol {
+final class HomeRouter: HomeRouterProtocol {
     var entry: EntryPoint!
     
     static func start() -> HomeRouterProtocol {
