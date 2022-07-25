@@ -6,6 +6,10 @@
   
 */
 
+// MARK: - Network API Constants
+"NetworkConstants.baseAnilibriaURL" = "https://api.anilibria.tv";
+"NetworkConstants.getYouTube" = "/v2/getYouTube";
+
 // MARK: -  Networking Error
 "NetworkingError.invalidServerResponse" = "Неверный ответ от сервера.";
 "NetworkingError.invalidURLComponents" = "Неверный URL.";
@@ -13,6 +17,3 @@
 "NetworkingError.internalServerError" = "Непредвиденная внутренняя ошибка сервера.";
 "NetworkingError.unknownParameters" = "Передан неизвестный параметр.";
 "NetworkingError.notFound" = "Не найдено в базе.";
-
-
-

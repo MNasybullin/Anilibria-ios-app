@@ -26,13 +26,13 @@ class QueryService {
         }
     }
     
-    // MARK: - Internal Methods
+    // MARK: - Internal Methods | API Public Methods
     
     /// Информация о вышедших роликах на наших YouTube каналах в хронологическом порядке.
     /// - Parameters:
     /// - withLimit - Количество роликов запрашиваемые у сервера. По умолчанию = 5.
     func getYouTube(withLimit value: String = "5") async throws -> [GetYouTubeModel] {
-        var urlComponents = URLComponents(string: NetworkConstants.baseAnilibriaURL + "/v2/getYouTube")
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getYouTube)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: value)
         ]
@@ -51,4 +51,6 @@ class QueryService {
         let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
         return decoded
     }
+    
+    // MARK: - Internal Methods | Custom Methods Requiring Authorization
 }

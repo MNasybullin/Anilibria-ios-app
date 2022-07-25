@@ -14,6 +14,7 @@
 		272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653C288EC4EC00FA4F60 /* XCAssets+Generated.swift */; };
 		272D6541288EC4EC00FA4F60 /* IB-Scenes+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653D288EC4EC00FA4F60 /* IB-Scenes+Generated.swift */; };
 		272D6543288EC75600FA4F60 /* MyNetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6542288EC75600FA4F60 /* MyNetworkingError.swift */; };
+		272D6545288ECB4500FA4F60 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 272D6544288ECB4500FA4F60 /* README.md */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarView.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -25,7 +26,6 @@
 		27DEEBC52886A99A0014055F /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC42886A99A0014055F /* HomePresenter.swift */; };
 		27DEEBC72886A9A30014055F /* HomeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC62886A9A30014055F /* HomeEntity.swift */; };
 		27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC82886A9AC0014055F /* HomeRouter.swift */; };
-		27DEEBCE2886F5740014055F /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBCD2886F5740014055F /* NetworkConstants.swift */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
 		27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */; };
 		27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E560287C6DCB00BCF61C /* Assets.xcassets */; };
@@ -44,6 +44,7 @@
 		272D653C288EC4EC00FA4F60 /* XCAssets+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCAssets+Generated.swift"; sourceTree = "<group>"; };
 		272D653D288EC4EC00FA4F60 /* IB-Scenes+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IB-Scenes+Generated.swift"; sourceTree = "<group>"; };
 		272D6542288EC75600FA4F60 /* MyNetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetworkingError.swift; sourceTree = "<group>"; };
+		272D6544288ECB4500FA4F60 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -55,7 +56,6 @@
 		27DEEBC42886A99A0014055F /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		27DEEBC62886A9A30014055F /* HomeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEntity.swift; sourceTree = "<group>"; };
 		27DEEBC82886A9AC0014055F /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
-		27DEEBCD2886F5740014055F /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -135,7 +135,6 @@
 			isa = PBXGroup;
 			children = (
 				272D6533288C63CA00FA4F60 /* Models */,
-				27DEEBCD2886F5740014055F /* NetworkConstants.swift */,
 				272D6542288EC75600FA4F60 /* MyNetworkingError.swift */,
 				272D6531288AEF3800FA4F60 /* QueryService.swift */,
 			);
@@ -145,6 +144,7 @@
 		27F5E54B287C6DCA00BCF61C = {
 			isa = PBXGroup;
 			children = (
+				272D6544288ECB4500FA4F60 /* README.md */,
 				27CB080228847D39009E2583 /* .gitignore */,
 				27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */,
 				27F5E5A5287EAC8100BCF61C /* SwiftGen */,
@@ -245,6 +245,7 @@
 				27F5E5A0287EAA5D00BCF61C /* Localizable.strings in Resources */,
 				27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */,
 				27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */,
+				272D6545288ECB4500FA4F60 /* README.md in Resources */,
 				27F5E59F287EA83400BCF61C /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,7 +298,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				272D6535288C63E100FA4F60 /* GetYouTubeModel.swift in Sources */,
-				27DEEBCE2886F5740014055F /* NetworkConstants.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
 				27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */,
