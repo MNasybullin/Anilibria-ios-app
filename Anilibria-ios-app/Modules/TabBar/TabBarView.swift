@@ -17,6 +17,16 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        #warning("Test")
+        let network = QueryService()
+        Task {
+            do {
+                let data = try await network.getTitle(with: 8500)
+                print(data)
+            } catch {
+                print(error)
+            }
+        }
     }
     
 }

@@ -30,11 +30,12 @@ class QueryService {
     
     /// Информация о вышедших роликах на наших YouTube каналах в хронологическом порядке.
     /// - Parameters:
-    /// - withLimit - Количество роликов запрашиваемые у сервера. По умолчанию = 5.
-    func getYouTube(withLimit value: String = "5") async throws -> [GetYouTubeModel] {
+    ///     - withlimit: Количество роликов запрашиваемые у сервера.
+    /// - Throws: `MyNetworkingError`
+    func getYouTube(with limit: Int = 5) async throws -> [GetYouTubeModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getYouTube)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "limit", value: value)
+            URLQueryItem(name: "limit", value: String(limit))
         ]
         
         guard let url = urlComponents?.url else {
@@ -49,6 +50,34 @@ class QueryService {
         }
         
         let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
+        return decoded
+    }
+    
+    /// Получить информацию о тайтле по id или коду
+    /// - Parameters:
+    ///     - with id: ID тайтла
+    ///     - code: Код тайтла
+    /// - Throws: `MyNetworkingError`
+    func getTitle(with id: Int, code: String? = "") async throws -> GetTitleModel {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getTitle)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "id", value: String(id)),
+            URLQueryItem(name: "code", value: code),
+            URLQueryItem(name: "playlist_type", value: "array")
+        ]
+        
+        guard let url = urlComponents?.url else {
+            throw MyNetworkingError.invalidURLComponents()
+        }
+        let urlRequest = URLRequest(url: url)
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 /* OK */ else {
+            throw errorHandling(for: response)
+        }
+        print(data)
+        let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
         return decoded
     }
     

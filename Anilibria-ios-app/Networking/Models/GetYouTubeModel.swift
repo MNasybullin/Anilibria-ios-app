@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Используется в запросах:
+/// getYouTube
 struct GetYouTubeModel: Codable {
     enum CodingKeys: String, CodingKey {
         case id
@@ -21,5 +23,4 @@ struct GetYouTubeModel: Codable {
     let image: String
     let youTubeId: String
     let timeStamp: Int
-    
 }
