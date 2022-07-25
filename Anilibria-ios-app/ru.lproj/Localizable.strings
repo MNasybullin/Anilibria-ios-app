@@ -6,4 +6,13 @@
   
 */
 
-"Test.TestString" = "TestString";
+// MARK: -  Networking Error
+"NetworkingError.invalidServerResponse" = "Неверный ответ от сервера.";
+"NetworkingError.invalidURLComponents" = "Неверный URL.";
+"NetworkingError.unknown" = "Неизвестная ошибка.";
+"NetworkingError.internalServerError" = "Непредвиденная внутренняя ошибка сервера.";
+"NetworkingError.unknownParameters" = "Передан неизвестный параметр.";
+"NetworkingError.notFound" = "Не найдено в базе.";
+
+
+

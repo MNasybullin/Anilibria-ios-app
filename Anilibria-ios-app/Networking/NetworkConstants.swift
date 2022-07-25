@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum MyNetworkingError: Error {
-    case invalidServerResponse
-    case invalidURLComponents
-}
-
 enum NetworkConstants {
     static let baseAnilibriaURL = "https://api.anilibria.tv"
 }

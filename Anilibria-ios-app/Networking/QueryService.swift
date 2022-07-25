@@ -8,6 +8,24 @@
 import Foundation
 
 class QueryService {
+    // MARK: - Private Methods
+    
+    private func errorHandling(for response: URLResponse) -> MyNetworkingError {
+        guard let httpResonse = response as? HTTPURLResponse else {
+            return MyNetworkingError.invalidServerResponse()
+        }
+        switch httpResonse.statusCode {
+            case 500:
+                return MyNetworkingError.internalServerError()
+            case 412:
+                return MyNetworkingError.unknownParameters()
+            case 404:
+                return MyNetworkingError.notFound()
+            default:
+                return MyNetworkingError.unknown()
+        }
+    }
+    
     // MARK: - Internal Methods
     
     /// Информация о вышедших роликах на наших YouTube каналах в хронологическом порядке.
@@ -20,14 +38,14 @@ class QueryService {
         ]
         
         guard let url = urlComponents?.url else {
-            throw MyNetworkingError.invalidURLComponents
+            throw MyNetworkingError.invalidURLComponents()
         }
         let urlRequest = URLRequest(url: url)
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 /* OK */ else {
-            throw MyNetworkingError.invalidServerResponse
+            throw errorHandling(for: response)
         }
         
         let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
