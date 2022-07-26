@@ -10,7 +10,7 @@
 import Foundation
 
 /// Используется в запросах:
-/// getTitleModel
+/// getTitle, getTitles
 /// - Prefix `GT` = GetTitle
 struct GetTitleModel: Codable {
     let id: Int
@@ -82,7 +82,7 @@ struct GTBlocked: Codable {
 }
 
 struct GTPlayer: Codable {
-    let alternative_player: String
+    let alternative_player: String?
     let host: String
     let series: GTSeries
     let playlist: [GTPlaylist]

@@ -53,16 +53,14 @@ class QueryService {
         return decoded
     }
     
-    /// Получить информацию о тайтле по id или коду
+    /// Получить информацию о тайтле по id
     /// - Parameters:
     ///     - with id: ID тайтла
-    ///     - code: Код тайтла
     /// - Throws: `MyNetworkingError`
-    func getTitle(with id: Int, code: String? = "") async throws -> GetTitleModel {
+    func getTitle(with id: String) async throws -> GetTitleModel {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getTitle)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "id", value: String(id)),
-            URLQueryItem(name: "code", value: code),
+            URLQueryItem(name: "id", value: id),
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
@@ -78,6 +76,32 @@ class QueryService {
         }
         print(data)
         let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
+        return decoded
+    }
+    
+    /// Получить информацию о нескольких тайтлах сразу по id
+    /// - Parameters:
+    ///     - with id: ID тайтлов через запятую. Пример ("8500,8644")
+    /// - Throws: `MyNetworkingError`
+    func getTitles(with id: String) async throws -> [GetTitleModel] {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getTitles)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "id_list", value: id),
+            URLQueryItem(name: "playlist_type", value: "array")
+        ]
+        
+        guard let url = urlComponents?.url else {
+            throw MyNetworkingError.invalidURLComponents()
+        }
+        let urlRequest = URLRequest(url: url)
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 /* OK */ else {
+            throw errorHandling(for: response)
+        }
+        print(data)
+        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
         return decoded
     }
     

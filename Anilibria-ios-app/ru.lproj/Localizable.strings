@@ -10,6 +10,7 @@
 "NetworkConstants.baseAnilibriaURL" = "https://api.anilibria.tv";
 "NetworkConstants.getYouTube" = "/v2/getYouTube";
 "NetworkConstants.getTitle" = "/v2/getTitle";
+"NetworkConstants.getTitles" = "/v2/getTitles";
 
 // MARK: -  Networking Error
 "NetworkingError.invalidServerResponse" = "Неверный ответ от сервера.";
