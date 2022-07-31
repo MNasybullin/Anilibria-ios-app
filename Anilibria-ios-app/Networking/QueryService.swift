@@ -26,6 +26,20 @@ class QueryService {
         }
     }
     
+    private func dataRequest(with urlComponents: URLComponents?) async throws -> Data {
+        guard let url = urlComponents?.url else {
+            throw MyNetworkingError.invalidURLComponents()
+        }
+        let urlRequest = URLRequest(url: url)
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 /* OK */ else {
+            throw errorHandling(for: response)
+        }
+        return data
+    }
+    
     // MARK: - Internal Methods | API Public Methods
     
     /// Информация о вышедших роликах на наших YouTube каналах в хронологическом порядке.
@@ -38,17 +52,7 @@ class QueryService {
             URLQueryItem(name: "limit", value: String(limit))
         ]
         
-        guard let url = urlComponents?.url else {
-            throw MyNetworkingError.invalidURLComponents()
-        }
-        let urlRequest = URLRequest(url: url)
-        
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 /* OK */ else {
-            throw errorHandling(for: response)
-        }
-        
+        let data = try await dataRequest(with: urlComponents)
         let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
         return decoded
     }
@@ -64,17 +68,7 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        guard let url = urlComponents?.url else {
-            throw MyNetworkingError.invalidURLComponents()
-        }
-        let urlRequest = URLRequest(url: url)
-        
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 /* OK */ else {
-            throw errorHandling(for: response)
-        }
-        print(data)
+        let data = try await dataRequest(with: urlComponents)
         let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
         return decoded
     }
@@ -90,17 +84,7 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        guard let url = urlComponents?.url else {
-            throw MyNetworkingError.invalidURLComponents()
-        }
-        let urlRequest = URLRequest(url: url)
-        
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 /* OK */ else {
-            throw errorHandling(for: response)
-        }
-        print(data)
+        let data = try await dataRequest(with: urlComponents)
         let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
         return decoded
     }
