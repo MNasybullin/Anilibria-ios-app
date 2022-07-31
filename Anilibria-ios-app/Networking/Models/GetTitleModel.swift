@@ -16,7 +16,7 @@ struct GetTitleModel: Codable {
     let id: Int
     let code: String
     let names: GTNames
-    let announce: String
+    let announce: String?
     let status: GTStatus
     let posters: GTPosters
     let updated: Int

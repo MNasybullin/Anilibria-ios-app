@@ -11,6 +11,7 @@
 "NetworkConstants.getYouTube" = "/v2/getYouTube";
 "NetworkConstants.getTitle" = "/v2/getTitle";
 "NetworkConstants.getTitles" = "/v2/getTitles";
+"NetworkConstants.getUpdates" = "/v2/getUpdates";
 
 // MARK: -  Networking Error
 "NetworkingError.invalidServerResponse" = "Неверный ответ от сервера.";
