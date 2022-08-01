@@ -21,7 +21,7 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
         let network = QueryService()
         Task {
             do {
-                let data = try await network.getRandomTitle()
+                let data = try await network.getYears()
                 print(data)
             } catch {
                 print(error)

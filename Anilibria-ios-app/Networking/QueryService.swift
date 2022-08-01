@@ -123,7 +123,7 @@ class QueryService {
         return decoded
     }
     
-    /// Возвращает случайный тайтл из базы
+    /// Получить случайный тайтл из базы
     /// - Throws: `MyNetworkingError`
     func getRandomTitle() async throws -> GetTitleModel {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getRandomTitle)
@@ -136,7 +136,7 @@ class QueryService {
         return decoded
     }
     
-    /// Информация о вышедших роликах на наших YouTube каналах в хронологическом порядке.
+    /// Получить информацию о вышедших роликах на наших YouTube каналах в хронологическом порядке.
     /// - Parameters:
     ///     - withlimit: Количество роликов запрашиваемые у сервера.
     /// - Throws: `MyNetworkingError`
@@ -148,6 +148,16 @@ class QueryService {
         
         let data = try await dataRequest(with: urlComponents)
         let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
+        return decoded
+    }
+    
+    /// Получить список годов выхода доступных тайтлов отсортированный по возрастанию
+    /// - Throws: `MyNetworkingError`
+    func getYears() async throws -> [Int] {
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getYears)
+        
+        let data = try await dataRequest(with: urlComponents)
+        let decoded = try JSONDecoder().decode([Int].self, from: data)
         return decoded
     }
     
