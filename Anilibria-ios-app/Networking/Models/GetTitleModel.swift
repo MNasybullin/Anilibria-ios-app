@@ -57,7 +57,7 @@ struct GTType: Codable {
     let full_string: String
     let code: Int
     let string: String
-    let series: Int
+    let series: Int?
     let length: Int
 }
 
@@ -101,9 +101,9 @@ struct GTPlaylist: Codable {
 }
 
 struct GTHls: Codable {
-    let fhd: String
-    let hd: String
-    let sd: String
+    let fhd: String?
+    let hd: String?
+    let sd: String?
 }
 
 struct GTTorrents: Codable {

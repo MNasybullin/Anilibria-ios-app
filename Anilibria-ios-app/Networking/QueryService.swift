@@ -89,12 +89,28 @@ class QueryService {
         return decoded
     }
     
-    /// Получить список последних обновлений тайтлов
+    /// Получить список тайтлов отсортированный по времени добавления нового релиза
     /// - Parameters:
     ///     - withlimit: Количество запрашиваемых объектов
     /// - Throws: `MyNetworkingError`
     func getUpdates(with limit: Int = 5) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getUpdates)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "limit", value: String(limit)),
+            URLQueryItem(name: "playlist_type", value: "array")
+        ]
+        
+        let data = try await dataRequest(with: urlComponents)
+        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        return decoded
+    }
+    
+    /// Получить список тайтлов отсортированный по времени изменения
+    /// - Parameters:
+    ///     - withlimit: Количество запрашиваемых объектов
+    /// - Throws: `MyNetworkingError`
+    func getChanges(with limit: Int = 5) async throws -> [GetTitleModel] {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getChanges)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
             URLQueryItem(name: "playlist_type", value: "array")
