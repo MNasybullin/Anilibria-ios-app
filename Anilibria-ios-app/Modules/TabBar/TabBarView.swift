@@ -21,7 +21,7 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
         let network = QueryService()
         Task {
             do {
-                let data = try await network.getSchedule(with: [.monday])
+                let data = try await network.getRandomTitle()
                 print(data)
             } catch {
                 print(error)

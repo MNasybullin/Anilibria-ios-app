@@ -42,21 +42,6 @@ class QueryService {
     
     // MARK: - Internal Methods | API Public Methods
     
-    /// Информация о вышедших роликах на наших YouTube каналах в хронологическом порядке.
-    /// - Parameters:
-    ///     - withlimit: Количество роликов запрашиваемые у сервера.
-    /// - Throws: `MyNetworkingError`
-    func getYouTube(with limit: Int = 5) async throws -> [GetYouTubeModel] {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getYouTube)
-        urlComponents?.queryItems = [
-            URLQueryItem(name: "limit", value: String(limit))
-        ]
-        
-        let data = try await dataRequest(with: urlComponents)
-        let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
-        return decoded
-    }
-    
     /// Получить информацию о тайтле по id
     /// - Parameters:
     ///     - with id: ID тайтла
@@ -135,6 +120,34 @@ class QueryService {
         
         let data = try await dataRequest(with: urlComponents)
         let decoded = try JSONDecoder().decode([GetScheduleModel].self, from: data)
+        return decoded
+    }
+    
+    /// Возвращает случайный тайтл из базы
+    /// - Throws: `MyNetworkingError`
+    func getRandomTitle() async throws -> GetTitleModel {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getRandomTitle)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "playlist_type", value: "array")
+        ]
+        
+        let data = try await dataRequest(with: urlComponents)
+        let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
+        return decoded
+    }
+    
+    /// Информация о вышедших роликах на наших YouTube каналах в хронологическом порядке.
+    /// - Parameters:
+    ///     - withlimit: Количество роликов запрашиваемые у сервера.
+    /// - Throws: `MyNetworkingError`
+    func getYouTube(with limit: Int = 5) async throws -> [GetYouTubeModel] {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getYouTube)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "limit", value: String(limit))
+        ]
+        
+        let data = try await dataRequest(with: urlComponents)
+        let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
         return decoded
     }
     
