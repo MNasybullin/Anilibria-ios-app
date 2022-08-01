@@ -161,5 +161,15 @@ class QueryService {
         return decoded
     }
     
+    /// Получить список жанров доступных тайтлов отсортированный по алфавиту
+    /// - Throws: `MyNetworkingError`
+    func getGenres() async throws -> [String] {
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getGenres)
+        
+        let data = try await dataRequest(with: urlComponents)
+        let decoded = try JSONDecoder().decode([String].self, from: data)
+        return decoded
+    }
+    
     // MARK: - Internal Methods | Custom Methods Requiring Authorization
 }

@@ -16,6 +16,10 @@
 "NetworkConstants.getSchedule" = "/v2/getSchedule";
 "NetworkConstants.getRandomTitle" = "/v2/getRandomTitle";
 "NetworkConstants.getYears" = "/v2/getYears";
+"NetworkConstants.getGenres" = "/v2/getGenres";
+"NetworkConstants.getCachingNodes" = "/v2/getCachingNodes";
+
+
 
 
 // MARK: -  Networking Error
