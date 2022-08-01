@@ -171,5 +171,15 @@ class QueryService {
         return decoded
     }
     
+    /// Получить список кеш серверов с которых можно брать данные отсортированные по нагрузке. Севера сортируются в реальном времени, по этому рекомендуется для каждого сервера использовать один из самых верхних серверов.
+    /// - Throws: `MyNetworkingError`
+    func getCachingNodes() async throws -> [String] {
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getCachingNodes)
+        
+        let data = try await dataRequest(with: urlComponents)
+        let decoded = try JSONDecoder().decode([String].self, from: data)
+        return decoded
+    }
+    
     // MARK: - Internal Methods | Custom Methods Requiring Authorization
 }
