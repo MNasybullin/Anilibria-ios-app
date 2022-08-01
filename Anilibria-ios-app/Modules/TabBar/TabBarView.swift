@@ -21,7 +21,7 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
         let network = QueryService()
         Task {
             do {
-                let data = try await network.getCachingNodes()d
+                let data = try await network.getCachingNodes()
                 print(data)
             } catch {
                 print(error)
