@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Используется в запросах:
+/// Возвращается в запросах:
 /// getYouTube
 struct GetYouTubeModel: Codable {
     enum CodingKeys: String, CodingKey {

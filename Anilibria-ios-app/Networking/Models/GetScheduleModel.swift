@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Используется в запросах:
+/// Возвращается в запросах:
 /// getSchedule
 struct GetScheduleModel: Codable {
     let day: DaysOfTheWeek

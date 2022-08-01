@@ -9,7 +9,7 @@
 
 import Foundation
 
-/// Используется в запросах:
+/// Возвращается в запросах:
 /// getTitle, getTitles, getUpdates, getChanges
 /// - Prefix `GT` = GetTitle
 struct GetTitleModel: Codable {
