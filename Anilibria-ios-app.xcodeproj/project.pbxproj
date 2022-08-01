@@ -16,6 +16,7 @@
 		272D6543288EC75600FA4F60 /* MyNetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6542288EC75600FA4F60 /* MyNetworkingError.swift */; };
 		272D6545288ECB4500FA4F60 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 272D6544288ECB4500FA4F60 /* README.md */; };
 		272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6546288ED42B00FA4F60 /* GetTitleModel.swift */; };
+		272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D65482897E22100FA4F60 /* GetScheduleModel.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarView.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -47,6 +48,7 @@
 		272D6542288EC75600FA4F60 /* MyNetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetworkingError.swift; sourceTree = "<group>"; };
 		272D6544288ECB4500FA4F60 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		272D6546288ED42B00FA4F60 /* GetTitleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTitleModel.swift; sourceTree = "<group>"; };
+		272D65482897E22100FA4F60 /* GetScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScheduleModel.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			children = (
 				272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */,
 				272D6546288ED42B00FA4F60 /* GetTitleModel.swift */,
+				272D65482897E22100FA4F60 /* GetScheduleModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */,
 				27CB080B28855EB4009E2583 /* TabBarView.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
+				272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
 				27DEEBC52886A99A0014055F /* HomePresenter.swift in Sources */,
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,

@@ -121,5 +121,22 @@ class QueryService {
         return decoded
     }
     
+    /// Получить  расписание выхода тайтлов, отсортированное по дням недели
+    /// - Parameters:
+    ///     - withdays: Список дней недели на которые нужно расписание
+    /// - Throws: `MyNetworkingError`
+    func getSchedule(with days: [DaysOfTheWeek]) async throws -> [GetScheduleModel] {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getSchedule)
+        let daysString = days.reduce("", {$0 + String($1.rawValue) + ","})
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "days", value: daysString),
+            URLQueryItem(name: "playlist_type", value: "array")
+        ]
+        
+        let data = try await dataRequest(with: urlComponents)
+        let decoded = try JSONDecoder().decode([GetScheduleModel].self, from: data)
+        return decoded
+    }
+    
     // MARK: - Internal Methods | Custom Methods Requiring Authorization
 }

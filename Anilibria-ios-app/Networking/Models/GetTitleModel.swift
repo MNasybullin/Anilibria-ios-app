@@ -10,7 +10,7 @@
 import Foundation
 
 /// Используется в запросах:
-/// getTitle, getTitles
+/// getTitle, getTitles, getUpdates, getChanges
 /// - Prefix `GT` = GetTitle
 struct GetTitleModel: Codable {
     let id: Int
@@ -58,7 +58,7 @@ struct GTType: Codable {
     let code: Int
     let string: String
     let series: Int?
-    let length: Int
+    let length: Int?
 }
 
 struct GTTeam: Codable {
@@ -107,7 +107,7 @@ struct GTHls: Codable {
 }
 
 struct GTTorrents: Codable {
-    let series: GTSeries
+    let series: GTSeries?
     let list: [GTList]
 }
 

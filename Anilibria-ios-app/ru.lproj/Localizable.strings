@@ -13,6 +13,7 @@
 "NetworkConstants.getTitles" = "/v2/getTitles";
 "NetworkConstants.getUpdates" = "/v2/getUpdates";
 "NetworkConstants.getChanges" = "/v2/getChanges";
+"NetworkConstants.getSchedule" = "/v2/getSchedule";
 
 // MARK: -  Networking Error
 "NetworkingError.invalidServerResponse" = "Неверный ответ от сервера.";
