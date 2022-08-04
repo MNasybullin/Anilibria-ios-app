@@ -7,7 +7,8 @@
 */
 
 // MARK: - Network API Constants
-"NetworkConstants.baseAnilibriaURL" = "https://api.anilibria.tv";
+"NetworkConstants.anilibriaURL" = "https://www.anilibria.tv";
+"NetworkConstants.apiAnilibriaURL" = "https://api.anilibria.tv";
 "NetworkConstants.getYouTube" = "/v2/getYouTube";
 "NetworkConstants.getTitle" = "/v2/getTitle";
 "NetworkConstants.getTitles" = "/v2/getTitles";
@@ -18,6 +19,8 @@
 "NetworkConstants.getYears" = "/v2/getYears";
 "NetworkConstants.getGenres" = "/v2/getGenres";
 "NetworkConstants.getCachingNodes" = "/v2/getCachingNodes";
+"NetworkConstants.login" = "/public/login.php";
+"NetworkConstants.logout" = "/public/logout.php";
 
 
 

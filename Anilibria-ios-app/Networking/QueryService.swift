@@ -47,7 +47,7 @@ class QueryService {
     ///     - with id: ID тайтла
     /// - Throws: `MyNetworkingError`
     func getTitle(with id: String) async throws -> GetTitleModel {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getTitle)
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTitle)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id", value: id),
             URLQueryItem(name: "playlist_type", value: "array")
@@ -63,7 +63,7 @@ class QueryService {
     ///     - with id: ID тайтлов через запятую. Пример ("8500,8644")
     /// - Throws: `MyNetworkingError`
     func getTitles(with id: String) async throws -> [GetTitleModel] {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getTitles)
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTitles)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id_list", value: id),
             URLQueryItem(name: "playlist_type", value: "array")
@@ -79,7 +79,7 @@ class QueryService {
     ///     - withlimit: Количество запрашиваемых объектов
     /// - Throws: `MyNetworkingError`
     func getUpdates(with limit: Int = 5) async throws -> [GetTitleModel] {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getUpdates)
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getUpdates)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
             URLQueryItem(name: "playlist_type", value: "array")
@@ -95,7 +95,7 @@ class QueryService {
     ///     - withlimit: Количество запрашиваемых объектов
     /// - Throws: `MyNetworkingError`
     func getChanges(with limit: Int = 5) async throws -> [GetTitleModel] {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getChanges)
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getChanges)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
             URLQueryItem(name: "playlist_type", value: "array")
@@ -111,7 +111,7 @@ class QueryService {
     ///     - withdays: Список дней недели на которые нужно расписание
     /// - Throws: `MyNetworkingError`
     func getSchedule(with days: [DaysOfTheWeek]) async throws -> [GetScheduleModel] {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getSchedule)
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getSchedule)
         let daysString = days.reduce("", {$0 + String($1.rawValue) + ","})
         urlComponents?.queryItems = [
             URLQueryItem(name: "days", value: daysString),
@@ -126,7 +126,7 @@ class QueryService {
     /// Получить случайный тайтл из базы
     /// - Throws: `MyNetworkingError`
     func getRandomTitle() async throws -> GetTitleModel {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getRandomTitle)
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getRandomTitle)
         urlComponents?.queryItems = [
             URLQueryItem(name: "playlist_type", value: "array")
         ]
@@ -141,7 +141,7 @@ class QueryService {
     ///     - withlimit: Количество роликов запрашиваемые у сервера.
     /// - Throws: `MyNetworkingError`
     func getYouTube(with limit: Int = 5) async throws -> [GetYouTubeModel] {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getYouTube)
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYouTube)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit))
         ]
@@ -154,7 +154,7 @@ class QueryService {
     /// Получить список годов выхода доступных тайтлов отсортированный по возрастанию
     /// - Throws: `MyNetworkingError`
     func getYears() async throws -> [Int] {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getYears)
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYears)
         
         let data = try await dataRequest(with: urlComponents)
         let decoded = try JSONDecoder().decode([Int].self, from: data)
@@ -164,7 +164,7 @@ class QueryService {
     /// Получить список жанров доступных тайтлов отсортированный по алфавиту
     /// - Throws: `MyNetworkingError`
     func getGenres() async throws -> [String] {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getGenres)
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getGenres)
         
         let data = try await dataRequest(with: urlComponents)
         let decoded = try JSONDecoder().decode([String].self, from: data)
@@ -174,7 +174,7 @@ class QueryService {
     /// Получить список кеш серверов с которых можно брать данные отсортированные по нагрузке. Севера сортируются в реальном времени, по этому рекомендуется для каждого сервера использовать один из самых верхних серверов.
     /// - Throws: `MyNetworkingError`
     func getCachingNodes() async throws -> [String] {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.baseAnilibriaURL + Strings.NetworkConstants.getCachingNodes)
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getCachingNodes)
         
         let data = try await dataRequest(with: urlComponents)
         let decoded = try JSONDecoder().decode([String].self, from: data)
@@ -182,4 +182,41 @@ class QueryService {
     }
     
     // MARK: - Internal Methods | Custom Methods Requiring Authorization
+    
+    func login(mail: String, password: String) async throws -> Login {
+        guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.login) else {
+            throw MyNetworkingError.invalidURLComponents()
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        var body = URLComponents()
+        body.queryItems = [
+            URLQueryItem(name: "mail", value: mail),
+            URLQueryItem(name: "passwd", value: password)
+        ]
+        urlRequest.httpBody = body.query?.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 /* OK */ else {
+            throw errorHandling(for: response)
+        }
+        let decoded = try JSONDecoder().decode(Login.self, from: data)
+        return decoded
+    }
+    
+    func logout() async throws {
+        guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.logout) else {
+            throw MyNetworkingError.invalidURLComponents()
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        
+        let (_, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 /* OK */ else {
+            throw errorHandling(for: response)
+        }
+    }
+    
 }

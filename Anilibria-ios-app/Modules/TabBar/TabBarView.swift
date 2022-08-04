@@ -21,10 +21,14 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
         let network = QueryService()
         Task {
             do {
-                let data = try await network.getCachingNodes()
-                print(data)
+                try await network.logout()
             } catch {
-                print(error)
+                let nsError = error as NSError
+                if nsError.code == -1200 {
+                    print("Use VPN")
+                } else {
+                    print(error)
+                }
             }
         }
     }
