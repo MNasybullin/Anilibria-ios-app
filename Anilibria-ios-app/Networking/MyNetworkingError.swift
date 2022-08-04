@@ -11,6 +11,9 @@ enum MyNetworkingError: Error {
     case unknown(code: Int = 0, message: String = Strings.NetworkingError.unknown)
     case invalidServerResponse(code: Int = 1, message: String = Strings.NetworkingError.invalidServerResponse)
     
+    /// Пользователь не авторизован. Code: 2
+    case userIsNotAuthorized(code: Int = 2, message: String = Strings.NetworkingError.userIsNotAuthorized)
+    
     /// Неверный запрос. Code: 400
     case invalidURLComponents(code: Int = 400, message: String = Strings.NetworkingError.invalidURLComponents)
     

@@ -10,7 +10,7 @@
 import Foundation
 
 /// Возвращается в запросах:
-/// getTitle, getTitles, getUpdates, getChanges, getRandomTitle
+/// getTitle, getTitles, getUpdates, getChanges, getRandomTitle, getFavorites
 /// - Prefix `GT` = GetTitle
 struct GetTitleModel: Codable {
     let id: Int

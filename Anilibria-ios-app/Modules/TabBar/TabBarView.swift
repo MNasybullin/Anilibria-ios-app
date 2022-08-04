@@ -21,7 +21,8 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
         let network = QueryService()
         Task {
             do {
-                try await network.logout()
+                let data = try await network.login(mail: "", password: "")
+                print(data)
             } catch {
                 let nsError = error as NSError
                 if nsError.code == -1200 {
@@ -29,6 +30,14 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
                 } else {
                     print(error)
                 }
+            }
+        }
+        Task {
+            do {
+                let data = try await network.getFavorites()
+                print(data)
+            } catch {
+                print(error)
             }
         }
     }

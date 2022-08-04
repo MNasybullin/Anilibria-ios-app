@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Возвращается в запросах:
+/// login
 struct Login: Codable {
     enum CodingKeys: String, CodingKey {
         case error = "err"

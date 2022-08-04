@@ -183,6 +183,8 @@ class QueryService {
     
     // MARK: - Internal Methods | Custom Methods Requiring Authorization
     
+    /// Авторизация
+    /// - Throws: `MyNetworkingError`
     func login(mail: String, password: String) async throws -> Login {
         guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.login) else {
             throw MyNetworkingError.invalidURLComponents()
@@ -202,9 +204,14 @@ class QueryService {
             throw errorHandling(for: response)
         }
         let decoded = try JSONDecoder().decode(Login.self, from: data)
+        if decoded.key == KeyLogin.success.rawValue {
+            UserDefaults.standard.setSessionId(decoded.sessionId)
+        }
         return decoded
     }
     
+    /// Выход
+    /// - Throws: `MyNetworkingError`
     func logout() async throws {
         guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.logout) else {
             throw MyNetworkingError.invalidURLComponents()
@@ -218,5 +225,21 @@ class QueryService {
             throw errorHandling(for: response)
         }
     }
-    
+
+    /// Получить список избранных тайтлов пользователя
+    /// - Throws: `MyNetworkingError`
+    func getFavorites() async throws -> [GetTitleModel] {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
+        guard let sessionId = UserDefaults.standard.getSessionId() else {
+            throw MyNetworkingError.userIsNotAuthorized()
+        }
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "session", value: sessionId),
+            URLQueryItem(name: "playlist_type", value: "array")
+        ]
+        
+        let data = try await dataRequest(with: urlComponents)
+        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        return decoded
+    }
 }

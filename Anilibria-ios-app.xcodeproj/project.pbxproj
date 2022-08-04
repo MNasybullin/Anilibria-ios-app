@@ -18,6 +18,7 @@
 		272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6546288ED42B00FA4F60 /* GetTitleModel.swift */; };
 		272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D65482897E22100FA4F60 /* GetScheduleModel.swift */; };
 		279E4F30289C4C70008038FF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginModel.swift */; };
+		279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F32289C706B008038FF /* UserDefaultsExtension.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarView.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -51,6 +52,7 @@
 		272D6546288ED42B00FA4F60 /* GetTitleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTitleModel.swift; sourceTree = "<group>"; };
 		272D65482897E22100FA4F60 /* GetScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScheduleModel.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		279E4F32289C706B008038FF /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -105,6 +107,14 @@
 				272D653D288EC4EC00FA4F60 /* IB-Scenes+Generated.swift */,
 			);
 			path = Generated;
+			sourceTree = "<group>";
+		};
+		279E4F31289C7044008038FF /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				279E4F32289C706B008038FF /* UserDefaultsExtension.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		27CB080628855A79009E2583 /* Modules */ = {
@@ -176,6 +186,7 @@
 				27F5E557287C6DCA00BCF61C /* AppDelegate.swift */,
 				27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */,
 				272D6539288EC4EC00FA4F60 /* Generated */,
+				279E4F31289C7044008038FF /* Common */,
 				27DEEBCA2886F44E0014055F /* Networking */,
 				27CB080628855A79009E2583 /* Modules */,
 				27F5E560287C6DCB00BCF61C /* Assets.xcassets */,
@@ -320,6 +331,7 @@
 				272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkingError.swift in Sources */,
 				27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */,
+				279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */,
 				27CB080F28855ED1009E2583 /* TabBarPresenter.swift in Sources */,
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
 				27DEEBC12886A9570014055F /* HomeView.swift in Sources */,
