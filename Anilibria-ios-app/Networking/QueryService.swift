@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class QueryService {
     
@@ -57,7 +58,6 @@ class QueryService {
     /// Получить информацию о тайтле по id
     /// - Parameters:
     ///     - with id: ID тайтла
-    /// - Throws: `MyNetworkingError`
     func getTitle(with id: String) async throws -> GetTitleModel {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTitle)
         urlComponents?.queryItems = [
@@ -73,7 +73,6 @@ class QueryService {
     /// Получить информацию о нескольких тайтлах сразу по id
     /// - Parameters:
     ///     - with id: ID тайтлов через запятую. Пример ("8500,8644")
-    /// - Throws: `MyNetworkingError`
     func getTitles(with id: String) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTitles)
         urlComponents?.queryItems = [
@@ -89,7 +88,6 @@ class QueryService {
     /// Получить список тайтлов отсортированный по времени добавления нового релиза
     /// - Parameters:
     ///     - withlimit: Количество запрашиваемых объектов
-    /// - Throws: `MyNetworkingError`
     func getUpdates(with limit: Int = 5) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getUpdates)
         urlComponents?.queryItems = [
@@ -105,7 +103,6 @@ class QueryService {
     /// Получить список тайтлов отсортированный по времени изменения
     /// - Parameters:
     ///     - withlimit: Количество запрашиваемых объектов
-    /// - Throws: `MyNetworkingError`
     func getChanges(with limit: Int = 5) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getChanges)
         urlComponents?.queryItems = [
@@ -121,7 +118,6 @@ class QueryService {
     /// Получить  расписание выхода тайтлов, отсортированное по дням недели
     /// - Parameters:
     ///     - withdays: Список дней недели на которые нужно расписание
-    /// - Throws: `MyNetworkingError`
     func getSchedule(with days: [DaysOfTheWeek]) async throws -> [GetScheduleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getSchedule)
         let daysString = days.reduce("", {$0 + String($1.rawValue) + ","})
@@ -136,7 +132,6 @@ class QueryService {
     }
     
     /// Получить случайный тайтл из базы
-    /// - Throws: `MyNetworkingError`
     func getRandomTitle() async throws -> GetTitleModel {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getRandomTitle)
         urlComponents?.queryItems = [
@@ -151,7 +146,6 @@ class QueryService {
     /// Получить информацию о вышедших роликах на наших YouTube каналах в хронологическом порядке.
     /// - Parameters:
     ///     - withlimit: Количество роликов запрашиваемые у сервера.
-    /// - Throws: `MyNetworkingError`
     func getYouTube(with limit: Int = 5) async throws -> [GetYouTubeModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYouTube)
         urlComponents?.queryItems = [
@@ -164,7 +158,6 @@ class QueryService {
     }
     
     /// Получить список годов выхода доступных тайтлов отсортированный по возрастанию
-    /// - Throws: `MyNetworkingError`
     func getYears() async throws -> [Int] {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYears)
         
@@ -174,7 +167,6 @@ class QueryService {
     }
     
     /// Получить список жанров доступных тайтлов отсортированный по алфавиту
-    /// - Throws: `MyNetworkingError`
     func getGenres() async throws -> [String] {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getGenres)
         
@@ -184,7 +176,6 @@ class QueryService {
     }
     
     /// Получить список кеш серверов с которых можно брать данные отсортированные по нагрузке. Севера сортируются в реальном времени, по этому рекомендуется для каждого сервера использовать один из самых верхних серверов.
-    /// - Throws: `MyNetworkingError`
     func getCachingNodes() async throws -> [String] {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getCachingNodes)
         
@@ -196,7 +187,6 @@ class QueryService {
     // MARK: - Internal Methods | Custom Methods Requiring Authorization
     
     /// Авторизация
-    /// - Throws: `MyNetworkingError`
     func login(mail: String, password: String) async throws -> LoginModel {
         guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.login) else {
             throw MyNetworkingError.invalidURLComponents()
@@ -223,14 +213,12 @@ class QueryService {
     }
     
     /// Выход
-    /// - Throws: `MyNetworkingError`
     func logout() async throws {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.logout)
         _ = try await dataRequest(with: urlComponents, httpMethod: .post)
     }
 
     /// Получить список избранных тайтлов пользователя
-    /// - Throws: `MyNetworkingError`
     func getFavorites() async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
         guard let sessionId = UserDefaults.standard.getSessionId() else {
@@ -247,7 +235,6 @@ class QueryService {
     }
     
     /// Добавить тайтл в список избранных
-    /// - Throws: `MyNetworkingError` && `MyError`
     func addFavorite(from titleId: Int) async throws {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
         guard let sessionId = UserDefaults.standard.getSessionId() else {
@@ -267,7 +254,6 @@ class QueryService {
     }
     
     /// Удалить тайтл из списка избранных
-    /// - Throws: `MyNetworkingError` && `MyError`
     func delFavorite(from titleId: Int) async throws {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
         guard let sessionId = UserDefaults.standard.getSessionId() else {
@@ -287,7 +273,6 @@ class QueryService {
     }
     
     /// Получить информацию о пользователе
-    /// - Throws: `MyNetworkingError`
     func profileInfo() async throws -> ProfileModel {
         guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.profile) else {
             throw MyNetworkingError.invalidURLComponents()
@@ -310,5 +295,14 @@ class QueryService {
             return decoded
         }
         throw error
+    }
+    
+    // MARK: - Download Methods
+    
+    func getImage(from urlSuffix: String) async throws -> UIImage? {
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.anilibriaURL + urlSuffix)
+        
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
+        return UIImage(data: data)
     }
 }

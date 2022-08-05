@@ -25,10 +25,15 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
 //        }
         Task {
             do {
-                let data = try await QueryService.shared.login(mail: "anilibria_test@mail.ru", password: "TestPasswordTest")
-                let profile = try await QueryService.shared.profileInfo()
-                print(data)
-                print(profile)
+                async let data = try QueryService.shared.login(mail: "anilibria_test@mail.ru", password: "TestPasswordTest")
+                async let profile = try QueryService.shared.profileInfo()
+                let image = try await QueryService.shared.getImage(from: profile.data!.avatar)
+                await print(try data)
+                await print(try profile)
+                print(image)
+//                print(await data)
+//                print(await profile)
+//                print(await image)
             } catch {
                 let nsError = error as NSError
                 if nsError.code == -1200 {
@@ -40,7 +45,7 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
         }
 //        Task {
 //            do {
-////                try await QueryService.shared.addFavorite(from: 1)
+//                try await QueryService.shared.addFavorite(from: 1)
 //                try await QueryService.shared.delFavorite(from: 1)
 //            } catch {
 //                print("addFavorite", error)
