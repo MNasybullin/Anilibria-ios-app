@@ -9,7 +9,7 @@ import Foundation
 
 /// Возвращается в запросах:
 /// login
-struct Login: Codable {
+struct LoginModel: Codable {
     enum CodingKeys: String, CodingKey {
         case error = "err"
         case message = "mes"

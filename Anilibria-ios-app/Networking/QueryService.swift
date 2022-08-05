@@ -197,12 +197,12 @@ class QueryService {
     
     /// Авторизация
     /// - Throws: `MyNetworkingError`
-    func login(mail: String, password: String) async throws -> Login {
+    func login(mail: String, password: String) async throws -> LoginModel {
         guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.login) else {
             throw MyNetworkingError.invalidURLComponents()
         }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
+        urlRequest.httpMethod = HttpMethods.post.rawValue
         var body = URLComponents()
         body.queryItems = [
             URLQueryItem(name: "mail", value: mail),
@@ -215,7 +215,7 @@ class QueryService {
               httpResponse.statusCode == 200 /* OK */ else {
             throw errorHandling(for: response)
         }
-        let decoded = try JSONDecoder().decode(Login.self, from: data)
+        let decoded = try JSONDecoder().decode(LoginModel.self, from: data)
         if decoded.key == KeyLogin.success.rawValue {
             UserDefaults.standard.setSessionId(decoded.sessionId)
         }
@@ -246,6 +246,8 @@ class QueryService {
         return decoded
     }
     
+    /// Добавить тайтл в список избранных
+    /// - Throws: `MyNetworkingError` && `MyError`
     func addFavorite(from titleId: Int) async throws {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
         guard let sessionId = UserDefaults.standard.getSessionId() else {
@@ -264,6 +266,8 @@ class QueryService {
         throw error
     }
     
+    /// Удалить тайтл из списка избранных
+    /// - Throws: `MyNetworkingError` && `MyError`
     func delFavorite(from titleId: Int) async throws {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
         guard let sessionId = UserDefaults.standard.getSessionId() else {
@@ -278,6 +282,32 @@ class QueryService {
         let decoded = try JSONDecoder().decode(FavoriteModel.self, from: data)
         guard let error = decoded.error else {
             return
+        }
+        throw error
+    }
+    
+    /// Получить информацию о пользователе
+    /// - Throws: `MyNetworkingError`
+    func profileInfo() async throws -> ProfileModel {
+        guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.profile) else {
+            throw MyNetworkingError.invalidURLComponents()
+        }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HttpMethods.post.rawValue
+        var body = URLComponents()
+        body.queryItems = [
+            URLQueryItem(name: "query", value: "user")
+        ]
+        urlRequest.httpBody = body.query?.data(using: .utf8)
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 /* OK */ else {
+            throw errorHandling(for: response)
+        }
+        let decoded = try JSONDecoder().decode(ProfileModel.self, from: data)
+        guard let error = decoded.error else {
+            return decoded
         }
         throw error
     }

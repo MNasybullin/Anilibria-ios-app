@@ -21,6 +21,7 @@
 "NetworkConstants.getCachingNodes" = "/v2/getCachingNodes";
 "NetworkConstants.login" = "/public/login.php";
 "NetworkConstants.logout" = "/public/logout.php";
+"NetworkConstants.profile" = "/public/api/index.php";
 "NetworkConstants.getFavorites" = "/v2/getFavorites";
 "NetworkConstants.addFavorite" = "/v2/addFavorite";
 "NetworkConstants.delFavorite" = "/v2/delFavorite";

@@ -23,19 +23,21 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
 //                try await network.logout()
 //            }
 //        }
-//        Task {
-//            do {
-//                let data = try await QueryService.shared.login(mail: "anilibria_test@mail.ru", password: "TestPasswordTest")
-//                print(data)
-//            } catch {
-//                let nsError = error as NSError
-//                if nsError.code == -1200 {
-//                    print("Use VPN")
-//                } else {
-//                    print(error)
-//                }
-//            }
-//        }
+        Task {
+            do {
+                let data = try await QueryService.shared.login(mail: "anilibria_test@mail.ru", password: "TestPasswordTest")
+                let profile = try await QueryService.shared.profileInfo()
+                print(data)
+                print(profile)
+            } catch {
+                let nsError = error as NSError
+                if nsError.code == -1200 {
+                    print("Use VPN")
+                } else {
+                    print(error)
+                }
+            }
+        }
 //        Task {
 //            do {
 ////                try await QueryService.shared.addFavorite(from: 1)
