@@ -23,6 +23,7 @@ struct Login: Codable {
     let sessionId: String?
 }
 
+/// Варианты значений key в Login возвращаемые сервером
 enum KeyLogin: String, Codable {
     case authorized
     case success

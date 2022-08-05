@@ -8,6 +8,17 @@
 import Foundation
 
 class QueryService {
+    
+    // MARK: - Singleton
+    static let shared: QueryService = QueryService()
+    
+    enum HttpMethods: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case del = "DELETE"
+    }
+    
     // MARK: - Private Methods
     
     private func errorHandling(for response: URLResponse) -> MyNetworkingError {
@@ -26,11 +37,12 @@ class QueryService {
         }
     }
     
-    private func dataRequest(with urlComponents: URLComponents?) async throws -> Data {
+    private func dataRequest(with urlComponents: URLComponents?, httpMethod: HttpMethods) async throws -> Data {
         guard let url = urlComponents?.url else {
             throw MyNetworkingError.invalidURLComponents()
         }
-        let urlRequest = URLRequest(url: url)
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = httpMethod.rawValue
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         guard let httpResponse = response as? HTTPURLResponse,
@@ -53,7 +65,7 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
         return decoded
     }
@@ -69,7 +81,7 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
         return decoded
     }
@@ -85,7 +97,7 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
         return decoded
     }
@@ -101,7 +113,7 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
         return decoded
     }
@@ -118,7 +130,7 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([GetScheduleModel].self, from: data)
         return decoded
     }
@@ -131,7 +143,7 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
         return decoded
     }
@@ -146,7 +158,7 @@ class QueryService {
             URLQueryItem(name: "limit", value: String(limit))
         ]
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
         return decoded
     }
@@ -156,7 +168,7 @@ class QueryService {
     func getYears() async throws -> [Int] {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYears)
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([Int].self, from: data)
         return decoded
     }
@@ -166,7 +178,7 @@ class QueryService {
     func getGenres() async throws -> [String] {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getGenres)
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([String].self, from: data)
         return decoded
     }
@@ -176,7 +188,7 @@ class QueryService {
     func getCachingNodes() async throws -> [String] {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getCachingNodes)
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([String].self, from: data)
         return decoded
     }
@@ -213,17 +225,8 @@ class QueryService {
     /// Выход
     /// - Throws: `MyNetworkingError`
     func logout() async throws {
-        guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.logout) else {
-            throw MyNetworkingError.invalidURLComponents()
-        }
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        
-        let (_, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 /* OK */ else {
-            throw errorHandling(for: response)
-        }
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.logout)
+        _ = try await dataRequest(with: urlComponents, httpMethod: .post)
     }
 
     /// Получить список избранных тайтлов пользователя
@@ -238,8 +241,44 @@ class QueryService {
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
-        let data = try await dataRequest(with: urlComponents)
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
         return decoded
+    }
+    
+    func addFavorite(from titleId: Int) async throws {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
+        guard let sessionId = UserDefaults.standard.getSessionId() else {
+            throw MyNetworkingError.userIsNotAuthorized()
+        }
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "session", value: sessionId),
+            URLQueryItem(name: "title_id", value: String(titleId))
+        ]
+        
+        let data = try await dataRequest(with: urlComponents, httpMethod: .put)
+        let decoded = try JSONDecoder().decode(FavoriteModel.self, from: data)
+        guard let error = decoded.error else {
+            return
+        }
+        throw error
+    }
+    
+    func delFavorite(from titleId: Int) async throws {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
+        guard let sessionId = UserDefaults.standard.getSessionId() else {
+            throw MyNetworkingError.userIsNotAuthorized()
+        }
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "session", value: sessionId),
+            URLQueryItem(name: "title_id", value: String(titleId))
+        ]
+        
+        let data = try await dataRequest(with: urlComponents, httpMethod: .del)
+        let decoded = try JSONDecoder().decode(FavoriteModel.self, from: data)
+        guard let error = decoded.error else {
+            return
+        }
+        throw error
     }
 }

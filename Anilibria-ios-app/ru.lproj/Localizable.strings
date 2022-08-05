@@ -22,9 +22,8 @@
 "NetworkConstants.login" = "/public/login.php";
 "NetworkConstants.logout" = "/public/logout.php";
 "NetworkConstants.getFavorites" = "/v2/getFavorites";
-
-
-
+"NetworkConstants.addFavorite" = "/v2/addFavorite";
+"NetworkConstants.delFavorite" = "/v2/delFavorite";
 
 // MARK: -  Networking Error
 "NetworkingError.invalidServerResponse" = "Неверный ответ от сервера.";

@@ -18,28 +18,39 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         #warning("Test")
-        let network = QueryService()
-        Task {
-            do {
-                let data = try await network.login(mail: "", password: "")
-                print(data)
-            } catch {
-                let nsError = error as NSError
-                if nsError.code == -1200 {
-                    print("Use VPN")
-                } else {
-                    print(error)
-                }
-            }
-        }
-        Task {
-            do {
-                let data = try await network.getFavorites()
-                print(data)
-            } catch {
-                print(error)
-            }
-        }
+//        Task {
+//            do {
+//                try await network.logout()
+//            }
+//        }
+//        Task {
+//            do {
+//                let data = try await QueryService.shared.login(mail: "anilibria_test@mail.ru", password: "TestPasswordTest")
+//                print(data)
+//            } catch {
+//                let nsError = error as NSError
+//                if nsError.code == -1200 {
+//                    print("Use VPN")
+//                } else {
+//                    print(error)
+//                }
+//            }
+//        }
+//        Task {
+//            do {
+////                try await QueryService.shared.addFavorite(from: 1)
+//                try await QueryService.shared.delFavorite(from: 1)
+//            } catch {
+//                print("addFavorite", error)
+//            }
+//        }
+//        Task {
+//            do {
+//                try await QueryService.shared.logout()
+//            } catch {
+//                print("logout", error)
+//            }
+//        }
     }
     
 }

@@ -26,3 +26,8 @@ enum MyNetworkingError: Error {
     /// Возникает в случае если запрошен тайтл которого нет в базе. Code: 404
     case notFound(code: Int = 404, message: String = Strings.NetworkingError.notFound)
 }
+
+struct MyError: Error, Codable {
+    let code: Int
+    let message: String
+}
