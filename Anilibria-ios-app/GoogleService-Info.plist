@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>372568476020-dhjj27glja59sjl3htqskd9rl7jicdhl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.372568476020-dhjj27glja59sjl3htqskd9rl7jicdhl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAT1oux2ZJJsz0TBEs9mizEcQM8wIq8W_4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>372568476020</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Nasybullin.Anilibria-ios-app</string>
+	<key>PROJECT_ID</key>
+	<string>anilibria-ios-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>anilibria-ios-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:372568476020:ios:65d6a028e278b424284421</string>
+</dict>
+</plist>

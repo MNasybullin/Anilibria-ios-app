@@ -21,6 +21,9 @@
 		279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F32289C706B008038FF /* UserDefaultsExtension.swift */; };
 		279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteModel.swift */; };
 		279E4F37289D2CA7008038FF /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F36289D2CA7008038FF /* ProfileModel.swift */; };
+		279E4F39289EC362008038FF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 279E4F38289EC362008038FF /* GoogleService-Info.plist */; };
+		279E4F3C289EC74F008038FF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 279E4F3B289EC74F008038FF /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		279E4F3E289EC74F008038FF /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 279E4F3D289EC74F008038FF /* FirebaseMessaging */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarView.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -57,6 +60,7 @@
 		279E4F32289C706B008038FF /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		279E4F34289D0304008038FF /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
 		279E4F36289D2CA7008038FF /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		279E4F38289EC362008038FF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -85,6 +89,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				279E4F3E289EC74F008038FF /* FirebaseMessaging in Frameworks */,
+				279E4F3C289EC74F008038FF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +206,7 @@
 				27F5E5A2287EAA5D00BCF61C /* Localizable.strings */,
 				27F5E562287C6DCB00BCF61C /* LaunchScreen.storyboard */,
 				27F5E565287C6DCB00BCF61C /* Info.plist */,
+				279E4F38289EC362008038FF /* GoogleService-Info.plist */,
 			);
 			path = "Anilibria-ios-app";
 			sourceTree = "<group>";
@@ -222,6 +229,10 @@
 			dependencies = (
 			);
 			name = "Anilibria-ios-app";
+			packageProductDependencies = (
+				279E4F3B289EC74F008038FF /* FirebaseAnalyticsWithoutAdIdSupport */,
+				279E4F3D289EC74F008038FF /* FirebaseMessaging */,
+			);
 			productName = "Anilibria-ios-app";
 			productReference = 27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */;
 			productType = "com.apple.product-type.application";
@@ -251,6 +262,9 @@
 				ru,
 			);
 			mainGroup = 27F5E54B287C6DCA00BCF61C;
+			packageReferences = (
+				279E4F3A289EC74F008038FF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 27F5E555287C6DCA00BCF61C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -267,6 +281,7 @@
 			files = (
 				27CB080328847D39009E2583 /* .gitignore in Resources */,
 				27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */,
+				279E4F39289EC362008038FF /* GoogleService-Info.plist in Resources */,
 				27F5E564287C6DCB00BCF61C /* LaunchScreen.storyboard in Resources */,
 				27F5E5A0287EAA5D00BCF61C /* Localizable.strings in Resources */,
 				27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */,
@@ -567,6 +582,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		279E4F3A289EC74F008038FF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		279E4F3B289EC74F008038FF /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 279E4F3A289EC74F008038FF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		279E4F3D289EC74F008038FF /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 279E4F3A289EC74F008038FF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 27F5E54C287C6DCA00BCF61C /* Project object */;
 }
