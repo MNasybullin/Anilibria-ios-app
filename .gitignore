@@ -6,5 +6,8 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 
+## SPM
+*swiftpm/
+
 .DS_Store
 Anilibria-ios-app/Generated

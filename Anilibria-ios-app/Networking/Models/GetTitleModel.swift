@@ -29,7 +29,8 @@ struct GetTitleModel: Codable {
     let in_favorites: Int
     let blocked: GTBlocked
     let player: GTPlayer
-    let torrents: GTTorrents
+    // GTTorrents не реализованно скачивание по торренту.
+//    let torrents: GTTorrents
 }
 
 struct GTNames: Codable {
@@ -106,27 +107,27 @@ struct GTHls: Codable {
     let sd: String?
 }
 
-struct GTTorrents: Codable {
-    let series: GTSeries?
-    let list: [GTList]
-}
-
-struct GTList: Codable {
-    let torrent_id: Int
-    let series: GTSeries
-    let quality: GTQuality
-    let leechers: Int
-    let seeders: Int
-    let downloads: Int
-    let total_size: Int
-    let url: String
-    let uploaded_timestamp: Int
-}
-
-struct GTQuality: Codable {
-    let string: String
-    let type: String
-    let resolution: String
-    let encoder: String
-    let lq_audio: String?
-}
+//struct GTTorrents: Codable {
+//    let series: GTSeries?
+//    let list: [GTList]
+//}
+//
+//struct GTList: Codable {
+//    let torrent_id: Int
+//    let series: GTSeries
+//    let quality: GTQuality
+//    let leechers: Int
+//    let seeders: Int
+//    let downloads: Int
+//    let total_size: Int
+//    let url: String
+//    let uploaded_timestamp: Int
+//}
+//
+//struct GTQuality: Codable {
+//    let string: String
+//    let type: String
+//    let resolution: String
+//    let encoder: String
+//    let lq_audio: String?
+//}
