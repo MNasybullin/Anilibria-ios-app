@@ -13,3 +13,8 @@ struct FavoriteModel: Codable {
     let error: MyError?
     let success: Bool?
 }
+
+struct MyError: Error, Codable {
+    let code: Int
+    let message: String
+}

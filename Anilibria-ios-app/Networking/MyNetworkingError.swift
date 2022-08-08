@@ -8,26 +8,55 @@
 import Foundation
 
 enum MyNetworkingError: Error {
-    case unknown(code: Int = 0, message: String = Strings.NetworkingError.unknown)
-    case invalidServerResponse(code: Int = 1, message: String = Strings.NetworkingError.invalidServerResponse)
+    /// Неизвестная ошибка. Code = 0.
+    case unknown
     
-    /// Пользователь не авторизован. Code: 2
-    case userIsNotAuthorized(code: Int = 401, message: String = Strings.NetworkingError.userIsNotAuthorized)
+    /// Неверный ответ от сервера. Code = 1.
+    case invalidServerResponse
     
-    /// Неверный запрос. Code: 400
-    case invalidURLComponents(code: Int = 400, message: String = Strings.NetworkingError.invalidURLComponents)
+    /// Пользователь не авторизован. Code = 401.
+    case userIsNotAuthorized
     
-    /// Возникает в случае непредвиденной внутренней ошибки сервера. Code: 500
-    case internalServerError(code: Int = 500, message: String = Strings.NetworkingError.internalServerError)
+    /// Неверный запрос. Code = 400.
+    case invalidURLComponents
     
-    /// Возникает в случае если передать неизвестный параметр в запросе. Code: 412
-    case unknownParameters(code: Int = 412, message: String = Strings.NetworkingError.unknownParameters)
+    /// Возникает в случае непредвиденной внутренней ошибки сервера. Code = 500.
+    case internalServerError
     
-    /// Возникает в случае если запрошен тайтл которого нет в базе. Code: 404
-    case notFound(code: Int = 404, message: String = Strings.NetworkingError.notFound)
+    /// Возникает в случае, если передать неизвестный параметр в запросе. Code = 412.
+    case unknownParameters
+    
+    /// Возникает в случае, если запрошен тайтл которого нет в базе. Code = 404.
+    case notFound
+    
+    /// Возникает в случае, если соединение с интернетом прервано. Code = -1009.
+    case noInternetConnection
+    
+    /// Произошла ошибка SSL. Безопасное подключение к серверу невозможно. Code = -1200.
+    case useVPN
 }
 
-struct MyError: Error, Codable {
-    let code: Int
-    let message: String
+extension MyNetworkingError: CustomStringConvertible {
+    var description: String {
+        switch self {
+            case .unknown:
+                return Strings.NetworkingError.unknown
+            case .invalidServerResponse:
+                return Strings.NetworkingError.invalidServerResponse
+            case .userIsNotAuthorized:
+                return Strings.NetworkingError.userIsNotAuthorized
+            case .invalidURLComponents:
+                return Strings.NetworkingError.invalidURLComponents
+            case .internalServerError:
+                return Strings.NetworkingError.internalServerError
+            case .unknownParameters:
+                return Strings.NetworkingError.unknownParameters
+            case .notFound:
+                return Strings.NetworkingError.notFound
+            case .noInternetConnection:
+                return Strings.NetworkingError.noInternetConnection
+            case .useVPN:
+                return Strings.NetworkingError.useVPN
+        }
+    }
 }

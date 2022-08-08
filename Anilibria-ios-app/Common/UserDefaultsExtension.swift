@@ -7,12 +7,16 @@
 
 import Foundation
 
+enum UserDefaultsKeys: String {
+    case sessionId
+}
+
 extension UserDefaults {
     func setSessionId(_ sessionId: String?) {
-        set(sessionId, forKey: "SessionId")
+        set(sessionId, forKey: UserDefaultsKeys.sessionId.rawValue)
     }
     
     func getSessionId() -> String? {
-        return string(forKey: "SessionId")
+        return string(forKey: UserDefaultsKeys.sessionId.rawValue)
     }
 }

@@ -34,3 +34,5 @@
 "NetworkingError.unknownParameters" = "Передан неизвестный параметр.";
 "NetworkingError.notFound" = "Не найдено в базе.";
 "NetworkingError.userIsNotAuthorized" = "Пользователь не авторизован.";
+"NetworkingError.noInternetConnection" = "Нет соединения с интернетом.";
+"NetworkingError.useVPN" = "Произошла ошибка SSL. Безопасное подключение к серверу невозможно. Воспользуйтесь VPN.";
