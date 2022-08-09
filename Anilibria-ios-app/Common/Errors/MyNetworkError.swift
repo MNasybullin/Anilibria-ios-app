@@ -1,5 +1,5 @@
 //
-//  MyNetworkingError.swift
+//  MyNetworkError.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 25.07.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MyNetworkingError: Error {
+enum MyNetworkError: Error {
     /// Неизвестная ошибка. Code = 0.
     case unknown
     
@@ -36,27 +36,27 @@ enum MyNetworkingError: Error {
     case useVPN
 }
 
-extension MyNetworkingError: CustomStringConvertible {
+extension MyNetworkError: CustomStringConvertible {
     var description: String {
         switch self {
             case .unknown:
-                return Strings.NetworkingError.unknown
+                return Strings.NetworkError.unknown
             case .invalidServerResponse:
-                return Strings.NetworkingError.invalidServerResponse
+                return Strings.NetworkError.invalidServerResponse
             case .userIsNotAuthorized:
-                return Strings.NetworkingError.userIsNotAuthorized
+                return Strings.NetworkError.userIsNotAuthorized
             case .invalidURLComponents:
-                return Strings.NetworkingError.invalidURLComponents
+                return Strings.NetworkError.invalidURLComponents
             case .internalServerError:
-                return Strings.NetworkingError.internalServerError
+                return Strings.NetworkError.internalServerError
             case .unknownParameters:
-                return Strings.NetworkingError.unknownParameters
+                return Strings.NetworkError.unknownParameters
             case .notFound:
-                return Strings.NetworkingError.notFound
+                return Strings.NetworkError.notFound
             case .noInternetConnection:
-                return Strings.NetworkingError.noInternetConnection
+                return Strings.NetworkError.noInternetConnection
             case .useVPN:
-                return Strings.NetworkingError.useVPN
+                return Strings.NetworkError.useVPN
         }
     }
 }

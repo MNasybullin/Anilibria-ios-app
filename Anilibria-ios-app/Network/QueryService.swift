@@ -22,25 +22,25 @@ class QueryService {
     
     // MARK: - Private Methods
     
-    private func errorHandling(for response: URLResponse) -> MyNetworkingError {
+    private func errorHandling(for response: URLResponse) -> MyNetworkError {
         guard let httpResonse = response as? HTTPURLResponse else {
-            return MyNetworkingError.invalidServerResponse
+            return MyNetworkError.invalidServerResponse
         }
         switch httpResonse.statusCode {
             case 500:
-                return MyNetworkingError.internalServerError
+                return MyNetworkError.internalServerError
             case 412:
-                return MyNetworkingError.unknownParameters
+                return MyNetworkError.unknownParameters
             case 404:
-                return MyNetworkingError.notFound
+                return MyNetworkError.notFound
             default:
-                return MyNetworkingError.unknown
+                return MyNetworkError.unknown
         }
     }
     
     private func dataRequest(with urlComponents: URLComponents?, httpMethod: HttpMethods) async throws -> Data {
         guard let url = urlComponents?.url else {
-            throw MyNetworkingError.invalidURLComponents
+            throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
@@ -188,8 +188,8 @@ class QueryService {
     
     /// Авторизация
     func login(mail: String, password: String) async throws -> LoginModel {
-        guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.login) else {
-            throw MyNetworkingError.invalidURLComponents
+        guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.login) else {
+            throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HttpMethods.post.rawValue
@@ -214,7 +214,7 @@ class QueryService {
     
     /// Выход
     func logout() async throws {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.logout)
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.logout)
         _ = try await dataRequest(with: urlComponents, httpMethod: .post)
     }
 
@@ -222,7 +222,7 @@ class QueryService {
     func getFavorites() async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
         guard let sessionId = UserDefaults.standard.getSessionId() else {
-            throw MyNetworkingError.userIsNotAuthorized
+            throw MyNetworkError.userIsNotAuthorized
         }
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -238,7 +238,7 @@ class QueryService {
     func addFavorite(from titleId: Int) async throws {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
         guard let sessionId = UserDefaults.standard.getSessionId() else {
-            throw MyNetworkingError.userIsNotAuthorized
+            throw MyNetworkError.userIsNotAuthorized
         }
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -250,14 +250,14 @@ class QueryService {
         guard let error = decoded.error else {
             return
         }
-        throw error
+        throw error as Error
     }
     
     /// Удалить тайтл из списка избранных
     func delFavorite(from titleId: Int) async throws {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
         guard let sessionId = UserDefaults.standard.getSessionId() else {
-            throw MyNetworkingError.userIsNotAuthorized
+            throw MyNetworkError.userIsNotAuthorized
         }
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -269,13 +269,13 @@ class QueryService {
         guard let error = decoded.error else {
             return
         }
-        throw error
+        throw error as Error
     }
     
     /// Получить информацию о пользователе
     func profileInfo() async throws -> ProfileModel {
-        guard let url = URL(string: Strings.NetworkConstants.anilibriaURL + Strings.NetworkConstants.profile) else {
-            throw MyNetworkingError.invalidURLComponents
+        guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.profile) else {
+            throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HttpMethods.post.rawValue
@@ -294,15 +294,18 @@ class QueryService {
         guard let error = decoded.error else {
             return decoded
         }
-        throw error
+        throw error as Error
     }
     
     // MARK: - Download Methods
-    
-    func getImage(from urlSuffix: String) async throws -> UIImage? {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.anilibriaURL + urlSuffix)
+        
+    func getImage(from urlSuffix: String) async throws -> UIImage {
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorBaseImagesURL + urlSuffix)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        return UIImage(data: data)
+        guard let image = UIImage(data: data) else {
+            throw MyImageError.failedToInitialize
+        }
+        return image
     }
 }

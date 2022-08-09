@@ -23,12 +23,22 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
                 let data = try await QueryService.shared.login(mail: "anilibria_test@mail.ru",
                                                                password: "TestPasswordTest")
                 print(data)
-            } catch let error as MyNetworkingError {
+            } catch let error as MyNetworkError {
                 print(error)
             } catch {
                 print(error)
             }
         }
+        
+//        Task {
+//            do {
+//                async let profile = try QueryService.shared.profileInfo()
+//                let image = try await QueryService.shared.getImage(from: await profile.data!.avatar)
+//                print(image)
+//            } catch {
+//                print("add", error)
+//            }
+//        }
     }
     
 }
