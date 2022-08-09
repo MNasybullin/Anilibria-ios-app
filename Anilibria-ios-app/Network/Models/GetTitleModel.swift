@@ -84,9 +84,9 @@ struct GTBlocked: Codable {
 
 struct GTPlayer: Codable {
     let alternative_player: String?
-    let host: String
-    let series: GTSeries
-    let playlist: [GTPlaylist]
+    let host: String?
+    let series: GTSeries?
+    let playlist: [GTPlaylist]?
 }
 
 struct GTSeries: Codable {

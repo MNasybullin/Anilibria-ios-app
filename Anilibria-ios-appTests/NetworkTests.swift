@@ -57,7 +57,13 @@ class NetworkPublicApiTests: XCTestCase {
     
     func testGetSchedule() async throws {
         do {
-            _ = try await QueryService.shared.getSchedule(with: [.monday, .sunday])
+            _ = try await QueryService.shared.getSchedule(with: [.monday,
+                .tuesday,
+                .wednesday,
+                .thursday,
+                .friday,
+                .saturday,
+                .sunday])
         } catch let error as MyNetworkError {
             XCTFail(error.description)
         } catch {
