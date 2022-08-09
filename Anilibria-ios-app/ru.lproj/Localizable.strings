@@ -9,8 +9,8 @@
 // MARK: - Network API Constants
 "NetworkConstants.anilibriaURL" = "https://www.anilibria.tv";
 "NetworkConstants.baseImagesURL" = "https://static.anilibria.tv";
-"NetworkConstants.mirrorAnilibriaURL" = "https://wwnd.space";
-"NetworkConstants.mirrorBaseImagesURL" = "https://static.wwnd.space";
+"NetworkConstants.mirrorAnilibriaURL" = "https://anilibria-ios-app.anilib.moe";
+"NetworkConstants.mirrorBaseImagesURL" = "https://static.anilib.moe";
 "NetworkConstants.apiAnilibriaURL" = "https://api.anilibria.tv";
 "NetworkConstants.getYouTube" = "/v2/getYouTube";
 "NetworkConstants.getTitle" = "/v2/getTitle";

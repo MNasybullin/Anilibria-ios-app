@@ -18,6 +18,7 @@
 		272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6546288ED42B00FA4F60 /* GetTitleModel.swift */; };
 		272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D65482897E22100FA4F60 /* GetScheduleModel.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
+		274BFBA228A29C3400C3F9C9 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */; };
 		279E4F30289C4C70008038FF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginModel.swift */; };
 		279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F32289C706B008038FF /* UserDefaultsExtension.swift */; };
 		279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteModel.swift */; };
@@ -46,6 +47,16 @@
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		274BFBA328A29C3400C3F9C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27F5E54C287C6DCA00BCF61C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27F5E553287C6DCA00BCF61C;
+			remoteInfo = "Anilibria-ios-app";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		272D6531288AEF3800FA4F60 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
 		272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYouTubeModel.swift; sourceTree = "<group>"; };
@@ -58,6 +69,8 @@
 		272D6546288ED42B00FA4F60 /* GetTitleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTitleModel.swift; sourceTree = "<group>"; };
 		272D65482897E22100FA4F60 /* GetScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScheduleModel.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
+		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		279E4F32289C706B008038FF /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		279E4F34289D0304008038FF /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
@@ -87,6 +100,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		274BFB9C28A29C3400C3F9C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		27F5E551287C6DCA00BCF61C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -130,6 +150,14 @@
 				274BFB9728A260E900C3F9C9 /* MyImageError.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		274BFBA028A29C3400C3F9C9 /* Anilibria-ios-appTests */ = {
+			isa = PBXGroup;
+			children = (
+				274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */,
+			);
+			path = "Anilibria-ios-appTests";
 			sourceTree = "<group>";
 		};
 		279E4F31289C7044008038FF /* Common */ = {
@@ -191,6 +219,7 @@
 				27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */,
 				27F5E5A5287EAC8100BCF61C /* SwiftGen */,
 				27F5E556287C6DCA00BCF61C /* Anilibria-ios-app */,
+				274BFBA028A29C3400C3F9C9 /* Anilibria-ios-appTests */,
 				27F5E555287C6DCA00BCF61C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -199,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */,
+				274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,6 +255,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		274BFB9E28A29C3400C3F9C9 /* Anilibria-ios-appTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 274BFBA528A29C3400C3F9C9 /* Build configuration list for PBXNativeTarget "Anilibria-ios-appTests" */;
+			buildPhases = (
+				274BFB9B28A29C3400C3F9C9 /* Sources */,
+				274BFB9C28A29C3400C3F9C9 /* Frameworks */,
+				274BFB9D28A29C3400C3F9C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				274BFBA428A29C3400C3F9C9 /* PBXTargetDependency */,
+			);
+			name = "Anilibria-ios-appTests";
+			productName = "Anilibria-ios-appTests";
+			productReference = 274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 27F5E568287C6DCB00BCF61C /* Build configuration list for PBXNativeTarget "Anilibria-ios-app" */;
@@ -258,6 +306,10 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					274BFB9E28A29C3400C3F9C9 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 27F5E553287C6DCA00BCF61C;
+					};
 					27F5E553287C6DCA00BCF61C = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -281,11 +333,19 @@
 			projectRoot = "";
 			targets = (
 				27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */,
+				274BFB9E28A29C3400C3F9C9 /* Anilibria-ios-appTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		274BFB9D28A29C3400C3F9C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		27F5E552287C6DCA00BCF61C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -345,6 +405,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		274BFB9B28A29C3400C3F9C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				274BFBA228A29C3400C3F9C9 /* NetworkTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		27F5E550287C6DCA00BCF61C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -380,6 +448,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		274BFBA428A29C3400C3F9C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */;
+			targetProxy = 274BFBA328A29C3400C3F9C9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		27F5E562287C6DCB00BCF61C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -400,6 +476,42 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		274BFBA628A29C3400C3F9C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZQ774W5T35;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/Anilibria-ios-app";
+			};
+			name = Debug;
+		};
+		274BFBA728A29C3400C3F9C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZQ774W5T35;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/Anilibria-ios-app";
+			};
+			name = Release;
+		};
 		27F5E566287C6DCB00BCF61C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -575,6 +687,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		274BFBA528A29C3400C3F9C9 /* Build configuration list for PBXNativeTarget "Anilibria-ios-appTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				274BFBA628A29C3400C3F9C9 /* Debug */,
+				274BFBA728A29C3400C3F9C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		27F5E54F287C6DCA00BCF61C /* Build configuration list for PBXProject "Anilibria-ios-app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

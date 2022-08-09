@@ -72,11 +72,11 @@ class QueryService {
     
     /// Получить информацию о нескольких тайтлах сразу по id
     /// - Parameters:
-    ///     - with id: ID тайтлов через запятую. Пример ("8500,8644")
-    func getTitles(with id: String) async throws -> [GetTitleModel] {
+    ///     - with ids: IDs тайтлов через запятую. Пример ("8500,8644")
+    func getTitles(with ids: String) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTitles)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "id_list", value: id),
+            URLQueryItem(name: "id_list", value: ids),
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
@@ -187,7 +187,7 @@ class QueryService {
     // MARK: - Internal Methods | Custom Methods Requiring Authorization
     
     /// Авторизация
-    func login(mail: String, password: String) async throws -> LoginModel {
+    func login(email: String, password: String) async throws -> LoginModel {
         guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.login) else {
             throw MyNetworkError.invalidURLComponents
         }
@@ -195,7 +195,7 @@ class QueryService {
         urlRequest.httpMethod = HttpMethods.post.rawValue
         var body = URLComponents()
         body.queryItems = [
-            URLQueryItem(name: "mail", value: mail),
+            URLQueryItem(name: "mail", value: email),
             URLQueryItem(name: "passwd", value: password)
         ]
         urlRequest.httpBody = body.query?.data(using: .utf8)
