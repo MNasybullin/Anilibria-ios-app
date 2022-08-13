@@ -13,14 +13,12 @@ class QueryService {
     // MARK: - Singleton
     static let shared: QueryService = QueryService()
     
-    enum HttpMethods: String {
+    private enum HttpMethods: String {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
         case del = "DELETE"
     }
-    
-    // MARK: - Private Methods
     
     private func errorHandling(for response: URLResponse) -> MyNetworkError {
         guard let httpResonse = response as? HTTPURLResponse else {

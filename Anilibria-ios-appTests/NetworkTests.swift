@@ -128,6 +128,8 @@ class NetworkPublicApiTests: XCTestCase {
             _ = try await QueryService.shared.getImage(from: urlSuffix)
         } catch let error as MyNetworkError {
             XCTFail(error.description)
+        } catch let error as MyImageError {
+            XCTFail(error.description)
         } catch {
             XCTFail(error.localizedDescription)
         }
