@@ -9,7 +9,7 @@ import Foundation
 import UIKit
  
 protocol HomeRouterProtocol: AnyObject {
-    typealias EntryPoint = HomeViewProtocol & UIViewController // UIVIewController ?
+    typealias EntryPoint = HomeViewProtocol & UIViewController
     
     var entry: EntryPoint! { get }
     
@@ -22,7 +22,7 @@ final class HomeRouter: HomeRouterProtocol {
     static func start() -> HomeRouterProtocol {
         let router = HomeRouter()
         
-        let view = HomeView()
+        let view = HomeViewController()
         let interactor = HomeInteractor()
         let presenter = HomePresenter()
         

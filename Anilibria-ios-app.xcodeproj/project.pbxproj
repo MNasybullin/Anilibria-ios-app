@@ -25,12 +25,12 @@
 		279E4F37289D2CA7008038FF /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F36289D2CA7008038FF /* ProfileModel.swift */; };
 		279E4F39289EC362008038FF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 279E4F38289EC362008038FF /* GoogleService-Info.plist */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
-		27CB080B28855EB4009E2583 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarView.swift */; };
+		27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarViewController.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
 		27CB080F28855ED1009E2583 /* TabBarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080E28855ED1009E2583 /* TabBarPresenter.swift */; };
 		27CB081128855EE0009E2583 /* TabBarEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB081028855EE0009E2583 /* TabBarEntity.swift */; };
 		27CB081328855EE6009E2583 /* TabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB081228855EE6009E2583 /* TabBarRouter.swift */; };
-		27DEEBC12886A9570014055F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC02886A9570014055F /* HomeView.swift */; };
+		27DEEBC12886A9570014055F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC02886A9570014055F /* HomeViewController.swift */; };
 		27DEEBC32886A9650014055F /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC22886A9650014055F /* HomeInteractor.swift */; };
 		27DEEBC52886A99A0014055F /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC42886A99A0014055F /* HomePresenter.swift */; };
 		27DEEBC72886A9A30014055F /* HomeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC62886A9A30014055F /* HomeEntity.swift */; };
@@ -77,12 +77,12 @@
 		279E4F36289D2CA7008038FF /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		279E4F38289EC362008038FF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		27CB080A28855EB4009E2583 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		27CB080A28855EB4009E2583 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
 		27CB080E28855ED1009E2583 /* TabBarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarPresenter.swift; sourceTree = "<group>"; };
 		27CB081028855EE0009E2583 /* TabBarEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarEntity.swift; sourceTree = "<group>"; };
 		27CB081228855EE6009E2583 /* TabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
-		27DEEBC02886A9570014055F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		27DEEBC02886A9570014055F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		27DEEBC22886A9650014055F /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		27DEEBC42886A99A0014055F /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		27DEEBC62886A9A30014055F /* HomeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEntity.swift; sourceTree = "<group>"; };
@@ -181,7 +181,7 @@
 		27CB080728855B1A009E2583 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				27CB080A28855EB4009E2583 /* TabBarView.swift */,
+				27CB080A28855EB4009E2583 /* TabBarViewController.swift */,
 				27CB080C28855EC5009E2583 /* TabBarInteractor.swift */,
 				27CB080E28855ED1009E2583 /* TabBarPresenter.swift */,
 				27CB081028855EE0009E2583 /* TabBarEntity.swift */,
@@ -193,7 +193,7 @@
 		27DEEBBF2886A92F0014055F /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				27DEEBC02886A9570014055F /* HomeView.swift */,
+				27DEEBC02886A9570014055F /* HomeViewController.swift */,
 				27DEEBC22886A9650014055F /* HomeInteractor.swift */,
 				27DEEBC42886A99A0014055F /* HomePresenter.swift */,
 				27DEEBC62886A9A30014055F /* HomeEntity.swift */,
@@ -423,7 +423,7 @@
 				279E4F30289C4C70008038FF /* LoginModel.swift in Sources */,
 				27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */,
 				279E4F37289D2CA7008038FF /* ProfileModel.swift in Sources */,
-				27CB080B28855EB4009E2583 /* TabBarView.swift in Sources */,
+				27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
 				272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
@@ -436,7 +436,7 @@
 				279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */,
 				27CB080F28855ED1009E2583 /* TabBarPresenter.swift in Sources */,
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
-				27DEEBC12886A9570014055F /* HomeView.swift in Sources */,
+				27DEEBC12886A9570014055F /* HomeViewController.swift in Sources */,
 				274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */,
 				27DEEBC32886A9650014055F /* HomeInteractor.swift in Sources */,
 				27CB081328855EE6009E2583 /* TabBarRouter.swift in Sources */,

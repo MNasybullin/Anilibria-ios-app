@@ -42,3 +42,13 @@
 
 // MARK: - Image Error
 "ImageError.failedToInitialize" = "Не удалось инициализировать изображение из загруженных данных.";
+
+// MARK: - TabBar Controllers
+"TabBarControllers.home.title" = "Главное";
+"TabBarControllers.home.image" = "house.fill";
+"TabBarControllers.search.title" = "Поиск";
+"TabBarControllers.search.image" = "magnifyingglass";
+"TabBarControllers.favorites.title" = "Избранное";
+"TabBarControllers.favorites.image" = "heart.fill";
+"TabBarControllers.profile.title" = "Профиль";
+"TabBarControllers.profile.image" = "person.crop.circle.fill";
