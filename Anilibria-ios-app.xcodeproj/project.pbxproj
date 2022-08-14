@@ -19,6 +19,8 @@
 		272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D65482897E22100FA4F60 /* GetScheduleModel.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		274BFBA228A29C3400C3F9C9 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */; };
+		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
+		2754F63128A94525003485E6 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2754F63028A94525003485E6 /* ViewPreview.swift */; };
 		279E4F30289C4C70008038FF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginModel.swift */; };
 		279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F32289C706B008038FF /* UserDefaultsExtension.swift */; };
 		279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteModel.swift */; };
@@ -71,6 +73,8 @@
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
+		2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
+		2754F63028A94525003485E6 /* ViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPreview.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		279E4F32289C706B008038FF /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		279E4F34289D0304008038FF /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
@@ -160,6 +164,15 @@
 			path = "Anilibria-ios-appTests";
 			sourceTree = "<group>";
 		};
+		2752C4CB28A938D600B17073 /* LivePreviewInUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */,
+				2754F63028A94525003485E6 /* ViewPreview.swift */,
+			);
+			path = LivePreviewInUIKit;
+			sourceTree = "<group>";
+		};
 		279E4F31289C7044008038FF /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +251,7 @@
 			children = (
 				27F5E557287C6DCA00BCF61C /* AppDelegate.swift */,
 				27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */,
+				2752C4CB28A938D600B17073 /* LivePreviewInUIKit */,
 				272D6539288EC4EC00FA4F60 /* Generated */,
 				279E4F31289C7044008038FF /* Common */,
 				27DEEBCA2886F44E0014055F /* Network */,
@@ -424,6 +438,7 @@
 				27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */,
 				279E4F37289D2CA7008038FF /* ProfileModel.swift in Sources */,
 				27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */,
+				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
 				272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
@@ -441,6 +456,7 @@
 				27DEEBC32886A9650014055F /* HomeInteractor.swift in Sources */,
 				27CB081328855EE6009E2583 /* TabBarRouter.swift in Sources */,
 				27DEEBC72886A9A30014055F /* HomeEntity.swift in Sources */,
+				2754F63128A94525003485E6 /* ViewPreview.swift in Sources */,
 				27CB081128855EE0009E2583 /* TabBarEntity.swift in Sources */,
 				272D6541288EC4EC00FA4F60 /* IB-Scenes+Generated.swift in Sources */,
 			);
