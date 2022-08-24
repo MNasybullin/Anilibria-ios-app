@@ -44,33 +44,5 @@ final class TabBarRouter: TabBarRouterProtocol {
         
         return router
     }
-    
-//    private static func createNavigationController(for rootViewController: UIViewController,
-//                                                   title: String,
-//                                                   image: UIImage?) -> UIViewController {
-//        let navigationController = UINavigationController(rootViewController: rootViewController)
-//        navigationController.tabBarItem.title = title
-//        navigationController.tabBarItem.image = image
-//        navigationController.navigationBar.prefersLargeTitles = true
-//        rootViewController.navigationItem.title = title
-//        return navigationController
-//    }
-    
-//    private static func setupViewControllers() -> [UIViewController]? {
-//        return [
-//            createNavigationController(for: HomeRouter.start().entry,
-//                                       title: Strings.TabBarControllers.Home.title,
-//                                       image: UIImage.init(systemName: Strings.TabBarControllers.Home.image)),
-//            createNavigationController(for: HomeRouter.start().entry,
-//                                       title: Strings.TabBarControllers.Search.title,
-//                                       image: UIImage.init(systemName: Strings.TabBarControllers.Search.image)),
-//            createNavigationController(for: HomeRouter.start().entry,
-//                                       title: Strings.TabBarControllers.Favorites.title,
-//                                       image: UIImage.init(systemName: Strings.TabBarControllers.Favorites.image)),
-//            createNavigationController(for: HomeRouter.start().entry,
-//                                       title: Strings.TabBarControllers.Profile.title,
-//                                       image: UIImage.init(systemName: Strings.TabBarControllers.Profile.image))
-//        ]
-//    }
-    
+        
 }

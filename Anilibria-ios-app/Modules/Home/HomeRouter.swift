@@ -39,7 +39,7 @@ final class HomeRouter: HomeRouterProtocol {
         router.entry = view
         
         router.navigationController = createNavigationController(for: view,
-                                   title: Strings.TabBarControllers.Home.title ,
+                                   title: Strings.TabBarControllers.Home.title,
                                    image: UIImage.init(systemName: Strings.TabBarControllers.Home.image))
         return router
     }

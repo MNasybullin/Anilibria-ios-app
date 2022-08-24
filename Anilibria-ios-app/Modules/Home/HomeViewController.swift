@@ -18,8 +18,13 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     lazy var segmentedControl: UISegmentedControl = {
         var segmentedControl = UISegmentedControl()
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.insertSegment(withTitle: "Лента", at: 0, animated: true)
-        segmentedControl.insertSegment(withTitle: "Расписание", at: 1, animated: true)
+        segmentedControl.insertSegment(withTitle: Strings.HomeModule.SegmentedControl.feed,
+                                       at: 0,
+                                       animated: true)
+        segmentedControl.insertSegment(withTitle: Strings.HomeModule.SegmentedControl.schedule,
+                                       at: 1,
+                                       animated: true)
+        segmentedControl.selectedSegmentIndex = 0
         view.addSubview(segmentedControl)
         return segmentedControl
     }()
@@ -28,9 +33,14 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         view = UIView()
         view.backgroundColor = Asset.Colors.background.color
         setupViews()
+        setupConstraints()
     }
     
     func setupViews() {
+        
+    }
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             
@@ -44,9 +54,6 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         super.viewDidLoad()
     }
     
-    func setupSegmentedControl() {
-        
-    }
 }
 
 #if DEBUG

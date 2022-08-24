@@ -52,3 +52,7 @@
 "TabBarControllers.favorites.image" = "heart.fill";
 "TabBarControllers.profile.title" = "Профиль";
 "TabBarControllers.profile.image" = "person.crop.circle.fill";
+
+// MARK: - Home Module
+"HomeModule.segmentedControl.feed" = "Лента";
+"HomeModule.segmentedControl.schedule" = "Расписание";
