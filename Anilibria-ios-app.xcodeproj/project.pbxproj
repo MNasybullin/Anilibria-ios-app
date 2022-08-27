@@ -17,6 +17,9 @@
 		272D6545288ECB4500FA4F60 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 272D6544288ECB4500FA4F60 /* README.md */; };
 		272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6546288ED42B00FA4F60 /* GetTitleModel.swift */; };
 		272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D65482897E22100FA4F60 /* GetScheduleModel.swift */; };
+		272FF68328B6535900CAE5DB /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FF68228B6535900CAE5DB /* CarouselView.swift */; };
+		272FF68528B664FF00CAE5DB /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FF68428B664FF00CAE5DB /* CarouselCollectionViewCell.swift */; };
+		272FF68828B7DA0D00CAE5DB /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FF68728B7DA0D00CAE5DB /* FeedView.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		274BFBA228A29C3400C3F9C9 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */; };
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
@@ -70,6 +73,9 @@
 		272D6544288ECB4500FA4F60 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		272D6546288ED42B00FA4F60 /* GetTitleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTitleModel.swift; sourceTree = "<group>"; };
 		272D65482897E22100FA4F60 /* GetScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetScheduleModel.swift; sourceTree = "<group>"; };
+		272FF68228B6535900CAE5DB /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
+		272FF68428B664FF00CAE5DB /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
+		272FF68728B7DA0D00CAE5DB /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
@@ -147,6 +153,23 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
+		272FF68128B652BD00CAE5DB /* CarouselView */ = {
+			isa = PBXGroup;
+			children = (
+				272FF68428B664FF00CAE5DB /* CarouselCollectionViewCell.swift */,
+				272FF68228B6535900CAE5DB /* CarouselView.swift */,
+			);
+			path = CarouselView;
+			sourceTree = "<group>";
+		};
+		272FF68628B7D9B700CAE5DB /* FeedView */ = {
+			isa = PBXGroup;
+			children = (
+				272FF68728B7DA0D00CAE5DB /* FeedView.swift */,
+			);
+			path = FeedView;
+			sourceTree = "<group>";
+		};
 		274BFB9628A260D500C3F9C9 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +210,8 @@
 			children = (
 				27CB080728855B1A009E2583 /* TabBar */,
 				27DEEBBF2886A92F0014055F /* Home */,
+				272FF68128B652BD00CAE5DB /* CarouselView */,
+				272FF68628B7D9B700CAE5DB /* FeedView */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -432,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				272D6535288C63E100FA4F60 /* GetYouTubeModel.swift in Sources */,
+				272FF68328B6535900CAE5DB /* CarouselView.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
 				279E4F30289C4C70008038FF /* LoginModel.swift in Sources */,
@@ -440,6 +466,7 @@
 				27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */,
 				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
+				272FF68528B664FF00CAE5DB /* CarouselCollectionViewCell.swift in Sources */,
 				272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
 				27DEEBC52886A99A0014055F /* HomePresenter.swift in Sources */,
@@ -451,6 +478,7 @@
 				279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */,
 				27CB080F28855ED1009E2583 /* TabBarPresenter.swift in Sources */,
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
+				272FF68828B7DA0D00CAE5DB /* FeedView.swift in Sources */,
 				27DEEBC12886A9570014055F /* HomeViewController.swift in Sources */,
 				274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */,
 				27DEEBC32886A9650014055F /* HomeInteractor.swift in Sources */,

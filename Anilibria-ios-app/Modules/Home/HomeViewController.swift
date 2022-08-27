@@ -28,10 +28,18 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         view.addSubview(segmentedControl)
         return segmentedControl
     }()
+    
+    lazy var carouselView: CarouselView = {
+        let carouselView = CarouselView()
+        carouselView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(carouselView)
+        return carouselView
+    }()
         
-    override func loadView() {
-        view = UIView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = Asset.Colors.background.color
+        
         setupViews()
         setupConstraints()
     }
@@ -43,15 +51,14 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            
             segmentedControl.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 0),
+            segmentedControl.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: 0),
             
-            segmentedControl.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: 0)
+            carouselView.topAnchor.constraint(equalTo: segmentedControl.layoutMarginsGuide.bottomAnchor, constant: 20),
+            carouselView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            carouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            carouselView.heightAnchor.constraint(equalToConstant: view.frame.width / 1.3)
         ])
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
     
 }
