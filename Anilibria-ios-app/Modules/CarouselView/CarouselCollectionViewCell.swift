@@ -8,16 +8,21 @@
 import UIKit
 
 class CarouselCollectionViewCell: UICollectionViewCell {
-    lazy var vStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [imageView, titleLabel])
+    // MARK: - Public Static Constants
+    public static let stackSpacing: CGFloat = 5
+    public static let titleLabelHeight: CGFloat = 41
+    
+    var vStack: UIStackView = {
+        let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
-        stack.spacing = 5
+        stack.spacing = stackSpacing
         return stack
     }()
     
-    lazy var imageView: UIImageView = {
+    var imageView: UIImageView = {
         let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.backgroundColor = .systemGray2
@@ -27,19 +32,20 @@ class CarouselCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
-    lazy var titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 2
         label.textColor = .systemGray
         label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(vStack)
-        
+        vStack.addArrangedSubview(imageView)
+        vStack.addArrangedSubview(titleLabel)
         setupConstraints()
     }
     
@@ -54,7 +60,7 @@ class CarouselCollectionViewCell: UICollectionViewCell {
             vStack.rightAnchor.constraint(equalTo: rightAnchor),
             vStack.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16)
+            titleLabel.heightAnchor.constraint(equalToConstant: CarouselCollectionViewCell.titleLabelHeight)
         ])
     }
 }

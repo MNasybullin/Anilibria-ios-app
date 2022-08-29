@@ -8,10 +8,20 @@
 import UIKit
 
 final class CarouselView: UIView {
+    // MARK: - Private Properties
     private let cellIdentifier = "CarouselCell"
+    private var cellWidth: CGFloat!
+    private var cellHeight: CGFloat!
     
-    lazy var vStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [hTitleStack, carouselView])
+    private let leftInset: CGFloat = 16
+    private let rightInset: CGFloat = 16
+    
+    private let hTitleStackViewHeight: CGFloat = 32
+    
+    let typeView: CarouselViewType
+    
+    lazy var vStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [hTitleStackView, carouselView])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 5
@@ -19,27 +29,24 @@ final class CarouselView: UIView {
         return stack
     }()
     
-    lazy var hTitleStack: UIStackView = {
+    lazy var hTitleStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [titleLabel, titleButton])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         return stack
     }()
     
-    lazy var titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        label.text = "TitleLabel"
-        
         return label
     }()
     
-    lazy var titleButton: UIButton = {
+    var titleButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        button.setTitle("Все", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         return button
     }()
@@ -47,8 +54,13 @@ final class CarouselView: UIView {
     lazy var carouselView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        layout.minimumLineSpacing = 16
+        layout.sectionInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+        switch typeView {
+            case .largeVerticalPoster:
+                layout.minimumLineSpacing = 25
+            case .standartVerticalPoster:
+                layout.minimumLineSpacing = 15
+        }
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
@@ -56,10 +68,17 @@ final class CarouselView: UIView {
         return collectionView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(title: String, buttonTitle: String, type: CarouselViewType) {
+        typeView = type
+        super.init(frame: .zero)
+        
+        setupViewAccording(withType: type)
+        titleLabel.text = title
+        titleButton.setTitle(buttonTitle, for: .normal)
+        
         carouselView.delegate = self
         carouselView.dataSource = self
+        
         setupConstraints()
     }
     
@@ -67,21 +86,33 @@ final class CarouselView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupViewAccording(withType type: CarouselViewType) {
+        let screenWidth = UIScreen.main.bounds.width
+        let multiplier: CGFloat = 350 / 500
+        switch typeView {
+            case .largeVerticalPoster:
+                cellWidth = screenWidth - (leftInset * 2) - (screenWidth / 9)
+            case .standartVerticalPoster:
+                cellWidth = screenWidth - (leftInset * 2) - (screenWidth / 2)
+        }
+        cellHeight = (cellWidth / multiplier) + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight
+        let height = cellHeight + hTitleStackViewHeight
+        self.frame = CGRect(x: 0, y: 0, width: screenWidth, height: height)
+    }
+    
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: topAnchor),
-            vStack.leftAnchor.constraint(equalTo: leftAnchor),
-            vStack.rightAnchor.constraint(equalTo: rightAnchor),
-            vStack.bottomAnchor.constraint(equalTo: bottomAnchor),
+            vStackView.topAnchor.constraint(equalTo: topAnchor),
+            vStackView.leftAnchor.constraint(equalTo: leftAnchor),
+            vStackView.rightAnchor.constraint(equalTo: rightAnchor),
+            vStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            hTitleStack.heightAnchor.constraint(equalToConstant: 32),
+            hTitleStackView.heightAnchor.constraint(equalToConstant: hTitleStackViewHeight),
             
-            titleLabel.leftAnchor.constraint(equalTo: hTitleStack.leftAnchor, constant: 16),
+            titleLabel.leftAnchor.constraint(equalTo: hTitleStackView.leftAnchor, constant: leftInset),
             
             titleButton.widthAnchor.constraint(equalToConstant: 64),
-            titleButton.rightAnchor.constraint(equalTo: vStack.rightAnchor, constant: -16),
-           
-            carouselView.leftAnchor.constraint(equalTo: vStack.leftAnchor, constant: 0)
+            titleButton.rightAnchor.constraint(equalTo: vStackView.rightAnchor, constant: -rightInset)
         ])
     }
     
@@ -91,7 +122,17 @@ final class CarouselView: UIView {
 
 extension CarouselView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2, height: collectionView.frame.height - 10)
+//        let width: CGFloat
+//        let screenWidth = collectionView.frame.width
+//        let multiplier: CGFloat = 350 / 500
+//        switch typeView {
+//            case .largeVerticalPoster:
+//                width = screenWidth - (leftInset * 2) - (screenWidth / 9)
+//            case .standartVerticalPoster:
+//                width = screenWidth - (leftInset * 2) - (screenWidth / 2)
+//        }
+//        let height = (width / multiplier) + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight
+        return CGSize(width: cellWidth, height: cellHeight)
     }
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -117,7 +158,7 @@ extension CarouselView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
-        cell.titleLabel.text = "Test Title Label"
+        cell.titleLabel.text = "Сквозь слёзы я притворяюсь кошкой"
 //        cell.titleLabel.isHidden = true
         return cell
     }
@@ -127,7 +168,7 @@ extension CarouselView: UICollectionViewDataSource {
 
 //extension CarouselView: UIScrollViewDelegate {
 //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        guard let layout = carouselView.collectionViewLayout as? UICollectionViewFlowLayout else {
+//        guard typeView == .largeVerticalPoster, let layout = carouselView.collectionViewLayout as? UICollectionViewFlowLayout else {
 //            return
 //        }
 //        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
@@ -149,9 +190,9 @@ import SwiftUI
 struct CarouselView_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            CarouselView()
+            CarouselView(title: "Title", buttonTitle: "All", type: .largeVerticalPoster)
         }
-        .frame(width: 390, height: 450, alignment: .center)
+        .frame(width: 390, height: 600, alignment: .center)
         .previewDevice("iPhone 12")
     }
 }

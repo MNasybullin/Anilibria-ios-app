@@ -15,30 +15,40 @@ protocol HomeViewProtocol: AnyObject {
 final class HomeViewController: UIViewController, HomeViewProtocol {
     var presenter: HomePresenterProtocol!
     
-    lazy var segmentedControl: UISegmentedControl = {
-        var segmentedControl = UISegmentedControl()
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.insertSegment(withTitle: Strings.HomeModule.SegmentedControl.feed,
-                                       at: 0,
-                                       animated: true)
-        segmentedControl.insertSegment(withTitle: Strings.HomeModule.SegmentedControl.schedule,
-                                       at: 1,
-                                       animated: true)
-        segmentedControl.selectedSegmentIndex = 0
-        view.addSubview(segmentedControl)
-        return segmentedControl
+    var scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        
+        return scroll
     }()
     
-    lazy var carouselView: CarouselView = {
-        let carouselView = CarouselView()
-        carouselView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(carouselView)
+    var contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+//    var stackView: UIStackView = {
+//        let stack = UIStackView()
+//        stack.translatesAutoresizingMaskIntoConstraints = false
+//        stack.axis = .vertical
+//        stack.spacing = 10
+//        return stack
+//    }()
+    
+    var todayCarouselView: CarouselView = {
+        let carouselView = CarouselView(title: "Title", buttonTitle: "All", type: .standartVerticalPoster)
         return carouselView
     }()
         
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Asset.Colors.background.color
+        navigationItem.title = "AniLibria"
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(todayCarouselView)
         
         setupViews()
         setupConstraints()
@@ -50,14 +60,21 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            segmentedControl.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 0),
-            segmentedControl.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: 0),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            carouselView.topAnchor.constraint(equalTo: segmentedControl.layoutMarginsGuide.bottomAnchor, constant: 20),
-            carouselView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            carouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            carouselView.heightAnchor.constraint(equalToConstant: view.frame.width / 1.3)
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            contentView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            
+//            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+//            stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+//            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            
         ])
     }
     
