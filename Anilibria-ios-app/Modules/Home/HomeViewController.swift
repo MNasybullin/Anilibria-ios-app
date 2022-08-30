@@ -15,67 +15,79 @@ protocol HomeViewProtocol: AnyObject {
 final class HomeViewController: UIViewController, HomeViewProtocol {
     var presenter: HomePresenterProtocol!
     
-    var scrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        
-        return scroll
-    }()
+    private var scrollView = UIScrollView()
+    private var contentView = UIView()
+    private var stackView = UIStackView()
+    private var todayCarouselView: CarouselView!
     
-    var contentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-//    var stackView: UIStackView = {
-//        let stack = UIStackView()
-//        stack.translatesAutoresizingMaskIntoConstraints = false
-//        stack.axis = .vertical
-//        stack.spacing = 10
-//        return stack
-//    }()
-    
-    var todayCarouselView: CarouselView = {
-        let carouselView = CarouselView(title: "Title", buttonTitle: "All", type: .standartVerticalPoster)
-        return carouselView
-    }()
-        
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Asset.Colors.background.color
-        navigationItem.title = "AniLibria"
+        self.view.backgroundColor = Asset.Colors.background.color
+        self.navigationItem.title = "AniLibria"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         
+        configureContentView()
+        configureStackView()
+        
+    }
+    
+    // MARK: - ScrollView
+    func configureScrollView() {
         view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        contentView.addSubview(todayCarouselView)
-        
-        setupViews()
-        setupConstraints()
+        setScrollViewConstraints()
     }
     
-    func setupViews() {
-        
+    func setScrollViewConstraints() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            contentView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            
-//            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-//            stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-//            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            
-        ])
+    // MARK: - ContentView
+    func configureContentView() {
+        view.addSubview(contentView)
+        setContentViewConstraints()
+    }
+    
+    func setContentViewConstraints() {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+    
+    // MARK: - StackView
+    func configureStackView() {
+        contentView.addSubview(stackView)
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        
+        configureTodayCarouselView()
+        
+        setStackViewConstraints()
+    }
+    
+    func setStackViewConstraints() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        let stackViewHeight = stackView.arrangedSubviews.reduce(0) {$0 + $1.frame.height + stackView.spacing}
+        stackView.heightAnchor.constraint(equalToConstant: stackViewHeight).isActive = true
+    }
+    
+    // MARK: - ToDayCarouselView
+    func configureTodayCarouselView() {
+        todayCarouselView = CarouselView(title: "Title", buttonTitle: "All", type: .largeVerticalPoster)
+        stackView.addArrangedSubview(todayCarouselView)
+        setTodayCarouselViewConstraints()
+    }
+    
+    func setTodayCarouselViewConstraints() {
+
     }
     
 }

@@ -47,12 +47,9 @@ final class HomeRouter: HomeRouterProtocol {
     private static func createNavigationController(for rootViewController: UIViewController,
                                                    title: String,
                                                    image: UIImage?) -> UINavigationController {
-        let navigationController = UINavigationController(rootViewController: rootViewController)
-        navigationController.tabBarItem.title = title
-        navigationController.tabBarItem.image = image
-        navigationController.navigationBar.prefersLargeTitles = true
+        rootViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
         rootViewController.navigationItem.title = title
-        return navigationController
+        return UINavigationController(rootViewController: rootViewController)
     }
     
 }

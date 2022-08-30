@@ -26,7 +26,6 @@ class CarouselCollectionViewCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.backgroundColor = .systemGray2
-        image.image = UIImage(asset: Asset.Assets.defaultTitleImage)
         image.layer.cornerRadius = 12
         image.layer.masksToBounds = true
         return image

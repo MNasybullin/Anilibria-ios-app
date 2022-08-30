@@ -159,6 +159,7 @@ extension CarouselView: UICollectionViewDataSource {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
         cell.titleLabel.text = "Сквозь слёзы я притворяюсь кошкой"
+        cell.imageView.image = UIImage(asset: Asset.Assets.defaultTitleImage)
 //        cell.titleLabel.isHidden = true
         return cell
     }
