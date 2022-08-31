@@ -26,6 +26,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         self.navigationItem.title = "AniLibria"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
+        configureScrollView()
         configureContentView()
         configureStackView()
         
@@ -34,6 +35,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     // MARK: - ScrollView
     func configureScrollView() {
         view.addSubview(scrollView)
+//        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + 500)
         setScrollViewConstraints()
     }
     
@@ -47,16 +49,16 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     
     // MARK: - ContentView
     func configureContentView() {
-        view.addSubview(contentView)
+        scrollView.addSubview(contentView)
         setContentViewConstraints()
     }
     
     func setContentViewConstraints() {
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor).isActive = true
+        contentView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
     // MARK: - StackView

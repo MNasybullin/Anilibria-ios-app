@@ -17,69 +17,26 @@ final class CarouselView: UIView {
     private let rightInset: CGFloat = 16
     
     private let hTitleStackViewHeight: CGFloat = 32
+        
+    private var vStackView = UIStackView()
+    private var hTitleStackView = UIStackView()
+    private var titleLabel = UILabel()
+    private var titleButton = UIButton()
+    private var carouselView: UICollectionView!
     
     let typeView: CarouselViewType
-    
-    lazy var vStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [hTitleStackView, carouselView])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.spacing = 5
-        addSubview(stack)
-        return stack
-    }()
-    
-    lazy var hTitleStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [titleLabel, titleButton])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        return stack
-    }()
-    
-    var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        return label
-    }()
-    
-    var titleButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        button.setTitleColor(UIColor.black, for: .normal)
-        return button
-    }()
-    
-    lazy var carouselView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
-        switch typeView {
-            case .largeVerticalPoster:
-                layout.minimumLineSpacing = 25
-            case .standartVerticalPoster:
-                layout.minimumLineSpacing = 15
-        }
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        collectionView.showsHorizontalScrollIndicator = false
-        return collectionView
-    }()
     
     init(title: String, buttonTitle: String, type: CarouselViewType) {
         typeView = type
         super.init(frame: .zero)
         
         setupViewAccording(withType: type)
-        titleLabel.text = title
-        titleButton.setTitle(buttonTitle, for: .normal)
         
-        carouselView.delegate = self
-        carouselView.dataSource = self
-        
-        setupConstraints()
+        configureVStackView()
+        configureHTitleStackView()
+        configureTitleLabel(withTitle: title)
+        configureTitleButton(withTitle: buttonTitle)
+        configureCarouselView()
     }
     
     required init?(coder: NSCoder) {
@@ -100,20 +57,81 @@ final class CarouselView: UIView {
         self.frame = CGRect(x: 0, y: 0, width: screenWidth, height: height)
     }
     
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            vStackView.topAnchor.constraint(equalTo: topAnchor),
-            vStackView.leftAnchor.constraint(equalTo: leftAnchor),
-            vStackView.rightAnchor.constraint(equalTo: rightAnchor),
-            vStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            hTitleStackView.heightAnchor.constraint(equalToConstant: hTitleStackViewHeight),
-            
-            titleLabel.leftAnchor.constraint(equalTo: hTitleStackView.leftAnchor, constant: leftInset),
-            
-            titleButton.widthAnchor.constraint(equalToConstant: 64),
-            titleButton.rightAnchor.constraint(equalTo: vStackView.rightAnchor, constant: -rightInset)
-        ])
+    // MARK: - vStackView
+    func configureVStackView() {
+        addSubview(vStackView)
+        vStackView.axis = .vertical
+        vStackView.spacing = 5
+        setVStackViewConstraints()
+    }
+    
+    func setVStackViewConstraints() {
+        vStackView.translatesAutoresizingMaskIntoConstraints = false
+        vStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        vStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        vStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        vStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+    }
+    
+    // MARK: - hTtitleStackView
+    func configureHTitleStackView() {
+        vStackView.addArrangedSubview(hTitleStackView)
+        hTitleStackView.axis = .horizontal
+        setHTitleStackViewConstraints()
+    }
+    
+    func setHTitleStackViewConstraints() {
+        hTitleStackView.translatesAutoresizingMaskIntoConstraints = false
+        hTitleStackView.heightAnchor.constraint(equalToConstant: hTitleStackViewHeight).isActive = true
+    }
+    
+    // MARK: - titleLabel
+    func configureTitleLabel(withTitle title: String) {
+        hTitleStackView.addArrangedSubview(titleLabel)
+        titleLabel.text = title
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        setTitleLabelConstraints()
+    }
+    
+    func setTitleLabelConstraints() {
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.leadingAnchor.constraint(equalTo: hTitleStackView.leadingAnchor, constant: leftInset).isActive = true
+    }
+    
+    // MARK: - titleButton
+    func configureTitleButton(withTitle title: String) {
+        hTitleStackView.addArrangedSubview(titleButton)
+        titleButton.setTitle(title, for: .normal)
+        titleButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        titleButton.setTitleColor(UIColor.black, for: .normal)
+        setTitleButtonConstraints()
+    }
+    
+    func setTitleButtonConstraints() {
+        titleButton.translatesAutoresizingMaskIntoConstraints = false
+        titleButton.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        titleButton.trailingAnchor.constraint(equalTo: vStackView.trailingAnchor, constant: -rightInset).isActive = true
+    }
+    
+    // MARK: - carouselView
+    func configureCarouselView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+        switch typeView {
+            case .largeVerticalPoster:
+                layout.minimumLineSpacing = 25
+            case .standartVerticalPoster:
+                layout.minimumLineSpacing = 15
+        }
+        
+        carouselView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        vStackView.addArrangedSubview(carouselView)
+        carouselView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        carouselView.showsHorizontalScrollIndicator = false
+        
+        carouselView.delegate = self
+        carouselView.dataSource = self
     }
     
 }
@@ -122,16 +140,6 @@ final class CarouselView: UIView {
 
 extension CarouselView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let width: CGFloat
-//        let screenWidth = collectionView.frame.width
-//        let multiplier: CGFloat = 350 / 500
-//        switch typeView {
-//            case .largeVerticalPoster:
-//                width = screenWidth - (leftInset * 2) - (screenWidth / 9)
-//            case .standartVerticalPoster:
-//                width = screenWidth - (leftInset * 2) - (screenWidth / 2)
-//        }
-//        let height = (width / multiplier) + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight
         return CGSize(width: cellWidth, height: cellHeight)
     }
     
