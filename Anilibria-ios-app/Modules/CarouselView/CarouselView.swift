@@ -13,9 +13,8 @@ final class CarouselView: UIView {
     private var cellWidth: CGFloat!
     private var cellHeight: CGFloat!
     
-    private let leftInset: CGFloat = 16
-    private let rightInset: CGFloat = 16
-    
+    private let cellLineSpacing: CGFloat = 16
+    private let vStackViewSpacing: CGFloat = 10
     private let hTitleStackViewHeight: CGFloat = 32
         
     private var vStackView = UIStackView()
@@ -48,12 +47,12 @@ final class CarouselView: UIView {
         let multiplier: CGFloat = 350 / 500
         switch typeView {
             case .largeVerticalPoster:
-                cellWidth = screenWidth - (leftInset * 2) - (screenWidth / 9)
+                cellWidth = screenWidth - (cellLineSpacing * 2) - (screenWidth / 9)
             case .standartVerticalPoster:
-                cellWidth = screenWidth - (leftInset * 2) - (screenWidth / 2)
+                cellWidth = screenWidth - (cellLineSpacing * 2) - (screenWidth / 2)
         }
         cellHeight = (cellWidth / multiplier) + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight
-        let height = cellHeight + hTitleStackViewHeight
+        let height = cellHeight + hTitleStackViewHeight + vStackViewSpacing
         self.frame = CGRect(x: 0, y: 0, width: screenWidth, height: height)
     }
     
@@ -61,7 +60,7 @@ final class CarouselView: UIView {
     func configureVStackView() {
         addSubview(vStackView)
         vStackView.axis = .vertical
-        vStackView.spacing = 5
+        vStackView.spacing = vStackViewSpacing
         setVStackViewConstraints()
     }
     
@@ -95,7 +94,7 @@ final class CarouselView: UIView {
     
     func setTitleLabelConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.leadingAnchor.constraint(equalTo: hTitleStackView.leadingAnchor, constant: leftInset).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: hTitleStackView.leadingAnchor, constant: cellLineSpacing).isActive = true
     }
     
     // MARK: - titleButton
@@ -110,21 +109,16 @@ final class CarouselView: UIView {
     func setTitleButtonConstraints() {
         titleButton.translatesAutoresizingMaskIntoConstraints = false
         titleButton.widthAnchor.constraint(equalToConstant: 64).isActive = true
-        titleButton.trailingAnchor.constraint(equalTo: vStackView.trailingAnchor, constant: -rightInset).isActive = true
+        titleButton.trailingAnchor.constraint(equalTo: vStackView.trailingAnchor, constant: -cellLineSpacing).isActive = true
     }
     
     // MARK: - carouselView
     func configureCarouselView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
-        switch typeView {
-            case .largeVerticalPoster:
-                layout.minimumLineSpacing = 25
-            case .standartVerticalPoster:
-                layout.minimumLineSpacing = 15
-        }
-        
+        layout.sectionInset = UIEdgeInsets(top: 0, left: cellLineSpacing, bottom: 0, right: cellLineSpacing)
+        layout.minimumLineSpacing = cellLineSpacing
+        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
         carouselView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         vStackView.addArrangedSubview(carouselView)
         carouselView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
@@ -175,22 +169,21 @@ extension CarouselView: UICollectionViewDataSource {
 
 // MARK: - UIScrollViewDelegate
 
-//extension CarouselView: UIScrollViewDelegate {
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        guard typeView == .largeVerticalPoster, let layout = carouselView.collectionViewLayout as? UICollectionViewFlowLayout else {
-//            return
-//        }
-//        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-//
-//        var offset = targetContentOffset.pointee
-//        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
-//        let roundedIndex = round(index)
-//
-//        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
-//
-//        targetContentOffset.pointee = offset
-//    }
-//}
+extension CarouselView: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard typeView == .largeVerticalPoster, let layout = carouselView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        
+        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        var offset = targetContentOffset.pointee
+        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+        let roundedIndex = round(index)
+        let additionalSpacing = (UIScreen.main.bounds.width - layout.itemSize.width - (layout.minimumLineSpacing * 2)) / 2
+        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left - additionalSpacing, y: scrollView.contentInset.top)
+        targetContentOffset.pointee = offset
+    }
+}
 
 #if DEBUG
 

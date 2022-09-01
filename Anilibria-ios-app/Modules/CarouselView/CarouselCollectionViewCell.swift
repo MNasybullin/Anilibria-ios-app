@@ -33,8 +33,9 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     
     var titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 2
+//        label.font.lineHeight
         label.textColor = .systemGray
         label.textAlignment = .left
         return label
