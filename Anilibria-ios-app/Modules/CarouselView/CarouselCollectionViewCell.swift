@@ -7,25 +7,26 @@
 
 import UIKit
 
-class CarouselCollectionViewCell: UICollectionViewCell {
+final class CarouselCollectionViewCell: UICollectionViewCell {
     // MARK: - Public Static Constants
-    public static let stackSpacing: CGFloat = 5
-    public static let titleLabelHeight: CGFloat = 41
-    
+    public static let stackSpacing: CGFloat = 6
+    public static let titleLabelHeight: CGFloat = 30
+    // del top
     var vStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
-        stack.spacing = stackSpacing
+        stack.spacing = 6
+        stack.distribution = .fill
+        stack.backgroundColor = .green
         return stack
     }()
     
     var imageView: UIImageView = {
         let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFill
+        image.contentMode = .scaleAspectFit
         image.clipsToBounds = true
-        image.backgroundColor = .systemGray2
+        image.backgroundColor = .blue
         image.layer.cornerRadius = 12
         image.layer.masksToBounds = true
         return image
@@ -33,9 +34,9 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     
     var titleLabel: UILabel = {
         let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.numberOfLines = 2
-//        label.font.lineHeight
+        label.backgroundColor = .yellow
         label.textColor = .systemGray
         label.textAlignment = .left
         return label
@@ -43,10 +44,11 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(vStack)
         vStack.addArrangedSubview(imageView)
         vStack.addArrangedSubview(titleLabel)
+        contentView.addSubview(vStack)
         setupConstraints()
+    
     }
     
     required init?(coder: NSCoder) {
@@ -55,12 +57,12 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: topAnchor),
-            vStack.leftAnchor.constraint(equalTo: leftAnchor),
-            vStack.rightAnchor.constraint(equalTo: rightAnchor),
-            vStack.bottomAnchor.constraint(equalTo: bottomAnchor),
+            vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
+            vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            titleLabel.heightAnchor.constraint(equalToConstant: CarouselCollectionViewCell.titleLabelHeight)
+            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight * CGFloat(titleLabel.numberOfLines))
         ])
     }
 }

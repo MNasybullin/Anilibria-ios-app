@@ -102,7 +102,7 @@ final class CarouselView: UIView {
         hTitleStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(title, for: .normal)
         titleButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        titleButton.setTitleColor(UIColor.black, for: .normal)
+        titleButton.setTitleColor(UIColor.label, for: .normal)
         setTitleButtonConstraints()
     }
     
@@ -195,7 +195,6 @@ struct CarouselView_Previews: PreviewProvider {
             CarouselView(title: "Title", buttonTitle: "All", type: .largeVerticalPoster)
         }
         .frame(width: 390, height: 600, alignment: .center)
-        .previewDevice("iPhone 12")
     }
 }
 

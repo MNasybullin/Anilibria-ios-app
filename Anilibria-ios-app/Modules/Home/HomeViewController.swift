@@ -22,10 +22,9 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = Asset.Colors.background.color
-        self.navigationItem.title = "AniLibria"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        
+        self.view.backgroundColor = .systemBackground
+
+        configureNavigationBarAppearance()
         configureScrollView()
         configureScrollStackViewContainer()
         configureTodayCarouselView()
@@ -33,9 +32,18 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         
     }
     
+    // MARK: - NavigationBarAppearance
+    func configureNavigationBarAppearance() {
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.shadowColor = .clear
+        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+    }
+    
     // MARK: - scrollView
     func configureScrollView() {
         view.addSubview(scrollView)
+        scrollView.delegate = self
         setScrollViewConstraints()
     }
     
@@ -87,6 +95,11 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         updatesCarouselView.heightAnchor.constraint(equalToConstant: updatesCarouselView.frame.height).isActive = true
     }
     
+}
+
+extension HomeViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    }
 }
 
 #if DEBUG
