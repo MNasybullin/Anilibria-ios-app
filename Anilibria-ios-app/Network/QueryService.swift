@@ -125,7 +125,6 @@ class QueryService {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        print(data)
         let decoded = try JSONDecoder().decode([GetScheduleModel].self, from: data)
         return decoded
     }

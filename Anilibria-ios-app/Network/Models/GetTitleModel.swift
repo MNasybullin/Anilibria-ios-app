@@ -96,7 +96,7 @@ struct GTSeries: Codable {
 }
 
 struct GTPlaylist: Codable {
-    let serie: Int
+    let serie: Double
     let created_timestamp: Int
     let hls: GTHls
 }
