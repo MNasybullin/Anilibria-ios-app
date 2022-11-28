@@ -16,7 +16,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     var presenter: HomePresenterProtocol!
     
     private var scrollView = UIScrollView()
-    private var scrollStackViewContainer = UIStackView()
+    private var vContentStackView = UIStackView()
     private var todayCarouselView: CarouselView!
     private var updatesCarouselView: CarouselView!
     
@@ -26,7 +26,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
 
         configureNavigationBarAppearance()
         configureScrollView()
-        configureScrollStackViewContainer()
+        configureVContentStackView()
         configureTodayCarouselView()
         configureUpdatesCarouselView()
         
@@ -48,57 +48,72 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     func setScrollViewConstraints() {
-        let margins = view.layoutMarginsGuide
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
+        let frameGuide = scrollView.frameLayoutGuide
+        let contentGuide = scrollView.contentLayoutGuide
+        NSLayoutConstraint.activate([
+            frameGuide.topAnchor.constraint(equalTo: view.topAnchor),
+            frameGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            frameGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            frameGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentGuide.widthAnchor.constraint(equalTo: frameGuide.widthAnchor)
+        ])
     }
         
-    // MARK: - scrollStackViewContainer
-    func configureScrollStackViewContainer() {
-        scrollView.addSubview(scrollStackViewContainer)
-        scrollStackViewContainer.axis = .vertical
-        scrollStackViewContainer.spacing = 10
-        setScrollStackViewContainerConstraints()
+    // MARK: - vContentStackView
+    func configureVContentStackView() {
+        scrollView.addSubview(vContentStackView)
+        vContentStackView.axis = .vertical
+        vContentStackView.spacing = 10
+        setVContentStackViewConstraints()
     }
     
-    func setScrollStackViewContainerConstraints() {
-        scrollStackViewContainer.translatesAutoresizingMaskIntoConstraints = false
-        scrollStackViewContainer.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        scrollStackViewContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        scrollStackViewContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        scrollStackViewContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        scrollStackViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+    func setVContentStackViewConstraints() {
+        vContentStackView.translatesAutoresizingMaskIntoConstraints = false
+        let contentGuide = scrollView.contentLayoutGuide
+        NSLayoutConstraint.activate([
+            vContentStackView.topAnchor.constraint(equalTo: contentGuide.topAnchor),
+            vContentStackView.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
+            vContentStackView.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            vContentStackView.bottomAnchor.constraint(equalTo: contentGuide.bottomAnchor)
+        ])
     }
     
     // MARK: - toDayCarouselView
     func configureTodayCarouselView() {
-        todayCarouselView = CarouselView(title: "Сегодня", buttonTitle: "Все дни", type: .largeVerticalPoster)
-        scrollStackViewContainer.addArrangedSubview(todayCarouselView)
-        setTodayCarouselViewConstraints()
-    }
-    
-    func setTodayCarouselViewConstraints() {
-        todayCarouselView.heightAnchor.constraint(equalToConstant: todayCarouselView.frame.height).isActive = true
+        let multiplier: CGFloat = 500 / 350
+        let cellWidth: CGFloat = 300
+        todayCarouselView = CarouselView(withTitle: "Сегодня", buttonTitle: "Все дни", imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: true)
+        todayCarouselView.delegate = self
+        vContentStackView.addArrangedSubview(todayCarouselView)
     }
     
     // MARK: - updatesCarouselView
     func configureUpdatesCarouselView() {
-        updatesCarouselView = CarouselView(title: "Обновления", buttonTitle: "Все", type: .standartVerticalPoster)
-        scrollStackViewContainer.addArrangedSubview(updatesCarouselView)
-        setUpdatesCarouselViewConstraints()
-    }
-    
-    func setUpdatesCarouselViewConstraints() {
-        updatesCarouselView.heightAnchor.constraint(equalToConstant: updatesCarouselView.frame.height).isActive = true
+        let multiplier: CGFloat = 500 / 350
+        let cellWidth: CGFloat = 200
+        updatesCarouselView = CarouselView(withTitle: "Обновления", buttonTitle: "Все", imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
+        updatesCarouselView.delegate = self
+        vContentStackView.addArrangedSubview(updatesCarouselView)
     }
     
 }
 
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    }
+}
+
+// MARK: - CarouselViewProtocol
+
+extension HomeViewController: CarouselViewProtocol {
+    func cellClicked() {
+        print("Cell Click")
+    }
+    
+    func titleButtonAction(sender: UIButton) {
+        print("Button Action")
     }
 }
 

@@ -10,23 +10,22 @@ import UIKit
 final class CarouselCollectionViewCell: UICollectionViewCell {
     // MARK: - Public Static Constants
     public static let stackSpacing: CGFloat = 6
-    public static let titleLabelHeight: CGFloat = 30
-    // del top
+    
     var vStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
-        stack.spacing = 6
+        stack.spacing = stackSpacing
         stack.distribution = .fill
-        stack.backgroundColor = .green
+//        stack.backgroundColor = .green //
         return stack
     }()
     
     var imageView: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleToFill
         image.clipsToBounds = true
-        image.backgroundColor = .blue
+//        image.backgroundColor = .blue //
         image.layer.cornerRadius = 12
         image.layer.masksToBounds = true
         return image
@@ -36,7 +35,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.numberOfLines = 2
-        label.backgroundColor = .yellow
+//        label.backgroundColor = .yellow // 
         label.textColor = .systemGray
         label.textAlignment = .left
         return label
