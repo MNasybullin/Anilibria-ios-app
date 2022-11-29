@@ -53,6 +53,13 @@
 "TabBarControllers.profile.title" = "Профиль";
 "TabBarControllers.profile.image" = "person.crop.circle.fill";
 
+// MARK: - Alert Controller
+"AlertController.title.error" = "Ошибка";
+"AlertController.title.ok" = "Ок";
+
 // MARK: - Home Module
-"HomeModule.segmentedControl.feed" = "Лента";
-"HomeModule.segmentedControl.schedule" = "Расписание";
+"HomeModule.title.today" = "Сегодня";
+"HomeModule.title.updates" = "Обновления";
+
+"HomeModule.buttonTitle.allDays" = "Все дни";
+"HomeModule.buttonTitle.all" = "Все";
