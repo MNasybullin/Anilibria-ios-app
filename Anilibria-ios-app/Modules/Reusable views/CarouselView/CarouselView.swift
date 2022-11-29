@@ -10,6 +10,7 @@ import UIKit
 protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(sender: UIButton)
     func cellClicked()
+    func getImage(fromData data: [GetTitleModel]?, index: Int)
 }
 
 final class CarouselView: UIView {
@@ -28,6 +29,14 @@ final class CarouselView: UIView {
     private var carouselView: UICollectionView!
     
     var cellFocusAnimation: Bool!
+    
+    var data: [GetTitleModel]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.carouselView.reloadData()
+            }
+        }
+    }
     
     weak var delegate: CarouselViewProtocol?
         
@@ -172,15 +181,22 @@ extension CarouselView: UICollectionViewDelegateFlowLayout {
 
 extension CarouselView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return data?.count ?? 5
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
-        cell.titleLabel.text = "Сквозь слёзы я притворяюсь кошкой"
-        cell.imageView.image = UIImage(asset: Asset.Assets.defaultTitleImage)
+        let index = indexPath.row
+        cell.titleLabel.text = data?[index].names.ru ?? ""
+        guard let imageData = data?[index].posters.original.image else {
+            delegate?.getImage(fromData: data, index: index) // Наверное так не правильно
+            cell.imageView.image = UIImage(asset: Asset.Assets.defaultTitleImage)
+            return cell
+        }
+        let image = UIImage(data: imageData)
+        cell.imageView.image = image
         return cell
     }
     

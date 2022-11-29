@@ -10,6 +10,9 @@ import UIKit
 
 protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
+    
+    func showErrorAlert(withMessage message: String)
+    func updateDataInTodayView(withData data: [GetTitleModel])
 }
 
 final class HomeViewController: UIViewController, HomeViewProtocol {
@@ -43,6 +46,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     // MARK: - scrollView
     func configureScrollView() {
         view.addSubview(scrollView)
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
         setScrollViewConstraints()
     }
@@ -84,8 +88,9 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     func configureTodayCarouselView() {
         let multiplier: CGFloat = 500 / 350
         let cellWidth: CGFloat = 300
-        todayCarouselView = CarouselView(withTitle: "Сегодня", buttonTitle: "Все дни", imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: true)
+        todayCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.today, buttonTitle: Strings.HomeModule.ButtonTitle.allDays, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: true)
         todayCarouselView.delegate = self
+        presenter.getDataForTodayView()
         vContentStackView.addArrangedSubview(todayCarouselView)
     }
     
@@ -93,9 +98,23 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     func configureUpdatesCarouselView() {
         let multiplier: CGFloat = 500 / 350
         let cellWidth: CGFloat = 200
-        updatesCarouselView = CarouselView(withTitle: "Обновления", buttonTitle: "Все", imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
+        updatesCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.updates, buttonTitle: Strings.HomeModule.ButtonTitle.all, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
         updatesCarouselView.delegate = self
+        presenter.getDataForUpdatesView()
         vContentStackView.addArrangedSubview(updatesCarouselView)
+    }
+    
+    // MARK: - HomeViewProtocol Functions
+    
+    func showErrorAlert(withMessage message: String) {
+        let alertController = UIAlertController(title: Strings.AlertController.Title.error, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: Strings.AlertController.Title.ok, style: .default)
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true)
+    }
+    
+    func updateDataInTodayView(withData data: [GetTitleModel]) {
+        todayCarouselView.data = data
     }
     
 }
@@ -114,6 +133,12 @@ extension HomeViewController: CarouselViewProtocol {
     
     func titleButtonAction(sender: UIButton) {
         print("Button Action")
+        presenter.titleButtonAction()
+    }
+    
+    func getImage(fromData data: [GetTitleModel]?, index: Int) {
+        presenter.getImageFromData(data, index: index)
+        
     }
 }
 
