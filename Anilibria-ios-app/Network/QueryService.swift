@@ -85,12 +85,14 @@ class QueryService {
     
     /// Получить список тайтлов отсортированный по времени добавления нового релиза
     /// - Parameters:
-    ///     - withlimit: Количество запрашиваемых объектов
-    func getUpdates(with limit: Int = 5) async throws -> [GetTitleModel] {
+    ///     - withlimit: Количество запрашиваемых объектов (По умолчанию 15)
+    ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
+    func getUpdates(withLimit limit: Int = 15, after: Int = 0) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getUpdates)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            URLQueryItem(name: "after", value: String(after))
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
@@ -143,11 +145,13 @@ class QueryService {
     
     /// Получить информацию о вышедших роликах на наших YouTube каналах в хронологическом порядке.
     /// - Parameters:
-    ///     - withlimit: Количество роликов запрашиваемые у сервера.
-    func getYouTube(with limit: Int = 5) async throws -> [GetYouTubeModel] {
+    ///     - withlimit: Количество роликов запрашиваемые у сервера. (По умолчанию 5)
+    ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
+    func getYouTube(withLimit limit: Int = 5, after: Int = 0) async throws -> [GetYouTubeModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYouTube)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "limit", value: String(limit))
+            URLQueryItem(name: "limit", value: String(limit)),
+            URLQueryItem(name: "after", value: String(after))
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)

@@ -35,8 +35,9 @@ class NetworkPublicApiTests: XCTestCase {
     
     func testGetUpdates() async throws {
         let limit = 10
+        let after = 1
         do {
-            _ = try await QueryService.shared.getUpdates(with: limit)
+            _ = try await QueryService.shared.getUpdates(withLimit: limit, after: after)
         } catch let error as MyNetworkError {
             XCTFail(error.description)
         } catch {
@@ -83,8 +84,9 @@ class NetworkPublicApiTests: XCTestCase {
     
     func testGetYouTube() async throws {
         let limit = 10
+        let after = 1
         do {
-            _ = try await QueryService.shared.getYouTube(with: limit)
+            _ = try await QueryService.shared.getYouTube(withLimit: limit, after: after)
         } catch let error as MyNetworkError {
             XCTFail(error.description)
         } catch {
