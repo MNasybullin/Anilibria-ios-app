@@ -20,14 +20,6 @@ final class HomeInteractor: HomeInteractorProtocol {
     unowned var presenter: HomePresenterProtocol!
     
     func requestDataForTodayView() async throws -> [GetScheduleModel] {
-//        do {
-//            let data = try await QueryService.shared.getSchedule(with: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
-//            return data
-//        } catch let error as MyNetworkError {
-//            throw error
-//        } catch {
-//            throw MyNetworkError.unknown
-//        }
         return try await QueryService.shared.getSchedule(with: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
     }
     

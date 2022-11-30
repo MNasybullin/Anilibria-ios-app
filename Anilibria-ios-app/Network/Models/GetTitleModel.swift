@@ -52,7 +52,8 @@ struct GTPosters: Codable {
 
 struct GTPoster: Codable {
     let url: String
-    var image: Data?
+    var image: Data? // not in api
+    var loadingImage: Bool? // not in api
 }
 
 struct GTType: Codable {

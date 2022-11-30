@@ -10,7 +10,7 @@ import UIKit
 protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(sender: UIButton)
     func cellClicked()
-    func getImage(fromData data: [GetTitleModel]?, index: Int)
+    func getImage(fromData data: [GetTitleModel]?, index: Int, identifier: CarouselView)
 }
 
 final class CarouselView: UIView {
@@ -188,11 +188,18 @@ extension CarouselView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
+        
+        cell.titleLabel.text = ""
+        cell.imageView.image = UIImage(asset: Asset.Assets.defaultTitleImage)
+        guard data != nil else {
+            return cell
+        }
+        
         let index = indexPath.row
-        cell.titleLabel.text = data?[index].names.ru ?? ""
-        guard let imageData = data?[index].posters.original.image else {
-            delegate?.getImage(fromData: data, index: index) // Наверное так не правильно
-            cell.imageView.image = UIImage(asset: Asset.Assets.defaultTitleImage)
+        cell.titleLabel.text = data?[index].names.ru
+        guard let imageData = data?[index].posters.original.image, data?[index].posters.original.loadingImage == false else {
+            data?[index].posters.original.loadingImage = true
+            delegate?.getImage(fromData: data, index: index, identifier: self)
             return cell
         }
         let image = UIImage(data: imageData)

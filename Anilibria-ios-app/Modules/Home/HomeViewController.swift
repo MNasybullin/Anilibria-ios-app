@@ -11,8 +11,9 @@ import UIKit
 protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
-    func showErrorAlert(withMessage message: String)
+    func showErrorAlert(withTitle title: String, message: String)
     func updateDataInTodayView(withData data: [GetTitleModel])
+    func update(data: [GetTitleModel], inView view: CarouselView)
 }
 
 final class HomeViewController: UIViewController, HomeViewProtocol {
@@ -106,15 +107,21 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     
     // MARK: - HomeViewProtocol Functions
     
-    func showErrorAlert(withMessage message: String) {
-        let alertController = UIAlertController(title: Strings.AlertController.Title.error, message: message, preferredStyle: .alert)
+    func showErrorAlert(withTitle title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: Strings.AlertController.Title.ok, style: .default)
         alertController.addAction(alertAction)
-        self.present(alertController, animated: true)
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true)
+        }
     }
     
     func updateDataInTodayView(withData data: [GetTitleModel]) {
         todayCarouselView.data = data
+    }
+    
+    func update(data: [GetTitleModel], inView view: CarouselView) {
+        view.data = data
     }
     
 }
@@ -136,9 +143,8 @@ extension HomeViewController: CarouselViewProtocol {
         presenter.titleButtonAction()
     }
     
-    func getImage(fromData data: [GetTitleModel]?, index: Int) {
-        presenter.getImageFromData(data, index: index)
-        
+    func getImage(fromData data: [GetTitleModel]?, index: Int, identifier: CarouselView) {
+        presenter.getImageFromData(data, index: index, identifier: identifier)
     }
 }
 

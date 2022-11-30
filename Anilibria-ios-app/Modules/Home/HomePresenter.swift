@@ -14,12 +14,13 @@ protocol HomePresenterProtocol: AnyObject {
     
     func getDataForTodayView()
     func getDataForUpdatesView()
-    func getImageFromData(_ data: [GetTitleModel]?, index: Int)
+    func getImageFromData(_ data: [GetTitleModel]?, index: Int, identifier: CarouselView)
     
     func titleButtonAction()
 }
 
 final class HomePresenter: HomePresenterProtocol {
+    
     var router: HomeRouterProtocol!
     var interactor: HomeInteractorProtocol!
     unowned var view: HomeViewProtocol!
@@ -41,9 +42,9 @@ final class HomePresenter: HomePresenterProtocol {
                     }
                 }
             } catch let error as MyNetworkError {
-                view.showErrorAlert(withMessage: error.description)
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
             } catch {
-                view.showErrorAlert(withMessage: error.localizedDescription)
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.localizedDescription)
             }
         }
     }
@@ -52,20 +53,23 @@ final class HomePresenter: HomePresenterProtocol {
 //        interactor.requestDataForUpdatesView()
     }
     
-    func getImageFromData(_ data: [GetTitleModel]?, index: Int) {
+    func getImageFromData(_ data: [GetTitleModel]?, index: Int, identifier: CarouselView) {
         guard let data = data else {
             return
         }
+        
         Task {
             do {
                 let imageData = try await interactor.requestImageFromData(withURLString: data[index].posters.original.url)
                 var newData = data
                 newData[index].posters.original.image = imageData
-                // обновить данные
+                newData[index].posters.original.loadingImage = false
+                view.update(data: newData, inView: identifier)
             } catch let error as MyNetworkError {
-                view.showErrorAlert(withMessage: error.description)
+                let errorMessage = error
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: error.description)
             } catch {
-                view.showErrorAlert(withMessage: error.localizedDescription)
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: error.localizedDescription)
             }
         }
     }
