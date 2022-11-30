@@ -12,20 +12,27 @@ protocol HomePresenterProtocol: AnyObject {
     var interactor: HomeInteractorProtocol! { get set }
     var view: HomeViewProtocol! { get set }
     
-    func getDataForTodayView()
-    func getDataForUpdatesView()
-    func getImageFromData(_ data: [GetTitleModel]?, index: Int, identifier: CarouselView)
+    func getDataFor(carouselView: CarouselView, typeView: CarouselViewType)
+    func getImage(fromData data: [GetTitleModel]?, withIndex index: Int, forCarouselView carouselView: CarouselView)
     
     func titleButtonAction()
 }
 
 final class HomePresenter: HomePresenterProtocol {
-    
     var router: HomeRouterProtocol!
     var interactor: HomeInteractorProtocol!
     unowned var view: HomeViewProtocol!
     
-    func getDataForTodayView() {
+    func getDataFor(carouselView: CarouselView, typeView: CarouselViewType) {
+        switch typeView {
+            case .todayCarouselView:
+                getDataForTodayView(carouselView: carouselView)
+            case .updatesCarouselView:
+                getDataForUpdatesView(carouselView: carouselView)
+        }
+    }
+    
+    private func getDataForTodayView(carouselView: CarouselView) {
         // Узнаем какой сегодня день
         let date = Date()
         var weekday = Calendar.current.component(.weekday, from: date)
@@ -38,7 +45,7 @@ final class HomePresenter: HomePresenterProtocol {
                 let data = try await interactor.requestDataForTodayView()
                 data.forEach { model in
                     if model.day == currentDay {
-                        view.updateDataInTodayView(withData: model.list)
+                        view.update(data: model.list, inCarouselView: carouselView)
                     }
                 }
             } catch let error as MyNetworkError {
@@ -49,11 +56,11 @@ final class HomePresenter: HomePresenterProtocol {
         }
     }
     
-    func getDataForUpdatesView() {
+    private func getDataForUpdatesView(carouselView: CarouselView) {
 //        interactor.requestDataForUpdatesView()
     }
     
-    func getImageFromData(_ data: [GetTitleModel]?, index: Int, identifier: CarouselView) {
+    func getImage(fromData data: [GetTitleModel]?, withIndex index: Int, forCarouselView carouselView: CarouselView) {
         guard let data = data else {
             return
         }
@@ -64,9 +71,8 @@ final class HomePresenter: HomePresenterProtocol {
                 var newData = data
                 newData[index].posters.original.image = imageData
                 newData[index].posters.original.loadingImage = false
-                view.update(data: newData, inView: identifier)
+                view.update(data: newData, inCarouselView: carouselView)
             } catch let error as MyNetworkError {
-                let errorMessage = error
                 view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: error.description)
             } catch {
                 view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: error.localizedDescription)

@@ -12,8 +12,7 @@ protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
     func showErrorAlert(withTitle title: String, message: String)
-    func updateDataInTodayView(withData data: [GetTitleModel])
-    func update(data: [GetTitleModel], inView view: CarouselView)
+    func update(data: [GetTitleModel], inCarouselView carouselView: CarouselView)
 }
 
 final class HomeViewController: UIViewController, HomeViewProtocol {
@@ -91,7 +90,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         let cellWidth: CGFloat = 300
         todayCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.today, buttonTitle: Strings.HomeModule.ButtonTitle.allDays, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: true)
         todayCarouselView.delegate = self
-        presenter.getDataForTodayView()
+        presenter.getDataFor(carouselView: todayCarouselView, typeView: .todayCarouselView)
         vContentStackView.addArrangedSubview(todayCarouselView)
     }
     
@@ -101,7 +100,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         let cellWidth: CGFloat = 200
         updatesCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.updates, buttonTitle: Strings.HomeModule.ButtonTitle.all, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
         updatesCarouselView.delegate = self
-        presenter.getDataForUpdatesView()
+        presenter.getDataFor(carouselView: updatesCarouselView, typeView: .updatesCarouselView)
         vContentStackView.addArrangedSubview(updatesCarouselView)
     }
     
@@ -115,13 +114,9 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
             self.present(alertController, animated: true)
         }
     }
-    
-    func updateDataInTodayView(withData data: [GetTitleModel]) {
-        todayCarouselView.data = data
-    }
-    
-    func update(data: [GetTitleModel], inView view: CarouselView) {
-        view.data = data
+        
+    func update(data: [GetTitleModel], inCarouselView carouselView: CarouselView) {
+        carouselView.data = data
     }
     
 }
@@ -143,8 +138,8 @@ extension HomeViewController: CarouselViewProtocol {
         presenter.titleButtonAction()
     }
     
-    func getImage(fromData data: [GetTitleModel]?, index: Int, identifier: CarouselView) {
-        presenter.getImageFromData(data, index: index, identifier: identifier)
+    func getImage(fromData data: [GetTitleModel]?, withIndex index: Int, forCarouselView carouselView: CarouselView) {
+        presenter.getImage(fromData: data, withIndex: index, forCarouselView: carouselView)
     }
 }
 

@@ -10,7 +10,7 @@ import UIKit
 protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(sender: UIButton)
     func cellClicked()
-    func getImage(fromData data: [GetTitleModel]?, index: Int, identifier: CarouselView)
+    func getImage(fromData data: [GetTitleModel]?, withIndex index: Int, forCarouselView carouselView: CarouselView)
 }
 
 final class CarouselView: UIView {
@@ -199,7 +199,7 @@ extension CarouselView: UICollectionViewDataSource {
         cell.titleLabel.text = data?[index].names.ru
         guard let imageData = data?[index].posters.original.image, data?[index].posters.original.loadingImage == false else {
             data?[index].posters.original.loadingImage = true
-            delegate?.getImage(fromData: data, index: index, identifier: self)
+            delegate?.getImage(fromData: data, withIndex: index, forCarouselView: self)
             return cell
         }
         let image = UIImage(data: imageData)

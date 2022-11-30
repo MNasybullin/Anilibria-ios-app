@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+enum CarouselViewType {
+    case todayCarouselView
+    case updatesCarouselView
+}
