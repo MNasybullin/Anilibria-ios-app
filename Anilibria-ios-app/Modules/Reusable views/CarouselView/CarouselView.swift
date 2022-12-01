@@ -10,10 +10,14 @@ import UIKit
 protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(sender: UIButton)
     func cellClicked()
-    func getImage(fromData data: [GetTitleModel]?, withIndex index: Int, forCarouselView carouselView: CarouselView)
+    
+//    func getData(forIndex index: Int, forCarouselView carouselView: CarouselView)
+    
+    func getImage(forIndex index: Int, forCarouselView carouselView: CarouselView)
 }
 
 final class CarouselView: UIView {
+    weak var delegate: CarouselViewProtocol?
     
     // MARK: - Private Properties
     private let cellIdentifier = "CarouselCell"
@@ -28,9 +32,9 @@ final class CarouselView: UIView {
     private var titleButton = UIButton()
     private var carouselView: UICollectionView!
     
-    var cellFocusAnimation: Bool!
+    private var cellFocusAnimation: Bool!
     
-    var data: [GetTitleModel]? {
+    var data: [CarouselViewModel]? {
         didSet {
             DispatchQueue.main.async {
                 self.carouselView.reloadData()
@@ -38,8 +42,6 @@ final class CarouselView: UIView {
         }
     }
     
-    weak var delegate: CarouselViewProtocol?
-        
     init(withTitle title: String, buttonTitle: String, imageSize: CGSize, cellFocusAnimation: Bool) {
         super.init(frame: .zero)
         self.imageSize = imageSize
@@ -55,14 +57,14 @@ final class CarouselView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func getCellSize() -> CGSize {
+    private func getCellSize() -> CGSize {
         let cell = CarouselCollectionViewCell()
         let titleLabelHeight = cell.titleLabel.font.lineHeight * CGFloat(cell.titleLabel.numberOfLines)
         return CGSize(width: imageSize.width, height: imageSize.height + titleLabelHeight + CarouselCollectionViewCell.stackSpacing)
     }
     
     // MARK: - vContentStackView
-    func configureVContentStackView() {
+    private func configureVContentStackView() {
         self.addSubview(vContentStackView)
         vContentStackView.axis = .vertical
         vContentStackView.spacing = 6
@@ -70,7 +72,7 @@ final class CarouselView: UIView {
         setVContentStackViewConstraints()
     }
     
-    func setVContentStackViewConstraints() {
+    private func setVContentStackViewConstraints() {
         vContentStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             vContentStackView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -81,7 +83,7 @@ final class CarouselView: UIView {
     }
     
     // MARK: - hTitleAndButtonStackView
-    func configureHTitleAndButtonStackView(withTitle title: String, buttonTitle: String) {
+    private func configureHTitleAndButtonStackView(withTitle title: String, buttonTitle: String) {
         vContentStackView.addArrangedSubview(hTitleAndButtonStackView)
         hTitleAndButtonStackView.axis = .horizontal
         hTitleAndButtonStackView.spacing = 6
@@ -93,12 +95,12 @@ final class CarouselView: UIView {
         setHTitleAndButtonStackViewConstraints()
     }
     
-    func setHTitleAndButtonStackViewConstraints() {
+    private func setHTitleAndButtonStackViewConstraints() {
         hTitleAndButtonStackView.widthAnchor.constraint(equalTo: vContentStackView.widthAnchor).isActive = true
     }
     
     // MARK: - titleLabel
-    func configureTitleLabel(withTitle title: String) {
+    private func configureTitleLabel(withTitle title: String) {
         hTitleAndButtonStackView.addArrangedSubview(titleLabel)
         titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
@@ -106,14 +108,14 @@ final class CarouselView: UIView {
         setTitleLabelConstraints()
     }
     
-    func setTitleLabelConstraints() {
+    private func setTitleLabelConstraints() {
         titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: vContentStackView.leadingAnchor, constant: 16).isActive = true
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     
     // MARK: - titleButton
-    func configureTitleButton(withTitle title: String) {
+    private func configureTitleButton(withTitle title: String) {
         hTitleAndButtonStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(title, for: .normal)
         titleButton.setTitleColor(UIColor.label, for: .normal)
@@ -123,7 +125,7 @@ final class CarouselView: UIView {
         setTitleButtonConstraints()
     }
     
-    func setTitleButtonConstraints() {
+    private func setTitleButtonConstraints() {
         guard let lineHeight = titleButton.titleLabel?.font.lineHeight else {
             return
         }
@@ -132,12 +134,13 @@ final class CarouselView: UIView {
         titleButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
-    @objc func titleButtonAction(sender: UIButton) {
+    @objc private func titleButtonAction(sender: UIButton) {
+        // отключать кнопку если данные еще не загрузились!
         delegate?.titleButtonAction(sender: sender)
     }
     
     // MARK: - carouselView
-    func configureCarouselView() {
+    private func configureCarouselView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: cellLineSpacing, bottom: 0, right: cellLineSpacing)
@@ -155,7 +158,7 @@ final class CarouselView: UIView {
         carouselView.dataSource = self
     }
     
-    func setCarouselViewConstraints() {
+    private func setCarouselViewConstraints() {
         carouselView.heightAnchor.constraint(greaterThanOrEqualToConstant: cellSize.height).isActive = true
     }
     
@@ -196,13 +199,12 @@ extension CarouselView: UICollectionViewDataSource {
         }
         
         let index = indexPath.row
-        cell.titleLabel.text = data?[index].names.ru
-        guard let imageData = data?[index].posters.original.image, data?[index].posters.original.loadingImage == false else {
-            data?[index].posters.original.loadingImage = true
-            delegate?.getImage(fromData: data, withIndex: index, forCarouselView: self)
+        cell.titleLabel.text = data?[index].title
+        guard let image = data?[index].image, data?[index].imageIsLoading == false else {
+            data?[index].imageIsLoading = true
+            delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
         }
-        let image = UIImage(data: imageData)
         cell.imageView.image = image
         return cell
     }

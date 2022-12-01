@@ -12,7 +12,7 @@ protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
     func showErrorAlert(withTitle title: String, message: String)
-    func update(data: [GetTitleModel], inCarouselView carouselView: CarouselView)
+    func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView)
 }
 
 final class HomeViewController: UIViewController, HomeViewProtocol {
@@ -32,7 +32,6 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         configureVContentStackView()
         configureTodayCarouselView()
         configureUpdatesCarouselView()
-        
     }
     
     // MARK: - NavigationBarAppearance
@@ -90,7 +89,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         let cellWidth: CGFloat = 300
         todayCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.today, buttonTitle: Strings.HomeModule.ButtonTitle.allDays, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: true)
         todayCarouselView.delegate = self
-        presenter.getDataFor(carouselView: todayCarouselView, typeView: .todayCarouselView)
+        presenter.getDataFor(carouselView: todayCarouselView, viewType: .todayCarouselView)
         vContentStackView.addArrangedSubview(todayCarouselView)
     }
     
@@ -100,8 +99,19 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         let cellWidth: CGFloat = 200
         updatesCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.updates, buttonTitle: Strings.HomeModule.ButtonTitle.all, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
         updatesCarouselView.delegate = self
-        presenter.getDataFor(carouselView: updatesCarouselView, typeView: .updatesCarouselView)
+        presenter.getDataFor(carouselView: updatesCarouselView, viewType: .updatesCarouselView)
         vContentStackView.addArrangedSubview(updatesCarouselView)
+    }
+    
+    func getViewType(fromCarouselView carouselView: CarouselView) -> CarouselViewType {
+        switch carouselView {
+            case todayCarouselView:
+                return .todayCarouselView
+            case updatesCarouselView:
+                return .updatesCarouselView
+            default:
+                fatalError("getViewType func does not have all CarouselViewType values")
+        }
     }
     
     // MARK: - HomeViewProtocol Functions
@@ -115,7 +125,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         }
     }
         
-    func update(data: [GetTitleModel], inCarouselView carouselView: CarouselView) {
+    func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
         carouselView.data = data
     }
     
@@ -138,8 +148,9 @@ extension HomeViewController: CarouselViewProtocol {
         presenter.titleButtonAction()
     }
     
-    func getImage(fromData data: [GetTitleModel]?, withIndex index: Int, forCarouselView carouselView: CarouselView) {
-        presenter.getImage(fromData: data, withIndex: index, forCarouselView: carouselView)
+    func getImage(forIndex index: Int, forCarouselView carouselView: CarouselView) {
+        let viewType = getViewType(fromCarouselView: carouselView)
+        presenter.getImage(forIndex: index, forViewType: viewType, forCarouselView: carouselView)
     }
 }
 

@@ -12,8 +12,8 @@ protocol HomePresenterProtocol: AnyObject {
     var interactor: HomeInteractorProtocol! { get set }
     var view: HomeViewProtocol! { get set }
     
-    func getDataFor(carouselView: CarouselView, typeView: CarouselViewType)
-    func getImage(fromData data: [GetTitleModel]?, withIndex index: Int, forCarouselView carouselView: CarouselView)
+    func getDataFor(carouselView: CarouselView, viewType: CarouselViewType)
+    func getImage(forIndex index: Int, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView)
     
     func titleButtonAction()
 }
@@ -23,8 +23,8 @@ final class HomePresenter: HomePresenterProtocol {
     var interactor: HomeInteractorProtocol!
     unowned var view: HomeViewProtocol!
     
-    func getDataFor(carouselView: CarouselView, typeView: CarouselViewType) {
-        switch typeView {
+    func getDataFor(carouselView: CarouselView, viewType: CarouselViewType) {
+        switch viewType {
             case .todayCarouselView:
                 getDataForTodayView(carouselView: carouselView)
             case .updatesCarouselView:
@@ -33,22 +33,14 @@ final class HomePresenter: HomePresenterProtocol {
     }
     
     private func getDataForTodayView(carouselView: CarouselView) {
-        // Узнаем какой сегодня день
-        let date = Date()
-        var weekday = Calendar.current.component(.weekday, from: date)
-        // Текущий день по enum DaysOfTheWeek (0 - Понедельник)
-        weekday -= 2
-        weekday = weekday < 0 ? 6 : weekday
-        let currentDay = DaysOfTheWeek(rawValue: weekday)
+        let currentDay = DaysOfTheWeek.currentDayOfTheWeek()
         Task {
             do {
-                let data = try await interactor.requestDataForTodayView()
-                data.forEach { model in
-                    if model.day == currentDay {
-                        view.update(data: model.list, inCarouselView: carouselView)
-                    }
-                }
+                let data = try await interactor.requestDataForTodayView(withDayOfTheWeek: currentDay)
+                view.update(data: data, inCarouselView: carouselView)
             } catch let error as MyNetworkError {
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
+            } catch let error as MyInternalError {
                 view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
             } catch {
                 view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.localizedDescription)
@@ -60,20 +52,17 @@ final class HomePresenter: HomePresenterProtocol {
 //        interactor.requestDataForUpdatesView()
     }
     
-    func getImage(fromData data: [GetTitleModel]?, withIndex index: Int, forCarouselView carouselView: CarouselView) {
-        guard let data = data else {
-            return
-        }
-        
+    func getImage(forIndex index: Int, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView) {
         Task {
             do {
-                let imageData = try await interactor.requestImageFromData(withURLString: data[index].posters.original.url)
-                var newData = data
-                newData[index].posters.original.image = imageData
-                newData[index].posters.original.loadingImage = false
-                view.update(data: newData, inCarouselView: carouselView)
+                guard let data = try await interactor.requestImageFromData(forIndex: index, forViewType: viewType) else {
+                    return
+                }
+                view.update(data: data, inCarouselView: carouselView)
             } catch let error as MyNetworkError {
                 view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: error.description)
+            } catch let error as MyInternalError {
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
             } catch {
                 view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: error.localizedDescription)
             }

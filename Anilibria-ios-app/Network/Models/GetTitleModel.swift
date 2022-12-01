@@ -18,7 +18,7 @@ struct GetTitleModel: Codable {
     let names: GTNames
     let announce: String?
     let status: GTStatus
-    var posters: GTPosters
+    let posters: GTPosters
     let updated: Int
     let last_change: Int
     let type: GTType
@@ -47,13 +47,11 @@ struct GTStatus: Codable {
 struct GTPosters: Codable {
     let small: GTPoster
     let medium: GTPoster
-    var original: GTPoster
+    let original: GTPoster
 }
 
 struct GTPoster: Codable {
     let url: String
-    var image: Data? // not in api
-    var loadingImage: Bool? // not in api
 }
 
 struct GTType: Codable {

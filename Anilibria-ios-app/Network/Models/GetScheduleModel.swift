@@ -23,4 +23,13 @@ enum DaysOfTheWeek: Int, Codable {
          friday = 4,
          saturday = 5,
          sunday = 6
+    
+    static func currentDayOfTheWeek() -> DaysOfTheWeek {
+        let date = Date()
+        var weekday = Calendar.current.component(.weekday, from: date)
+        // enum DaysOfTheWeek (0 - Понедельник), а по Calendar (2 - Понедельник)
+        weekday -= 2
+        weekday = weekday < 0 ? 6 : weekday
+        return DaysOfTheWeek(rawValue: weekday)!
+    }
 }

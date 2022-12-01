@@ -43,6 +43,10 @@
 // MARK: - Image Error
 "ImageError.failedToInitialize" = "Не удалось инициализировать изображение из загруженных данных.";
 
+// MARK: - Internal Error
+
+"InternalError.failedToFetchData" = "Не удалось извлечь данные";
+
 // MARK: - TabBar Controllers
 "TabBarControllers.home.title" = "Главное";
 "TabBarControllers.home.image" = "house.fill";
