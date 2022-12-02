@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import SkeletonView
+
+#warning("подумать над footer")
 
 protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(sender: UIButton)
@@ -36,9 +39,7 @@ final class CarouselView: UIView {
     
     var data: [CarouselViewModel]? {
         didSet {
-            DispatchQueue.main.async {
-                self.carouselView.reloadData()
-            }
+            reloadData()
         }
     }
     
@@ -51,12 +52,14 @@ final class CarouselView: UIView {
         configureVContentStackView()
         configureHTitleAndButtonStackView(withTitle: title, buttonTitle: buttonTitle)
         configureCarouselView()
+        // Для корректной работы SkeletonView
+        reloadData()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+        
     private func getCellSize() -> CGSize {
         let cell = CarouselCollectionViewCell()
         let titleLabelHeight = cell.titleLabel.font.lineHeight * CGFloat(cell.titleLabel.numberOfLines)
@@ -162,6 +165,12 @@ final class CarouselView: UIView {
         carouselView.heightAnchor.constraint(greaterThanOrEqualToConstant: cellSize.height).isActive = true
     }
     
+    private func reloadData() {
+        DispatchQueue.main.async {
+            self.carouselView.reloadData()
+        }
+    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -191,21 +200,21 @@ extension CarouselView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
-        
-        cell.titleLabel.text = ""
-        cell.imageView.image = UIImage(asset: Asset.Assets.defaultTitleImage)
+        cell.showAnimatedSkeleton()
         guard data != nil else {
             return cell
         }
         
         let index = indexPath.row
         cell.titleLabel.text = data?[index].title
+        cell.titleLabel.hideSkeleton()
         guard let image = data?[index].image, data?[index].imageIsLoading == false else {
             data?[index].imageIsLoading = true
             delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
         }
         cell.imageView.image = image
+        cell.imageView.hideSkeleton()
         return cell
     }
     

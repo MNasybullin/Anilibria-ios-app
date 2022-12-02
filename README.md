@@ -7,6 +7,7 @@ iOS App for Anilibria.tv
 - Firebase (https://firebase.google.com) | Swift Package Manager
     - FirebaseAnalytics
     - FirebaseMessaging
+- SkeletonView (https://github.com/Juanpe/SkeletonView.git) | Swift Package Manager
 
 ## AniLibria API – v2.13.1
 - https://github.com/anilibria/docs/blob/master/api_v2.md

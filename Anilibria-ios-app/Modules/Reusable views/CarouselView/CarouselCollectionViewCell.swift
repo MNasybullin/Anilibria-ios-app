@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 final class CarouselCollectionViewCell: UICollectionViewCell {
     // MARK: - Public Static Constants
@@ -18,6 +19,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         stack.spacing = stackSpacing
         stack.distribution = .fill
 //        stack.backgroundColor = .green //
+        stack.isSkeletonable = true
         return stack
     }()
     
@@ -28,6 +30,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
 //        image.backgroundColor = .blue //
         image.layer.cornerRadius = 12
         image.layer.masksToBounds = true
+        image.isSkeletonable = true
         return image
     }()
     
@@ -38,6 +41,8 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
 //        label.backgroundColor = .yellow // 
         label.textColor = .systemGray
         label.textAlignment = .left
+        label.linesCornerRadius = 5
+        label.isSkeletonable = true
         return label
     }()
     
@@ -47,7 +52,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         vStack.addArrangedSubview(titleLabel)
         contentView.addSubview(vStack)
         setupConstraints()
-    
+        isSkeletonable = true
     }
     
     required init?(coder: NSCoder) {
