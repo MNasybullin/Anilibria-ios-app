@@ -34,6 +34,13 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         configureUpdatesCarouselView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        Для корректного отображения SkeletonView
+        todayCarouselView.reloadData()
+        updatesCarouselView.reloadData()
+    }
+    
     // MARK: - NavigationBarAppearance
     func configureNavigationBarAppearance() {
         let navigationBarAppearance = UINavigationBarAppearance()

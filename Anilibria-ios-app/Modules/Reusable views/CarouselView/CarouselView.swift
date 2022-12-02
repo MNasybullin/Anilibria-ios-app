@@ -19,6 +19,7 @@ protocol CarouselViewProtocol: AnyObject {
     func getImage(forIndex index: Int, forCarouselView carouselView: CarouselView)
 }
 
+/// - Для корректного отображения SkeletonView, необходимо в viewDidAppear вызвать reloadData() данного CarouselView
 final class CarouselView: UIView {
     weak var delegate: CarouselViewProtocol?
     
@@ -52,8 +53,6 @@ final class CarouselView: UIView {
         configureVContentStackView()
         configureHTitleAndButtonStackView(withTitle: title, buttonTitle: buttonTitle)
         configureCarouselView()
-        // Для корректной работы SkeletonView
-        reloadData()
     }
     
     required init?(coder: NSCoder) {
@@ -165,7 +164,7 @@ final class CarouselView: UIView {
         carouselView.heightAnchor.constraint(greaterThanOrEqualToConstant: cellSize.height).isActive = true
     }
     
-    private func reloadData() {
+    func reloadData() {
         DispatchQueue.main.async {
             self.carouselView.reloadData()
         }
@@ -207,14 +206,14 @@ extension CarouselView: UICollectionViewDataSource {
         
         let index = indexPath.row
         cell.titleLabel.text = data?[index].title
-        cell.titleLabel.hideSkeleton()
+        cell.titleLabel.hideSkeleton(reloadDataAfter: false)
         guard let image = data?[index].image, data?[index].imageIsLoading == false else {
             data?[index].imageIsLoading = true
             delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
         }
         cell.imageView.image = image
-        cell.imageView.hideSkeleton()
+        cell.imageView.hideSkeleton(reloadDataAfter: false)
         return cell
     }
     
