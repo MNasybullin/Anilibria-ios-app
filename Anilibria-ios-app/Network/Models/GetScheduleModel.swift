@@ -33,3 +33,24 @@ enum DaysOfTheWeek: Int, Codable {
         return DaysOfTheWeek(rawValue: weekday)!
     }
 }
+
+extension DaysOfTheWeek: CustomStringConvertible {
+    var description: String {
+        switch self {
+            case .monday:
+                return Strings.DaysOfTheWeek.monday
+            case .tuesday:
+                return Strings.DaysOfTheWeek.tuesday
+            case .wednesday:
+                return Strings.DaysOfTheWeek.wednesday
+            case .thursday:
+                return Strings.DaysOfTheWeek.thursday
+            case .friday:
+                return Strings.DaysOfTheWeek.friday
+            case .saturday:
+                return Strings.DaysOfTheWeek.saturday
+            case .sunday:
+                return Strings.DaysOfTheWeek.sunday
+        }
+    }
+}

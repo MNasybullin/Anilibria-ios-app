@@ -44,8 +44,16 @@
 "ImageError.failedToInitialize" = "Не удалось инициализировать изображение из загруженных данных.";
 
 // MARK: - Internal Error
-
 "InternalError.failedToFetchData" = "Не удалось извлечь данные";
+
+// MARK: - Days Of The Week
+"DaysOfTheWeek.monday" = "Понедельник";
+"DaysOfTheWeek.tuesday" = "Вторник";
+"DaysOfTheWeek.wednesday" = "Среда";
+"DaysOfTheWeek.thursday" = "Четверг";
+"DaysOfTheWeek.friday" = "Пятница";
+"DaysOfTheWeek.saturday" = "Суббота";
+"DaysOfTheWeek.sunday" = "Воскресенье";
 
 // MARK: - TabBar Controllers
 "TabBarControllers.home.title" = "Главное";
