@@ -9,8 +9,9 @@ import UIKit
 import SkeletonView
 
 final class CarouselCollectionViewCell: UICollectionViewCell {
-    // MARK: - Public Static Constants
-    public static let stackSpacing: CGFloat = 6
+    // MARK: - Static Constants
+    static let stackSpacing: CGFloat = 6
+    static let titleLableHeight: CGFloat = labelFont.lineHeight * CGFloat(labelNumberOfLines)
     
     var vStack: UIStackView = {
         let stack = UIStackView()
@@ -34,10 +35,13 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         return image
     }()
     
+    static let labelFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+    static let labelNumberOfLines = 2
+    
     var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.numberOfLines = 2
+        label.font = labelFont
+        label.numberOfLines = labelNumberOfLines
 //        label.backgroundColor = .yellow // 
         label.textColor = .systemGray
         label.textAlignment = .left

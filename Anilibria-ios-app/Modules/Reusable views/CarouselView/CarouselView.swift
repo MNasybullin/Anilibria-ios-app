@@ -8,8 +8,6 @@
 import UIKit
 import SkeletonView
 
-#warning("подумать над footer")
-
 protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(sender: UIButton)
     func cellClicked()
@@ -47,7 +45,7 @@ final class CarouselView: UIView {
     init(withTitle title: String, buttonTitle: String, imageSize: CGSize, cellFocusAnimation: Bool) {
         super.init(frame: .zero)
         self.imageSize = imageSize
-        cellSize = getCellSize()
+        self.cellSize = CGSize(width: imageSize.width, height: imageSize.height + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLableHeight)
         self.cellFocusAnimation = cellFocusAnimation
 
         configureVContentStackView()
@@ -57,12 +55,6 @@ final class CarouselView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-        
-    private func getCellSize() -> CGSize {
-        let cell = CarouselCollectionViewCell()
-        let titleLabelHeight = cell.titleLabel.font.lineHeight * CGFloat(cell.titleLabel.numberOfLines)
-        return CGSize(width: imageSize.width, height: imageSize.height + titleLabelHeight + CarouselCollectionViewCell.stackSpacing)
     }
     
     // MARK: - vContentStackView
@@ -174,7 +166,7 @@ final class CarouselView: UIView {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension CarouselView: UICollectionViewDelegateFlowLayout {
+//extension CarouselView: UICollectionViewDelegateFlowLayout {
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 //        return CGSize(width: cellSize.width, height: cellSize.height)
 //    }
@@ -186,11 +178,11 @@ extension CarouselView: UICollectionViewDelegateFlowLayout {
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
 //        return UIEdgeInsets(top: 0, left: cellLineSpacing, bottom: 0, right: cellLineSpacing)
 //    }
-}
+//}
 
-// MARK: - UICollectionViewDataSource
+// MARK: - UICollectionViewDataSource && UICollectionViewDelegate
 
-extension CarouselView: UICollectionViewDataSource {
+extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data?.count ?? 5
     }
@@ -203,7 +195,10 @@ extension CarouselView: UICollectionViewDataSource {
             cell.showAnimatedSkeleton()
             return cell
         }
-        
+//        cell.showAnimatedSkeleton()
+//        cell.titleLabel.text = "Я почему-то стал сильнее, прокачав свой навык фермерства"
+//        cell.titleLabel.hideSkeleton(reloadDataAfter: false)
+
         let index = indexPath.row
         cell.titleLabel.text = data?[index].title
         cell.titleLabel.hideSkeleton(reloadDataAfter: false)
