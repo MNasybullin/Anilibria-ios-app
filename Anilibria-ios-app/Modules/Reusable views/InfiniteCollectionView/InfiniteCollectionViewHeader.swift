@@ -5,8 +5,8 @@
 //  Created by Mansur Nasybullin on 04.12.2022.
 //
 
-import Foundation
 import UIKit
+import SkeletonView
 
 final class InfiniteCollectionViewHeader: UICollectionReusableView {
     // MARK: - Static Constants
@@ -23,12 +23,16 @@ final class InfiniteCollectionViewHeader: UICollectionReusableView {
         label.textColor = .label
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
+        label.linesCornerRadius = 5
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(titleLabel)
+        isSkeletonable = true
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

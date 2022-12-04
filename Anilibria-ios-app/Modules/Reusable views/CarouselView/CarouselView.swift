@@ -195,9 +195,6 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
             cell.showAnimatedSkeleton()
             return cell
         }
-//        cell.showAnimatedSkeleton()
-//        cell.titleLabel.text = "Я почему-то стал сильнее, прокачав свой навык фермерства"
-//        cell.titleLabel.hideSkeleton(reloadDataAfter: false)
 
         let index = indexPath.row
         cell.titleLabel.text = data?[index].title

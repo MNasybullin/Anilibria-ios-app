@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import SkeletonView
 
 protocol InfiniteCollectionViewProtocol: AnyObject {
-    
+    func getImage(forSection section: Int, forIndex index: Int)
 }
 
+/// - Для корректного отображения SkeletonView, необходимо в viewDidAppear вызвать reloadData() данного InfiniteCollectionView
 final class InfiniteCollectionView: UIView {
     weak var delegate: InfiniteCollectionViewProtocol?
     
@@ -21,7 +23,7 @@ final class InfiniteCollectionView: UIView {
     
     private var collectionView: UICollectionView!
     
-    var data: InfiniteCollectionViewModel? {
+    var data: [InfiniteCollectionViewModel]? {
         didSet {
             reloadData()
         }
@@ -95,27 +97,47 @@ extension InfiniteCollectionView: UICollectionViewDelegateFlowLayout {
 extension InfiniteCollectionView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return data?.count ?? 3
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier, for: indexPath) as? InfiniteCollectionViewHeader else {
             fatalError("HeaderView is doesn`t InfiniteCollectionViewHeader")
         }
-        header.titleLabel.text = "Header title label"
+        guard data != nil else {
+            header.showAnimatedSkeleton()
+            return header
+        }
+        let index = indexPath.row
+        header.titleLabel.text = data?[index].headerString
+        header.hideSkeleton(reloadDataAfter: false)
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return data?[section].list.count ?? 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
-        cell.titleLabel.text = "Infinite Collection View as"
-        cell.imageView.image = UIImage(asset: Asset.Assets.defaultTitleImage)
+        guard data != nil else {
+            cell.showAnimatedSkeleton()
+            return cell
+        }
+                
+        let section = indexPath.section
+        let index = indexPath.row
+        cell.titleLabel.text = data?[section].list[index].title
+        cell.titleLabel.hideSkeleton(reloadDataAfter: false)
+        guard let image = data?[section].list[index].image, data?[section].list[index].imageIsLoading == false else {
+            data?[section].list[index].imageIsLoading = true
+            delegate?.getImage(forSection: section, forIndex: index)
+            return cell
+        }
+        cell.imageView.image = image
+        cell.imageView.hideSkeleton(reloadDataAfter: false)
         return cell
     }
     

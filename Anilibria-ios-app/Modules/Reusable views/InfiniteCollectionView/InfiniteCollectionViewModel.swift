@@ -8,5 +8,6 @@
 import Foundation
 
 struct InfiniteCollectionViewModel {
-    
+    var headerString: String
+    var list: [CarouselViewModel]
 }
