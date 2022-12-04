@@ -8,10 +8,17 @@
 import UIKit
 import SkeletonView
 
+/// https://stackoverflow.com/questions/1054558/vertically-align-text-to-top-within-a-uilabel/10085999
+final class TopAlignedLabel: UILabel {
+  override func drawText(in rect: CGRect) {
+    super.drawText(in: .init(origin: .zero, size: textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines).size))
+  }
+}
+
 final class CarouselCollectionViewCell: UICollectionViewCell {
     // MARK: - Static Constants
     static let stackSpacing: CGFloat = 6
-    static let titleLableHeight: CGFloat = labelFont.lineHeight * CGFloat(labelNumberOfLines)
+    static let titleLableHeight: CGFloat = labelFont.lineHeight * CGFloat(labelNumberOfLines) + 0.1
     
     var vStack: UIStackView = {
         let stack = UIStackView()
@@ -38,8 +45,8 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
     static let labelFont = UIFont.systemFont(ofSize: 16, weight: .medium)
     static let labelNumberOfLines = 2
     
-    var titleLabel: UILabel = {
-        let label = UILabel()
+    var titleLabel: TopAlignedLabel = {
+        let label = TopAlignedLabel()
         label.font = labelFont
         label.numberOfLines = labelNumberOfLines
 //        label.backgroundColor = .yellow // 
@@ -70,7 +77,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
             vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight * CGFloat(titleLabel.numberOfLines))
+            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight * CGFloat(titleLabel.numberOfLines) + 0.1)
         ])
     }
 }
