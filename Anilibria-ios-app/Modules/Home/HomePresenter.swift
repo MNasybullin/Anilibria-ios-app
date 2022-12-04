@@ -49,7 +49,16 @@ final class HomePresenter: HomePresenterProtocol {
     }
     
     private func getDataForUpdatesView(carouselView: CarouselView) {
-//        interactor.requestDataForUpdatesView()
+        Task {
+            do {
+                let data = try await interactor.requestDataForUpdatesView()
+                view.update(data: data, inCarouselView: carouselView)
+            } catch let error as MyNetworkError {
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
+            } catch {
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.localizedDescription)
+            }
+        }
     }
     
     func getImage(forIndex index: Int, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView) {

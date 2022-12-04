@@ -12,7 +12,7 @@ protocol HomeInteractorProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel]
-    
+    func requestDataForUpdatesView() async throws -> [CarouselViewModel]
     func requestImageFromData(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> [CarouselViewModel]?
 
 }
@@ -38,6 +38,22 @@ final class HomeInteractor: HomeInteractorProtocol {
             }
             todayCarouselViewModel = carouselViewModelArray
             todayGetTitleModel = firstScheduleModel.list
+            return carouselViewModelArray
+        } catch {
+            throw error
+        }
+    }
+    
+    func requestDataForUpdatesView() async throws -> [CarouselViewModel] {
+        do {
+            let titleModel = try await QueryService.shared.getUpdates()
+            
+            var carouselViewModelArray = [CarouselViewModel]()
+            titleModel.forEach {
+                carouselViewModelArray.append(CarouselViewModel(title: $0.names.ru))
+            }
+            updatesCarouselViewModel = carouselViewModelArray
+            updatesGetTitleModel = titleModel
             return carouselViewModelArray
         } catch {
             throw error
