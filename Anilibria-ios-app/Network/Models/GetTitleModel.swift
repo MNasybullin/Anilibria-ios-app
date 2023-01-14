@@ -40,8 +40,8 @@ struct GTNames: Codable {
 }
 
 struct GTStatus: Codable {
-    let string: String
-    let code: Int
+    let string: String?
+    let code: Int?
 }
 
 struct GTPosters: Codable {
@@ -51,7 +51,7 @@ struct GTPosters: Codable {
 }
 
 struct GTPoster: Codable {
-    let url: String
+    let url: String?
 }
 
 struct GTType: Codable {
