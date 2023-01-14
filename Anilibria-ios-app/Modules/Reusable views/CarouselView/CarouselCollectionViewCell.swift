@@ -18,7 +18,7 @@ final class TopAlignedLabel: UILabel {
 final class CarouselCollectionViewCell: UICollectionViewCell {
     // MARK: - Static Constants
     static let stackSpacing: CGFloat = 6
-    static let titleLableHeight: CGFloat = labelFont.lineHeight * CGFloat(labelNumberOfLines) + 0.1
+    static let titleLabelHeight: CGFloat = labelFont.lineHeight * CGFloat(labelNumberOfLines) + 0.1
     
     var vStack: UIStackView = {
         let stack = UIStackView()

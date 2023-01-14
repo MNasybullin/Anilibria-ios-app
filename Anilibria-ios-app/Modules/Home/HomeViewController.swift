@@ -29,6 +29,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
 
         configureNavigationBarAppearance()
         configureScrollView()
+        configureRefreshControl()
         configureVContentStackView()
         configureTodayCarouselView()
         configureUpdatesCarouselView()
@@ -69,6 +70,26 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
             
             contentGuide.widthAnchor.constraint(equalTo: frameGuide.widthAnchor)
         ])
+    }
+    
+    // MARK: - RefreshControl
+    func configureRefreshControl() {
+        scrollView.refreshControl = UIRefreshControl()
+        scrollView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
+        todayCarouselView.data = nil
+        todayCarouselView.reloadData()
+        updatesCarouselView.data = nil
+        updatesCarouselView.reloadData()
+        
+        presenter.getDataFor(carouselView: todayCarouselView, viewType: .todayCarouselView)
+        presenter.getDataFor(carouselView: updatesCarouselView, viewType: .updatesCarouselView)
+        
+        DispatchQueue.main.async {
+            self.scrollView.refreshControl?.endRefreshing()
+        }
     }
         
     // MARK: - vContentStackView

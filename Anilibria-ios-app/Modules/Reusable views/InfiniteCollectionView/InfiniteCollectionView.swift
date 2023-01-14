@@ -84,7 +84,7 @@ extension InfiniteCollectionView: UICollectionViewDelegateFlowLayout {
         let screenWidth = collectionView.bounds.width
         let multiplier: CGFloat = 500 / 350
         let itemWidth = (screenWidth / 2) - cellLineSpacing
-        return CGSize(width: itemWidth, height: itemWidth * multiplier + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLableHeight)
+        return CGSize(width: itemWidth, height: itemWidth * multiplier + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

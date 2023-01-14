@@ -36,14 +36,14 @@ final class CarouselView: UIView {
     
     private var cellFocusAnimation: Bool!
     
-    private var data: [CarouselViewModel]?
+    var data: [CarouselViewModel]?
     
     /// - Parameters:
     ///     - cellFocusAnimation: Анимация перелистывания ячеек (ячейка всегда в центре).
     init(withTitle title: String, buttonTitle: String, imageSize: CGSize, cellFocusAnimation: Bool) {
         super.init(frame: .zero)
         self.imageSize = imageSize
-        self.cellSize = CGSize(width: imageSize.width, height: imageSize.height + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLableHeight)
+        self.cellSize = CGSize(width: imageSize.width, height: imageSize.height + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight)
         self.cellFocusAnimation = cellFocusAnimation
 
         configureVContentStackView()
