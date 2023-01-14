@@ -36,12 +36,10 @@ final class CarouselView: UIView {
     
     private var cellFocusAnimation: Bool!
     
-    var data: [CarouselViewModel]? {
-        didSet {
-            reloadData()
-        }
-    }
+    private var data: [CarouselViewModel]?
     
+    /// - Parameters:
+    ///     - cellFocusAnimation: Анимация перелистывания ячеек (ячейка всегда в центре).
     init(withTitle title: String, buttonTitle: String, imageSize: CGSize, cellFocusAnimation: Bool) {
         super.init(frame: .zero)
         self.imageSize = imageSize
@@ -156,12 +154,16 @@ final class CarouselView: UIView {
         carouselView.heightAnchor.constraint(greaterThanOrEqualToConstant: cellSize.height).isActive = true
     }
     
+    func updateData(data: [CarouselViewModel]) {
+        self.data = data
+        reloadData()
+    }
+    
     func reloadData() {
         DispatchQueue.main.async {
             self.carouselView.reloadData()
         }
     }
-    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout

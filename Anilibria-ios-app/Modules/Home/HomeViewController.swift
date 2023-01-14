@@ -133,7 +133,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
         
     func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
-        carouselView.data = data
+        carouselView.updateData(data: data)
     }
     
 }
