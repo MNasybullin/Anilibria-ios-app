@@ -39,6 +39,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         image.layer.cornerRadius = 12
         image.layer.masksToBounds = true
         image.isSkeletonable = true
+        image.skeletonCornerRadius = 12
         return image
     }()
     
