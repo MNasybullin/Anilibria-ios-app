@@ -36,7 +36,7 @@ final class CarouselView: UIView {
     
     private var cellFocusAnimation: Bool!
     
-    var data: [CarouselViewModel]?
+    var carouselData: [CarouselViewModel]?
     
     /// - Parameters:
     ///     - cellFocusAnimation: Анимация перелистывания ячеек (ячейка всегда в центре).
@@ -155,13 +155,13 @@ final class CarouselView: UIView {
     }
     
     func deleteData() {
-        data = nil
+        carouselData = nil
         carouselView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
         reloadData()
     }
     
-    func updateData(data: [CarouselViewModel]) {
-        self.data = data
+    func updateData(_ data: [CarouselViewModel]) {
+        carouselData = data
         reloadData()
     }
     
@@ -192,14 +192,14 @@ final class CarouselView: UIView {
 
 extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data?.count ?? 5
+        return carouselData?.count ?? 5
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
-        guard data != nil else {
+        guard carouselData != nil else {
             cell.titleLabel.text = nil
             cell.imageView.image = nil
             if cell.sk.isSkeletonActive == false {
@@ -209,12 +209,12 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         }
 
         let index = indexPath.row
-        cell.titleLabel.text = data?[index].title
+        cell.titleLabel.text = carouselData?[index].title
         if cell.titleLabel.sk.isSkeletonActive == true {
             cell.titleLabel.hideSkeleton(reloadDataAfter: false, transition: .none)
         }
-        guard let image = data?[index].image, data?[index].imageIsLoading == false else {
-            data?[index].imageIsLoading = true
+        guard let image = carouselData?[index].image, carouselData?[index].imageIsLoading == false else {
+            carouselData?[index].imageIsLoading = true
             delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
         }
