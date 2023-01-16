@@ -453,6 +453,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		27F5E5A4287EAB8700BCF61C /* SwiftGen */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -472,6 +473,7 @@
 		};
 		27F5E5A7287EBC6100BCF61C /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
