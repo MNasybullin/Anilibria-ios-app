@@ -199,9 +199,9 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
+        cell.titleLabel.text = nil
+        cell.imageView.image = nil
         guard carouselData != nil else {
-            cell.titleLabel.text = nil
-            cell.imageView.image = nil
             if cell.sk.isSkeletonActive == false {
                 cell.showAnimatedSkeleton()
             }
