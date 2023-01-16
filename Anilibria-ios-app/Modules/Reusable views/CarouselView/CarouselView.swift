@@ -154,6 +154,12 @@ final class CarouselView: UIView {
         carouselView.heightAnchor.constraint(greaterThanOrEqualToConstant: cellSize.height).isActive = true
     }
     
+    func deleteData() {
+        self.data = nil
+        carouselView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
+        reloadData()
+    }
+    
     func updateData(data: [CarouselViewModel]) {
         self.data = data
         reloadData()

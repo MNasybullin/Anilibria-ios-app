@@ -79,10 +79,8 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     @objc func handleRefreshControl() {
-        todayCarouselView.data = nil
-        todayCarouselView.reloadData()
-        updatesCarouselView.data = nil
-        updatesCarouselView.reloadData()
+        todayCarouselView.deleteData()
+        updatesCarouselView.deleteData()
         
         presenter.getDataFor(carouselView: todayCarouselView, viewType: .todayCarouselView)
         presenter.getDataFor(carouselView: updatesCarouselView, viewType: .updatesCarouselView)
