@@ -155,7 +155,7 @@ final class CarouselView: UIView {
     }
     
     func deleteData() {
-        self.data = nil
+        data = nil
         carouselView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
         reloadData()
     }
@@ -200,20 +200,28 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
         guard data != nil else {
-            cell.showAnimatedSkeleton()
+            cell.titleLabel.text = nil
+            cell.imageView.image = nil
+            if cell.sk.isSkeletonActive == false {
+                cell.showAnimatedSkeleton()
+            }
             return cell
         }
 
         let index = indexPath.row
         cell.titleLabel.text = data?[index].title
-        cell.titleLabel.hideSkeleton(reloadDataAfter: false)
+        if cell.titleLabel.sk.isSkeletonActive == true {
+            cell.titleLabel.hideSkeleton(reloadDataAfter: false, transition: .none)
+        }
         guard let image = data?[index].image, data?[index].imageIsLoading == false else {
             data?[index].imageIsLoading = true
             delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
         }
         cell.imageView.image = image
-        cell.imageView.hideSkeleton(reloadDataAfter: false)
+        if cell.imageView.sk.isSkeletonActive == true {
+            cell.imageView.hideSkeleton(reloadDataAfter: false, transition: .none)
+        }
         return cell
     }
     

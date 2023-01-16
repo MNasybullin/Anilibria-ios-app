@@ -38,6 +38,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        Для корректного отображения SkeletonView
+//        (При открытии приложения, без интернета)
         todayCarouselView.reloadData()
         updatesCarouselView.reloadData()
     }
