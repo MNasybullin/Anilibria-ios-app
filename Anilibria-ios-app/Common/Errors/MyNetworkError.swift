@@ -30,7 +30,7 @@ enum MyNetworkError: Error {
     case notFound
     
     /// Возникает в случае, если соединение с интернетом прервано. Code = -1009.
-    case noInternetConnection
+    case internetConnectionInterrupted
     
     /// Произошла ошибка SSL. Безопасное подключение к серверу невозможно. Code = -1200.
     case useVPN
@@ -53,8 +53,8 @@ extension MyNetworkError: CustomStringConvertible {
                 return Strings.NetworkError.unknownParameters
             case .notFound:
                 return Strings.NetworkError.notFound
-            case .noInternetConnection:
-                return Strings.NetworkError.noInternetConnection
+            case .internetConnectionInterrupted:
+                return Strings.NetworkError.internetConnectionInterrupted
             case .useVPN:
                 return Strings.NetworkError.useVPN
         }

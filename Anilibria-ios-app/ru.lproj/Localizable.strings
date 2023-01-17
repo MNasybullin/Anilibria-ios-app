@@ -37,7 +37,7 @@
 "NetworkError.unknownParameters" = "Передан неизвестный параметр.";
 "NetworkError.notFound" = "Не найдено в базе.";
 "NetworkError.userIsNotAuthorized" = "Пользователь не авторизован.";
-"NetworkError.noInternetConnection" = "Нет соединения с интернетом.";
+"NetworkError.internetConnectionInterrupted" = "Соединение с интернетом прервано.";
 "NetworkError.useVPN" = "Произошла ошибка SSL. Безопасное подключение к серверу невозможно. Воспользуйтесь VPN.";
 
 // MARK: - Image Error
@@ -45,6 +45,9 @@
 
 // MARK: - Internal Error
 "InternalError.failedToFetchData" = "Не удалось извлечь данные";
+
+// MARK: - Other Error
+"OtherError.noConnectedToInternet" = "Нет подключения к Интернету.";
 
 // MARK: - Days Of The Week
 "DaysOfTheWeek.monday" = "Понедельник";

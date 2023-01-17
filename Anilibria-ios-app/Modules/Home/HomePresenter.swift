@@ -38,12 +38,9 @@ final class HomePresenter: HomePresenterProtocol {
             do {
                 let data = try await interactor.requestDataForTodayView(withDayOfTheWeek: currentDay)
                 view.update(data: data, inCarouselView: carouselView)
-            } catch let error as MyNetworkError {
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
-            } catch let error as MyInternalError {
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
             } catch {
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.localizedDescription)
+                let message = ErrorProcessing.shared.getMessageFrom(error: error)
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: message)
             }
         }
     }
@@ -53,10 +50,9 @@ final class HomePresenter: HomePresenterProtocol {
             do {
                 let data = try await interactor.requestDataForUpdatesView()
                 view.update(data: data, inCarouselView: carouselView)
-            } catch let error as MyNetworkError {
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
             } catch {
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.localizedDescription)
+                let message = ErrorProcessing.shared.getMessageFrom(error: error)
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: message)
             }
         }
     }
@@ -68,12 +64,9 @@ final class HomePresenter: HomePresenterProtocol {
                     return
                 }
                 view.update(data: data, inCarouselView: carouselView)
-            } catch let error as MyNetworkError {
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: error.description)
-            } catch let error as MyInternalError {
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: error.description)
             } catch {
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: error.localizedDescription)
+                let message = ErrorProcessing.shared.getMessageFrom(error: error)
+                view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: message)
             }
         }
     }
