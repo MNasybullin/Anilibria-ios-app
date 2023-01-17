@@ -160,8 +160,13 @@ final class CarouselView: UIView {
         reloadData()
     }
     
-    func updateData(_ data: [CarouselViewModel]) {
+    func updateDataArray(_ data: [CarouselViewModel]) {
         carouselData = data
+        reloadData()
+    }
+    
+    func updateData(_ data: CarouselViewModel, from index: Int) {
+        carouselData?[index] = data
         reloadData()
     }
     

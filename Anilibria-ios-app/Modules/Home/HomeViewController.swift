@@ -12,7 +12,8 @@ protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
     func showErrorAlert(withTitle title: String, message: String)
-    func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView)
+    func update(dataArray: [CarouselViewModel], inCarouselView carouselView: CarouselView)
+    func update(data: CarouselViewModel, for index: Int, inCarouselView carouselView: CarouselView)
 }
 
 final class HomeViewController: UIViewController, HomeViewProtocol {
@@ -152,8 +153,12 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         }
     }
         
-    func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
-        carouselView.updateData(data)
+    func update(dataArray: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
+        carouselView.updateDataArray(dataArray)
+    }
+    
+    func update(data: CarouselViewModel, for index: Int, inCarouselView carouselView: CarouselView) {
+        carouselView.updateData(data, from: index)
     }
     
 }

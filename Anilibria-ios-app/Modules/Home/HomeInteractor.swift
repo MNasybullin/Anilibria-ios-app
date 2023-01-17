@@ -13,7 +13,7 @@ protocol HomeInteractorProtocol: AnyObject {
     
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel]
     func requestDataForUpdatesView() async throws -> [CarouselViewModel]
-    func requestImageFromData(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> [CarouselViewModel]?
+    func requestImageFromData(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> CarouselViewModel?
 
 }
 
@@ -60,23 +60,16 @@ final class HomeInteractor: HomeInteractorProtocol {
         }
     }
     
-    func requestImageFromData(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> [CarouselViewModel]? {
+    func requestImageFromData(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> CarouselViewModel? {
         var (carouselViewModel, getTitleModel) = getData(forViewType: viewType)
         guard let imageURL = getTitleModel?[index].posters.original.url else {
             throw MyInternalError.failedToFetchData
         }
-        guard carouselViewModel?[index].imageIsLoading == false else {
-            return nil
-        }
-        carouselViewModel?[index].imageIsLoading = true
-        update(carouselViewModel: carouselViewModel![index], withIndex: index, forViewType: viewType)
         do {
             let image = try await QueryService.shared.getImage(from: imageURL)
             carouselViewModel?[index].image = image
             carouselViewModel?[index].imageIsLoading = false
-            update(carouselViewModel: carouselViewModel![index], withIndex: index, forViewType: viewType)
-            let (data, _) = getData(forViewType: viewType)
-            return data
+            return carouselViewModel?[index]
         } catch {
             throw error
         }
@@ -88,15 +81,6 @@ final class HomeInteractor: HomeInteractorProtocol {
                 return (todayCarouselViewModel, todayGetTitleModel)
             case .updatesCarouselView:
                 return (updatesCarouselViewModel, updatesGetTitleModel)
-        }
-    }
-    
-    private func update(carouselViewModel: CarouselViewModel, withIndex index: Int, forViewType viewType: CarouselViewType) {
-        switch viewType {
-            case .todayCarouselView:
-                todayCarouselViewModel?[index] = carouselViewModel
-            case .updatesCarouselView:
-                updatesCarouselViewModel?[index] = carouselViewModel
         }
     }
 }
