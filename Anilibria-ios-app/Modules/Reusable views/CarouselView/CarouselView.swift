@@ -36,7 +36,7 @@ final class CarouselView: UIView {
     
     private var cellFocusAnimation: Bool!
     
-    var carouselData: [CarouselViewModel]?
+    private var carouselData: [CarouselViewModel]?
     
     /// - Parameters:
     ///     - cellFocusAnimation: Анимация перелистывания ячеек (ячейка всегда в центре).
@@ -209,19 +209,22 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         }
 
         let index = indexPath.row
-        cell.titleLabel.text = carouselData?[index].title
         if cell.titleLabel.sk.isSkeletonActive == true {
             cell.titleLabel.hideSkeleton(reloadDataAfter: false, transition: .none)
         }
+        cell.titleLabel.text = carouselData?[index].title
         guard let image = carouselData?[index].image, carouselData?[index].imageIsLoading == false else {
             carouselData?[index].imageIsLoading = true
+            if cell.imageView.sk.isSkeletonActive == false {
+                cell.imageView.showAnimatedSkeleton()
+            }
             delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
         }
-        cell.imageView.image = image
         if cell.imageView.sk.isSkeletonActive == true {
             cell.imageView.hideSkeleton(reloadDataAfter: false, transition: .none)
         }
+        cell.imageView.image = image
         return cell
     }
     
