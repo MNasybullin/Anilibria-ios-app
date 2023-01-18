@@ -11,7 +11,7 @@ import UIKit
 protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
-    func showErrorAlert(withTitle title: String, message: String)
+    func showErrorAlert(with title: String, message: String)
     func update(dataArray: [CarouselViewModel], inCarouselView carouselView: CarouselView)
     func update(data: CarouselViewModel, for index: Int, inCarouselView carouselView: CarouselView)
 }
@@ -87,7 +87,8 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         presenter.getDataFor(carouselView: todayCarouselView, viewType: .todayCarouselView)
         presenter.getDataFor(carouselView: updatesCarouselView, viewType: .updatesCarouselView)
         
-        DispatchQueue.main.async {
+        // Без таймера если getDataFor вызовет showErrorAlert, то refreshControl не пропадет с экрана.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.scrollView.refreshControl?.endRefreshing()
         }
     }
@@ -144,13 +145,8 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     
     // MARK: - HomeViewProtocol Functions
     
-    func showErrorAlert(withTitle title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: Strings.AlertController.Title.ok, style: .default)
-        alertController.addAction(alertAction)
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true)
-        }
+    func showErrorAlert(with title: String, message: String) {
+        Alert.showErrorAlert(on: self, with: title, message: message)
     }
         
     func update(dataArray: [CarouselViewModel], inCarouselView carouselView: CarouselView) {

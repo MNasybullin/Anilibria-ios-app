@@ -40,7 +40,7 @@ final class HomePresenter: HomePresenterProtocol {
                 view.update(dataArray: data, inCarouselView: carouselView)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: message)
+                view.showErrorAlert(with: Strings.AlertController.Title.error + "Today", message: message)
             }
         }
     }
@@ -52,7 +52,7 @@ final class HomePresenter: HomePresenterProtocol {
                 view.update(dataArray: data, inCarouselView: carouselView)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.error, message: message)
+                view.showErrorAlert(with: Strings.AlertController.Title.error + "Updates", message: message)
             }
         }
     }
@@ -66,7 +66,7 @@ final class HomePresenter: HomePresenterProtocol {
                 view.update(data: data, for: index, inCarouselView: carouselView)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(withTitle: Strings.AlertController.Title.imageLoadingError, message: message)
+                view.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
             }
         }
     }
