@@ -36,7 +36,14 @@ final class CarouselView: UIView {
     
     private var cellFocusAnimation: Bool!
     
-    private var carouselData: [CarouselViewModel]?
+    private var carouselData: [CarouselViewModel]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.titleButton.isEnabled = !(self.carouselData == nil)
+                self.carouselView.isUserInteractionEnabled = !(self.carouselData == nil)
+            }
+        }
+    }
     
     /// - Parameters:
     ///     - cellFocusAnimation: Анимация перелистывания ячеек (ячейка всегда в центре).
@@ -113,6 +120,7 @@ final class CarouselView: UIView {
         titleButton.setTitleColor(UIColor.label, for: .normal)
         titleButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
 //        titleButton.backgroundColor = .brown //
+        titleButton.isEnabled = false
         titleButton.addTarget(self, action: #selector(titleButtonAction(sender:)), for: .touchUpInside)
         setTitleButtonConstraints()
     }
@@ -143,6 +151,7 @@ final class CarouselView: UIView {
         vContentStackView.addArrangedSubview(carouselView)
         carouselView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         carouselView.showsHorizontalScrollIndicator = false
+        carouselView.isUserInteractionEnabled = false
         
         setCarouselViewConstraints()
         
