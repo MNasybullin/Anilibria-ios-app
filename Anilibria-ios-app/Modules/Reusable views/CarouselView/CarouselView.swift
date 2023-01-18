@@ -17,7 +17,6 @@ protocol CarouselViewProtocol: AnyObject {
     func getImage(forIndex index: Int, forCarouselView carouselView: CarouselView)
 }
 
-/// - Для корректного отображения SkeletonView, необходимо в viewDidAppear вызвать reloadData() данного CarouselView
 final class CarouselView: UIView {
     weak var delegate: CarouselViewProtocol?
     
@@ -40,7 +39,6 @@ final class CarouselView: UIView {
         didSet {
             DispatchQueue.main.async {
                 self.titleButton.isEnabled = !(self.carouselData == nil)
-                self.carouselView.isUserInteractionEnabled = !(self.carouselData == nil)
             }
         }
     }
@@ -118,6 +116,7 @@ final class CarouselView: UIView {
         hTitleAndButtonStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(title, for: .normal)
         titleButton.setTitleColor(UIColor.label, for: .normal)
+        titleButton.setTitleColor(UIColor.tertiaryLabel, for: .disabled)
         titleButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
 //        titleButton.backgroundColor = .brown //
         titleButton.isEnabled = false
@@ -135,7 +134,6 @@ final class CarouselView: UIView {
     }
     
     @objc private func titleButtonAction(sender: UIButton) {
-        // отключать кнопку если данные еще не загрузились!
         delegate?.titleButtonAction(sender: sender)
     }
     
@@ -151,7 +149,7 @@ final class CarouselView: UIView {
         vContentStackView.addArrangedSubview(carouselView)
         carouselView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         carouselView.showsHorizontalScrollIndicator = false
-        carouselView.isUserInteractionEnabled = false
+        carouselView.isSkeletonable = true
         
         setCarouselViewConstraints()
         
@@ -166,11 +164,13 @@ final class CarouselView: UIView {
     func deleteData() {
         carouselData = nil
         carouselView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
+        updateSkeletonView()
         reloadData()
     }
     
     func updateDataArray(_ data: [CarouselViewModel]) {
         carouselData = data
+        updateSkeletonView()
         reloadData()
     }
     
@@ -202,6 +202,25 @@ final class CarouselView: UIView {
 //    }
 //}
 
+// MARK: - SkeletonView
+
+extension CarouselView: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        return cellIdentifier
+    }
+    
+    private func updateSkeletonView() {
+        DispatchQueue.main.async {
+            if self.carouselData == nil,
+                self.carouselView.sk.isSkeletonActive == false {
+                self.carouselView.showAnimatedSkeleton()
+            } else if self.carouselView.sk.isSkeletonActive == true {
+                self.carouselView.hideSkeleton(reloadDataAfter: false, transition: .none)
+            }
+        }
+    }
+}
+
 // MARK: - UICollectionViewDataSource && UICollectionViewDelegate
 
 extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -216,22 +235,18 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         cell.titleLabel.text = nil
         cell.imageView.image = nil
         guard carouselData != nil else {
-            if cell.sk.isSkeletonActive == false {
-                cell.showAnimatedSkeleton()
+            if carouselView.sk.isSkeletonActive == false {
+                carouselView.showAnimatedSkeleton()
             }
             return cell
         }
 
         let index = indexPath.row
-        if cell.titleLabel.sk.isSkeletonActive == true {
-            cell.titleLabel.hideSkeleton(reloadDataAfter: false, transition: .none)
-        }
         cell.titleLabel.text = carouselData?[index].title
-        guard let image = carouselData?[index].image, carouselData?[index].imageIsLoading == false else {
+        guard let image = carouselData?[index].image,
+                carouselData?[index].imageIsLoading == false else {
             carouselData?[index].imageIsLoading = true
-            if cell.imageView.sk.isSkeletonActive == false {
-                cell.imageView.showAnimatedSkeleton()
-            }
+            cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
         }
