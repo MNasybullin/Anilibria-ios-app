@@ -174,6 +174,14 @@ extension HomeViewController: CarouselViewProtocol {
     }
 }
 
+// MARK: - ScrollableViewProtocol
+
+extension HomeViewController: ScrollableViewProtocol {
+    func scrollToTop() {
+        scrollView.setContentOffset(CGPoint(x: 0, y: -(scrollView.adjustedContentInset.top)), animated: true)
+    }
+}
+
 #if DEBUG
 
 // MARK: - Live Preview In UIKit
