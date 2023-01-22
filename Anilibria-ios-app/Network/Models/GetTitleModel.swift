@@ -17,25 +17,25 @@ struct GetTitleModel: Codable {
     let code: String
     let names: GTNames
     let announce: String?
-    let status: GTStatus
-    let posters: GTPosters
-    let updated: Int
-    let last_change: Int
-    let type: GTType
-    let genres: [String]
-    let team: GTTeam
-    let season: GTSeason
-    let description: String
-    let in_favorites: Int
-    let blocked: GTBlocked
-    let player: GTPlayer
+    let status: GTStatus?
+    let posters: GTPosters?
+    let updated: Int?
+    let last_change: Int?
+    let type: GTType?
+    let genres: [String]?
+    let team: GTTeam?
+    let season: GTSeason?
+    let description: String?
+    let in_favorites: Int?
+    let blocked: GTBlocked?
+    let player: GTPlayer?
     // GTTorrents не реализованно скачивание по торренту.
 //    let torrents: GTTorrents
 }
 
 struct GTNames: Codable {
     let ru: String
-    let en: String
+    let en: String?
     let alternative: String?
 }
 
@@ -45,9 +45,9 @@ struct GTStatus: Codable {
 }
 
 struct GTPosters: Codable {
-    let small: GTPoster
-    let medium: GTPoster
-    let original: GTPoster
+    let small: GTPoster?
+    let medium: GTPoster?
+    let original: GTPoster?
 }
 
 struct GTPoster: Codable {
@@ -55,31 +55,31 @@ struct GTPoster: Codable {
 }
 
 struct GTType: Codable {
-    let full_string: String
-    let code: Int
-    let string: String
+    let full_string: String?
+    let code: Int?
+    let string: String?
     let series: Int?
     let length: Int?
 }
 
 struct GTTeam: Codable {
-    let voice: [String]
-    let translator: [String]
-    let editing: [String]
-    let decor: [String]
-    let timing: [String]
+    let voice: [String]?
+    let translator: [String]?
+    let editing: [String]?
+    let decor: [String]?
+    let timing: [String]?
 }
 
 struct GTSeason: Codable {
-    let string: String
-    let code: Int
-    let year: Int
-    let week_day: Int
+    let string: String?
+    let code: Int?
+    let year: Int?
+    let week_day: Int?
 }
 
 struct GTBlocked: Codable {
-    let blocked: Bool
-    let bakanim: Bool
+    let blocked: Bool?
+    let bakanim: Bool?
 }
 
 struct GTPlayer: Codable {
@@ -90,15 +90,15 @@ struct GTPlayer: Codable {
 }
 
 struct GTSeries: Codable {
-    let first: Int
-    let last: Int
-    let string: String
+    let first: Int?
+    let last: Int?
+    let string: String?
 }
 
 struct GTPlaylist: Codable {
-    let serie: Double
-    let created_timestamp: Int
-    let hls: GTHls
+    let serie: Double?
+    let created_timestamp: Int?
+    let hls: GTHls?
 }
 
 struct GTHls: Codable {

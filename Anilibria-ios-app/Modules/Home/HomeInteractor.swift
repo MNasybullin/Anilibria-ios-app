@@ -62,7 +62,7 @@ final class HomeInteractor: HomeInteractorProtocol {
     
     func requestImageFromData(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> CarouselViewModel? {
         var (carouselViewModel, getTitleModel) = getData(forViewType: viewType)
-        guard let imageURL = getTitleModel?[index].posters.original.url else {
+        guard let imageURL = getTitleModel?[index].posters?.original?.url else {
             throw MyInternalError.failedToFetchData
         }
         do {
