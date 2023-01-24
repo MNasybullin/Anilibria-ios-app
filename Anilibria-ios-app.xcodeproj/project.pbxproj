@@ -23,7 +23,7 @@
 		274BFBA228A29C3400C3F9C9 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */; };
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
 		2754F63128A94525003485E6 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2754F63028A94525003485E6 /* ViewPreview.swift */; };
-		276FCF96293C8A3A0005B82E /* InfiniteCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF95293C8A3A0005B82E /* InfiniteCollectionViewHeader.swift */; };
+		276FCF96293C8A3A0005B82E /* PostersListCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */; };
 		276FCF99293CEBC20005B82E /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF98293CEBC20005B82E /* ScheduleViewController.swift */; };
 		276FCF9B293CEBD30005B82E /* ScheduleInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF9A293CEBD30005B82E /* ScheduleInteractor.swift */; };
 		276FCF9D293CEBF30005B82E /* SchedulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF9C293CEBF30005B82E /* SchedulePresenter.swift */; };
@@ -50,8 +50,8 @@
 		27DEEBC52886A99A0014055F /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC42886A99A0014055F /* HomePresenter.swift */; };
 		27DEEBC72886A9A30014055F /* HomeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC62886A9A30014055F /* HomeEntity.swift */; };
 		27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC82886A9AC0014055F /* HomeRouter.swift */; };
-		27E7B075293B6E57006CC8E1 /* InfiniteCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B074293B6E57006CC8E1 /* InfiniteCollectionView.swift */; };
-		27E7B077293B9526006CC8E1 /* InfiniteCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B076293B9526006CC8E1 /* InfiniteCollectionViewModel.swift */; };
+		27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B074293B6E57006CC8E1 /* PostersListView.swift */; };
+		27E7B077293B9526006CC8E1 /* PostersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B076293B9526006CC8E1 /* PostersListViewModel.swift */; };
 		27F09BF0289EEBD20051BF2E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BEF289EEBD20051BF2E /* FirebaseAnalytics */; };
 		27F09BF2289EEBD20051BF2E /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BF1289EEBD20051BF2E /* FirebaseMessaging */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
@@ -92,7 +92,7 @@
 		274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		2754F63028A94525003485E6 /* ViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPreview.swift; sourceTree = "<group>"; };
-		276FCF95293C8A3A0005B82E /* InfiniteCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteCollectionViewHeader.swift; sourceTree = "<group>"; };
+		276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListCollectionViewHeader.swift; sourceTree = "<group>"; };
 		276FCF98293CEBC20005B82E /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		276FCF9A293CEBD30005B82E /* ScheduleInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleInteractor.swift; sourceTree = "<group>"; };
 		276FCF9C293CEBF30005B82E /* SchedulePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePresenter.swift; sourceTree = "<group>"; };
@@ -118,8 +118,8 @@
 		27DEEBC42886A99A0014055F /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		27DEEBC62886A9A30014055F /* HomeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEntity.swift; sourceTree = "<group>"; };
 		27DEEBC82886A9AC0014055F /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
-		27E7B074293B6E57006CC8E1 /* InfiniteCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteCollectionView.swift; sourceTree = "<group>"; };
-		27E7B076293B9526006CC8E1 /* InfiniteCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteCollectionViewModel.swift; sourceTree = "<group>"; };
+		27E7B074293B6E57006CC8E1 /* PostersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListView.swift; sourceTree = "<group>"; };
+		27E7B076293B9526006CC8E1 /* PostersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListViewModel.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -240,7 +240,7 @@
 		27B8C0572934D2EC004807A2 /* Reusable views */ = {
 			isa = PBXGroup;
 			children = (
-				27E7B06F293B6C6A006CC8E1 /* InfiniteCollectionView */,
+				27E7B06F293B6C6A006CC8E1 /* PostersListView */,
 				272FF68128B652BD00CAE5DB /* CarouselView */,
 			);
 			path = "Reusable views";
@@ -290,14 +290,14 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		27E7B06F293B6C6A006CC8E1 /* InfiniteCollectionView */ = {
+		27E7B06F293B6C6A006CC8E1 /* PostersListView */ = {
 			isa = PBXGroup;
 			children = (
-				27E7B074293B6E57006CC8E1 /* InfiniteCollectionView.swift */,
-				27E7B076293B9526006CC8E1 /* InfiniteCollectionViewModel.swift */,
-				276FCF95293C8A3A0005B82E /* InfiniteCollectionViewHeader.swift */,
+				27E7B074293B6E57006CC8E1 /* PostersListView.swift */,
+				27E7B076293B9526006CC8E1 /* PostersListViewModel.swift */,
+				276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */,
 			);
-			path = InfiniteCollectionView;
+			path = PostersListView;
 			sourceTree = "<group>";
 		};
 		27F5E54B287C6DCA00BCF61C = {
@@ -535,13 +535,13 @@
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,
 				272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
-				27E7B075293B6E57006CC8E1 /* InfiniteCollectionView.swift in Sources */,
+				27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */,
 				27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */,
-				27E7B077293B9526006CC8E1 /* InfiniteCollectionViewModel.swift in Sources */,
+				27E7B077293B9526006CC8E1 /* PostersListViewModel.swift in Sources */,
 				279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */,
 				279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */,
 				27CB080F28855ED1009E2583 /* TabBarPresenter.swift in Sources */,
-				276FCF96293C8A3A0005B82E /* InfiniteCollectionViewHeader.swift in Sources */,
+				276FCF96293C8A3A0005B82E /* PostersListCollectionViewHeader.swift in Sources */,
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
 				27DEEBC12886A9570014055F /* HomeViewController.swift in Sources */,
 				2775F1E129389E1000C7D079 /* MyError.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  InfiniteCollectionViewHeader.swift
+//  PostersListCollectionViewHeader.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 04.12.2022.
@@ -8,7 +8,7 @@
 import UIKit
 import SkeletonView
 
-final class InfiniteCollectionViewHeader: UICollectionReusableView {
+final class PostersListCollectionViewHeader: UICollectionReusableView {
     // MARK: - Static Constants
     static let titleLableHeight: CGFloat = labelFont.lineHeight * CGFloat(labelNumberOfLines)
     
