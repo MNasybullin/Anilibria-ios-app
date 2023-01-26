@@ -65,7 +65,6 @@ final class CarouselView: UIView {
         self.addSubview(vContentStackView)
         vContentStackView.axis = .vertical
         vContentStackView.spacing = 6
-//        vContentStackView.backgroundColor = .red //
         setVContentStackViewConstraints()
     }
     
@@ -84,7 +83,6 @@ final class CarouselView: UIView {
         vContentStackView.addArrangedSubview(hTitleAndButtonStackView)
         hTitleAndButtonStackView.axis = .horizontal
         hTitleAndButtonStackView.spacing = 6
-//        hTitleAndButtonStackView.alignment = .center
         
         configureTitleLabel(withTitle: title)
         configureTitleButton(withTitle: buttonTitle)
@@ -101,7 +99,6 @@ final class CarouselView: UIView {
         hTitleAndButtonStackView.addArrangedSubview(titleLabel)
         titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
-//        titleLabel.backgroundColor = .cyan //
         setTitleLabelConstraints()
     }
     
@@ -118,7 +115,6 @@ final class CarouselView: UIView {
         titleButton.setTitleColor(UIColor.label, for: .normal)
         titleButton.setTitleColor(UIColor.tertiaryLabel, for: .disabled)
         titleButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-//        titleButton.backgroundColor = .brown //
         titleButton.isEnabled = false
         titleButton.addTarget(self, action: #selector(titleButtonAction(sender:)), for: .touchUpInside)
         setTitleButtonConstraints()

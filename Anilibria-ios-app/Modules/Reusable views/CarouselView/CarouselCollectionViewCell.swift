@@ -26,7 +26,6 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         stack.axis = .vertical
         stack.spacing = stackSpacing
         stack.distribution = .fill
-//        stack.backgroundColor = .green //
         stack.isSkeletonable = true
         return stack
     }()
@@ -35,7 +34,6 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         let image = UIImageView()
         image.contentMode = .scaleToFill
         image.clipsToBounds = true
-//        image.backgroundColor = .blue //
         image.layer.cornerRadius = 12
         image.layer.masksToBounds = true
         image.isSkeletonable = true
@@ -50,7 +48,6 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         let label = TopAlignedLabel()
         label.font = labelFont
         label.numberOfLines = labelNumberOfLines
-//        label.backgroundColor = .yellow // 
         label.textColor = .systemGray
         label.textAlignment = .left
         label.linesCornerRadius = 5
