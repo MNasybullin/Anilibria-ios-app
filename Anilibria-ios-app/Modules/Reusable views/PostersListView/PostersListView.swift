@@ -89,7 +89,7 @@ extension PostersListView: SkeletonCollectionViewDataSource {
                 self.collectionView.sk.isSkeletonActive == false {
                 self.collectionView.showAnimatedSkeleton()
             } else if self.collectionView.sk.isSkeletonActive == true {
-                self.collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
+                self.collectionView.hideSkeleton(reloadDataAfter: false)
             }
         }
     }
@@ -148,8 +148,6 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
-        cell.titleLabel.text = nil
-        cell.imageView.image = nil
         guard postersListData != nil else {
             if collectionView.sk.isSkeletonActive == false {
                 collectionView.showAnimatedSkeleton()
@@ -162,12 +160,9 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         cell.titleLabel.text = postersListData?[section].list[index].title
         guard let image = postersListData?[section].list[index].image, postersListData?[section].list[index].imageIsLoading == false else {
             postersListData?[section].list[index].imageIsLoading = true
-            cell.imageView.showAnimatedSkeleton()
+            cell.imageView.image = UIImage(asset: Asset.Assets.skeletonImage)
             delegate?.getImage(forSection: section, forIndex: index)
             return cell
-        }
-        if cell.imageView.sk.isSkeletonActive == true {
-            cell.imageView.hideSkeleton(reloadDataAfter: false, transition: .none)
         }
         cell.imageView.image = image
         return cell

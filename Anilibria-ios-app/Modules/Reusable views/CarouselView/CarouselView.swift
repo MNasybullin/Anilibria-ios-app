@@ -215,7 +215,7 @@ extension CarouselView: SkeletonCollectionViewDataSource {
                 self.carouselView.sk.isSkeletonActive == false {
                 self.carouselView.showAnimatedSkeleton()
             } else if self.carouselView.sk.isSkeletonActive == true {
-                self.carouselView.hideSkeleton(reloadDataAfter: false, transition: .none)
+                self.carouselView.hideSkeleton(reloadDataAfter: false)
             }
         }
     }
@@ -232,26 +232,21 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
-//        cell.titleLabel.text = nil
-//        cell.imageView.image = nil
         guard carouselData != nil else {
             if carouselView.sk.isSkeletonActive == false {
                 carouselView.showAnimatedSkeleton()
             }
             return cell
         }
-
+        
         let index = indexPath.row
         cell.titleLabel.text = carouselData?[index].title
         guard let image = carouselData?[index].image,
                 carouselData?[index].imageIsLoading == false else {
             carouselData?[index].imageIsLoading = true
-            cell.imageView.showAnimatedSkeleton()
+            cell.imageView.image = UIImage(asset: Asset.Assets.skeletonImage)
             delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
-        }
-        if cell.imageView.sk.isSkeletonActive == true {
-            cell.imageView.hideSkeleton(reloadDataAfter: false, transition: .none)
         }
         cell.imageView.image = image
         return cell
