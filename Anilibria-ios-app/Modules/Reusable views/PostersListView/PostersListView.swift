@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 protocol PostersListViewProtocol: AnyObject {
-    func getImage(forSection section: Int, forIndex index: Int)
+    func getImage(for indexPath: IndexPath)
 }
 
 final class PostersListView: UIView {
@@ -37,6 +37,7 @@ final class PostersListView: UIView {
     // MARK: - collectionView
     private func configureCollectionView() {
         let collectionViewLayout = UICollectionViewFlowLayout()
+        #warning("При быстром скроле пропадает header")
         collectionViewLayout.sectionHeadersPinToVisibleBounds = true
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         addSubview(collectionView)
@@ -60,15 +61,17 @@ final class PostersListView: UIView {
         ])
     }
     
-    func updateDataArray(_ data: [PostersListViewModel]) {
+    func updateData(_ data: [PostersListViewModel]) {
         postersListData = data
         updateSkeletonView()
         reloadData()
     }
     
-    func updateListData(_ data: PostersListModel, forSection section: Int, forIndex index: Int) {
-        postersListData?[section].list[index] = data
-        reloadData()
+    func updateItemData(_ data: PostersListModel, for indexPath: IndexPath) {
+        postersListData?[indexPath.section].list[indexPath.row] = data
+        DispatchQueue.main.async {
+            self.collectionView.reloadItems(at: [indexPath])
+        }
     }
     
     func reloadData() {
@@ -163,7 +166,7 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         guard let image = postersListData?[section].list[index].image, postersListData?[section].list[index].imageIsLoading == false else {
             postersListData?[section].list[index].imageIsLoading = true
             cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
-            delegate?.getImage(forSection: section, forIndex: index)
+            delegate?.getImage(for: indexPath)
             return cell
         }
         cell.imageView.image = image

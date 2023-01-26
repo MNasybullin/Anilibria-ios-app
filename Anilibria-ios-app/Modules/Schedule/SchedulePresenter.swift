@@ -13,7 +13,7 @@ protocol SchedulePresenterProtocol: AnyObject {
     var view: ScheduleViewProtocol! { get set }
     
     func getScheduleData()
-    func getImage(forSection section: Int, forIndex index: Int)
+    func getImage(for indexPath: IndexPath)
 }
 
 final class SchedulePresenter: SchedulePresenterProtocol {
@@ -25,7 +25,7 @@ final class SchedulePresenter: SchedulePresenterProtocol {
         Task {
             do {
                 let data = try await interactor.requestScheduleData()
-                view.update(dataArray: data)
+                view.update(data: data)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
                 view.showErrorAlert(with: Strings.AlertController.Title.error, message: message)
@@ -33,13 +33,13 @@ final class SchedulePresenter: SchedulePresenterProtocol {
         }
     }
     
-    func getImage(forSection section: Int, forIndex index: Int) {
+    func getImage(for indexPath: IndexPath) {
         Task {
             do {
-                guard let data = try await interactor.requestImageFromData(forSection: section, forIndex: index) else {
+                guard let data = try await interactor.requestImageFromData(forSection: indexPath.section, forIndex: indexPath.row) else {
                     return
                 }
-                view.update(ListData: data, forSection: section, forIndex: index)
+                view.update(itemData: data, for: indexPath)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
                 view.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
