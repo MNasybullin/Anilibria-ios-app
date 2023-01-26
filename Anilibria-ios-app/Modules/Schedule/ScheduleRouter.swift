@@ -14,14 +14,14 @@ protocol ScheduleRouterProtocol: AnyObject {
     var entry: EntryPoint! { get }
     var navigationController: UINavigationController! { get }
     
-    static func start(withNavigationController navigationController: UINavigationController, data: [GetTitleModel]?) -> ScheduleRouterProtocol
+    static func start(withNavigationController navigationController: UINavigationController) -> ScheduleRouterProtocol
 }
 
 final class ScheduleRouter: ScheduleRouterProtocol {
     var entry: EntryPoint!
     var navigationController: UINavigationController!
     
-    static func start(withNavigationController navigationController: UINavigationController, data: [GetTitleModel]? = nil) -> ScheduleRouterProtocol {
+    static func start(withNavigationController navigationController: UINavigationController) -> ScheduleRouterProtocol {
         let router = ScheduleRouter()
         
         let view = ScheduleViewController()

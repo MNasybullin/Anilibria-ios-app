@@ -42,7 +42,7 @@ final class HomePresenter: HomePresenterProtocol {
                 view.update(dataArray: data, inCarouselView: carouselView)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(with: Strings.AlertController.Title.error + "Today", message: message)
+                view.showErrorAlert(with: Strings.AlertController.Title.error, message: message + " TodayView.")
             }
         }
     }
@@ -54,7 +54,7 @@ final class HomePresenter: HomePresenterProtocol {
                 view.update(dataArray: data, inCarouselView: carouselView)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(with: Strings.AlertController.Title.error + "Updates", message: message)
+                view.showErrorAlert(with: Strings.AlertController.Title.error, message: message + " UpdatesView.")
             }
         }
     }
@@ -76,11 +76,11 @@ final class HomePresenter: HomePresenterProtocol {
     // MARK: - TitleButtonAction
     
     func titleButtonAction(viewType: CarouselViewType) {
-        let (_, getTitleModel) = interactor.getData(forViewType: viewType)
         switch viewType {
             case .todayCarouselView:
-                router.showScheduleView(with: getTitleModel)
+                router.showScheduleView()
             case .updatesCarouselView:
+                let (_, getTitleModel) = interactor.getData(forViewType: viewType)
                 router.showUpdatesView(with: getTitleModel)
         }
     }

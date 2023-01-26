@@ -10,6 +10,10 @@ import UIKit
 
 protocol ScheduleViewProtocol: AnyObject {
     var presenter: SchedulePresenterProtocol! { get set }
+    
+    func showErrorAlert(with title: String, message: String)
+    func update(dataArray: [PostersListViewModel])
+    func update(ListData data: PostersListModel, forSection section: Int, forIndex index: Int)
 }
 
 final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
@@ -27,7 +31,8 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
     
     func configurePostersListView() {
         postersListView = PostersListView()
-        
+        postersListView.delegate = self
+        presenter.getScheduleData()
         view.addSubview(postersListView)
         setPostersListViewConstraints()
     }
@@ -41,13 +46,27 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
             postersListView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    // MARK: - ScheduleViewProtocol Functions
+    
+    func showErrorAlert(with title: String, message: String) {
+        Alert.showErrorAlert(on: self, with: title, message: message)
+    }
+    
+    func update(dataArray data: [PostersListViewModel]) {
+        postersListView.updateDataArray(data)
+    }
+    
+    func update(ListData data: PostersListModel, forSection section: Int, forIndex index: Int) {
+        postersListView.updateListData(data, forSection: section, forIndex: index)
+    }
 }
 
 // MARK: - PostersListViewProtocol
 
 extension ScheduleViewController: PostersListViewProtocol {
     func getImage(forSection section: Int, forIndex index: Int) {
-        //
+        presenter.getImage(forSection: section, forIndex: index)
     }
     
 }

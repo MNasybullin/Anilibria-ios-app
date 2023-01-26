@@ -134,8 +134,8 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
             header.showAnimatedSkeleton()
             return header
         }
-        let index = indexPath.row
-        header.titleLabel.text = postersListData?[index].headerString
+        let section = indexPath.section
+        header.titleLabel.text = postersListData?[section].headerString
         header.hideSkeleton(reloadDataAfter: false)
         return header
     }

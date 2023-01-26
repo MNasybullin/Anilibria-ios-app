@@ -16,7 +16,7 @@ protocol HomeRouterProtocol: AnyObject {
     
     static func start() -> HomeRouterProtocol
     
-    func showScheduleView(with data: [GetTitleModel]?)
+    func showScheduleView()
     func showUpdatesView(with data: [GetTitleModel]?)
 }
 
@@ -60,8 +60,8 @@ final class HomeRouter: HomeRouterProtocol {
 // MARK: - Show Other Views
 
 extension HomeRouter {
-    func showScheduleView(with data: [GetTitleModel]?) {
-        let scheduleView = ScheduleRouter.start(withNavigationController: navigationController, data: data)
+    func showScheduleView() {
+        let scheduleView = ScheduleRouter.start(withNavigationController: navigationController)
         navigationController.pushViewController(scheduleView.entry, animated: true)
     }
     
