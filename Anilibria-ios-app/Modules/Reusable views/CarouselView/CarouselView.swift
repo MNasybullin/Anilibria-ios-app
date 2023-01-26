@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 protocol CarouselViewProtocol: AnyObject {
-    func titleButtonAction(sender: UIButton)
+    func titleButtonAction(sender: UIButton, carouselView: CarouselView)
     func cellClicked()
     
 //    func getData(forIndex index: Int, forCarouselView carouselView: CarouselView)
@@ -134,7 +134,7 @@ final class CarouselView: UIView {
     }
     
     @objc private func titleButtonAction(sender: UIButton) {
-        delegate?.titleButtonAction(sender: sender)
+        delegate?.titleButtonAction(sender: sender, carouselView: self)
     }
     
     // MARK: - carouselView
@@ -232,8 +232,8 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
             fatalError("Cell is doesn`t CarouselCollectionViewCell")
         }
-        cell.titleLabel.text = nil
-        cell.imageView.image = nil
+//        cell.titleLabel.text = nil
+//        cell.imageView.image = nil
         guard carouselData != nil else {
             if carouselView.sk.isSkeletonActive == false {
                 carouselView.showAnimatedSkeleton()

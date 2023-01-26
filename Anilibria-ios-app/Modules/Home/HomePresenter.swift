@@ -15,13 +15,15 @@ protocol HomePresenterProtocol: AnyObject {
     func getDataFor(carouselView: CarouselView, viewType: CarouselViewType)
     func getImage(forIndex index: Int, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView)
     
-    func titleButtonAction()
+    func titleButtonAction(viewType: CarouselViewType)
 }
 
 final class HomePresenter: HomePresenterProtocol {
     var router: HomeRouterProtocol!
     var interactor: HomeInteractorProtocol!
     unowned var view: HomeViewProtocol!
+    
+    // MARK: - GetData
     
     func getDataFor(carouselView: CarouselView, viewType: CarouselViewType) {
         switch viewType {
@@ -71,8 +73,16 @@ final class HomePresenter: HomePresenterProtocol {
         }
     }
     
-    func titleButtonAction() {
-        // взять данные и обработать нажатие
+    // MARK: - TitleButtonAction
+    
+    func titleButtonAction(viewType: CarouselViewType) {
+        let (_, getTitleModel) = interactor.getData(forViewType: viewType)
+        switch viewType {
+            case .todayCarouselView:
+                router.showScheduleView(with: getTitleModel)
+            case .updatesCarouselView:
+                router.showUpdatesView(with: getTitleModel)
+        }
     }
     
 }

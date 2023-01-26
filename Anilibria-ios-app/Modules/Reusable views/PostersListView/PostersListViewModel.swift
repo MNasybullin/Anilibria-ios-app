@@ -8,6 +8,6 @@
 import Foundation
 
 struct PostersListViewModel {
-    var headerString: String
+    var headerString: String?
     var list: [CarouselViewModel]
 }

@@ -24,7 +24,7 @@ final class PostersListView: UIView {
     
     private var postersListData: [PostersListViewModel]?
     
-    override init(frame: CGRect) {
+    init() {
         super.init(frame: .zero)
         
         configureCollectionView()
@@ -58,9 +58,39 @@ final class PostersListView: UIView {
         ])
     }
     
+    func updateDataArray(_ data: [PostersListViewModel]) {
+        postersListData = data
+        updateSkeletonView()
+        reloadData()
+    }
+    
+    func updateData(_ data: PostersListViewModel, from index: Int) {
+        postersListData?[index] = data
+        reloadData()
+    }
+    
     func reloadData() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+        }
+    }
+}
+
+// MARK: - SkeletonView
+
+extension PostersListView: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        return cellIdentifier
+    }
+    
+    private func updateSkeletonView() {
+        DispatchQueue.main.async {
+            if self.postersListData == nil,
+                self.collectionView.sk.isSkeletonActive == false {
+                self.collectionView.showAnimatedSkeleton()
+            } else if self.collectionView.sk.isSkeletonActive == true {
+                self.collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
+            }
         }
     }
 }
@@ -121,6 +151,9 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         cell.titleLabel.text = nil
         cell.imageView.image = nil
         guard postersListData != nil else {
+            if collectionView.sk.isSkeletonActive == false {
+                collectionView.showAnimatedSkeleton()
+            }
             return cell
         }
                 

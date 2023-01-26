@@ -163,9 +163,9 @@ extension HomeViewController: CarouselViewProtocol {
         print("Cell Click")
     }
     
-    func titleButtonAction(sender: UIButton) {
-        print("Button Action")
-        presenter.titleButtonAction()
+    func titleButtonAction(sender: UIButton, carouselView: CarouselView) {
+        let viewType = getViewType(fromCarouselView: carouselView)
+        presenter.titleButtonAction(viewType: viewType)
     }
     
     func getImage(forIndex index: Int, forCarouselView carouselView: CarouselView) {

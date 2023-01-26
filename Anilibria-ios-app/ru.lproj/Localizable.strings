@@ -79,3 +79,10 @@
 
 "HomeModule.buttonTitle.allDays" = "Все дни";
 "HomeModule.buttonTitle.all" = "Все";
+
+// MARK: - Screen Titles
+"ScreenTitles.home" = "Главное";
+"ScreenTitles.search" = "Поиск";
+"ScreenTitles.profile" = "Профиль";
+"ScreenTitles.schedule" = "Расписание";
+"ScreenTitles.updates" = "Обновления";
