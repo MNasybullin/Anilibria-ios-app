@@ -228,7 +228,7 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         guard let image = carouselData?[index].image,
                 carouselData?[index].imageIsLoading == false else {
             carouselData?[index].imageIsLoading = true
-            cell.imageView.image = UIImage(asset: Asset.Assets.skeletonImage)
+            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
             delegate?.getImage(forIndex: index, forCarouselView: self)
             return cell
         }

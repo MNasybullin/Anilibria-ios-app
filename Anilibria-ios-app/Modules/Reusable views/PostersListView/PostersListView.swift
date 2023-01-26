@@ -160,7 +160,7 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         cell.titleLabel.text = postersListData?[section].list[index].title
         guard let image = postersListData?[section].list[index].image, postersListData?[section].list[index].imageIsLoading == false else {
             postersListData?[section].list[index].imageIsLoading = true
-            cell.imageView.image = UIImage(asset: Asset.Assets.skeletonImage)
+            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
             delegate?.getImage(forSection: section, forIndex: index)
             return cell
         }

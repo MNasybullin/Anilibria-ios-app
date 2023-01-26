@@ -15,11 +15,12 @@ final class PostersListCollectionViewHeader: UICollectionReusableView {
     static let labelFont = UIFont.systemFont(ofSize: 26, weight: .semibold)
     static let labelNumberOfLines = 1
     
+    let leadingConstant: CGFloat = 8
+    
     var titleLabel: UILabel = {
         let label = UILabel()
         label.font = labelFont
         label.numberOfLines = labelNumberOfLines
-//        label.backgroundColor = .yellow //
         label.textColor = .label
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +36,7 @@ final class PostersListCollectionViewHeader: UICollectionReusableView {
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             
