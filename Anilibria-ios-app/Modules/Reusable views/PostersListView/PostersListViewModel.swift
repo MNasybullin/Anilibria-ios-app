@@ -6,8 +6,15 @@
 //
 
 import Foundation
+import UIKit
 
 struct PostersListViewModel {
     var headerString: String?
-    var list: [CarouselViewModel]
+    var list: [PostersListModel]
+}
+
+struct PostersListModel {
+    var title: String
+    var image: UIImage?
+    var imageIsLoading: Bool = false
 }

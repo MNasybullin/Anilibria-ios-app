@@ -64,8 +64,8 @@ final class PostersListView: UIView {
         reloadData()
     }
     
-    func updateData(_ data: PostersListViewModel, from index: Int) {
-        postersListData?[index] = data
+    func updateListData(_ data: PostersListModel, forSection section: Int, forIndex index: Int) {
+        postersListData?[section].list[index] = data
         reloadData()
     }
     

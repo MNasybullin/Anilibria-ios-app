@@ -174,7 +174,7 @@ final class CarouselView: UIView {
         reloadData()
     }
     
-    func updateData(_ data: CarouselViewModel, from index: Int) {
+    func updateData(_ data: CarouselViewModel, for index: Int) {
         carouselData?[index] = data
         reloadData()
     }
@@ -185,22 +185,6 @@ final class CarouselView: UIView {
         }
     }
 }
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-//extension CarouselView: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: cellSize.width, height: cellSize.height)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return cellLineSpacing
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 0, left: cellLineSpacing, bottom: 0, right: cellLineSpacing)
-//    }
-//}
 
 // MARK: - SkeletonView
 
