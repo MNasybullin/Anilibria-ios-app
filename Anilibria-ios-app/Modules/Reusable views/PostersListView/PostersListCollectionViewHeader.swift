@@ -31,6 +31,7 @@ final class PostersListCollectionViewHeader: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .systemBackground
         addSubview(titleLabel)
         isSkeletonable = true
         

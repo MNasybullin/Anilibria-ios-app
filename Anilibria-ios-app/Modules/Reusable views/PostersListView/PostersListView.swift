@@ -36,7 +36,9 @@ final class PostersListView: UIView {
     
     // MARK: - collectionView
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.sectionHeadersPinToVisibleBounds = true
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         addSubview(collectionView)
         collectionView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView.register(PostersListCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
