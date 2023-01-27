@@ -85,9 +85,9 @@ class QueryService {
     
     /// Получить список тайтлов отсортированный по времени добавления нового релиза
     /// - Parameters:
-    ///     - withlimit: Количество запрашиваемых объектов (По умолчанию 15)
+    ///     - withlimit: Количество запрашиваемых объектов (По умолчанию 14)
     ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
-    func getUpdates(withLimit limit: Int = 15, after: Int = 0) async throws -> [GetTitleModel] {
+    func getUpdates(withLimit limit: Int = 14, after: Int = 0) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getUpdates)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),

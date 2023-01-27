@@ -142,6 +142,10 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
             return header
         }
         let section = indexPath.section
+        guard postersListData?[section].headerString != nil else {
+            header.isHidden = true
+            return header
+        }
         header.titleLabel.text = postersListData?[section].headerString
         header.hideSkeleton(reloadDataAfter: false)
         return header
@@ -177,6 +181,10 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         }
         cell.imageView.image = image
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Cell Clicked")
     }
     
 }
