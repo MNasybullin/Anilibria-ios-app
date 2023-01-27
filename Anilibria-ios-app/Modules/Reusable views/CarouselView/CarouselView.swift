@@ -226,9 +226,13 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         guard let image = carouselData?[index].image,
                 carouselData?[index].imageIsLoading == false else {
             carouselData?[index].imageIsLoading = true
-            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
+//            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
+            cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             return cell
+        }
+        if cell.imageView.sk.isSkeletonActive == true {
+            cell.imageView.hideSkeleton(reloadDataAfter: false)
         }
         cell.imageView.image = image
         return cell

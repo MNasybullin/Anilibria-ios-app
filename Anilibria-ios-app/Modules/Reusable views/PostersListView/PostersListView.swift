@@ -165,9 +165,13 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         cell.titleLabel.text = postersListData?[section].list[index].title
         guard let image = postersListData?[section].list[index].image, postersListData?[section].list[index].imageIsLoading == false else {
             postersListData?[section].list[index].imageIsLoading = true
-            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
+//            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
+            cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(for: indexPath)
             return cell
+        }
+        if cell.imageView.sk.isSkeletonActive == true {
+            cell.imageView.hideSkeleton(reloadDataAfter: false)
         }
         cell.imageView.image = image
         return cell
