@@ -14,7 +14,7 @@ protocol CarouselViewProtocol: AnyObject {
     
 //    func getData(forIndex index: Int, forCarouselView carouselView: CarouselView)
     
-    func getImage(forIndex index: Int, forCarouselView carouselView: CarouselView)
+    func getImage(forIndexPath indexPath: IndexPath, forCarouselView carouselView: CarouselView)
 }
 
 final class CarouselView: UIView {
@@ -164,15 +164,17 @@ final class CarouselView: UIView {
         reloadData()
     }
     
-    func updateDataArray(_ data: [CarouselViewModel]) {
+    func updateData(_ data: [CarouselViewModel]) {
         carouselData = data
         updateSkeletonView()
         reloadData()
     }
     
-    func updateData(_ data: CarouselViewModel, for index: Int) {
-        carouselData?[index] = data
-        reloadData()
+    func updateItemData(_ data: CarouselViewModel, for indexPath: IndexPath) {
+        carouselData?[indexPath.row] = data
+        DispatchQueue.main.async {
+            self.carouselView.reloadItems(at: [indexPath])
+        }
     }
     
     func reloadData() {
@@ -225,7 +227,7 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
                 carouselData?[index].imageIsLoading == false else {
             carouselData?[index].imageIsLoading = true
             cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
-            delegate?.getImage(forIndex: index, forCarouselView: self)
+            delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             return cell
         }
         cell.imageView.image = image

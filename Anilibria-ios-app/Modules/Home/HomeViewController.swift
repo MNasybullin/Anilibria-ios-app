@@ -12,8 +12,8 @@ protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
     func showErrorAlert(with title: String, message: String)
-    func update(dataArray: [CarouselViewModel], inCarouselView carouselView: CarouselView)
-    func update(data: CarouselViewModel, for index: Int, inCarouselView carouselView: CarouselView)
+    func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView)
+    func update(data: CarouselViewModel, for indexPath: IndexPath, inCarouselView carouselView: CarouselView)
 }
 
 final class HomeViewController: UIViewController, HomeViewProtocol {
@@ -141,12 +141,12 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         Alert.showErrorAlert(on: self, with: title, message: message)
     }
         
-    func update(dataArray: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
-        carouselView.updateDataArray(dataArray)
+    func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
+        carouselView.updateData(data)
     }
     
-    func update(data: CarouselViewModel, for index: Int, inCarouselView carouselView: CarouselView) {
-        carouselView.updateData(data, for: index)
+    func update(data: CarouselViewModel, for indexPath: IndexPath, inCarouselView carouselView: CarouselView) {
+        carouselView.updateItemData(data, for: indexPath)
     }
     
 }
@@ -168,9 +168,9 @@ extension HomeViewController: CarouselViewProtocol {
         presenter.titleButtonAction(viewType: viewType)
     }
     
-    func getImage(forIndex index: Int, forCarouselView carouselView: CarouselView) {
+    func getImage(forIndexPath indexPath: IndexPath, forCarouselView carouselView: CarouselView) {
         let viewType = getViewType(fromCarouselView: carouselView)
-        presenter.getImage(forIndex: index, forViewType: viewType, forCarouselView: carouselView)
+        presenter.getImage(forIndexPath: indexPath, forViewType: viewType, forCarouselView: carouselView)
     }
 }
 
