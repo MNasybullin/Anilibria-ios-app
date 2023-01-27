@@ -29,7 +29,7 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
     
     // MARK: - PostersListView
     
-    func configurePostersListView() {
+    private func configurePostersListView() {
         postersListView = PostersListView()
         postersListView.delegate = self
         presenter.getScheduleData()
@@ -37,7 +37,7 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
         setPostersListViewConstraints()
     }
     
-    func setPostersListViewConstraints() {
+    private func setPostersListViewConstraints() {
         postersListView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             postersListView.topAnchor.constraint(equalTo: view.topAnchor),

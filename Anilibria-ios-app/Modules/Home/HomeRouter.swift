@@ -66,7 +66,8 @@ extension HomeRouter {
     }
     
     func showUpdatesView(with data: [GetTitleModel]?) {
-//        let updatesView = updatesRouter.start(withNavigationController: navigationController, data: data)
-//        navigationController.pushViewController(updatesView.entry, animated: true)
+        #warning("TODO: send data")
+        let updatesView = UpdatesRouter.start(withNavigationController: navigationController)
+        navigationController.pushViewController(updatesView.entry, animated: true)
     }
 }

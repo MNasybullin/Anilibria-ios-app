@@ -11,16 +11,20 @@ import UIKit
 protocol UpdatesRouterProtocol: AnyObject {
     typealias EntryPoint = UpdatesViewProtocol & UIViewController
     var entry: EntryPoint! { get }
-    static func start() -> UpdatesRouterProtocol
+    var navigationController: UINavigationController! { get }
+    
+    static func start(withNavigationController navigationController: UINavigationController) -> UpdatesRouterProtocol
 }
 
 final class UpdatesRouter: UpdatesRouterProtocol {
     var entry: EntryPoint!
+    var navigationController: UINavigationController!
     
-    static func start() -> UpdatesRouterProtocol {
+    static func start(withNavigationController navigationController: UINavigationController) -> UpdatesRouterProtocol {
         let router = UpdatesRouter()
         
         let view = UpdatesViewController()
+        view.title = Strings.ScreenTitles.updates
         let interactor = UpdatesInteractor()
         let presenter = UpdatesPresenter()
         
@@ -34,6 +38,7 @@ final class UpdatesRouter: UpdatesRouterProtocol {
         
         router.entry = view
         
+        router.navigationController = navigationController
         return router
     }
 }
