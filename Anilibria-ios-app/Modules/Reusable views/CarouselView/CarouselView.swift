@@ -173,7 +173,7 @@ final class CarouselView: UIView {
     func updateItemData(_ data: CarouselViewModel, for indexPath: IndexPath) {
         carouselData?[indexPath.row] = data
         DispatchQueue.main.async {
-            self.carouselView.reloadItems(at: [indexPath])
+            self.carouselView.reconfigureItems(at: [indexPath])
         }
     }
     

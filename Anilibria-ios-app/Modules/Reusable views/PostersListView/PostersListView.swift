@@ -70,7 +70,7 @@ final class PostersListView: UIView {
     func updateItemData(_ data: PostersListModel, for indexPath: IndexPath) {
         postersListData?[indexPath.section].list[indexPath.row] = data
         DispatchQueue.main.async {
-            self.collectionView.reloadItems(at: [indexPath])
+            self.collectionView.reconfigureItems(at: [indexPath])
         }
     }
     
