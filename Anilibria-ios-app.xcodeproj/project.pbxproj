@@ -39,6 +39,11 @@
 		279E4F39289EC362008038FF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 279E4F38289EC362008038FF /* GoogleService-Info.plist */; };
 		27A66E502976ACEE00369EAF /* ErrorProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E4F2976ACEE00369EAF /* ErrorProcessing.swift */; };
 		27A66E5229771D4500369EAF /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5129771D4500369EAF /* Alert.swift */; };
+		27A66E5529844D1C00369EAF /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5429844D1C00369EAF /* UpdatesViewController.swift */; };
+		27A66E5729844D4000369EAF /* UpdatesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5629844D4000369EAF /* UpdatesInteractor.swift */; };
+		27A66E5929844D4C00369EAF /* UpdatesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5829844D4C00369EAF /* UpdatesPresenter.swift */; };
+		27A66E5B29844D5900369EAF /* UpdatesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5A29844D5900369EAF /* UpdatesEntity.swift */; };
+		27A66E5D29844D6700369EAF /* UpdatesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5C29844D6700369EAF /* UpdatesRouter.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarViewController.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -107,6 +112,11 @@
 		279E4F38289EC362008038FF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		27A66E4F2976ACEE00369EAF /* ErrorProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorProcessing.swift; sourceTree = "<group>"; };
 		27A66E5129771D4500369EAF /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		27A66E5429844D1C00369EAF /* UpdatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
+		27A66E5629844D4000369EAF /* UpdatesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesInteractor.swift; sourceTree = "<group>"; };
+		27A66E5829844D4C00369EAF /* UpdatesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesPresenter.swift; sourceTree = "<group>"; };
+		27A66E5A29844D5900369EAF /* UpdatesEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesEntity.swift; sourceTree = "<group>"; };
+		27A66E5C29844D6700369EAF /* UpdatesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesRouter.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -237,6 +247,18 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		27A66E5329844CF700369EAF /* Updates */ = {
+			isa = PBXGroup;
+			children = (
+				27A66E5429844D1C00369EAF /* UpdatesViewController.swift */,
+				27A66E5629844D4000369EAF /* UpdatesInteractor.swift */,
+				27A66E5829844D4C00369EAF /* UpdatesPresenter.swift */,
+				27A66E5A29844D5900369EAF /* UpdatesEntity.swift */,
+				27A66E5C29844D6700369EAF /* UpdatesRouter.swift */,
+			);
+			path = Updates;
+			sourceTree = "<group>";
+		};
 		27B8C0572934D2EC004807A2 /* Reusable views */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,6 +275,7 @@
 				27CB080728855B1A009E2583 /* TabBar */,
 				27DEEBBF2886A92F0014055F /* Home */,
 				276FCF97293CEA960005B82E /* Schedule */,
+				27A66E5329844CF700369EAF /* Updates */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -514,6 +537,7 @@
 				272D6535288C63E100FA4F60 /* GetYouTubeModel.swift in Sources */,
 				272FF68328B6535900CAE5DB /* CarouselView.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
+				27A66E5729844D4000369EAF /* UpdatesInteractor.swift in Sources */,
 				276FCF99293CEBC20005B82E /* ScheduleViewController.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
 				279E4F30289C4C70008038FF /* LoginModel.swift in Sources */,
@@ -525,9 +549,11 @@
 				27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */,
 				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
+				27A66E5929844D4C00369EAF /* UpdatesPresenter.swift in Sources */,
 				2775F1DF29388EF500C7D079 /* CarouselViewModel.swift in Sources */,
 				276FCFA1293CEC120005B82E /* ScheduleRouter.swift in Sources */,
 				276FCF9D293CEBF30005B82E /* SchedulePresenter.swift in Sources */,
+				27A66E5B29844D5900369EAF /* UpdatesEntity.swift in Sources */,
 				272FF68528B664FF00CAE5DB /* CarouselCollectionViewCell.swift in Sources */,
 				272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
@@ -546,6 +572,8 @@
 				27DEEBC12886A9570014055F /* HomeViewController.swift in Sources */,
 				2775F1E129389E1000C7D079 /* MyError.swift in Sources */,
 				274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */,
+				27A66E5D29844D6700369EAF /* UpdatesRouter.swift in Sources */,
+				27A66E5529844D1C00369EAF /* UpdatesViewController.swift in Sources */,
 				276FCF9F293CEC010005B82E /* ScheduleEntity.swift in Sources */,
 				27DEEBC32886A9650014055F /* HomeInteractor.swift in Sources */,
 				27CB081328855EE6009E2583 /* TabBarRouter.swift in Sources */,
