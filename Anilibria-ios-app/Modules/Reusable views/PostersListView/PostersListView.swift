@@ -37,7 +37,6 @@ final class PostersListView: UIView {
     // MARK: - collectionView
     private func configureCollectionView() {
         let collectionViewLayout = UICollectionViewFlowLayout()
-        #warning("При быстром скроле пропадает header")
         collectionViewLayout.sectionHeadersPinToVisibleBounds = true
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         addSubview(collectionView)
@@ -70,7 +69,10 @@ final class PostersListView: UIView {
     func updateItemData(_ data: PostersListModel, for indexPath: IndexPath) {
         postersListData?[indexPath.section].list[indexPath.row] = data
         DispatchQueue.main.async {
-            self.collectionView.reconfigureItems(at: [indexPath])
+            // С анимацией при быстром скроле временно пропадает header
+            UIView.performWithoutAnimation {
+                self.collectionView.reconfigureItems(at: [indexPath])
+            }
         }
     }
     
