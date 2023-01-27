@@ -106,7 +106,11 @@ extension PostersListView: SkeletonCollectionViewDataSource {
 
 extension PostersListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: PostersListCollectionViewHeader.titleLableHeight)
+        if postersListData?[section].headerString == nil {
+            return CGSize.zero
+        } else {
+            return CGSize(width: collectionView.bounds.width, height: PostersListCollectionViewHeader.titleLableHeight)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -142,10 +146,6 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
             return header
         }
         let section = indexPath.section
-        guard postersListData?[section].headerString != nil else {
-            header.isHidden = true
-            return header
-        }
         header.titleLabel.text = postersListData?[section].headerString
         header.hideSkeleton(reloadDataAfter: false)
         return header
