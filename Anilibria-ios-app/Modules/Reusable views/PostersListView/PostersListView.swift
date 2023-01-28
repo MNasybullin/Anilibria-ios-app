@@ -9,6 +9,7 @@ import UIKit
 import SkeletonView
 
 protocol PostersListViewProtocol: AnyObject {
+    func getData()
     func getImage(for indexPath: IndexPath)
 }
 
@@ -22,10 +23,16 @@ final class PostersListView: UIView {
     
     private var collectionView: UICollectionView!
     
-    private var postersListData: [GetScheduleModel]?
+    private var postersListData: [GetScheduleModel]? {
+        didSet {
+            postersListDataIsLoading = false
+        }
+    }
+    private var postersListDataIsLoading: Bool = false
     
-    init() {
+    init(withData data: [GetScheduleModel]? = nil) {
         super.init(frame: .zero)
+        postersListData = data
         
         configureCollectionView()
     }
@@ -58,6 +65,11 @@ final class PostersListView: UIView {
             collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
+    }
+    
+    private func getData() {
+        postersListDataIsLoading = true
+        delegate?.getData()
     }
     
     func updateData(_ data: [GetScheduleModel]) {
@@ -162,6 +174,7 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         guard postersListData != nil else {
             if collectionView.sk.isSkeletonActive == false {
                 collectionView.showAnimatedSkeleton()
+                getData()
             }
             return cell
         }

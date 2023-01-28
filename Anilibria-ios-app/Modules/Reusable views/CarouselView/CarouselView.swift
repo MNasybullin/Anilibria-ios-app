@@ -12,8 +12,7 @@ protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(sender: UIButton, carouselView: CarouselView)
     func cellClicked()
     
-//    func getData(forIndex index: Int, forCarouselView carouselView: CarouselView)
-    
+    func getData(for carouselView: CarouselView)
     func getImage(forIndexPath indexPath: IndexPath, forCarouselView carouselView: CarouselView)
 }
 
@@ -37,11 +36,13 @@ final class CarouselView: UIView {
     
     private var carouselData: [GetTitleModel]? {
         didSet {
+            carouselDataIsLoading = false
             DispatchQueue.main.async {
                 self.titleButton.isEnabled = !(self.carouselData == nil)
             }
         }
     }
+    private var carouselDataIsLoading: Bool = false
     
     /// - Parameters:
     ///     - cellFocusAnimation: Анимация перелистывания ячеек (ячейка всегда в центре).
@@ -157,11 +158,21 @@ final class CarouselView: UIView {
         carouselView.heightAnchor.constraint(greaterThanOrEqualToConstant: cellSize.height).isActive = true
     }
     
-    func deleteData() {
+    private func getData() {
+        carouselDataIsLoading = true
+        delegate?.getData(for: self)
+    }
+    
+    private func deleteData() {
         carouselData = nil
         carouselView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
         updateSkeletonView()
         reloadData()
+    }
+    
+    func refreshData() {
+        deleteData()
+        getData()
     }
     
     func updateData(_ data: [GetTitleModel]) {
@@ -217,6 +228,7 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         guard carouselData != nil else {
             if carouselView.sk.isSkeletonActive == false {
                 carouselView.showAnimatedSkeleton()
+                getData()
             }
             return cell
         }

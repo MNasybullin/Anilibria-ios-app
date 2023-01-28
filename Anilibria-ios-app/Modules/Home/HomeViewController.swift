@@ -73,11 +73,8 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     @objc func handleRefreshControl() {
-        todayCarouselView.deleteData()
-        updatesCarouselView.deleteData()
-        
-        presenter.getDataFor(carouselView: todayCarouselView, viewType: .todayCarouselView)
-        presenter.getDataFor(carouselView: updatesCarouselView, viewType: .updatesCarouselView)
+        todayCarouselView.refreshData()
+        updatesCarouselView.refreshData()
         
         // Без таймера если getDataFor вызовет showErrorAlert, то refreshControl не пропадет с экрана.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -110,7 +107,6 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         let cellWidth: CGFloat = 300
         todayCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.today, buttonTitle: Strings.HomeModule.ButtonTitle.allDays, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: true)
         todayCarouselView.delegate = self
-        presenter.getDataFor(carouselView: todayCarouselView, viewType: .todayCarouselView)
         vContentStackView.addArrangedSubview(todayCarouselView)
     }
     
@@ -120,7 +116,6 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         let cellWidth: CGFloat = 200
         updatesCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.updates, buttonTitle: Strings.HomeModule.ButtonTitle.all, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
         updatesCarouselView.delegate = self
-        presenter.getDataFor(carouselView: updatesCarouselView, viewType: .updatesCarouselView)
         vContentStackView.addArrangedSubview(updatesCarouselView)
     }
     
@@ -159,6 +154,11 @@ extension HomeViewController: UIScrollViewDelegate {
 // MARK: - CarouselViewProtocol
 
 extension HomeViewController: CarouselViewProtocol {
+    func getData(for carouselView: CarouselView) {
+        let viewType = getViewType(fromCarouselView: carouselView)
+        presenter.getDataFor(carouselView: carouselView, viewType: viewType)
+    }
+    
     func cellClicked() {
         print("Cell Click")
     }

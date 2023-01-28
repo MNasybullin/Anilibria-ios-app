@@ -30,9 +30,8 @@ final class UpdatesViewController: UIViewController, UpdatesViewProtocol {
     // MARK: - PostersListView
     
     private func configurePostersListView() {
-        postersListView = PostersListView()
+        postersListView = PostersListView(withData: presenter.interactor.getData())
         postersListView.delegate = self
-        presenter.getUpdatesData()
         view.addSubview(postersListView)
         setPostersListViewConstraints()
     }
@@ -65,6 +64,10 @@ final class UpdatesViewController: UIViewController, UpdatesViewProtocol {
 // MARK: - PostersListViewProtocol
 
 extension UpdatesViewController: PostersListViewProtocol {
+    func getData() {
+        presenter.getUpdatesData()
+    }
+    
     func getImage(for indexPath: IndexPath) {
         presenter.getImage(for: indexPath)
     }

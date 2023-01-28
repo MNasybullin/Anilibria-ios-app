@@ -10,6 +10,7 @@ import Foundation
 protocol UpdatesInteractorProtocol: AnyObject {
     var presenter: UpdatesPresenterProtocol! { get set }
     
+    func getData() -> [GetScheduleModel]?
     func requestUpdatesData() async throws -> [GetScheduleModel]
     func requestImageData(forSection section: Int, forIndex index: Int) async throws -> GTImageData?
 }
@@ -17,7 +18,14 @@ protocol UpdatesInteractorProtocol: AnyObject {
 final class UpdatesInteractor: UpdatesInteractorProtocol {
     unowned var presenter: UpdatesPresenterProtocol!
     
-    private var titleModel: [GetTitleModel]?
+    var titleModel: [GetTitleModel]?
+    
+    func getData() -> [GetScheduleModel]? {
+        guard let data = titleModel else { return nil }
+        var scheduleModel = [GetScheduleModel]()
+        scheduleModel.append(GetScheduleModel(day: nil, list: data))
+        return scheduleModel
+    }
     
     func requestUpdatesData() async throws -> [GetScheduleModel] {
         do {

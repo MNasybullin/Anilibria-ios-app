@@ -32,7 +32,6 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
     private func configurePostersListView() {
         postersListView = PostersListView()
         postersListView.delegate = self
-        presenter.getScheduleData()
         view.addSubview(postersListView)
         setPostersListViewConstraints()
     }
@@ -65,6 +64,10 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
 // MARK: - PostersListViewProtocol
 
 extension ScheduleViewController: PostersListViewProtocol {
+    func getData() {
+        presenter.getScheduleData()
+    }
+    
     func getImage(for indexPath: IndexPath) {
         presenter.getImage(for: indexPath)
     }
