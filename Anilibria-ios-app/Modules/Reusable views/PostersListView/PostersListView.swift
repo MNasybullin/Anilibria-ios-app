@@ -22,7 +22,7 @@ final class PostersListView: UIView {
     
     private var collectionView: UICollectionView!
     
-    private var postersListData: [PostersListViewModel]?
+    private var postersListData: [GetScheduleModel]?
     
     init() {
         super.init(frame: .zero)
@@ -60,14 +60,14 @@ final class PostersListView: UIView {
         ])
     }
     
-    func updateData(_ data: [PostersListViewModel]) {
+    func updateData(_ data: [GetScheduleModel]) {
         postersListData = data
         updateSkeletonView()
         reloadData()
     }
     
-    func updateItemData(_ data: PostersListModel, for indexPath: IndexPath) {
-        postersListData?[indexPath.section].list[indexPath.row] = data
+    func updateImageData(_ imageData: GTImageData, for indexPath: IndexPath) {
+        postersListData?[indexPath.section].list[indexPath.row].imageData = imageData
         DispatchQueue.main.async {
             // С анимацией при быстром скроле временно пропадает header
             UIView.performWithoutAnimation {
@@ -106,7 +106,7 @@ extension PostersListView: SkeletonCollectionViewDataSource {
 
 extension PostersListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if postersListData?[section].headerString == nil {
+        if postersListData?[section].day == nil {
             return CGSize.zero
         } else {
             return CGSize(width: collectionView.bounds.width, height: PostersListCollectionViewHeader.titleLableHeight)
@@ -146,7 +146,7 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
             return header
         }
         let section = indexPath.section
-        header.titleLabel.text = postersListData?[section].headerString
+        header.titleLabel.text = postersListData?[section].day?.description
         header.hideSkeleton(reloadDataAfter: false)
         return header
     }
@@ -168,9 +168,10 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
                 
         let section = indexPath.section
         let index = indexPath.row
-        cell.titleLabel.text = postersListData?[section].list[index].title
-        guard let image = postersListData?[section].list[index].image, postersListData?[section].list[index].imageIsLoading == false else {
-            postersListData?[section].list[index].imageIsLoading = true
+        cell.titleLabel.text = postersListData?[section].list[index].names.ru
+        guard let imageData = postersListData?[section].list[index].imageData?.data,
+                postersListData?[section].list[index].imageData?.imageIsLoading == false else {
+            postersListData?[section].list[index].imageData?.imageIsLoading = true
 //            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
             cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(for: indexPath)
@@ -179,7 +180,7 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         if cell.imageView.sk.isSkeletonActive == true {
             cell.imageView.hideSkeleton(reloadDataAfter: false)
         }
-        cell.imageView.image = image
+        cell.imageView.image = UIImage(data: imageData)
         return cell
     }
     

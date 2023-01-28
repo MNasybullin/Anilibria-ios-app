@@ -127,7 +127,7 @@ class NetworkPublicApiTests: XCTestCase {
     func testGetImage() async throws {
         let urlSuffix = "/upload/avatars/noavatar.jpg"
         do {
-            _ = try await QueryService.shared.getImage(from: urlSuffix)
+            _ = try await QueryService.shared.getImageData(from: urlSuffix)
         } catch let error as MyNetworkError {
             XCTFail(error.description)
         } catch let error as MyImageError {

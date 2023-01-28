@@ -29,7 +29,6 @@
 		276FCF9D293CEBF30005B82E /* SchedulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF9C293CEBF30005B82E /* SchedulePresenter.swift */; };
 		276FCF9F293CEC010005B82E /* ScheduleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF9E293CEC010005B82E /* ScheduleEntity.swift */; };
 		276FCFA1293CEC120005B82E /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCFA0293CEC120005B82E /* ScheduleRouter.swift */; };
-		2775F1DF29388EF500C7D079 /* CarouselViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1DE29388EF500C7D079 /* CarouselViewModel.swift */; };
 		2775F1E129389E1000C7D079 /* MyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyError.swift */; };
 		2775F1E42938DE9000C7D079 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 2775F1E32938DE9000C7D079 /* SkeletonView */; };
 		279E4F30289C4C70008038FF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginModel.swift */; };
@@ -56,7 +55,6 @@
 		27DEEBC72886A9A30014055F /* HomeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC62886A9A30014055F /* HomeEntity.swift */; };
 		27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC82886A9AC0014055F /* HomeRouter.swift */; };
 		27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B074293B6E57006CC8E1 /* PostersListView.swift */; };
-		27E7B077293B9526006CC8E1 /* PostersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B076293B9526006CC8E1 /* PostersListViewModel.swift */; };
 		27F09BF0289EEBD20051BF2E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BEF289EEBD20051BF2E /* FirebaseAnalytics */; };
 		27F09BF2289EEBD20051BF2E /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BF1289EEBD20051BF2E /* FirebaseMessaging */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
@@ -103,7 +101,6 @@
 		276FCF9C293CEBF30005B82E /* SchedulePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePresenter.swift; sourceTree = "<group>"; };
 		276FCF9E293CEC010005B82E /* ScheduleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntity.swift; sourceTree = "<group>"; };
 		276FCFA0293CEC120005B82E /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
-		2775F1DE29388EF500C7D079 /* CarouselViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselViewModel.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyError.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		279E4F32289C706B008038FF /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
@@ -129,7 +126,6 @@
 		27DEEBC62886A9A30014055F /* HomeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEntity.swift; sourceTree = "<group>"; };
 		27DEEBC82886A9AC0014055F /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		27E7B074293B6E57006CC8E1 /* PostersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListView.swift; sourceTree = "<group>"; };
-		27E7B076293B9526006CC8E1 /* PostersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListViewModel.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -192,7 +188,6 @@
 			children = (
 				272FF68428B664FF00CAE5DB /* CarouselCollectionViewCell.swift */,
 				272FF68228B6535900CAE5DB /* CarouselView.swift */,
-				2775F1DE29388EF500C7D079 /* CarouselViewModel.swift */,
 			);
 			path = CarouselView;
 			sourceTree = "<group>";
@@ -317,7 +312,6 @@
 			isa = PBXGroup;
 			children = (
 				27E7B074293B6E57006CC8E1 /* PostersListView.swift */,
-				27E7B076293B9526006CC8E1 /* PostersListViewModel.swift */,
 				276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */,
 			);
 			path = PostersListView;
@@ -550,7 +544,6 @@
 				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
 				27A66E5929844D4C00369EAF /* UpdatesPresenter.swift in Sources */,
-				2775F1DF29388EF500C7D079 /* CarouselViewModel.swift in Sources */,
 				276FCFA1293CEC120005B82E /* ScheduleRouter.swift in Sources */,
 				276FCF9D293CEBF30005B82E /* SchedulePresenter.swift in Sources */,
 				27A66E5B29844D5900369EAF /* UpdatesEntity.swift in Sources */,
@@ -563,7 +556,6 @@
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
 				27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */,
 				27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */,
-				27E7B077293B9526006CC8E1 /* PostersListViewModel.swift in Sources */,
 				279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */,
 				279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */,
 				27CB080F28855ED1009E2583 /* TabBarPresenter.swift in Sources */,

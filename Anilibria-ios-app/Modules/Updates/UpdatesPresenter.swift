@@ -36,10 +36,10 @@ final class UpdatesPresenter: UpdatesPresenterProtocol {
     func getImage(for indexPath: IndexPath) {
         Task {
             do {
-                guard let data = try await interactor.requestImageFromData(forSection: indexPath.section, forIndex: indexPath.row) else {
+                guard let imageData = try await interactor.requestImageData(forSection: indexPath.section, forIndex: indexPath.row) else {
                     return
                 }
-                view.update(itemData: data, for: indexPath)
+                view.update(imageData: imageData, for: indexPath)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
                 view.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)

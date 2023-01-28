@@ -62,10 +62,10 @@ final class HomePresenter: HomePresenterProtocol {
     func getImage(forIndexPath indexPath: IndexPath, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView) {
         Task {
             do {
-                guard let data = try await interactor.requestImageFromData(forIndex: indexPath.row, forViewType: viewType) else {
+                guard let imageData = try await interactor.requestImageData(forIndex: indexPath.row, forViewType: viewType) else {
                     return
                 }
-                view.update(data: data, for: indexPath, inCarouselView: carouselView)
+                view.update(imageData: imageData, for: indexPath, inCarouselView: carouselView)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
                 view.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
@@ -80,7 +80,7 @@ final class HomePresenter: HomePresenterProtocol {
             case .todayCarouselView:
                 router.showScheduleView()
             case .updatesCarouselView:
-                let (_, getTitleModel) = interactor.getData(forViewType: viewType)
+                let getTitleModel = interactor.getData(forViewType: viewType)
                 router.showUpdatesView(with: getTitleModel)
         }
     }

@@ -31,6 +31,7 @@ struct GetTitleModel: Codable {
     let player: GTPlayer?
     // GTTorrents не реализованно скачивание по торренту.
 //    let torrents: GTTorrents
+    var imageData: GTImageData? = GTImageData()
 }
 
 struct GTNames: Codable {
@@ -133,3 +134,9 @@ struct GTQuality: Codable {
     let lq_audio: String?
 }
 */
+
+/// Local Data (not API)
+struct GTImageData: Codable {
+    var data: Data?
+    var imageIsLoading: Bool = false
+}

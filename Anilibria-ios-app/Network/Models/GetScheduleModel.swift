@@ -10,8 +10,8 @@ import Foundation
 /// Возвращается в запросах:
 /// getSchedule
 struct GetScheduleModel: Codable {
-    let day: DaysOfTheWeek
-    let list: [GetTitleModel]
+    var day: DaysOfTheWeek?
+    var list: [GetTitleModel]
 }
 
 /// Счет дней недели идет с понедельника, где 0 - Понедельник, а 6 - Воскресенье.

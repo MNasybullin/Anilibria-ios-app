@@ -301,13 +301,10 @@ class QueryService {
     
     // MARK: - Download Methods
         
-    func getImage(from urlSuffix: String) async throws -> UIImage {
+    func getImageData(from urlSuffix: String) async throws -> Data {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorBaseImagesURL + urlSuffix)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        guard let image = UIImage(data: data) else {
-            throw MyImageError.failedToInitialize
-        }
-        return image
+        return data
     }
 }
