@@ -80,8 +80,7 @@ final class HomePresenter: HomePresenterProtocol {
             case .todayCarouselView:
                 router.showScheduleView()
             case .updatesCarouselView:
-                let getTitleModel = interactor.getData(forViewType: viewType)
-                router.showUpdatesView(with: getTitleModel)
+                break
         }
     }
     

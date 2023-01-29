@@ -46,7 +46,7 @@ final class CarouselView: UIView {
     
     /// - Parameters:
     ///     - cellFocusAnimation: Анимация перелистывания ячеек (ячейка всегда в центре).
-    init(withTitle title: String, buttonTitle: String, imageSize: CGSize, cellFocusAnimation: Bool) {
+    init(withTitle title: String, buttonTitle: String?, imageSize: CGSize, cellFocusAnimation: Bool) {
         super.init(frame: .zero)
         self.imageSize = imageSize
         self.cellSize = CGSize(width: imageSize.width, height: imageSize.height + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight)
@@ -80,7 +80,7 @@ final class CarouselView: UIView {
     }
     
     // MARK: - hTitleAndButtonStackView
-    private func configureHTitleAndButtonStackView(withTitle title: String, buttonTitle: String) {
+    private func configureHTitleAndButtonStackView(withTitle title: String, buttonTitle: String?) {
         vContentStackView.addArrangedSubview(hTitleAndButtonStackView)
         hTitleAndButtonStackView.axis = .horizontal
         hTitleAndButtonStackView.spacing = 6
@@ -110,13 +110,16 @@ final class CarouselView: UIView {
     }
     
     // MARK: - titleButton
-    private func configureTitleButton(withTitle title: String) {
+    private func configureTitleButton(withTitle title: String?) {
         hTitleAndButtonStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(title, for: .normal)
         titleButton.setTitleColor(UIColor.label, for: .normal)
         titleButton.setTitleColor(UIColor.tertiaryLabel, for: .disabled)
         titleButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         titleButton.isEnabled = false
+        if title == nil {
+            titleButton.isHidden = true
+        }
         titleButton.addTarget(self, action: #selector(titleButtonAction(sender:)), for: .touchUpInside)
         setTitleButtonConstraints()
     }

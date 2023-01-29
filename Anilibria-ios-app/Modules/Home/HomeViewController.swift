@@ -114,7 +114,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     func configureUpdatesCarouselView() {
         let multiplier: CGFloat = 500 / 350
         let cellWidth: CGFloat = 200
-        updatesCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.updates, buttonTitle: Strings.HomeModule.ButtonTitle.all, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
+        updatesCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.updates, buttonTitle: nil, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
         updatesCarouselView.delegate = self
         vContentStackView.addArrangedSubview(updatesCarouselView)
     }
