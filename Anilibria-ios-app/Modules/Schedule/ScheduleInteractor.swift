@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ScheduleInteractorProtocol: AnyObject {
     var presenter: SchedulePresenterProtocol! { get set }
     
-    func requestScheduleData() async throws -> [GetScheduleModel]
-    func requestImageData(forSection section: Int, forIndex index: Int) async throws -> GTImageData?
+    func requestScheduleData() async throws -> [PostersListViewModel]
+    func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage?
 }
 
 final class ScheduleInteractor: ScheduleInteractorProtocol {
@@ -19,25 +20,32 @@ final class ScheduleInteractor: ScheduleInteractorProtocol {
     
     private var scheduleModel: [GetScheduleModel]?
     
-    func requestScheduleData() async throws -> [GetScheduleModel] {
+    func requestScheduleData() async throws -> [PostersListViewModel] {
         do {
             let data = try await QueryService.shared.getSchedule(with: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
             scheduleModel = data
-            return data
+            // Convert ScheduleModel to PostersListViewModel
+            var postersListViewModel = [PostersListViewModel]()
+            scheduleModel?.forEach {
+                var postersListModel = [PostersListModel]()
+                $0.list.forEach {
+                    postersListModel.append(PostersListModel(name: $0.names.ru))
+                }
+                postersListViewModel.append(PostersListViewModel(headerName: $0.day?.description, postersList: postersListModel))
+            }
+            return postersListViewModel
         } catch {
             throw error
         }
     }
     
-    func requestImageData(forSection section: Int, forIndex index: Int) async throws -> GTImageData? {
+    func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage? {
         guard let imageURL = scheduleModel?[section].list[index].posters?.original?.url else {
             throw MyInternalError.failedToFetchData
         }
         do {
             let imageData = try await QueryService.shared.getImageData(from: imageURL)
-            let gtImageData = GTImageData(data: imageData, imageIsLoading: false)
-            scheduleModel?[section].list[index].imageData = gtImageData
-            return gtImageData
+            return UIImage(data: imageData)
         } catch {
             throw error
         }

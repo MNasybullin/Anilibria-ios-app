@@ -34,7 +34,7 @@ final class CarouselView: UIView {
     
     private var cellFocusAnimation: Bool!
     
-    private var carouselData: [GetTitleModel]? {
+    private var carouselData: [CarouselViewModel]? {
         didSet {
             carouselDataIsLoading = false
             DispatchQueue.main.async {
@@ -178,14 +178,15 @@ final class CarouselView: UIView {
         getData()
     }
     
-    func updateData(_ data: [GetTitleModel]) {
+    func updateData(_ data: [CarouselViewModel]) {
         carouselData = data
         updateSkeletonView()
         reloadData()
     }
     
-    func updateImageData(_ imageData: GTImageData, for indexPath: IndexPath) {
-        carouselData?[indexPath.row].imageData = imageData
+    func updateImage(_ image: UIImage, for indexPath: IndexPath) {
+        carouselData?[indexPath.row].image = image
+        carouselData?[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
             self.carouselView.reconfigureItems(at: [indexPath])
         }
@@ -237,11 +238,10 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         }
         
         let index = indexPath.row
-        cell.titleLabel.text = carouselData?[index].names.ru
-        guard let imageData = carouselData?[index].imageData?.data,
-              carouselData?[index].imageData?.imageIsLoading == false else {
-            carouselData?[index].imageData?.imageIsLoading = true
-//            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
+        cell.titleLabel.text = carouselData?[index].name
+        guard let image = carouselData?[index].image,
+              carouselData?[index].imageIsLoading == false else {
+            carouselData?[index].imageIsLoading = true
             cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             return cell
@@ -249,7 +249,7 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         if cell.imageView.sk.isSkeletonActive == true {
             cell.imageView.hideSkeleton(reloadDataAfter: false)
         }
-        cell.imageView.image = UIImage(data: imageData)
+        cell.imageView.image = image
         return cell
     }
     

@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+/*
 protocol UpdatesRouterProtocol: AnyObject {
     typealias EntryPoint = UpdatesViewProtocol & UIViewController
     var entry: EntryPoint! { get }
@@ -42,4 +42,5 @@ final class UpdatesRouter: UpdatesRouterProtocol {
         router.navigationController = navigationController
         return router
     }
-}
+ }
+ */

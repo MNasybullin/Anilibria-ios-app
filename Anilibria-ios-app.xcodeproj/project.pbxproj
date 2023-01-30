@@ -43,6 +43,8 @@
 		27A66E5929844D4C00369EAF /* UpdatesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5829844D4C00369EAF /* UpdatesPresenter.swift */; };
 		27A66E5B29844D5900369EAF /* UpdatesEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5A29844D5900369EAF /* UpdatesEntity.swift */; };
 		27A66E5D29844D6700369EAF /* UpdatesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5C29844D6700369EAF /* UpdatesRouter.swift */; };
+		27A66E5F2987EDCD00369EAF /* CarouselViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5E2987EDCD00369EAF /* CarouselViewModel.swift */; };
+		27A66E612987F28900369EAF /* PostersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E602987F28900369EAF /* PostersListViewModel.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarViewController.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -114,6 +116,8 @@
 		27A66E5829844D4C00369EAF /* UpdatesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesPresenter.swift; sourceTree = "<group>"; };
 		27A66E5A29844D5900369EAF /* UpdatesEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesEntity.swift; sourceTree = "<group>"; };
 		27A66E5C29844D6700369EAF /* UpdatesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesRouter.swift; sourceTree = "<group>"; };
+		27A66E5E2987EDCD00369EAF /* CarouselViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselViewModel.swift; sourceTree = "<group>"; };
+		27A66E602987F28900369EAF /* PostersListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListViewModel.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 			children = (
 				272FF68428B664FF00CAE5DB /* CarouselCollectionViewCell.swift */,
 				272FF68228B6535900CAE5DB /* CarouselView.swift */,
+				27A66E5E2987EDCD00369EAF /* CarouselViewModel.swift */,
 			);
 			path = CarouselView;
 			sourceTree = "<group>";
@@ -313,6 +318,7 @@
 			children = (
 				27E7B074293B6E57006CC8E1 /* PostersListView.swift */,
 				276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */,
+				27A66E602987F28900369EAF /* PostersListViewModel.swift */,
 			);
 			path = PostersListView;
 			sourceTree = "<group>";
@@ -540,6 +546,7 @@
 				27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */,
 				276FCF9B293CEBD30005B82E /* ScheduleInteractor.swift in Sources */,
 				279E4F37289D2CA7008038FF /* ProfileModel.swift in Sources */,
+				27A66E5F2987EDCD00369EAF /* CarouselViewModel.swift in Sources */,
 				27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */,
 				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
@@ -549,6 +556,7 @@
 				27A66E5B29844D5900369EAF /* UpdatesEntity.swift in Sources */,
 				272FF68528B664FF00CAE5DB /* CarouselCollectionViewCell.swift in Sources */,
 				272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */,
+				27A66E612987F28900369EAF /* PostersListViewModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
 				27DEEBC52886A99A0014055F /* HomePresenter.swift in Sources */,
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,

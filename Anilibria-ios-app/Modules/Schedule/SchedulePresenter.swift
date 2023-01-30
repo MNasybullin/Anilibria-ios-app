@@ -36,10 +36,10 @@ final class SchedulePresenter: SchedulePresenterProtocol {
     func getImage(for indexPath: IndexPath) {
         Task {
             do {
-                guard let imageData = try await interactor.requestImageData(forSection: indexPath.section, forIndex: indexPath.row) else {
+                guard let image = try await interactor.requestImage(forSection: indexPath.section, forIndex: indexPath.row) else {
                     return
                 }
-                view.update(imageData: imageData, for: indexPath)
+                view.update(image: image, for: indexPath)
             } catch {
                 let message = ErrorProcessing.shared.getMessageFrom(error: error)
                 view.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)

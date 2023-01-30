@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+/*
 protocol UpdatesInteractorProtocol: AnyObject {
     var presenter: UpdatesPresenterProtocol! { get set }
     
@@ -52,4 +52,5 @@ final class UpdatesInteractor: UpdatesInteractorProtocol {
             throw error
         }
     }
-}
+ }
+ */

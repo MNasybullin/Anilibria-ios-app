@@ -12,8 +12,8 @@ protocol ScheduleViewProtocol: AnyObject {
     var presenter: SchedulePresenterProtocol! { get set }
     
     func showErrorAlert(with title: String, message: String)
-    func update(data: [GetScheduleModel])
-    func update(imageData: GTImageData, for indexPath: IndexPath)
+    func update(data: [PostersListViewModel])
+    func update(image: UIImage, for indexPath: IndexPath)
 }
 
 final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
@@ -52,12 +52,12 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
         Alert.showErrorAlert(on: self, with: title, message: message)
     }
     
-    func update(data: [GetScheduleModel]) {
+    func update(data: [PostersListViewModel]) {
         postersListView.updateData(data)
     }
     
-    func update(imageData: GTImageData, for indexPath: IndexPath) {
-        postersListView.updateImageData(imageData, for: indexPath)
+    func update(image: UIImage, for indexPath: IndexPath) {
+        postersListView.updateImage(image, for: indexPath)
     }
 }
 

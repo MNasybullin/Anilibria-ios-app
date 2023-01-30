@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+/*
 protocol UpdatesViewProtocol: AnyObject {
     var presenter: UpdatesPresenterProtocol! { get set }
     
@@ -71,4 +71,5 @@ extension UpdatesViewController: PostersListViewProtocol {
     func getImage(for indexPath: IndexPath) {
         presenter.getImage(for: indexPath)
     }
-}
+ }
+ */

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+/*
 protocol UpdatesPresenterProtocol: AnyObject {
     var view: UpdatesViewProtocol! { get set }
     var interactor: UpdatesInteractorProtocol! { get set }
@@ -47,3 +47,4 @@ final class UpdatesPresenter: UpdatesPresenterProtocol {
         }
     }
 }
+*/

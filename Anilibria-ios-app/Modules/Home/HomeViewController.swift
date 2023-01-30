@@ -12,8 +12,8 @@ protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
     func showErrorAlert(with title: String, message: String)
-    func update(data: [GetTitleModel], inCarouselView carouselView: CarouselView)
-    func update(imageData: GTImageData, for indexPath: IndexPath, inCarouselView carouselView: CarouselView)
+    func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView)
+    func update(image: UIImage, for indexPath: IndexPath, inCarouselView carouselView: CarouselView)
 }
 
 final class HomeViewController: UIViewController, HomeViewProtocol {
@@ -136,12 +136,12 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         Alert.showErrorAlert(on: self, with: title, message: message)
     }
         
-    func update(data: [GetTitleModel], inCarouselView carouselView: CarouselView) {
+    func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
         carouselView.updateData(data)
     }
     
-    func update(imageData: GTImageData, for indexPath: IndexPath, inCarouselView carouselView: CarouselView) {
-        carouselView.updateImageData(imageData, for: indexPath)
+    func update(image: UIImage, for indexPath: IndexPath, inCarouselView carouselView: CarouselView) {
+        carouselView.updateImage(image, for: indexPath)
     }
     
 }

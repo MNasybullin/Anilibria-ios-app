@@ -23,14 +23,14 @@ final class PostersListView: UIView {
     
     private var collectionView: UICollectionView!
     
-    private var postersListData: [GetScheduleModel]? {
+    private var postersListData: [PostersListViewModel]? {
         didSet {
             postersListDataIsLoading = false
         }
     }
     private var postersListDataIsLoading: Bool = false
     
-    init(withData data: [GetScheduleModel]? = nil) {
+    init(withData data: [PostersListViewModel]? = nil) {
         super.init(frame: .zero)
         postersListData = data
         
@@ -72,14 +72,15 @@ final class PostersListView: UIView {
         delegate?.getData()
     }
     
-    func updateData(_ data: [GetScheduleModel]) {
+    func updateData(_ data: [PostersListViewModel]) {
         postersListData = data
         updateSkeletonView()
         reloadData()
     }
     
-    func updateImageData(_ imageData: GTImageData, for indexPath: IndexPath) {
-        postersListData?[indexPath.section].list[indexPath.row].imageData = imageData
+    func updateImage(_ image: UIImage, for indexPath: IndexPath) {
+        postersListData?[indexPath.section].postersList[indexPath.row].image = image
+        postersListData?[indexPath.section].postersList[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
             // С анимацией при быстром скроле временно пропадает header
             UIView.performWithoutAnimation {
@@ -118,7 +119,7 @@ extension PostersListView: SkeletonCollectionViewDataSource {
 
 extension PostersListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if postersListData?[section].day == nil {
+        if postersListData?[section].headerName == nil {
             return CGSize.zero
         } else {
             return CGSize(width: collectionView.bounds.width, height: PostersListCollectionViewHeader.titleLableHeight)
@@ -158,13 +159,13 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
             return header
         }
         let section = indexPath.section
-        header.titleLabel.text = postersListData?[section].day?.description
+        header.titleLabel.text = postersListData?[section].headerName
         header.hideSkeleton(reloadDataAfter: false)
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return postersListData?[section].list.count ?? 2
+        return postersListData?[section].postersList.count ?? 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -181,11 +182,10 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
                 
         let section = indexPath.section
         let index = indexPath.row
-        cell.titleLabel.text = postersListData?[section].list[index].names.ru
-        guard let imageData = postersListData?[section].list[index].imageData?.data,
-                postersListData?[section].list[index].imageData?.imageIsLoading == false else {
-            postersListData?[section].list[index].imageData?.imageIsLoading = true
-//            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
+        cell.titleLabel.text = postersListData?[section].postersList[index].name
+        guard let image = postersListData?[section].postersList[index].image,
+                postersListData?[section].postersList[index].imageIsLoading == false else {
+            postersListData?[section].postersList[index].imageIsLoading = true
             cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(for: indexPath)
             return cell
@@ -193,7 +193,7 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         if cell.imageView.sk.isSkeletonActive == true {
             cell.imageView.hideSkeleton(reloadDataAfter: false)
         }
-        cell.imageView.image = UIImage(data: imageData)
+        cell.imageView.image = image
         return cell
     }
     

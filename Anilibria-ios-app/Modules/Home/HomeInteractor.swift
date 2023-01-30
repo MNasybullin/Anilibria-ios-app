@@ -11,9 +11,9 @@ import UIKit
 protocol HomeInteractorProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
-    func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [GetTitleModel]
-    func requestDataForUpdatesView() async throws -> [GetTitleModel]
-    func requestImageData(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> GTImageData?
+    func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel]
+    func requestDataForUpdatesView() async throws -> [CarouselViewModel]
+    func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage?
     func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]?
 }
 
@@ -24,39 +24,47 @@ final class HomeInteractor: HomeInteractorProtocol {
     
     private var updatesGetTitleModel: [GetTitleModel]?
     
-    func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [GetTitleModel] {
+    func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel] {
         do {
             let scheduleModel = try await QueryService.shared.getSchedule(with: [day])
             guard let firstScheduleModel = scheduleModel.first, firstScheduleModel.day == day else {
                 throw MyInternalError.failedToFetchData
             }
             todayGetTitleModel = firstScheduleModel.list
-            return firstScheduleModel.list
+            // Convert scheduleModel to CarouselViewModel
+            var carouselViewModel = [CarouselViewModel]()
+            firstScheduleModel.list.forEach {
+                carouselViewModel.append(CarouselViewModel(name: $0.names.ru))
+            }
+            return carouselViewModel
         } catch {
             throw error
         }
     }
     
-    func requestDataForUpdatesView() async throws -> [GetTitleModel] {
+    func requestDataForUpdatesView() async throws -> [CarouselViewModel] {
         do {
             let titleModel = try await QueryService.shared.getUpdates()
             updatesGetTitleModel = titleModel
-            return titleModel
+            // Convert GetTitleModel to CarouselViewModel
+            var carouselViewModel = [CarouselViewModel]()
+            titleModel.forEach {
+                carouselViewModel.append(CarouselViewModel(name: $0.names.ru))
+            }
+            return carouselViewModel
         } catch {
             throw error
         }
     }
     
-    func requestImageData(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> GTImageData? {
-        var getTitleModel = getData(forViewType: viewType)
+    func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage? {
+        let getTitleModel = getData(forViewType: viewType)
         guard let imageURL = getTitleModel?[index].posters?.original?.url else {
             throw MyInternalError.failedToFetchData
         }
         do {
             let imageData = try await QueryService.shared.getImageData(from: imageURL)
-            let gtImageData = GTImageData(data: imageData, imageIsLoading: false)
-            getTitleModel?[index].imageData = gtImageData
-            return gtImageData
+            return UIImage(data: imageData)
         } catch {
             throw error
         }
