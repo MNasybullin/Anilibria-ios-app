@@ -25,7 +25,8 @@ final class TabBarRouter: TabBarRouterProtocol {
         let view = TabBarViewController()
         view.setViewControllers(
             [
-                HomeRouter.start().navigationController
+                HomeRouter.start().navigationController,
+                SearchRouter.start().navigationController
             ],
             animated: true)
         
