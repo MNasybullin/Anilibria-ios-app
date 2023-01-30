@@ -40,15 +40,14 @@ final class HomeRouter: HomeRouterProtocol {
         
         router.entry = view
         
-        router.navigationController = createNavigationController(for: view,
-                                   title: Strings.TabBarControllers.Home.title,
-                                   image: UIImage.init(systemName: Strings.TabBarControllers.Home.image))
+        router.navigationController = createNavigationController(for: view)
         return router
     }
     
-    private static func createNavigationController(for rootViewController: UIViewController,
-                                                   title: String,
-                                                   image: UIImage?) -> UINavigationController {
+    private static func createNavigationController(for rootViewController: UIViewController) -> UINavigationController {
+        let title = Strings.TabBarControllers.Home.title
+        let image = UIImage(systemName: Strings.TabBarControllers.Home.image)
+        
         rootViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
         rootViewController.navigationItem.title = title
         return UINavigationController(rootViewController: rootViewController)
