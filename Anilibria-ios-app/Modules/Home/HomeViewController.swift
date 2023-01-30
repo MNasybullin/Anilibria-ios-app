@@ -75,9 +75,10 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     @objc func handleRefreshControl() {
         todayCarouselView.refreshData()
         updatesCarouselView.refreshData()
-        
-        // Без таймера если getDataFor вызовет showErrorAlert, то refreshControl не пропадет с экрана.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+    }
+    
+    func refreshControlEndRefreshing() {
+        DispatchQueue.main.async {
             self.scrollView.refreshControl?.endRefreshing()
         }
     }
@@ -133,11 +134,12 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     // MARK: - HomeViewProtocol Functions
     
     func showErrorAlert(with title: String, message: String) {
-        Alert.showErrorAlert(on: self, with: title, message: message)
+        Alert.showErrorAlert(on: self, with: title, message: message, completion: { self.refreshControlEndRefreshing() })
     }
         
     func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
         carouselView.updateData(data)
+        refreshControlEndRefreshing()
     }
     
     func update(image: UIImage, for indexPath: IndexPath, inCarouselView carouselView: CarouselView) {
