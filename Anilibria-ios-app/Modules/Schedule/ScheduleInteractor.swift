@@ -17,23 +17,13 @@ protocol ScheduleInteractorProtocol: AnyObject {
 
 final class ScheduleInteractor: ScheduleInteractorProtocol {
     unowned var presenter: SchedulePresenterProtocol!
-    
     private var scheduleModel: [GetScheduleModel]?
     
     func requestScheduleData() async throws -> [PostersListViewModel] {
         do {
             let data = try await QueryService.shared.getSchedule(with: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
             scheduleModel = data
-            // Convert ScheduleModel to PostersListViewModel
-            var postersListViewModel = [PostersListViewModel]()
-            scheduleModel?.forEach {
-                var postersListModel = [PostersListModel]()
-                $0.list.forEach {
-                    postersListModel.append(PostersListModel(name: $0.names.ru))
-                }
-                postersListViewModel.append(PostersListViewModel(headerName: $0.day?.description, postersList: postersListModel))
-            }
-            return postersListViewModel
+            return convertScheduleModelToPostersListViewModel(data)
         } catch {
             throw error
         }
@@ -49,5 +39,19 @@ final class ScheduleInteractor: ScheduleInteractorProtocol {
         } catch {
             throw error
         }
+    }
+    
+    // MARK: - Private Functions
+    
+    private func convertScheduleModelToPostersListViewModel(_ scheduleModel: [GetScheduleModel]) -> [PostersListViewModel] {
+        var postersListViewModel = [PostersListViewModel]()
+        scheduleModel.forEach {
+            var postersListModel = [PostersListModel]()
+            $0.list.forEach {
+                postersListModel.append(PostersListModel(name: $0.names.ru))
+            }
+            postersListViewModel.append(PostersListViewModel(headerName: $0.day?.description, postersList: postersListModel))
+        }
+        return postersListViewModel
     }
 }

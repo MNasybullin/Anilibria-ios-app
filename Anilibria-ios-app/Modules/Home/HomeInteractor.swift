@@ -14,14 +14,11 @@ protocol HomeInteractorProtocol: AnyObject {
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel]
     func requestDataForUpdatesView() async throws -> [CarouselViewModel]
     func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage?
-    func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]?
 }
 
 final class HomeInteractor: HomeInteractorProtocol {
     unowned var presenter: HomePresenterProtocol!
-    
     private var todayGetTitleModel: [GetTitleModel]?
-    
     private var updatesGetTitleModel: [GetTitleModel]?
     
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel] {
@@ -31,12 +28,7 @@ final class HomeInteractor: HomeInteractorProtocol {
                 throw MyInternalError.failedToFetchData
             }
             todayGetTitleModel = firstScheduleModel.list
-            // Convert scheduleModel to CarouselViewModel
-            var carouselViewModel = [CarouselViewModel]()
-            firstScheduleModel.list.forEach {
-                carouselViewModel.append(CarouselViewModel(name: $0.names.ru))
-            }
-            return carouselViewModel
+            return convertGetTitleModelToCarouselViewModel(firstScheduleModel.list)
         } catch {
             throw error
         }
@@ -46,12 +38,7 @@ final class HomeInteractor: HomeInteractorProtocol {
         do {
             let titleModel = try await QueryService.shared.getUpdates()
             updatesGetTitleModel = titleModel
-            // Convert GetTitleModel to CarouselViewModel
-            var carouselViewModel = [CarouselViewModel]()
-            titleModel.forEach {
-                carouselViewModel.append(CarouselViewModel(name: $0.names.ru))
-            }
-            return carouselViewModel
+            return convertGetTitleModelToCarouselViewModel(titleModel)
         } catch {
             throw error
         }
@@ -70,12 +57,22 @@ final class HomeInteractor: HomeInteractorProtocol {
         }
     }
     
-    func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]? {
+    // MARK: - Private Functions
+    
+    private func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]? {
         switch viewType {
             case .todayCarouselView:
                 return todayGetTitleModel
             case .updatesCarouselView:
                 return updatesGetTitleModel
         }
+    }
+    
+    private func convertGetTitleModelToCarouselViewModel(_ titleModel: [GetTitleModel]) -> [CarouselViewModel] {
+        var carouselViewModel = [CarouselViewModel]()
+        titleModel.forEach {
+            carouselViewModel.append(CarouselViewModel(name: $0.names.ru))
+        }
+        return carouselViewModel
     }
 }
