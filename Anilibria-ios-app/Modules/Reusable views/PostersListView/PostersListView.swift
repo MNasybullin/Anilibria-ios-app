@@ -119,7 +119,7 @@ extension PostersListView: SkeletonCollectionViewDataSource {
 
 extension PostersListView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if postersListData?[section].headerName == nil {
+        if postersListData != nil, postersListData?[section].headerName == nil {
             return CGSize.zero
         } else {
             return CGSize(width: collectionView.bounds.width, height: PostersListCollectionViewHeader.titleLableHeight)
