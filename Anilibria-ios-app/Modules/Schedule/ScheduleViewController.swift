@@ -72,3 +72,17 @@ extension ScheduleViewController: PostersListViewProtocol {
         presenter.getImage(for: indexPath)
     }
 }
+
+#if DEBUG
+
+// MARK: - Live Preview In UIKit
+import SwiftUI
+struct ScheduleViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        ViewControllerPreview {
+            ScheduleRouter.start(withNavigationController: UINavigationController()).entry
+        }
+    }
+}
+
+#endif

@@ -39,3 +39,17 @@ extension TabBarViewController: UITabBarControllerDelegate {
         return true
     }
 }
+
+#if DEBUG
+
+// MARK: - Live Preview In UIKit
+import SwiftUI
+struct TabBarController_Previews: PreviewProvider {
+    static var previews: some View {
+        ViewControllerPreview {
+            TabBarRouter.start().entry
+        }
+    }
+}
+
+#endif

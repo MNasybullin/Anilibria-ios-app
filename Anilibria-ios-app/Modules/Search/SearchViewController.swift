@@ -19,3 +19,17 @@ final class SearchViewController: UIViewController, SearchViewProtocol {
         super.viewDidLoad()
     }
 }
+
+#if DEBUG
+
+// MARK: - Live Preview In UIKit
+import SwiftUI
+struct SearchViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        ViewControllerPreview {
+            SearchRouter.start().entry
+        }
+    }
+}
+
+#endif

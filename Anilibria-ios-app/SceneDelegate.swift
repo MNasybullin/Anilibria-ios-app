@@ -52,17 +52,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 }
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct SceneDelegate_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewControllerPreview {
-            TabBarRouter.start().entry
-        }
-    }
-}
-
-#endif
