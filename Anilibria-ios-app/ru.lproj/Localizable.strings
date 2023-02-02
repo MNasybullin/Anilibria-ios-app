@@ -22,6 +22,7 @@
 "NetworkConstants.getYears" = "/v2/getYears";
 "NetworkConstants.getGenres" = "/v2/getGenres";
 "NetworkConstants.getCachingNodes" = "/v2/getCachingNodes";
+"NetworkConstants.searchTitles" = "/v2/searchTitles";
 "NetworkConstants.login" = "/public/login.php";
 "NetworkConstants.logout" = "/public/logout.php";
 "NetworkConstants.profile" = "/public/api/index.php";

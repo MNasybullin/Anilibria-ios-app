@@ -186,6 +186,25 @@ class QueryService {
         return decoded
     }
     
+    /// Возвращает список найденных по фильтрам тайтлов
+    /// - Parameters:
+    ///     - withSearch: Поиск по именам и описанию
+    ///     - withLimit: Количество роликов запрашиваемые у сервера. (По умолчанию 10)
+    ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
+    func searchTitles(withSearch search: String, withLimit limit: Int = 10, after: Int = 0) async throws -> [GetTitleModel] {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.searchTitles)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "search", value: search),
+            URLQueryItem(name: "limit", value: String(limit)),
+            URLQueryItem(name: "after", value: String(after)),
+            URLQueryItem(name: "playlist_type", value: "array")
+        ]
+        
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
+        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        return decoded
+    }
+    
     // MARK: - Internal Methods | Custom Methods Requiring Authorization
     
     /// Авторизация

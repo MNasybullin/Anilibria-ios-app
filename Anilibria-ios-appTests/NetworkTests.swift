@@ -124,6 +124,16 @@ class NetworkPublicApiTests: XCTestCase {
         }
     }
     
+    func testSearchTitles() async throws {
+        do {
+            _ = try await QueryService.shared.searchTitles(withSearch: "Песнь")
+        } catch let error as MyNetworkError {
+            XCTFail(error.description)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
     func testGetImage() async throws {
         let urlSuffix = "/upload/avatars/noavatar.jpg"
         do {
