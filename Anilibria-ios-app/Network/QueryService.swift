@@ -177,6 +177,15 @@ class QueryService {
         return decoded
     }
     
+    /// Возвращает список участников команды когда-либо существовавших на проекте.
+    func getTeam() async throws -> GetTeamModel {
+        let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTeam)
+        
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
+        let decoded = try JSONDecoder().decode(GetTeamModel.self, from: data)
+        return decoded
+    }
+    
     /// Получить список кеш серверов с которых можно брать данные отсортированные по нагрузке. Севера сортируются в реальном времени, по этому рекомендуется для каждого сервера использовать один из самых верхних серверов.
     func getCachingNodes() async throws -> [String] {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getCachingNodes)

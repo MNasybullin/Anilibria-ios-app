@@ -21,6 +21,7 @@
 "NetworkConstants.getRandomTitle" = "/v2/getRandomTitle";
 "NetworkConstants.getYears" = "/v2/getYears";
 "NetworkConstants.getGenres" = "/v2/getGenres";
+"NetworkConstants.getTeam" = "/v2/getTeam";
 "NetworkConstants.getCachingNodes" = "/v2/getCachingNodes";
 "NetworkConstants.searchTitles" = "/v2/searchTitles";
 "NetworkConstants.login" = "/public/login.php";

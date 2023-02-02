@@ -114,6 +114,16 @@ class NetworkPublicApiTests: XCTestCase {
         }
     }
     
+    func testGetTeam() async throws {
+        do {
+            _ = try await QueryService.shared.getTeam()
+        } catch let error as MyNetworkError {
+            XCTFail(error.description)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
     func testGetCachingNodes() async throws {
         do {
             _ = try await QueryService.shared.getCachingNodes()

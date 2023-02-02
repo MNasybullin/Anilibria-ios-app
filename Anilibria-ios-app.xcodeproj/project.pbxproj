@@ -50,6 +50,7 @@
 		27A66E692987FAE300369EAF /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E682987FAE300369EAF /* SearchPresenter.swift */; };
 		27A66E6B2987FAEE00369EAF /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6A2987FAEE00369EAF /* SearchEntity.swift */; };
 		27A66E6D2987FAFA00369EAF /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6C2987FAFA00369EAF /* SearchRouter.swift */; };
+		27A66E6F298BCFC600369EAF /* GetTeamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6E298BCFC600369EAF /* GetTeamModel.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarViewController.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -128,6 +129,7 @@
 		27A66E682987FAE300369EAF /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		27A66E6A2987FAEE00369EAF /* SearchEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEntity.swift; sourceTree = "<group>"; };
 		27A66E6C2987FAFA00369EAF /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
+		27A66E6E298BCFC600369EAF /* GetTeamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTeamModel.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */,
 				272D6546288ED42B00FA4F60 /* GetTitleModel.swift */,
 				272D65482897E22100FA4F60 /* GetScheduleModel.swift */,
+				27A66E6E298BCFC600369EAF /* GetTeamModel.swift */,
 				279E4F2F289C4C70008038FF /* LoginModel.swift */,
 				279E4F34289D0304008038FF /* FavoriteModel.swift */,
 				279E4F36289D2CA7008038FF /* ProfileModel.swift */,
@@ -563,6 +566,7 @@
 				27A66E5729844D4000369EAF /* UpdatesInteractor.swift in Sources */,
 				276FCF99293CEBC20005B82E /* ScheduleViewController.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
+				27A66E6F298BCFC600369EAF /* GetTeamModel.swift in Sources */,
 				279E4F30289C4C70008038FF /* LoginModel.swift in Sources */,
 				27A66E6B2987FAEE00369EAF /* SearchEntity.swift in Sources */,
 				27A66E5229771D4500369EAF /* Alert.swift in Sources */,
