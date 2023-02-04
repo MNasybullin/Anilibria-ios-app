@@ -13,12 +13,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        let tabBarWireframeRouter = TabBarRouter.start()
-        let initialViewController = tabBarWireframeRouter.entry
-        
+                
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = initialViewController
+        let rootViewController = RootViewController.shared
+        rootViewController.safeAreaInsetsBottomHeight = window.safeAreaInsets.bottom
+        window.rootViewController = rootViewController
         self.window = window
         window.makeKeyAndVisible()
     }

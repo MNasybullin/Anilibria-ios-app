@@ -51,6 +51,7 @@
 		27A66E6B2987FAEE00369EAF /* SearchEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6A2987FAEE00369EAF /* SearchEntity.swift */; };
 		27A66E6D2987FAFA00369EAF /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6C2987FAFA00369EAF /* SearchRouter.swift */; };
 		27A66E6F298BCFC600369EAF /* GetTeamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6E298BCFC600369EAF /* GetTeamModel.swift */; };
+		27A66E75298E93FC00369EAF /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E74298E93FC00369EAF /* RootViewController.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarViewController.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -130,6 +131,7 @@
 		27A66E6A2987FAEE00369EAF /* SearchEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEntity.swift; sourceTree = "<group>"; };
 		27A66E6C2987FAFA00369EAF /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
 		27A66E6E298BCFC600369EAF /* GetTeamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTeamModel.swift; sourceTree = "<group>"; };
+		27A66E74298E93FC00369EAF /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -284,6 +286,13 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		27A66E76298EA3D400369EAF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		27B8C0572934D2EC004807A2 /* Reusable views */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +305,7 @@
 		27CB080628855A79009E2583 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				27A66E76298EA3D400369EAF /* Views */,
 				27B8C0572934D2EC004807A2 /* Reusable views */,
 				27CB080728855B1A009E2583 /* TabBar */,
 				27DEEBBF2886A92F0014055F /* Home */,
@@ -376,6 +386,7 @@
 			children = (
 				27F5E557287C6DCA00BCF61C /* AppDelegate.swift */,
 				27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */,
+				27A66E74298E93FC00369EAF /* RootViewController.swift */,
 				2752C4CB28A938D600B17073 /* LivePreviewInUIKit */,
 				272D6539288EC4EC00FA4F60 /* Generated */,
 				279E4F31289C7044008038FF /* Common */,
@@ -574,6 +585,7 @@
 				27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */,
 				276FCF9B293CEBD30005B82E /* ScheduleInteractor.swift in Sources */,
 				27A66E6D2987FAFA00369EAF /* SearchRouter.swift in Sources */,
+				27A66E75298E93FC00369EAF /* RootViewController.swift in Sources */,
 				279E4F37289D2CA7008038FF /* ProfileModel.swift in Sources */,
 				27A66E5F2987EDCD00369EAF /* CarouselViewModel.swift in Sources */,
 				27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */,

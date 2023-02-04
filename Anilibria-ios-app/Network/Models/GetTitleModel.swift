@@ -6,7 +6,7 @@
 //
 
 // swiftlint:disable identifier_name
-
+#warning("del this swiftlint")
 import Foundation
 
 /// Возвращается в запросах:
