@@ -12,10 +12,6 @@ protocol TabBarViewProtocol: AnyObject {
     var presenter: TabBarPresenterProtocol! { get set }
 }
 
-protocol ScrollableViewProtocol {
-    func scrollToTop()
-}
-
 final class TabBarViewController: UITabBarController, TabBarViewProtocol {
     var presenter: TabBarPresenterProtocol!
     
@@ -31,12 +27,24 @@ extension TabBarViewController: UITabBarControllerDelegate {
             guard let navigationController = viewController as? UINavigationController else {
                 return true
             }
-            guard let scrollableViewController = navigationController.viewControllers.first as? ScrollableViewProtocol else {
-                return true
-            }
-            scrollableViewController.scrollToTop()
+            ifScrollableViewProtocol(in: navigationController)
+            ifSearchViewController(in: navigationController)
         }
         return true
+    }
+    
+    private func ifScrollableViewProtocol(in navigationController: UINavigationController) {
+        guard let scrollableViewProtocol = navigationController.viewControllers.first as? ScrollableViewProtocol else {
+            return
+        }
+        scrollableViewProtocol.scrollToTop()
+    }
+    
+    private func ifSearchViewController(in navigationController: UINavigationController) {
+        guard let searchViewController = navigationController.viewControllers.first as? SearchViewController else {
+            return
+        }
+        searchViewController.searchController.searchBar.becomeFirstResponder()
     }
 }
 

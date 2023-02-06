@@ -52,6 +52,7 @@
 		27A66E6D2987FAFA00369EAF /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6C2987FAFA00369EAF /* SearchRouter.swift */; };
 		27A66E6F298BCFC600369EAF /* GetTeamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6E298BCFC600369EAF /* GetTeamModel.swift */; };
 		27A66E75298E93FC00369EAF /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E74298E93FC00369EAF /* RootViewController.swift */; };
+		27A66E792990EF9200369EAF /* ScrollableViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E782990EF9200369EAF /* ScrollableViewProtocol.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarViewController.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -132,6 +133,7 @@
 		27A66E6C2987FAFA00369EAF /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
 		27A66E6E298BCFC600369EAF /* GetTeamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTeamModel.swift; sourceTree = "<group>"; };
 		27A66E74298E93FC00369EAF /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		27A66E782990EF9200369EAF /* ScrollableViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableViewProtocol.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 		279E4F31289C7044008038FF /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				27A66E772990EF6C00369EAF /* Protocols */,
 				274BFB9628A260D500C3F9C9 /* Errors */,
 				279E4F32289C706B008038FF /* UserDefaultsExtension.swift */,
 				27A66E5129771D4500369EAF /* Alert.swift */,
@@ -291,6 +294,14 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		27A66E772990EF6C00369EAF /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				27A66E782990EF9200369EAF /* ScrollableViewProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		27B8C0572934D2EC004807A2 /* Reusable views */ = {
@@ -614,6 +625,7 @@
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
 				27DEEBC12886A9570014055F /* HomeViewController.swift in Sources */,
 				2775F1E129389E1000C7D079 /* MyError.swift in Sources */,
+				27A66E792990EF9200369EAF /* ScrollableViewProtocol.swift in Sources */,
 				274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */,
 				27A66E5D29844D6700369EAF /* UpdatesRouter.swift in Sources */,
 				27A66E5529844D1C00369EAF /* UpdatesViewController.swift in Sources */,
