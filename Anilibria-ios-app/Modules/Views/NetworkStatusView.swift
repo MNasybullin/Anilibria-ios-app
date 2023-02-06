@@ -1,0 +1,79 @@
+//
+//  NetworkStatusView.swift
+//  Anilibria-ios-app
+//
+//  Created by Mansur Nasybullin on 06.02.2023.
+//
+
+import UIKit
+
+final class NetworkStatusView: UIView {
+    static let labelFont = UIFont.systemFont(ofSize: 14, weight: .medium)
+    
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = labelFont
+        label.textColor = .label
+        label.numberOfLines = 1
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var networkIsActive: Bool! {
+        didSet {
+            viewConfigure()
+        }
+    }
+    
+    init(networkIsActive: Bool) {
+        super.init(frame: .zero)
+        self.networkIsActive = networkIsActive
+        
+        addSubview(titleLabel)
+        titleLabelConstraints()
+        
+        viewConfigure()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func titleLabelConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: NetworkStatusView.labelFont.lineHeight)
+        ])
+    }
+    
+    private func viewConfigure() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 1, delay: 0) {
+                if self.networkIsActive {
+                    self.backgroundColor = .systemGreen
+                    self.titleLabel.text = Strings.NetworkStatusView.connectionRestored
+                } else {
+                    self.backgroundColor = .systemRed
+                    self.titleLabel.text = Strings.NetworkStatusView.noConnection
+                }
+            }
+        }
+    }
+}
+
+#if DEBUG
+
+// MARK: - Live Preview In UIKit
+import SwiftUI
+struct NetworkStatusView_Previews: PreviewProvider {
+    static var previews: some View {
+        ViewPreview {
+            NetworkStatusView(networkIsActive: false)
+        }
+    }
+}
+
+#endif

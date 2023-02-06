@@ -88,3 +88,7 @@
 "ScreenTitles.profile" = "Профиль";
 "ScreenTitles.schedule" = "Расписание";
 "ScreenTitles.updates" = "Обновления";
+
+//MARK: - Network Status View
+"NetworkStatusView.connectionRestored" = "Подключение восстановлено";
+"NetworkStatusView.noConnection" = "Нет подключения";

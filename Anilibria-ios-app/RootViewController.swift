@@ -17,16 +17,15 @@ final class RootViewController: UIViewController {
     
     var safeAreaInsetsBottomHeight: CGFloat?
     
-    private var networkActivityView: UIView = {
-       let view = UIView(frame: CGRect(x: 0, y: 0, width: 400, height: 16)) //
-        view.backgroundColor = .red //
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private var networkActivityView: NetworkStatusView = {
+        let networkStatusView = NetworkStatusView(networkIsActive: false)
+        networkStatusView.translatesAutoresizingMaskIntoConstraints = false
+        return networkStatusView
     }()
     
-    private let networkActivityViewHeight: CGFloat = 16
+    private let networkActivityViewHeight: CGFloat = NetworkStatusView.labelFont.lineHeight
     
-    var hideBottomBar: Bool = true {
+    private var hideBottomBar: Bool = true {
         didSet {
             if hideBottomBar {
                 heightConstraint.constant = 0
@@ -46,8 +45,16 @@ final class RootViewController: UIViewController {
         networkActivityViewConfigure()
         heightConstraintConfigure()
         tabBarConfigure()
+
+        // for testing
+//        Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) {_ in
+//            RootViewController.shared.showNetworkActivityView()
+//        }
+//        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {_ in
+//            RootViewController.shared.changeNetworkActivityStatusAndHide()
+//        }
     }
-    
+        
     private func networkActivityViewConfigure() {
         view.addSubview(networkActivityView)
         NSLayoutConstraint.activate([
@@ -85,19 +92,18 @@ final class RootViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Internal Methods
+    
+    public func showNetworkActivityView() {
+        networkActivityView.networkIsActive = false
+        hideBottomBar = false
+    }
+    
+    func changeNetworkActivityStatusAndHide() {
+        networkActivityView.networkIsActive = true
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) {_ in
+            self.hideBottomBar = true
+        }
+    }
 }
-
-// testing view
-
-//  let timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(anim), userInfo: nil, repeats: true)
-//  timer.fire()
-//
-//@objc func anim() {
-//    DispatchQueue.main.async {
-//        if RootViewController.shared.hideBottomBar == true {
-//            RootViewController.shared.hideBottomBar = false
-//        } else {
-//            RootViewController.shared.hideBottomBar = true
-//        }
-//    }
-//}
