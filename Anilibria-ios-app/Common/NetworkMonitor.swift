@@ -12,7 +12,7 @@ final class NetworkMonitor {
     static let shared = NetworkMonitor()
     
     private let queue = DispatchQueue.global()
-    private let monitor: NWPathMonitor
+    private let monitor = NWPathMonitor()
     
     public private(set) var isConnected: Bool = false
     public private(set) var connectionType: ConnectionType = .unknown
@@ -23,11 +23,7 @@ final class NetworkMonitor {
         case ethernet
         case unknown
     }
-    
-    init() {
-        monitor = NWPathMonitor()
-    }
-    
+        
     public func startMonitoring() {
         monitor.start(queue: queue)
         monitor.pathUpdateHandler = { [weak self] path in

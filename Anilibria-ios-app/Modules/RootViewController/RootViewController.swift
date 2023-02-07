@@ -29,10 +29,11 @@ final class RootViewController: UIViewController {
         didSet {
             if hideBottomBar {
                 heightConstraint.constant = 0
+                updateView(withDelay: 3)
             } else {
                 heightConstraint.constant = (safeAreaInsetsBottomHeight ?? 0) + networkActivityViewHeight
+                updateView()
             }
-            updateView()
         }
     }
     
@@ -50,8 +51,11 @@ final class RootViewController: UIViewController {
 //        Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) {_ in
 //            RootViewController.shared.showNetworkActivityView()
 //        }
-//        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {_ in
-//            RootViewController.shared.changeNetworkActivityStatusAndHide()
+//        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) {_ in
+//            RootViewController.shared.showFlashInNetworkActivityView()
+//        }
+//        Timer.scheduledTimer(withTimeInterval: 6, repeats: false) {_ in
+//            RootViewController.shared.hideNetworkActivityView()
 //        }
     }
         
@@ -85,25 +89,34 @@ final class RootViewController: UIViewController {
         tabBar.didMove(toParent: self)
     }
     
-    private func updateView() {
+    private func updateView(withDelay delay: TimeInterval = 0) {
         DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.3, delay: delay) {
                 self.view.layoutIfNeeded()
             }
         }
     }
-    
-    // MARK: - Internal Methods
-    
-    public func showNetworkActivityView() {
+        
+    func showNetworkActivityView() {
         networkActivityView.networkIsActive = false
         hideBottomBar = false
     }
     
-    func changeNetworkActivityStatusAndHide() {
+    func hideNetworkActivityView() {
         networkActivityView.networkIsActive = true
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) {_ in
-            self.hideBottomBar = true
+        hideBottomBar = true
+    }
+    
+    func showFlashInNetworkActivityView() {
+        DispatchQueue.main.async {
+            let color = self.networkActivityView.backgroundColor
+            UIView.animate(withDuration: 0.5, animations: {
+                self.networkActivityView.backgroundColor = .systemGray
+            }, completion: {_ in
+                UIView.animate(withDuration: 0.5) {
+                    self.networkActivityView.backgroundColor = color
+                }
+            })
         }
     }
 }

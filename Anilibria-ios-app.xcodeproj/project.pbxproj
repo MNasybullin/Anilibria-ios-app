@@ -310,6 +310,14 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		27A66E7E2992CC7600369EAF /* RootViewController */ = {
+			isa = PBXGroup;
+			children = (
+				27A66E74298E93FC00369EAF /* RootViewController.swift */,
+			);
+			path = RootViewController;
+			sourceTree = "<group>";
+		};
 		27B8C0572934D2EC004807A2 /* Reusable views */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +332,7 @@
 			children = (
 				27A66E76298EA3D400369EAF /* Views */,
 				27B8C0572934D2EC004807A2 /* Reusable views */,
+				27A66E7E2992CC7600369EAF /* RootViewController */,
 				27CB080728855B1A009E2583 /* TabBar */,
 				27DEEBBF2886A92F0014055F /* Home */,
 				27A66E632987FA8500369EAF /* Search */,
@@ -403,7 +412,6 @@
 			children = (
 				27F5E557287C6DCA00BCF61C /* AppDelegate.swift */,
 				27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */,
-				27A66E74298E93FC00369EAF /* RootViewController.swift */,
 				2752C4CB28A938D600B17073 /* LivePreviewInUIKit */,
 				272D6539288EC4EC00FA4F60 /* Generated */,
 				279E4F31289C7044008038FF /* Common */,
