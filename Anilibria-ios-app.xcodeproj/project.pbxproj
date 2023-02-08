@@ -265,7 +265,6 @@
 				274BFB9628A260D500C3F9C9 /* Errors */,
 				279E4F32289C706B008038FF /* UserDefaultsExtension.swift */,
 				27A66E5129771D4500369EAF /* Alert.swift */,
-				27A66E7C299298B200369EAF /* NetworkMonitor.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -371,6 +370,7 @@
 			children = (
 				272D6533288C63CA00FA4F60 /* Models */,
 				272D6531288AEF3800FA4F60 /* QueryService.swift */,
+				27A66E7C299298B200369EAF /* NetworkMonitor.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";

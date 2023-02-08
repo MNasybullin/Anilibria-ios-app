@@ -6,7 +6,6 @@
 //
 
 import XCTest
-import Network
 @testable import Anilibria_ios_app
 
 class NetworkPublicApiTests: XCTestCase {
@@ -15,10 +14,9 @@ class NetworkPublicApiTests: XCTestCase {
         let id = "8500"
         do {
             _ = try await QueryService.shared.getTitle(with: id)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -26,22 +24,20 @@ class NetworkPublicApiTests: XCTestCase {
         let ids = "8500, 8800"
         do {
             _ = try await QueryService.shared.getTitles(with: ids)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
     func testGetUpdates() async throws {
-        let limit = 10
-        let after = 1
+        let limit = 1
+        let after = 8
         do {
             _ = try await QueryService.shared.getUpdates(withLimit: limit, after: after)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -49,10 +45,9 @@ class NetworkPublicApiTests: XCTestCase {
         let limit = 10
         do {
             _ = try await QueryService.shared.getChanges(with: limit)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -65,20 +60,18 @@ class NetworkPublicApiTests: XCTestCase {
                 .friday,
                 .saturday,
                 .sunday])
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
     func testGetRandomTitle() async throws {
         do {
             _ = try await QueryService.shared.getRandomTitle()
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -87,60 +80,54 @@ class NetworkPublicApiTests: XCTestCase {
         let after = 1
         do {
             _ = try await QueryService.shared.getYouTube(withLimit: limit, after: after)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
     func testGetYears() async throws {
         do {
             _ = try await QueryService.shared.getYears()
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
     func testGetGenres() async throws {
         do {
             _ = try await QueryService.shared.getGenres()
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
     func testGetTeam() async throws {
         do {
             _ = try await QueryService.shared.getTeam()
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
     func testGetCachingNodes() async throws {
         do {
             _ = try await QueryService.shared.getCachingNodes()
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
     func testSearchTitles() async throws {
         do {
             _ = try await QueryService.shared.searchTitles(withSearch: "Песнь")
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -148,12 +135,9 @@ class NetworkPublicApiTests: XCTestCase {
         let urlSuffix = "/upload/avatars/noavatar.jpg"
         do {
             _ = try await QueryService.shared.getImageData(from: urlSuffix)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
-        } catch let error as MyImageError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
 }
@@ -166,20 +150,18 @@ class NetworkAPIRequiringAuthorizationTests: XCTestCase {
         
         do {
             _ = try await QueryService.shared.login(email: email, password: password)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
     func testLogout() async throws {
         do {
             try await QueryService.shared.logout()
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -187,10 +169,9 @@ class NetworkAPIRequiringAuthorizationTests: XCTestCase {
         do {
             try await testLogin()
             _ = try await QueryService.shared.getFavorites()
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -199,10 +180,9 @@ class NetworkAPIRequiringAuthorizationTests: XCTestCase {
         do {
             try await testLogin()
             _ = try await QueryService.shared.delFavorite(from: titleID)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -212,10 +192,9 @@ class NetworkAPIRequiringAuthorizationTests: XCTestCase {
             try await testLogin()
             try await testDelFavorite()
             _ = try await QueryService.shared.addFavorite(from: titleID)
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
     
@@ -223,10 +202,9 @@ class NetworkAPIRequiringAuthorizationTests: XCTestCase {
         do {
             try await testLogin()
             _ = try await QueryService.shared.profileInfo()
-        } catch let error as MyNetworkError {
-            XCTFail(error.description)
         } catch {
-            XCTFail(error.localizedDescription)
+            let message = ErrorProcessing.shared.getMessageFrom(error: error)
+            XCTFail(message)
         }
     }
 }

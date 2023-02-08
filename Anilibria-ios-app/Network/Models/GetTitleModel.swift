@@ -131,8 +131,8 @@ struct GTPlayer: Codable {
 }
 
 struct GTSeries: Codable {
-    let first: Int?
-    let last: Int?
+    let first: Double?
+    let last: Double?
     let string: String?
 }
 
