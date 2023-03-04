@@ -37,7 +37,6 @@ struct ViewPreview: UIViewRepresentable {
          ViewPreview {
              // View()
          }
-         .previewDevice("iPhone 12")
      }
  }
  

@@ -14,7 +14,18 @@ final class NetworkMonitor {
     private let queue = DispatchQueue.global()
     private let monitor = NWPathMonitor()
     
-    public private(set) var isConnected: Bool = false
+    public private(set) var isConnected: Bool = false {
+        didSet {
+            DispatchQueue.main.async {
+                switch self.isConnected {
+                    case false:
+                        RootViewController.shared.showNetworkActivityView()
+                    case true:
+                        RootViewController.shared.hideNetworkActivityView()
+                }
+            }
+        }
+    }
     public private(set) var connectionType: ConnectionType = .unknown
     
     enum ConnectionType {

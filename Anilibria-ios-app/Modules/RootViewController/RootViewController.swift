@@ -17,7 +17,7 @@ final class RootViewController: UIViewController {
     
     var safeAreaInsetsBottomHeight: CGFloat?
     
-    private var networkActivityView: NetworkStatusView = {
+    private var networkStatusView: NetworkStatusView = {
         let networkStatusView = NetworkStatusView(isNetworkActive: false)
         networkStatusView.translatesAutoresizingMaskIntoConstraints = false
         return networkStatusView
@@ -25,55 +25,38 @@ final class RootViewController: UIViewController {
     
     private let networkActivityViewHeight: CGFloat = NetworkStatusView.labelFont.lineHeight
     
-    private var hideBottomBar: Bool = true {
+    private var isHiddenBottomBar: Bool = true {
         didSet {
-            if hideBottomBar {
-                heightConstraint.constant = 0
+            if isHiddenBottomBar {
+                networkActivityViewHeightConstraint.constant = 0
                 updateView(withDelay: 3)
             } else {
-                heightConstraint.constant = (safeAreaInsetsBottomHeight ?? 0) + networkActivityViewHeight
+                networkActivityViewHeightConstraint.constant = (safeAreaInsetsBottomHeight ?? 0) + networkActivityViewHeight
                 updateView()
             }
         }
     }
     
-    private var heightConstraint: NSLayoutConstraint!
+    private var networkActivityViewHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        networkActivityViewConfigure()
-        heightConstraintConfigure()
+        networkStatusViewConfigure()
         tabBarConfigure()
-
-        // for testing
-//        Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) {_ in
-//            RootViewController.shared.showNetworkActivityView()
-//        }
-//        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) {_ in
-//            RootViewController.shared.showFlashInNetworkActivityView()
-//        }
-//        Timer.scheduledTimer(withTimeInterval: 6, repeats: false) {_ in
-//            RootViewController.shared.hideNetworkActivityView()
-//        }
     }
         
-    private func networkActivityViewConfigure() {
-        view.addSubview(networkActivityView)
+    private func networkStatusViewConfigure() {
+        view.addSubview(networkStatusView)
         NSLayoutConstraint.activate([
-            networkActivityView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            networkActivityView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            networkActivityView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            networkStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            networkStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            networkStatusView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-    
-    private func heightConstraintConfigure() {
-        heightConstraint = networkActivityView.heightAnchor.constraint(equalToConstant: (safeAreaInsetsBottomHeight ?? 0) + networkActivityViewHeight)
-        heightConstraint.isActive = true
-        if hideBottomBar {
-            heightConstraint.constant = 0
-        }
+        
+        networkActivityViewHeightConstraint = networkStatusView.heightAnchor.constraint(equalToConstant: 0)
+        networkActivityViewHeightConstraint.isActive = true
     }
     
     private func tabBarConfigure() {
@@ -84,7 +67,7 @@ final class RootViewController: UIViewController {
             tabBar.view.topAnchor.constraint(equalTo: view.topAnchor),
             tabBar.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tabBar.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabBar.view.bottomAnchor.constraint(equalTo: networkActivityView.topAnchor)
+            tabBar.view.bottomAnchor.constraint(equalTo: networkStatusView.topAnchor)
         ])
         tabBar.didMove(toParent: self)
     }
@@ -98,29 +81,45 @@ final class RootViewController: UIViewController {
     }
         
     public func showNetworkActivityView() {
-        if networkActivityView.isNetworkActive == false {
-            showFlash()
-        } else {
-            networkActivityView.isNetworkActive = false
-            hideBottomBar = false
+        if isHiddenBottomBar == true {
+            networkStatusView.isNetworkActive = false
+            isHiddenBottomBar = false
         }
     }
     
     public func hideNetworkActivityView() {
-        networkActivityView.isNetworkActive = true
-        hideBottomBar = true
+        if isHiddenBottomBar == false {
+            networkStatusView.isNetworkActive = true
+            isHiddenBottomBar = true
+        }
     }
     
-    private func showFlash() {
-        DispatchQueue.main.async {
-            let color = self.networkActivityView.backgroundColor
-            UIView.animate(withDuration: 0.5, animations: {
-                self.networkActivityView.backgroundColor = .systemGray
-            }, completion: {_ in
-                UIView.animate(withDuration: 0.5) {
-                    self.networkActivityView.backgroundColor = color
-                }
-            })
+    public func showFlashNetworkActivityView() {
+        if isHiddenBottomBar == false {
+            DispatchQueue.main.async {
+                let color = self.networkStatusView.backgroundColor
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.networkStatusView.backgroundColor = .systemGray
+                }, completion: {_ in
+                    UIView.animate(withDuration: 0.5) {
+                        self.networkStatusView.backgroundColor = color
+                    }
+                })
+            }
         }
     }
 }
+
+#if DEBUG
+
+// MARK: - Live Preview In UIKit
+import SwiftUI
+struct ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        ViewControllerPreview {
+            RootViewController.shared
+        }
+    }
+}
+
+#endif

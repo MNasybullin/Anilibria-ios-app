@@ -37,7 +37,6 @@ struct ViewControllerPreview: UIViewControllerRepresentable {
          ViewControllerPreview {
              // ViewController()
          }
-         .previewDevice("iPhone 12")
      }
  }
  
