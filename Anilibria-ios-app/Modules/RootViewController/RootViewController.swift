@@ -18,7 +18,7 @@ final class RootViewController: UIViewController {
     var safeAreaInsetsBottomHeight: CGFloat?
     
     private var networkActivityView: NetworkStatusView = {
-        let networkStatusView = NetworkStatusView(networkIsActive: false)
+        let networkStatusView = NetworkStatusView(isNetworkActive: false)
         networkStatusView.translatesAutoresizingMaskIntoConstraints = false
         return networkStatusView
     }()
@@ -97,17 +97,21 @@ final class RootViewController: UIViewController {
         }
     }
         
-    func showNetworkActivityView() {
-        networkActivityView.networkIsActive = false
-        hideBottomBar = false
+    public func showNetworkActivityView() {
+        if networkActivityView.isNetworkActive == false {
+            showFlash()
+        } else {
+            networkActivityView.isNetworkActive = false
+            hideBottomBar = false
+        }
     }
     
-    func hideNetworkActivityView() {
-        networkActivityView.networkIsActive = true
+    public func hideNetworkActivityView() {
+        networkActivityView.isNetworkActive = true
         hideBottomBar = true
     }
     
-    func showFlashInNetworkActivityView() {
+    private func showFlash() {
         DispatchQueue.main.async {
             let color = self.networkActivityView.backgroundColor
             UIView.animate(withDuration: 0.5, animations: {

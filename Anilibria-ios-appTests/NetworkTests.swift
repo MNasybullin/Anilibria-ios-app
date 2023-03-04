@@ -31,8 +31,8 @@ class NetworkPublicApiTests: XCTestCase {
     }
     
     func testGetUpdates() async throws {
-        let limit = 1
-        let after = 8
+        let limit = 10
+        let after = 1
         do {
             _ = try await QueryService.shared.getUpdates(withLimit: limit, after: after)
         } catch {

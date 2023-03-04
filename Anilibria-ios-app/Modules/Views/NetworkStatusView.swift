@@ -20,15 +20,15 @@ final class NetworkStatusView: UIView {
         return label
     }()
     
-    var networkIsActive: Bool! {
+    var isNetworkActive: Bool! {
         didSet {
             viewConfigure()
         }
     }
     
-    init(networkIsActive: Bool) {
+    init(isNetworkActive: Bool) {
         super.init(frame: .zero)
-        self.networkIsActive = networkIsActive
+        self.isNetworkActive = isNetworkActive
         
         addSubview(titleLabel)
         titleLabelConstraints()
@@ -52,7 +52,7 @@ final class NetworkStatusView: UIView {
     private func viewConfigure() {
         DispatchQueue.main.async {
             UIView.animate(withDuration: 1, delay: 0) {
-                if self.networkIsActive {
+                if self.isNetworkActive {
                     self.backgroundColor = UIColor(asset: Asset.Colors.green)
                     self.titleLabel.text = Strings.NetworkStatusView.connectionRestored
                 } else {
@@ -71,7 +71,7 @@ import SwiftUI
 struct NetworkStatusView_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            NetworkStatusView(networkIsActive: false)
+            NetworkStatusView(isNetworkActive: false)
         }
     }
 }

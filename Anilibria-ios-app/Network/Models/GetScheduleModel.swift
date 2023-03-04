@@ -15,7 +15,7 @@ struct GetScheduleModel: Codable {
 }
 
 /// Счет дней недели идет с понедельника, где 0 - Понедельник, а 6 - Воскресенье.
-enum DaysOfTheWeek: Int, Codable {
+enum DaysOfTheWeek: Int, Codable, CaseIterable {
     case monday = 0,
          tuesday = 1,
          wednesday = 2,
