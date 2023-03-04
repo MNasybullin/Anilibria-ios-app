@@ -55,8 +55,8 @@ final class RootViewController: UIViewController {
     }
     
     private func tabBarConfigure() {
-        addChild(tabBar)
         view.addSubview(tabBar.view)
+        addChild(tabBar)
         tabBar.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tabBar.view.topAnchor.constraint(equalTo: view.topAnchor),
@@ -84,31 +84,28 @@ final class RootViewController: UIViewController {
     }
         
     public func showNetworkActivityView() {
-        if isHiddenBottomBar == true {
-            networkStatusView.isNetworkActive = false
-            isHiddenBottomBar = false
-        }
+        guard isHiddenBottomBar == true else { return }
+        networkStatusView.isNetworkActive = false
+        isHiddenBottomBar = false
     }
     
     public func hideNetworkActivityView() {
-        if isHiddenBottomBar == false {
-            networkStatusView.isNetworkActive = true
-            isHiddenBottomBar = true
-        }
+        guard isHiddenBottomBar == false else { return }
+        networkStatusView.isNetworkActive = true
+        isHiddenBottomBar = true
     }
     
     public func showFlashNetworkActivityView() {
-        if isHiddenBottomBar == false {
-            DispatchQueue.main.async {
-                let color = self.networkStatusView.backgroundColor
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.networkStatusView.backgroundColor = .systemGray
-                }, completion: {_ in
-                    UIView.animate(withDuration: 0.5) {
-                        self.networkStatusView.backgroundColor = color
-                    }
-                })
-            }
+        guard isHiddenBottomBar == false else { return }
+        DispatchQueue.main.async {
+            let color = self.networkStatusView.backgroundColor
+            UIView.animate(withDuration: 0.5, animations: {
+                self.networkStatusView.backgroundColor = .systemGray
+            }, completion: {_ in
+                UIView.animate(withDuration: 0.5) {
+                    self.networkStatusView.backgroundColor = color
+                }
+            })
         }
     }
 }
@@ -117,7 +114,7 @@ final class RootViewController: UIViewController {
 
 // MARK: - Live Preview In UIKit
 import SwiftUI
-struct ViewController_Previews: PreviewProvider {
+struct RootViewController_Previews: PreviewProvider {
     static var previews: some View {
         ViewControllerPreview {
             RootViewController.shared

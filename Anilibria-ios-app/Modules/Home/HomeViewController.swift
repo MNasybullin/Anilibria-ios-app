@@ -73,6 +73,11 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     @objc func handleRefreshControl() {
+        guard NetworkMonitor.shared.isConnected == true else {
+            RootViewController.shared.showFlashNetworkActivityView()
+            refreshControlEndRefreshing()
+            return
+        }
         todayCarouselView.refreshData()
         updatesCarouselView.refreshData()
     }
