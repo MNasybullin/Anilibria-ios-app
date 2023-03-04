@@ -15,7 +15,8 @@ final class RootViewController: UIViewController {
         return TabBarRouter.start().entry
     }()
     
-    var safeAreaInsetsBottomHeight: CGFloat?
+    // Value is set in sceneDelegate
+    var safeAreaInsetBottomHeight: CGFloat = 0.0
     
     private var networkStatusView: NetworkStatusView = {
         let networkStatusView = NetworkStatusView(isNetworkActive: false)
@@ -27,13 +28,7 @@ final class RootViewController: UIViewController {
     
     private var isHiddenBottomBar: Bool = true {
         didSet {
-            if isHiddenBottomBar {
-                networkActivityViewHeightConstraint.constant = 0
-                updateView(withDelay: 3)
-            } else {
-                networkActivityViewHeightConstraint.constant = (safeAreaInsetsBottomHeight ?? 0) + networkActivityViewHeight
-                updateView()
-            }
+            updateView()
         }
     }
     
@@ -72,7 +67,15 @@ final class RootViewController: UIViewController {
         tabBar.didMove(toParent: self)
     }
     
-    private func updateView(withDelay delay: TimeInterval = 0) {
+    private func updateView() {
+        let delay: TimeInterval
+        if isHiddenBottomBar {
+            networkActivityViewHeightConstraint.constant = 0
+            delay = 3
+        } else {
+            networkActivityViewHeightConstraint.constant = safeAreaInsetBottomHeight + networkActivityViewHeight
+            delay = 0
+        }
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.3, delay: delay) {
                 self.view.layoutIfNeeded()

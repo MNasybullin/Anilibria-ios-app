@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
         let window = UIWindow(windowScene: windowScene)
         let rootViewController = RootViewController.shared
-        rootViewController.safeAreaInsetsBottomHeight = window.safeAreaInsets.bottom
+        rootViewController.safeAreaInsetBottomHeight = window.safeAreaInsets.bottom
         window.rootViewController = rootViewController
         self.window = window
         window.makeKeyAndVisible()
