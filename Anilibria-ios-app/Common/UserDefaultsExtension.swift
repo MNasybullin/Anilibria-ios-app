@@ -6,7 +6,7 @@
 //
 
 import Foundation
-#warning("Переделать это используя Keychain")
+// TODO: ("Переделать это используя Keychain")
 enum UserDefaultsKeys: String {
     case sessionId
 }

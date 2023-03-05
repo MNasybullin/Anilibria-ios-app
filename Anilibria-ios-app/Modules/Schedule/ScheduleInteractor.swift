@@ -21,7 +21,7 @@ final class ScheduleInteractor: ScheduleInteractorProtocol {
     
     func requestScheduleData() async throws -> [PostersListViewModel] {
         do {
-            let data = try await QueryService.shared.getSchedule(with: DaysOfTheWeek.allCases)
+            let data = try await PublicApiService.shared.getSchedule(with: DaysOfTheWeek.allCases)
             scheduleModel = data
             return convertScheduleModelToPostersListViewModel(data)
         } catch {
@@ -34,7 +34,7 @@ final class ScheduleInteractor: ScheduleInteractorProtocol {
             throw MyInternalError.failedToFetchData
         }
         do {
-            let imageData = try await QueryService.shared.getImageData(from: imageURL)
+            let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
             return UIImage(data: imageData)
         } catch {
             throw error

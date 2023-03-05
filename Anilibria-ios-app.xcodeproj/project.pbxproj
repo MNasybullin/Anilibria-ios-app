@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2710E99D29B510ED00B66C62 /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E99C29B510ED00B66C62 /* ImageLoaderService.swift */; };
+		2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E99E29B5117500B66C62 /* AuthorizationService.swift */; };
+		2710E9A129B5146500B66C62 /* PublicApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A029B5146500B66C62 /* PublicApiService.swift */; };
+		2710E9A329B5187000B66C62 /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
+		2710E9A529B518AD00B66C62 /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
+		2710E9A729B518E200B66C62 /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
 		272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6531288AEF3800FA4F60 /* QueryService.swift */; };
 		272D6535288C63E100FA4F60 /* GetYouTubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */; };
 		272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */; };
@@ -20,7 +26,6 @@
 		272FF68328B6535900CAE5DB /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FF68228B6535900CAE5DB /* CarouselView.swift */; };
 		272FF68528B664FF00CAE5DB /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272FF68428B664FF00CAE5DB /* CarouselCollectionViewCell.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
-		274BFBA228A29C3400C3F9C9 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */; };
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
 		2754F63128A94525003485E6 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2754F63028A94525003485E6 /* ViewPreview.swift */; };
 		276FCF96293C8A3A0005B82E /* PostersListCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */; };
@@ -90,6 +95,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2710E99C29B510ED00B66C62 /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
+		2710E99E29B5117500B66C62 /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
+		2710E9A029B5146500B66C62 /* PublicApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicApiService.swift; sourceTree = "<group>"; };
+		2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicApiServiceTests.swift; sourceTree = "<group>"; };
+		2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationServiceTests.swift; sourceTree = "<group>"; };
+		2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderServiceTests.swift; sourceTree = "<group>"; };
 		272D6531288AEF3800FA4F60 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
 		272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYouTubeModel.swift; sourceTree = "<group>"; };
 		272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IB-Segues+Generated.swift"; sourceTree = "<group>"; };
@@ -104,7 +115,6 @@
 		272FF68428B664FF00CAE5DB /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		2754F63028A94525003485E6 /* ViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPreview.swift; sourceTree = "<group>"; };
 		276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListCollectionViewHeader.swift; sourceTree = "<group>"; };
@@ -232,7 +242,9 @@
 		274BFBA028A29C3400C3F9C9 /* Anilibria-ios-appTests */ = {
 			isa = PBXGroup;
 			children = (
-				274BFBA128A29C3400C3F9C9 /* NetworkTests.swift */,
+				2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */,
+				2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */,
+				2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */,
 			);
 			path = "Anilibria-ios-appTests";
 			sourceTree = "<group>";
@@ -370,6 +382,9 @@
 			children = (
 				272D6533288C63CA00FA4F60 /* Models */,
 				272D6531288AEF3800FA4F60 /* QueryService.swift */,
+				2710E9A029B5146500B66C62 /* PublicApiService.swift */,
+				2710E99E29B5117500B66C62 /* AuthorizationService.swift */,
+				2710E99C29B510ED00B66C62 /* ImageLoaderService.swift */,
 				27A66E7C299298B200369EAF /* NetworkMonitor.swift */,
 			);
 			path = Network;
@@ -588,7 +603,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				274BFBA228A29C3400C3F9C9 /* NetworkTests.swift in Sources */,
+				2710E9A329B5187000B66C62 /* PublicApiServiceTests.swift in Sources */,
+				2710E9A729B518E200B66C62 /* ImageLoaderServiceTests.swift in Sources */,
+				2710E9A529B518AD00B66C62 /* AuthorizationServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,7 +616,9 @@
 				272D6535288C63E100FA4F60 /* GetYouTubeModel.swift in Sources */,
 				272FF68328B6535900CAE5DB /* CarouselView.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
+				2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */,
 				27A66E5729844D4000369EAF /* UpdatesInteractor.swift in Sources */,
+				2710E99D29B510ED00B66C62 /* ImageLoaderService.swift in Sources */,
 				276FCF99293CEBC20005B82E /* ScheduleViewController.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
 				27A66E6F298BCFC600369EAF /* GetTeamModel.swift in Sources */,
@@ -645,6 +664,7 @@
 				274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */,
 				27A66E5D29844D6700369EAF /* UpdatesRouter.swift in Sources */,
 				27A66E5529844D1C00369EAF /* UpdatesViewController.swift in Sources */,
+				2710E9A129B5146500B66C62 /* PublicApiService.swift in Sources */,
 				276FCF9F293CEC010005B82E /* ScheduleEntity.swift in Sources */,
 				27DEEBC32886A9650014055F /* HomeInteractor.swift in Sources */,
 				27A66E652987FAC300369EAF /* SearchViewController.swift in Sources */,

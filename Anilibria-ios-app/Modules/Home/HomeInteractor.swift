@@ -23,7 +23,7 @@ final class HomeInteractor: HomeInteractorProtocol {
     
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel] {
         do {
-            let scheduleModel = try await QueryService.shared.getSchedule(with: [day])
+            let scheduleModel = try await PublicApiService.shared.getSchedule(with: [day])
             guard let firstScheduleModel = scheduleModel.first, firstScheduleModel.day == day else {
                 throw MyInternalError.failedToFetchData
             }
@@ -36,7 +36,7 @@ final class HomeInteractor: HomeInteractorProtocol {
     
     func requestDataForUpdatesView() async throws -> [CarouselViewModel] {
         do {
-            let titleModel = try await QueryService.shared.getUpdates()
+            let titleModel = try await PublicApiService.shared.getUpdates()
             updatesGetTitleModel = titleModel
             return convertGetTitleModelToCarouselViewModel(titleModel)
         } catch {
@@ -50,7 +50,7 @@ final class HomeInteractor: HomeInteractorProtocol {
             throw MyInternalError.failedToFetchData
         }
         do {
-            let imageData = try await QueryService.shared.getImageData(from: imageURL)
+            let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
             return UIImage(data: imageData)
         } catch {
             throw error
