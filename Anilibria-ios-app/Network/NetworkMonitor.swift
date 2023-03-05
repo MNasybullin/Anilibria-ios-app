@@ -7,6 +7,7 @@
 
 import Foundation
 import Network
+import Combine
 
 final class NetworkMonitor {
     static let shared = NetworkMonitor()
@@ -14,15 +15,16 @@ final class NetworkMonitor {
     private let queue = DispatchQueue.global()
     private let monitor = NWPathMonitor()
     
+    var isConnectedPublisher: AnyPublisher<Bool, Never> {
+        isConnectedSubject.eraseToAnyPublisher()
+    }
+    
+    private let isConnectedSubject = PassthroughSubject<Bool, Never>()
+    
     public private(set) var isConnected: Bool = false {
         didSet {
-            DispatchQueue.main.async {
-                switch self.isConnected {
-                    case false:
-                        RootViewController.shared.showNetworkActivityView()
-                    case true:
-                        RootViewController.shared.hideNetworkActivityView()
-                }
+            if oldValue != isConnected {
+                isConnectedSubject.send(isConnected)
             }
         }
     }

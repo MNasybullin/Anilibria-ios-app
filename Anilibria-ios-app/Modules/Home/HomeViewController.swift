@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
@@ -24,6 +25,8 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     private var todayCarouselView: CarouselView!
     private var updatesCarouselView: CarouselView!
     
+    var cancellable: AnyCancellable!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -34,6 +37,18 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         configureVContentStackView()
         configureTodayCarouselView()
         configureUpdatesCarouselView()
+        subscribeToNetworkMonitor()
+    }
+    
+    private func subscribeToNetworkMonitor() {
+        cancellable = NetworkMonitor.shared.isConnectedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { isConnected in
+                if isConnected == true {
+                    self.scrollView.refreshControl?.beginRefreshing()
+                    self.handleRefreshControl()
+                }
+            }
     }
     
     // MARK: - NavigationBarAppearance

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 final class RootViewController: UIViewController {
     static let shared: RootViewController = RootViewController()
@@ -26,13 +27,13 @@ final class RootViewController: UIViewController {
     
     private let networkActivityViewHeight: CGFloat = NetworkStatusView.labelFont.lineHeight
     
-    private var isHiddenBottomBar: Bool = true {
-        didSet {
-            updateView()
-        }
+    private var isHiddenBottomBar: Bool = NetworkMonitor.shared.isConnected {
+        didSet { updateView() }
     }
     
     private var networkActivityViewHeightConstraint: NSLayoutConstraint!
+    
+    var cancellable: AnyCancellable!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,8 @@ final class RootViewController: UIViewController {
         
         networkStatusViewConfigure()
         tabBarConfigure()
+        subscribeToNetworkMonitor()
+        updateView()
     }
         
     private func networkStatusViewConfigure() {
@@ -65,6 +68,18 @@ final class RootViewController: UIViewController {
             tabBar.view.bottomAnchor.constraint(equalTo: networkStatusView.topAnchor)
         ])
         tabBar.didMove(toParent: self)
+    }
+    
+    private func subscribeToNetworkMonitor() {
+        cancellable = NetworkMonitor.shared.isConnectedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { isConnected in
+                if isConnected == false {
+                    self.showNetworkActivityView()
+                } else {
+                    self.hideNetworkActivityView()
+                }
+            }
     }
     
     private func updateView() {
