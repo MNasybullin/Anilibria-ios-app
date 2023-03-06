@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AuthorizationService: QueryService {
+final class AuthorizationService: QueryService {
     // MARK: - Singleton
     static let shared: AuthorizationService = AuthorizationService()
     

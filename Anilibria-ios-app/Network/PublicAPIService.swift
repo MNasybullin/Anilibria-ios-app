@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PublicApiService: QueryService {
+final class PublicApiService: QueryService {
     // MARK: - Singleton
     static let shared: PublicApiService = PublicApiService()
     
