@@ -25,7 +25,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     private var todayCarouselView: CarouselView!
     private var updatesCarouselView: CarouselView!
     
-    var cancellable: AnyCancellable!
+    private var cancellable: AnyCancellable!
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -12,25 +12,32 @@ class ErrorProcessing {
     // MARK: - Singleton
     static let shared: ErrorProcessing = ErrorProcessing()
     
-    func getMessageFrom(error: Error) -> String {
+    func handle(error: Error, showErrorAlertWith: (_ message: String) -> Void) {
+        var message: String?
         switch error {
             case let networkError as MyNetworkError:
-                return networkError.localizedDescription
+                message = networkError.localizedDescription
             case let internalError as MyInternalError:
-                return internalError.localizedDescription
+                message = internalError.localizedDescription
             case let imageError as MyImageError:
-                return imageError.localizedDescription
+                message = imageError.localizedDescription
             case let nsError as NSError:
-                return getMessageFrom(nsError: nsError)
+                message = getMessageFrom(nsError: nsError)
             default:
-                return error.localizedDescription
+                message = error.localizedDescription
         }
+        guard let message = message else {
+            return
+        }
+        showErrorAlertWith(message)
     }
     
-    private func getMessageFrom(nsError: NSError) -> String {
+    private func getMessageFrom(nsError: NSError) -> String? {
         switch nsError.code {
             case -1020:
-                return Strings.OtherError.noConnectedToInternet
+                // No Connected To Internet
+                RootViewController.shared.showFlashNetworkActivityView()
+                return nil
             default:
                 return nsError.localizedDescription + " Code = \(nsError.code)."
         }

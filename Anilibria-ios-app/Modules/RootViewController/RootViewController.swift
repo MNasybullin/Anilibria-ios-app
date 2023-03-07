@@ -33,7 +33,7 @@ final class RootViewController: UIViewController {
     
     private var networkActivityViewHeightConstraint: NSLayoutConstraint!
     
-    var cancellable: AnyCancellable!
+    private var cancellable: AnyCancellable!
     
     override func viewDidLoad() {
         super.viewDidLoad()

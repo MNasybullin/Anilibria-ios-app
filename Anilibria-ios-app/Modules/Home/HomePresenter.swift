@@ -41,8 +41,9 @@ final class HomePresenter: HomePresenterProtocol {
                 let data = try await interactor.requestDataForTodayView(withDayOfTheWeek: currentDay)
                 view.update(data: data, inCarouselView: carouselView)
             } catch {
-                let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(with: Strings.AlertController.Title.error, message: message + " TodayView.")
+                ErrorProcessing.shared.handle(error: error) { [weak view] message in
+                    view?.showErrorAlert(with: Strings.AlertController.Title.error, message: message + " (TodayView)")
+                }
             }
         }
     }
@@ -53,8 +54,9 @@ final class HomePresenter: HomePresenterProtocol {
                 let data = try await interactor.requestDataForUpdatesView()
                 view.update(data: data, inCarouselView: carouselView)
             } catch {
-                let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(with: Strings.AlertController.Title.error, message: message + " UpdatesView.")
+                ErrorProcessing.shared.handle(error: error) { [weak view] message in
+                    view?.showErrorAlert(with: Strings.AlertController.Title.error, message: message + " (UpdatesView)")
+                }
             }
         }
     }
@@ -67,8 +69,9 @@ final class HomePresenter: HomePresenterProtocol {
                 }
                 view.update(image: image, for: indexPath, inCarouselView: carouselView)
             } catch {
-                let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
+                ErrorProcessing.shared.handle(error: error) { [weak view] message in
+                    view?.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
+                }
             }
         }
     }

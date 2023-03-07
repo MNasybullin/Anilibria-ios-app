@@ -22,7 +22,7 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
     
     private var postersListView: PostersListView!
     
-    var cancellable: AnyCancellable!
+    private var cancellable: AnyCancellable!
     
     override func viewDidLoad() {
         super.viewDidLoad()

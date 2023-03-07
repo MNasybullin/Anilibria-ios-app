@@ -27,8 +27,9 @@ final class SchedulePresenter: SchedulePresenterProtocol {
                 let data = try await interactor.requestScheduleData()
                 view.update(data: data)
             } catch {
-                let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(with: Strings.AlertController.Title.error, message: message)
+                ErrorProcessing.shared.handle(error: error) { [weak view] message in
+                    view?.showErrorAlert(with: Strings.AlertController.Title.error, message: message + " (ScheduleView)")
+                }
             }
         }
     }
@@ -41,8 +42,9 @@ final class SchedulePresenter: SchedulePresenterProtocol {
                 }
                 view.update(image: image, for: indexPath)
             } catch {
-                let message = ErrorProcessing.shared.getMessageFrom(error: error)
-                view.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
+                ErrorProcessing.shared.handle(error: error) { [weak view] message in
+                    view?.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
+                }
             }
         }
     }
