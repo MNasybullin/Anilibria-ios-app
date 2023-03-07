@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 protocol ScheduleViewProtocol: AnyObject {
     var presenter: SchedulePresenterProtocol! { get set }
@@ -21,10 +22,23 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
     
     private var postersListView: PostersListView!
     
+    var cancellable: AnyCancellable!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configurePostersListView()
+        subscribeToNetworkMonitor()
+    }
+    
+    private func subscribeToNetworkMonitor() {
+        cancellable = NetworkMonitor.shared.isConnectedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { isConnected in
+                if isConnected == true {
+                    self.getData()
+                }
+            }
     }
     
     // MARK: - PostersListView
