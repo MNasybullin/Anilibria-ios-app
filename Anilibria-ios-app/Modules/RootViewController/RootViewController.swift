@@ -83,16 +83,12 @@ final class RootViewController: UIViewController {
     }
     
     private func updateView() {
-        let delay: TimeInterval
-        if isHiddenBottomBar {
-            networkActivityViewHeightConstraint.constant = 0
-            delay = 3
-        } else {
-            networkActivityViewHeightConstraint.constant = safeAreaInsetBottomHeight + networkActivityViewHeight
-            delay = 0
-        }
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.3, delay: delay) {
+        let delay: TimeInterval = isHiddenBottomBar == true ? 3 : 0
+        let constant: CGFloat = isHiddenBottomBar == true ? 0 : (safeAreaInsetBottomHeight + networkActivityViewHeight)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            UIView.animate(withDuration: 0.3) {
+                self.networkActivityViewHeightConstraint.constant = constant
                 self.view.layoutIfNeeded()
             }
         }
