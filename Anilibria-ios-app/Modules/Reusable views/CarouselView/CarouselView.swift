@@ -211,7 +211,8 @@ extension CarouselView: SkeletonCollectionViewDataSource {
             if self.carouselData == nil,
                 self.carouselView.sk.isSkeletonActive == false {
                 self.carouselView.showAnimatedSkeleton()
-            } else if self.carouselView.sk.isSkeletonActive == true {
+            } else if self.carouselData != nil,
+                        self.carouselView.sk.isSkeletonActive == true {
                 self.carouselView.hideSkeleton(reloadDataAfter: false)
             }
         }
