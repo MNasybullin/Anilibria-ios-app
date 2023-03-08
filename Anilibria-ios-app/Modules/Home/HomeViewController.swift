@@ -45,8 +45,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
             .receive(on: DispatchQueue.main)
             .sink { isConnected in
                 if isConnected == true {
-                    self.scrollView.refreshControl?.beginRefreshing()
-                    self.handleRefreshControl()
+                    self.programaticallyBeginRefreshing()
                 }
             }
     }
@@ -95,6 +94,15 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         }
         todayCarouselView.refreshData()
         updatesCarouselView.refreshData()
+    }
+    
+    func programaticallyBeginRefreshing() {
+        DispatchQueue.main.async {
+            self.scrollView.refreshControl?.beginRefreshing()
+            let offsetPoint = CGPoint(x: 0, y: self.scrollView.contentOffset.y - (self.scrollView.refreshControl?.frame.size.height ?? 0))
+            self.scrollView.setContentOffset(offsetPoint, animated: true)
+            self.handleRefreshControl()
+        }
     }
     
     func refreshControlEndRefreshing() {
