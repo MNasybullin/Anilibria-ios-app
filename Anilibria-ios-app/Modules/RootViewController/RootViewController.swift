@@ -94,20 +94,21 @@ final class RootViewController: UIViewController {
         }
     }
         
-    public func showNetworkActivityView() {
+    private func showNetworkActivityView() {
         guard isHiddenBottomBar == true else { return }
         networkStatusView.isNetworkActive = false
         isHiddenBottomBar = false
     }
     
-    public func hideNetworkActivityView() {
+    private func hideNetworkActivityView() {
         guard isHiddenBottomBar == false else { return }
         networkStatusView.isNetworkActive = true
         isHiddenBottomBar = true
     }
     
     public func showFlashNetworkActivityView() {
-        guard isHiddenBottomBar == false else { return }
+        guard NetworkMonitor.shared.isConnected == false else { return }
+        showNetworkActivityView()
         DispatchQueue.main.async {
             let color = self.networkStatusView.backgroundColor
             UIView.animate(withDuration: 0.5, animations: {

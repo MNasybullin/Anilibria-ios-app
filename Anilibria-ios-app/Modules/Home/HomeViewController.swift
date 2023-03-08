@@ -15,6 +15,7 @@ protocol HomeViewProtocol: AnyObject {
     func showErrorAlert(with title: String, message: String)
     func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView)
     func update(image: UIImage, for indexPath: IndexPath, inCarouselView carouselView: CarouselView)
+    func refreshControlEndRefreshing()
 }
 
 final class HomeViewController: UIViewController, HomeViewProtocol {
@@ -162,12 +163,11 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     // MARK: - HomeViewProtocol Functions
     
     func showErrorAlert(with title: String, message: String) {
-        Alert.showErrorAlert(on: self, with: title, message: message, completion: { self.refreshControlEndRefreshing() })
+        Alert.showErrorAlert(on: self, with: title, message: message)
     }
         
     func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView) {
         carouselView.updateData(data)
-        refreshControlEndRefreshing()
     }
     
     func update(image: UIImage, for indexPath: IndexPath, inCarouselView carouselView: CarouselView) {

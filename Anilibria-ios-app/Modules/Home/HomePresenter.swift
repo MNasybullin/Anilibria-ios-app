@@ -37,6 +37,9 @@ final class HomePresenter: HomePresenterProtocol {
     private func getDataForTodayView(carouselView: CarouselView) {
         let currentDay = DaysOfTheWeek.currentDayOfTheWeek()
         Task {
+            defer {
+                view.refreshControlEndRefreshing()
+            }
             do {
                 let data = try await interactor.requestDataForTodayView(withDayOfTheWeek: currentDay)
                 view.update(data: data, inCarouselView: carouselView)
@@ -50,6 +53,9 @@ final class HomePresenter: HomePresenterProtocol {
     
     private func getDataForUpdatesView(carouselView: CarouselView) {
         Task {
+            defer {
+                view.refreshControlEndRefreshing()
+            }
             do {
                 let data = try await interactor.requestDataForUpdatesView()
                 view.update(data: data, inCarouselView: carouselView)
