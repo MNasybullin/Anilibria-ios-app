@@ -8,13 +8,6 @@
 import UIKit
 import SkeletonView
 
-/// https://stackoverflow.com/questions/1054558/vertically-align-text-to-top-within-a-uilabel/10085999
-final class TopAlignedLabel: UILabel {
-  override func drawText(in rect: CGRect) {
-    super.drawText(in: .init(origin: .zero, size: textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines).size))
-  }
-}
-
 final class CarouselCollectionViewCell: UICollectionViewCell {
     // MARK: - Static Constants
     static let stackSpacing: CGFloat = 6
@@ -44,8 +37,19 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
     static let labelFont = UIFont.systemFont(ofSize: 16, weight: .medium)
     static let labelNumberOfLines = 2
     
-    var titleLabel: TopAlignedLabel = {
-        let label = TopAlignedLabel()
+    var labelStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = stackSpacing
+        stack.distribution = .fill
+        stack.isSkeletonable = true
+        stack.alignment = .top
+        return stack
+    }()
+    
+    var titleLabel: UILabel = {
+        let label = UILabel()
         label.font = labelFont
         label.numberOfLines = labelNumberOfLines
         label.textColor = .systemGray
@@ -58,7 +62,8 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         vStack.addArrangedSubview(imageView)
-        vStack.addArrangedSubview(titleLabel)
+        vStack.addArrangedSubview(labelStack)
+        labelStack.addArrangedSubview(titleLabel)
         contentView.addSubview(vStack)
         setupConstraints()
         isSkeletonable = true
@@ -75,7 +80,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
             vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight * CGFloat(titleLabel.numberOfLines) + 0.1)
+            labelStack.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight * CGFloat(titleLabel.numberOfLines) + 0.1)
         ])
     }
 }
