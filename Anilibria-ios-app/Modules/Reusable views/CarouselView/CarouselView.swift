@@ -36,13 +36,11 @@ final class CarouselView: UIView {
     
     private var carouselData: [CarouselViewModel]? {
         didSet {
-            carouselDataIsLoading = false
             DispatchQueue.main.async {
                 self.titleButton.isEnabled = !(self.carouselData == nil)
             }
         }
     }
-    private var carouselDataIsLoading: Bool = false
     
     /// - Parameters:
     ///     - cellFocusAnimation: Анимация перелистывания ячеек (ячейка всегда в центре).
@@ -161,11 +159,6 @@ final class CarouselView: UIView {
         carouselView.heightAnchor.constraint(greaterThanOrEqualToConstant: cellSize.height).isActive = true
     }
     
-    private func getData() {
-        carouselDataIsLoading = true
-        delegate?.getData(for: self)
-    }
-    
     private func deleteData() {
         carouselData = nil
         carouselView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
@@ -175,7 +168,7 @@ final class CarouselView: UIView {
     
     func refreshData() {
         deleteData()
-        getData()
+        delegate?.getData(for: self)
     }
     
     func updateData(_ data: [CarouselViewModel]) {
@@ -233,7 +226,7 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         guard carouselData != nil else {
             if carouselView.sk.isSkeletonActive == false {
                 carouselView.showAnimatedSkeleton()
-                getData()
+                delegate?.getData(for: self)
             }
             return cell
         }
