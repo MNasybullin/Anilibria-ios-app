@@ -14,8 +14,9 @@ class ImageLoaderServiceTests: XCTestCase {
         do {
             _ = try await ImageLoaderService.shared.getImageData(from: urlSuffix)
         } catch {
-            let message = ErrorProcessing.shared.getMessageFrom(error: error)
-            XCTFail(message)
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
         }
     }
 }

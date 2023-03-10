@@ -17,8 +17,9 @@ class AuthorizationServiceTests: XCTestCase {
         do {
             _ = try await AuthorizationService.shared.login(email: email, password: password)
         } catch {
-            let message = ErrorProcessing.shared.getMessageFrom(error: error)
-            XCTFail(message)
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
         }
     }
     
@@ -26,8 +27,9 @@ class AuthorizationServiceTests: XCTestCase {
         do {
             try await AuthorizationService.shared.logout()
         } catch {
-            let message = ErrorProcessing.shared.getMessageFrom(error: error)
-            XCTFail(message)
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
         }
     }
     
@@ -36,8 +38,9 @@ class AuthorizationServiceTests: XCTestCase {
             try await testLogin()
             _ = try await AuthorizationService.shared.getFavorites()
         } catch {
-            let message = ErrorProcessing.shared.getMessageFrom(error: error)
-            XCTFail(message)
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
         }
     }
     
@@ -47,8 +50,9 @@ class AuthorizationServiceTests: XCTestCase {
             try await testLogin()
             _ = try await AuthorizationService.shared.delFavorite(from: titleID)
         } catch {
-            let message = ErrorProcessing.shared.getMessageFrom(error: error)
-            XCTFail(message)
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
         }
     }
     
@@ -59,8 +63,9 @@ class AuthorizationServiceTests: XCTestCase {
             try await testDelFavorite()
             _ = try await AuthorizationService.shared.addFavorite(from: titleID)
         } catch {
-            let message = ErrorProcessing.shared.getMessageFrom(error: error)
-            XCTFail(message)
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
         }
     }
     
@@ -69,8 +74,9 @@ class AuthorizationServiceTests: XCTestCase {
             try await testLogin()
             _ = try await AuthorizationService.shared.profileInfo()
         } catch {
-            let message = ErrorProcessing.shared.getMessageFrom(error: error)
-            XCTFail(message)
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
         }
     }
 }
