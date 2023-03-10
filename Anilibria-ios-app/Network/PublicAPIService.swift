@@ -127,9 +127,16 @@ final class PublicApiService: QueryService {
     }
     
     /// Получить список жанров доступных тайтлов отсортированный по алфавиту
-    func getGenres() async throws -> [String] {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getGenres)
-        
+    /// - Parameters:
+    ///     - sortingType: Тип сортировки элементов.
+    ///     0 - Сортировка по алфавиту
+    ///     1 - Сортировка по рейтингу
+    ///     (По умолчанию 0)
+    func getGenres(sortingType: Int = 0) async throws -> [String] {
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getGenres)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "sorting_type", value: String(sortingType)),
+        ]
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([String].self, from: data)
         return decoded
