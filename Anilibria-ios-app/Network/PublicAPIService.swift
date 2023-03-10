@@ -135,7 +135,7 @@ final class PublicApiService: QueryService {
     func getGenres(sortingType: Int = 0) async throws -> [String] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getGenres)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "sorting_type", value: String(sortingType)),
+            URLQueryItem(name: "sorting_type", value: String(sortingType))
         ]
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try JSONDecoder().decode([String].self, from: data)
@@ -163,12 +163,23 @@ final class PublicApiService: QueryService {
     /// Возвращает список найденных по фильтрам тайтлов
     /// - Parameters:
     ///     - withSearch: Поиск по именам и описанию
+    ///     - year: Список годов выхода (Пример: 2004,2005)
+    ///     - season_code: Список сезонов (1 - Зима, 2 - Весна, 3 - Лето, 4 - Осень) (Пример: 1,2)
+    ///     - genres: Список жанров (Пример: комедия,музыка)
     ///     - withLimit: Количество роликов запрашиваемые у сервера. (По умолчанию 10)
     ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
-    func searchTitles(withSearch search: String, withLimit limit: Int = 10, after: Int = 0) async throws -> [GetTitleModel] {
+    func searchTitles(withSearch search: String = "",
+                      year: String = "",
+                      seasonCode: String = "",
+                      genres: String = "",
+                      withLimit limit: Int = 10,
+                      after: Int = 0) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.searchTitles)
         urlComponents?.queryItems = [
             URLQueryItem(name: "search", value: search),
+            URLQueryItem(name: "year", value: year),
+            URLQueryItem(name: "season_code", value: seasonCode),
+            URLQueryItem(name: "genres", value: genres),
             URLQueryItem(name: "limit", value: String(limit)),
             URLQueryItem(name: "after", value: String(after)),
             URLQueryItem(name: "playlist_type", value: "array")
