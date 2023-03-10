@@ -16,11 +16,11 @@ class ErrorProcessing {
         var message: String?
         switch error {
             case let networkError as MyNetworkError:
-                message = networkError.localizedDescription
+                message = networkError.description
             case let internalError as MyInternalError:
-                message = internalError.localizedDescription
+                message = internalError.description
             case let imageError as MyImageError:
-                message = imageError.localizedDescription
+                message = imageError.description
             case let nsError as NSError:
                 message = getMessageFrom(nsError: nsError)
             default:
