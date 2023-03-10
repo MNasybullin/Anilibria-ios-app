@@ -10,11 +10,21 @@ import UIKit
 
 protocol SearchViewProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
+    
+    func showErrorAlert(with title: String, message: String)
+    func update(data: [AnimeTableViewModel])
+    func update(image: UIImage, for indexPath: IndexPath)
 }
 
-final class SearchViewController: UIViewController, SearchViewProtocol {
+final class SearchViewController: UIViewController {
     var presenter: SearchPresenterProtocol!
     var searchController: UISearchController!
+    
+    var searchResultsTableView: AnimeTableView = {
+        let tableView = AnimeTableView(heightForRow: 150)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,15 +32,17 @@ final class SearchViewController: UIViewController, SearchViewProtocol {
         view.backgroundColor = .systemBackground
         configureSearchController()
         configureNavigationItem()
+        configureTableView()
     }
     
     private func configureSearchController() {
-        searchController = UISearchController(searchResultsController: ScheduleRouter.start(withNavigationController: UINavigationController()).entry)
+        searchController = UISearchController(searchResultsController: nil)
         searchController.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.definesPresentationContext = true
+//        searchController.obscuresBackgroundDuringPresentation = true проверить
     }
     
     private func configureNavigationItem() {
@@ -38,27 +50,70 @@ final class SearchViewController: UIViewController, SearchViewProtocol {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        // TODO
+    private func configureTableView() {
+        view.addSubview(searchResultsTableView)
+        
+        searchResultsTableView.animeTableViewDelegate = self
+        
+        NSLayoutConstraint.activate([
+            searchResultsTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchResultsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 
 // MARK: - UISearchResultsUpdating
-
 extension SearchViewController: UISearchResultsUpdating {
-    
+    func updateSearchResults(for searchController: UISearchController) {
+        // TODO
+//        print("updateSearchResults")
+    }
 }
 
 // MARK: - UISearchBarDelegate
-
 extension SearchViewController: UISearchBarDelegate {
-    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("cancel")
+    }
 }
 
 // MARK: - UISearchControllerDelegate
-
 extension SearchViewController: UISearchControllerDelegate {
+    func didPresentSearchController(_ searchController: UISearchController) {
+        print("Present")
+    }
     
+    func didDismissSearchController(_ searchController: UISearchController) {
+        print("Dismiss")
+    }
+}
+
+// MARK: - AnimeTableViewDelegate
+extension SearchViewController: AnimeTableViewDelegate {
+    func getImage(forIndexPath indexPath: IndexPath) {
+        presenter.getImage(forIndexPath: indexPath)
+    }
+    
+    func getData() {
+        presenter.getData()
+    }
+}
+
+// MARK: - SearchViewProtocol
+extension SearchViewController: SearchViewProtocol {
+    func showErrorAlert(with title: String, message: String) {
+        Alert.showErrorAlert(on: self, with: title, message: message)
+    }
+    
+    func update(data: [AnimeTableViewModel]) {
+        searchResultsTableView.updateData(data)
+    }
+    
+    func update(image: UIImage, for indexPath: IndexPath) {
+        searchResultsTableView.updateImage(image, for: indexPath)
+    }
 }
 
 #if DEBUG
