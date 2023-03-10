@@ -33,7 +33,8 @@ class QueryService {
         }
     }
     
-    func dataRequest(with urlComponents: URLComponents?, httpMethod: HttpMethods) async throws -> Data {
+    func dataRequest(with urlComponents: URLComponents?,
+                     httpMethod: HttpMethods) async throws -> Data {
         guard let url = urlComponents?.url else {
             throw MyNetworkError.invalidURLComponents
         }

@@ -45,7 +45,8 @@ final class PublicApiService: QueryService {
     /// - Parameters:
     ///     - withlimit: Количество запрашиваемых объектов (По умолчанию 14)
     ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
-    func getUpdates(withLimit limit: Int = 14, after: Int = 0) async throws -> [GetTitleModel] {
+    func getUpdates(withLimit limit: Int = 14,
+                    after: Int = 0) async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getUpdates)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
@@ -105,7 +106,8 @@ final class PublicApiService: QueryService {
     /// - Parameters:
     ///     - withlimit: Количество роликов запрашиваемые у сервера. (По умолчанию 5)
     ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
-    func getYouTube(withLimit limit: Int = 5, after: Int = 0) async throws -> [GetYouTubeModel] {
+    func getYouTube(withLimit limit: Int = 5,
+                    after: Int = 0) async throws -> [GetYouTubeModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYouTube)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
