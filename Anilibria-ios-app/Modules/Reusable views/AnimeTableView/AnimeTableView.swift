@@ -10,7 +10,7 @@ import UIKit
 import SkeletonView
 
 protocol AnimeTableViewDelegate: AnyObject {
-    func getData()
+    func getData(after: Int)
     func getImage(forIndexPath indexPath: IndexPath)
 }
 
@@ -18,8 +18,14 @@ final class AnimeTableView: UITableView {
     weak var animeTableViewDelegate: AnimeTableViewDelegate?
     
     private let cellIdentifier = "AnimeCell"
+    private let footerIdentifier = "AnimeFooter"
     
     private var heightForRow: CGFloat
+    private var isLoadingMoreData: Bool = false
+    private var needLoadMoreData: Bool = true
+    
+//    private var footerView: AnimeTableFooterView = AnimeTableFooterView()
+    
     private var data: [AnimeTableViewModel]?
     
     init(heightForRow: CGFloat) {
@@ -34,21 +40,44 @@ final class AnimeTableView: UITableView {
     }
     
     private func configureTableView() {
+        backgroundColor = .systemBackground
+        
         register(AnimeTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        
+//        tableFooterView = footerView
+//        tableFooterView?.isHidden = true
+        
         delegate = self
         dataSource = self
-        backgroundColor = .systemBackground
+        prefetchDataSource = self
+        
         isSkeletonable = true
     }
     
-    func updateData(_ data: [AnimeTableViewModel]) {
+    func update(_ data: [AnimeTableViewModel]) {
         self.data = data
+        DispatchQueue.main.async {
+            self.hideSkeleton(reloadDataAfter: false)
+            self.reloadData()
+        }
+    }
+    
+    func addMore(_ data: [AnimeTableViewModel], needLoadMoreData: Bool) {
+        data.forEach { item in
+            self.data?.append(item)
+        }
+        isLoadingMoreData = false
+        
+//        tableFooterView?.isHidden = true
+//        footerView.activityIndicatorView.stopAnimating()
+        
+        self.needLoadMoreData = needLoadMoreData
         DispatchQueue.main.async {
             self.reloadData()
         }
     }
     
-    func updateImage(_ image: UIImage, for indexPath: IndexPath) {
+    func update(_ image: UIImage, for indexPath: IndexPath) {
         data?[indexPath.row].image = image
         data?[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
@@ -81,8 +110,8 @@ extension AnimeTableView: UITableViewDataSource {
         }
         guard data != nil else {
             if sk.isSkeletonActive == false {
-//                showAnimatedSkeleton()
-                animeTableViewDelegate?.getData()
+                showAnimatedSkeleton()
+                animeTableViewDelegate?.getData(after: 0)
             }
             return cell
         }
@@ -115,6 +144,21 @@ extension AnimeTableView: SkeletonTableViewDataSource {
     
     func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
+    }
+}
+
+// MARK: - UITableViewDataSourcePrefetching
+extension AnimeTableView: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard needLoadMoreData == true,
+                isLoadingMoreData == false,
+                let data = data else {
+            return
+        }
+        isLoadingMoreData = true
+//        tableFooterView?.isHidden = false
+//        footerView.activityIndicatorView.startAnimating()
+        animeTableViewDelegate?.getData(after: data.count)
     }
 }
 

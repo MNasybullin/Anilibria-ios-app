@@ -22,9 +22,13 @@ final class SearchInteractor: SearchInteractorProtocol {
     
     func requestData() async throws -> [AnimeTableViewModel] {
         do {
-            let titleModel = try await PublicApiService.shared.getRandomTitle()
-            getTitleModel = [titleModel]
-            return [AnimeTableViewModel(ruName: titleModel.names.ru, engName: titleModel.names.en, description: titleModel.description)]
+            let titleModels = try await PublicApiService.shared.searchTitles(genres: "комедия")
+            getTitleModel = titleModels
+            var animeTableViewModel = [AnimeTableViewModel]()
+            titleModels.forEach { item in
+                animeTableViewModel.append(AnimeTableViewModel(ruName: item.names.ru, engName: item.names.en, description: item.description))
+            }
+            return animeTableViewModel
         } catch {
             throw error
         }

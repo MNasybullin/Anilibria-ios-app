@@ -30,6 +30,7 @@
 		2744762929B8CB160062F6D2 /* AnimeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744762829B8CB160062F6D2 /* AnimeTableView.swift */; };
 		2744762B29B8CCF70062F6D2 /* AnimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744762A29B8CCF60062F6D2 /* AnimeTableViewCell.swift */; };
 		2744763129BA0BF00062F6D2 /* AnimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744763029BA0BF00062F6D2 /* AnimeTableViewModel.swift */; };
+		2744C87729BC71A700105F11 /* AnimeTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C87629BC71A700105F11 /* AnimeTableFooterView.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
 		2754F63128A94525003485E6 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2754F63028A94525003485E6 /* ViewPreview.swift */; };
@@ -123,6 +124,7 @@
 		2744762829B8CB160062F6D2 /* AnimeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTableView.swift; sourceTree = "<group>"; };
 		2744762A29B8CCF60062F6D2 /* AnimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTableViewCell.swift; sourceTree = "<group>"; };
 		2744763029BA0BF00062F6D2 /* AnimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTableViewModel.swift; sourceTree = "<group>"; };
+		2744C87629BC71A700105F11 /* AnimeTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTableFooterView.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				2744762829B8CB160062F6D2 /* AnimeTableView.swift */,
+				2744C87629BC71A700105F11 /* AnimeTableFooterView.swift */,
 				2744762A29B8CCF60062F6D2 /* AnimeTableViewCell.swift */,
 				2744763029BA0BF00062F6D2 /* AnimeTableViewModel.swift */,
 			);
@@ -676,6 +679,7 @@
 				27A66E5F2987EDCD00369EAF /* CarouselViewModel.swift in Sources */,
 				27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */,
 				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
+				2744C87729BC71A700105F11 /* AnimeTableFooterView.swift in Sources */,
 				27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
 				27A66E5929844D4C00369EAF /* UpdatesPresenter.swift in Sources */,

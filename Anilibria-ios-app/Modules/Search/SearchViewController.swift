@@ -96,7 +96,7 @@ extension SearchViewController: AnimeTableViewDelegate {
         presenter.getImage(forIndexPath: indexPath)
     }
     
-    func getData() {
+    func getData(after: Int) {
         presenter.getData()
     }
 }
@@ -108,11 +108,11 @@ extension SearchViewController: SearchViewProtocol {
     }
     
     func update(data: [AnimeTableViewModel]) {
-        searchResultsTableView.updateData(data)
+        searchResultsTableView.update(data)
     }
     
     func update(image: UIImage, for indexPath: IndexPath) {
-        searchResultsTableView.updateImage(image, for: indexPath)
+        searchResultsTableView.update(image, for: indexPath)
     }
 }
 

@@ -23,9 +23,6 @@ final class SearchPresenter: SearchPresenterProtocol {
     
     func getData() {
         Task {
-//            defer {
-//                view.refreshControlEndRefreshing()
-//            }
             do {
                 let data = try await interactor.requestData()
                 view.update(data: data)
