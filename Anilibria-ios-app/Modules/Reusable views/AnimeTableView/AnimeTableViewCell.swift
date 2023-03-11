@@ -47,7 +47,6 @@ final class AnimeTableViewCell: UITableViewCell {
         label.textColor = .label
         label.numberOfLines = 1
         label.textAlignment = .left
-        label.isSkeletonable = true
         return label
     }()
     
@@ -57,7 +56,6 @@ final class AnimeTableViewCell: UITableViewCell {
         label.textColor = .systemGray
         label.numberOfLines = 1
         label.textAlignment = .left
-        label.isSkeletonable = true
         return label
     }()
     
@@ -68,7 +66,7 @@ final class AnimeTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.textAlignment = .left
         label.isSkeletonable = true
-        label.skeletonTextNumberOfLines = 4
+        label.skeletonTextNumberOfLines = 5
         return label
     }()
     

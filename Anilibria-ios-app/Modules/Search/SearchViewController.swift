@@ -32,7 +32,7 @@ final class SearchViewController: UIViewController {
         view.backgroundColor = .systemBackground
         configureSearchController()
         configureNavigationItem()
-        configureTableView()
+        configureSearchResultsTableView()
     }
     
     private func configureSearchController() {
@@ -50,7 +50,7 @@ final class SearchViewController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    private func configureTableView() {
+    private func configureSearchResultsTableView() {
         view.addSubview(searchResultsTableView)
         
         searchResultsTableView.animeTableViewDelegate = self

@@ -43,7 +43,6 @@ final class AnimeTableView: UITableView {
         backgroundColor = .systemBackground
         
         register(AnimeTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        
 //        tableFooterView = footerView
 //        tableFooterView?.isHidden = true
         
