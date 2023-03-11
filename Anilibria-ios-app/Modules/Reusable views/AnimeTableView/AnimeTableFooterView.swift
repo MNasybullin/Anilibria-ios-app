@@ -17,6 +17,7 @@ final class AnimeTableFooterView: UIView {
     
     init() {
         super.init(frame: .zero)
+        self.backgroundColor = .systemBackground
         self.addSubview(activityIndicatorView)
         
         self.frame.size.height = activityIndicatorView.frame.height + 4 * 2
