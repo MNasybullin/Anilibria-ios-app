@@ -31,6 +31,8 @@
 		2744762B29B8CCF70062F6D2 /* AnimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744762A29B8CCF60062F6D2 /* AnimeTableViewCell.swift */; };
 		2744763129BA0BF00062F6D2 /* AnimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744763029BA0BF00062F6D2 /* AnimeTableViewModel.swift */; };
 		2744C87729BC71A700105F11 /* AnimeTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C87629BC71A700105F11 /* AnimeTableFooterView.swift */; };
+		2744C87B29BCAEEB00105F11 /* RandomAnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C87A29BCAEEB00105F11 /* RandomAnimeView.swift */; };
+		2744C88229BCF5AE00105F11 /* RandomAnimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C88129BCF5AE00105F11 /* RandomAnimeViewModel.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
 		2754F63128A94525003485E6 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2754F63028A94525003485E6 /* ViewPreview.swift */; };
@@ -125,6 +127,8 @@
 		2744762A29B8CCF60062F6D2 /* AnimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTableViewCell.swift; sourceTree = "<group>"; };
 		2744763029BA0BF00062F6D2 /* AnimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTableViewModel.swift; sourceTree = "<group>"; };
 		2744C87629BC71A700105F11 /* AnimeTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTableFooterView.swift; sourceTree = "<group>"; };
+		2744C87A29BCAEEB00105F11 /* RandomAnimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeView.swift; sourceTree = "<group>"; };
+		2744C88129BCF5AE00105F11 /* RandomAnimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeViewModel.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
@@ -269,6 +273,15 @@
 			path = AnimeTableView;
 			sourceTree = "<group>";
 		};
+		2744C88029BCE25700105F11 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2744C87A29BCAEEB00105F11 /* RandomAnimeView.swift */,
+				2744C88129BCF5AE00105F11 /* RandomAnimeViewModel.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		274BFB9628A260D500C3F9C9 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +350,7 @@
 		27A66E632987FA8500369EAF /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				2744C88029BCE25700105F11 /* View */,
 				27A66E642987FAC300369EAF /* SearchViewController.swift */,
 				27A66E662987FAD500369EAF /* SearchInteractor.swift */,
 				27A66E682987FAE300369EAF /* SearchPresenter.swift */,
@@ -674,6 +688,7 @@
 				27A66E6D2987FAFA00369EAF /* SearchRouter.swift in Sources */,
 				27A66E75298E93FC00369EAF /* RootViewController.swift in Sources */,
 				279E4F37289D2CA7008038FF /* ProfileModel.swift in Sources */,
+				2744C87B29BCAEEB00105F11 /* RandomAnimeView.swift in Sources */,
 				2744763129BA0BF00062F6D2 /* AnimeTableViewModel.swift in Sources */,
 				27A66E7D299298B200369EAF /* NetworkMonitor.swift in Sources */,
 				27A66E5F2987EDCD00369EAF /* CarouselViewModel.swift in Sources */,
@@ -711,6 +726,7 @@
 				274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */,
 				27A66E5D29844D6700369EAF /* UpdatesRouter.swift in Sources */,
 				27A66E5529844D1C00369EAF /* UpdatesViewController.swift in Sources */,
+				2744C88229BCF5AE00105F11 /* RandomAnimeViewModel.swift in Sources */,
 				2744762B29B8CCF70062F6D2 /* AnimeTableViewCell.swift in Sources */,
 				2710E9A129B5146500B66C62 /* PublicApiService.swift in Sources */,
 				276FCF9F293CEC010005B82E /* ScheduleEntity.swift in Sources */,

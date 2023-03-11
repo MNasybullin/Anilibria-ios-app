@@ -22,15 +22,16 @@ final class AnimeTableView: UITableView {
     
     private var heightForRow: CGFloat
     private var isLoadingMoreData: Bool = false
-    private var needLoadMoreData: Bool = true
+    private var needLoadMoreData: Bool
     
     private var footerView: AnimeTableFooterView = AnimeTableFooterView()
     private var footerViewHeight: CGFloat = 0
     
     private var data: [AnimeTableViewModel]?
     
-    init(heightForRow: CGFloat) {
+    init(heightForRow: CGFloat, needLoadMoreData: Bool = true) {
         self.heightForRow = heightForRow
+        self.needLoadMoreData = needLoadMoreData
         super.init(frame: .zero, style: .plain)
         
         configureTableView()

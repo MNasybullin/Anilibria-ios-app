@@ -14,17 +14,15 @@ protocol SearchViewProtocol: AnyObject {
     func showErrorAlert(with title: String, message: String)
     func update(data: [AnimeTableViewModel])
     func update(image: UIImage, for indexPath: IndexPath)
+    func updateRandomAnimeView(withData data: RandomAnimeViewModel)
 }
 
 final class SearchViewController: UIViewController {
     var presenter: SearchPresenterProtocol!
     var searchController: UISearchController!
     
-    var searchResultsTableView: AnimeTableView = {
-        let tableView = AnimeTableView(heightForRow: 150)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
+    private var randomAnimeView: RandomAnimeView!
+    private var searchResultsTableView: AnimeTableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +30,7 @@ final class SearchViewController: UIViewController {
         view.backgroundColor = .systemBackground
         configureSearchController()
         configureNavigationItem()
+        configureRandomAnimeView()
         configureSearchResultsTableView()
     }
     
@@ -50,9 +49,26 @@ final class SearchViewController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    private func configureSearchResultsTableView() {
-        view.addSubview(searchResultsTableView)
+    private func configureRandomAnimeView() {
+        randomAnimeView = RandomAnimeView()
+        randomAnimeView.delegate = self
+        getRandomAnimeData()
+        randomAnimeView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(randomAnimeView)
         
+        NSLayoutConstraint.activate([
+            randomAnimeView.topAnchor.constraint(equalTo: view.topAnchor),
+            randomAnimeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            randomAnimeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            randomAnimeView.heightAnchor.constraint(equalToConstant: 350)
+        ])
+    }
+    
+    private func configureSearchResultsTableView() {
+        searchResultsTableView = AnimeTableView(heightForRow: 150)
+        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchResultsTableView)
+        searchResultsTableView.isHidden = true
         searchResultsTableView.animeTableViewDelegate = self
         
         NSLayoutConstraint.activate([
@@ -101,6 +117,12 @@ extension SearchViewController: AnimeTableViewDelegate {
     }
 }
 
+extension SearchViewController: RandomAnimeViewDelegate {
+    func getRandomAnimeData() {
+        presenter.getRandomAnimeData()
+    }
+}
+
 // MARK: - SearchViewProtocol
 extension SearchViewController: SearchViewProtocol {
     func showErrorAlert(with title: String, message: String) {
@@ -113,6 +135,10 @@ extension SearchViewController: SearchViewProtocol {
     
     func update(image: UIImage, for indexPath: IndexPath) {
         searchResultsTableView.update(image, for: indexPath)
+    }
+    
+    func updateRandomAnimeView(withData data: RandomAnimeViewModel) {
+        randomAnimeView.data = data
     }
 }
 

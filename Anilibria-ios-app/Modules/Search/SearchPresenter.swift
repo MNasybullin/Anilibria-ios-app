@@ -14,6 +14,7 @@ protocol SearchPresenterProtocol: AnyObject {
     
     func getImage(forIndexPath indexPath: IndexPath)
     func getData()
+    func getRandomAnimeData()
 }
 
 final class SearchPresenter: SearchPresenterProtocol {
@@ -44,6 +45,19 @@ final class SearchPresenter: SearchPresenterProtocol {
             } catch {
                 ErrorProcessing.shared.handle(error: error) { [weak view] message in
                     view?.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
+                }
+            }
+        }
+    }
+    
+    func getRandomAnimeData() {
+        Task {
+            do {
+                let data = try await interactor.requestRandomAnimeData()
+                view.updateRandomAnimeView(withData: data)
+            } catch {
+                ErrorProcessing.shared.handle(error: error) { [weak view] message in
+                    view?.showErrorAlert(with: Strings.AlertController.Title.error, message: message)
                 }
             }
         }
