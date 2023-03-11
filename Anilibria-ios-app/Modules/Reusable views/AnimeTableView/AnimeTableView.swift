@@ -24,7 +24,8 @@ final class AnimeTableView: UITableView {
     private var isLoadingMoreData: Bool = false
     private var needLoadMoreData: Bool = true
     
-//    private var footerView: AnimeTableFooterView = AnimeTableFooterView()
+    private var footerView: AnimeTableFooterView = AnimeTableFooterView()
+    private var footerViewHeight: CGFloat = 0
     
     private var data: [AnimeTableViewModel]?
     
@@ -43,14 +44,29 @@ final class AnimeTableView: UITableView {
         backgroundColor = .systemBackground
         
         register(AnimeTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-//        tableFooterView = footerView
-//        tableFooterView?.isHidden = true
+        tableFooterView = footerView
+        footerViewHeight = footerView.frame.height
+        tableFooterViewIsHidden(true)
         
         delegate = self
         dataSource = self
         prefetchDataSource = self
         
         isSkeletonable = true
+    }
+    
+    private func tableFooterViewIsHidden(_ status: Bool) {
+        self.beginUpdates()
+        if status == true {
+            tableFooterView?.isHidden = true
+            footerView.frame.size.height = 0
+            footerView.activityIndicatorView.stopAnimating()
+        } else {
+            tableFooterView?.isHidden = false
+            footerView.activityIndicatorView.startAnimating()
+            footerView.frame.size.height = footerViewHeight
+        }
+        self.endUpdates()
     }
     
     func update(_ data: [AnimeTableViewModel]) {
@@ -66,10 +82,7 @@ final class AnimeTableView: UITableView {
             self.data?.append(item)
         }
         isLoadingMoreData = false
-        
-//        tableFooterView?.isHidden = true
-//        footerView.activityIndicatorView.stopAnimating()
-        
+        tableFooterViewIsHidden(true)
         self.needLoadMoreData = needLoadMoreData
         DispatchQueue.main.async {
             self.reloadData()
@@ -155,8 +168,10 @@ extension AnimeTableView: UITableViewDataSourcePrefetching {
             return
         }
         isLoadingMoreData = true
-//        tableFooterView?.isHidden = false
-//        footerView.activityIndicatorView.startAnimating()
+        tableFooterViewIsHidden(false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.tableFooterViewIsHidden(true)
+        }
         animeTableViewDelegate?.getData(after: data.count)
     }
 }
