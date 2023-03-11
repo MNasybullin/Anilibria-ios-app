@@ -91,10 +91,10 @@ final class AnimeTableViewCell: UITableViewCell {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            hStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
-            hStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 6),
-            hStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
-            hStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            hStack.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            hStack.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            hStack.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            hStack.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
             
             animeImageView.heightAnchor.constraint(equalTo: hStack.heightAnchor),
             animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500)
