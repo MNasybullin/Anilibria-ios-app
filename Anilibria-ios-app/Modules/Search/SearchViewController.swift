@@ -60,7 +60,6 @@ final class SearchViewController: UIViewController {
             randomAnimeView.topAnchor.constraint(equalTo: view.topAnchor),
             randomAnimeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             randomAnimeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            randomAnimeView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             randomAnimeView.heightAnchor.constraint(equalToConstant: 350)
         ])
     }

@@ -82,6 +82,10 @@
 "HomeModule.buttonTitle.allDays" = "Все дни";
 "HomeModule.buttonTitle.all" = "Все";
 
+// MARK: - Search Module
+"SearchModule.title.randomAnime" = "Случайное аниме";
+"SearchModule.image.refresh" = "arrow.clockwise";
+
 // MARK: - Screen Titles
 "ScreenTitles.home" = "Главное";
 "ScreenTitles.search" = "Поиск";

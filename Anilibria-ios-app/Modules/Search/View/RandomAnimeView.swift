@@ -22,7 +22,7 @@ final class RandomAnimeView: UIView {
         }
     }
     
-    var mainVStack: UIStackView = {
+    lazy var mainVStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
@@ -33,7 +33,7 @@ final class RandomAnimeView: UIView {
         return stack
     }()
     
-    var headerHStack: UIStackView = {
+    lazy var headerHStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 6
@@ -42,9 +42,9 @@ final class RandomAnimeView: UIView {
         return stack
     }()
     
-    var headerLabel: UILabel = {
+    lazy var headerLabel: UILabel = {
         let label = UILabel()
-        label.text = "Случайное аниме"
+        label.text = Strings.SearchModule.Title.randomAnime
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         label.textColor = .label
         label.numberOfLines = 1
@@ -54,15 +54,14 @@ final class RandomAnimeView: UIView {
     
     lazy var headerButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: Strings.SearchModule.Image.refresh), for: .normal)
         button.addTarget(self, action: #selector(headerButtonClicked), for: .touchUpInside)
         button.isEnabled = false
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: 24).isActive = true
         return button
     }()
     
-    var animeHStack: UIStackView = {
+    lazy var animeHStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 6
@@ -72,7 +71,7 @@ final class RandomAnimeView: UIView {
         return stack
     }()
     
-    var animeImageView: UIImageView = {
+    lazy var animeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -81,27 +80,29 @@ final class RandomAnimeView: UIView {
         return imageView
     }()
     
-    var vStack: UIStackView = {
+    lazy var vStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 6
         stack.distribution = .fill
         stack.isSkeletonable = true
         return stack
     }()
     
-    var ruNameLabel: UILabel = {
+    lazy var ruNameLabel: UILabel = {
         let label = UILabel()
+        label.text = "Skeleton placeholder"
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         label.textColor = .label
-        label.numberOfLines = 1
+        label.numberOfLines = 2
         label.textAlignment = .left
         label.isSkeletonable = true
+        label.skeletonTextNumberOfLines = 1
         return label
     }()
     
-    var engNameLabel: UILabel = {
+    lazy var engNameLabel: UILabel = {
         let label = UILabel()
+        label.text = "Skeleton placeholder"
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .systemGray
         label.numberOfLines = 1
@@ -110,13 +111,14 @@ final class RandomAnimeView: UIView {
         return label
     }()
     
-    var descriptionLabel: UILabel = {
+    lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .systemGray2
         label.numberOfLines = 0
         label.textAlignment = .left
         label.isSkeletonable = true
+        label.skeletonTextNumberOfLines = 5
         return label
     }()
     
@@ -140,6 +142,8 @@ final class RandomAnimeView: UIView {
         vStack.addArrangedSubview(descriptionLabel)
         
         setupConstraints()
+        setupTapGR()
+        showAnimatedSkeleton()
     }
     
     required init?(coder: NSCoder) {
@@ -157,26 +161,34 @@ final class RandomAnimeView: UIView {
             mainVStack.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
             mainVStack.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             
-            animeImageView.heightAnchor.constraint(equalTo: animeHStack.heightAnchor),
-            animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500),
-//            animeImageView.heightAnchor.constraint(equalTo: animeImageView.widthAnchor, multiplier: 500 / 350),
+            headerHStack.heightAnchor.constraint(equalToConstant: headerLabel.font.lineHeight),
             
+            headerButton.heightAnchor.constraint(equalTo: headerHStack.heightAnchor),
+            headerButton.widthAnchor.constraint(equalTo: headerButton.heightAnchor),
+            
+            animeImageView.heightAnchor.constraint(equalTo: animeHStack.heightAnchor),
+            animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500)
         ])
     }
     
+    private func setupTapGR() {
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(animeStackTapped))
+        animeHStack.addGestureRecognizer(tapGR)
+    }
+    
     private func updateView() {
-        if data == nil {
+        guard data != nil else {
             self.headerButton.isEnabled = false
-//            self.showAnimatedSkeleton()
+            self.showAnimatedSkeleton()
             return
         }
-//        hideSkeleton(reloadDataAfter: false)
+        
+        hideSkeleton(reloadDataAfter: false)
         headerButton.isEnabled = true
         animeImageView.image = data?.image
         ruNameLabel.text = data?.ruName
         engNameLabel.text = data?.engName
         descriptionLabel.text = data?.description
-        delegate?.updateConstraints()
     }
     
     func update(data: RandomAnimeViewModel) {
@@ -188,6 +200,12 @@ final class RandomAnimeView: UIView {
     @objc func headerButtonClicked(sender: UIButton) {
         data = nil
         delegate?.getRandomAnimeData()
+    }
+    
+    @objc func animeStackTapped(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            print("animeView tapped")
+        }
     }
 }
 
