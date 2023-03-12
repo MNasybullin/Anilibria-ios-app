@@ -6,39 +6,43 @@
 //
 
 import UIKit
+import SkeletonView
 
 protocol RandomAnimeViewDelegate: AnyObject {
     func getRandomAnimeData()
+    func updateConstraints()
 }
 
 final class RandomAnimeView: UIView {
     weak var delegate: RandomAnimeViewDelegate?
     
-    var data: RandomAnimeViewModel? {
+    private var data: RandomAnimeViewModel? {
         didSet {
             updateView()
         }
     }
     
-    lazy var mainVStack: UIStackView = {
+    var mainVStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 6
         stack.distribution = .fill
+        stack.alignment = .fill
         stack.isSkeletonable = true
         return stack
     }()
     
-    lazy var headerHStack: UIStackView = {
+    var headerHStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 6
         stack.distribution = .fill
+        stack.alignment = .top
         return stack
     }()
     
-    lazy var headerLabel: UILabel = {
+    var headerLabel: UILabel = {
         let label = UILabel()
         label.text = "Случайное аниме"
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
@@ -58,7 +62,7 @@ final class RandomAnimeView: UIView {
         return button
     }()
     
-    lazy var animeHStack: UIStackView = {
+    var animeHStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 6
@@ -68,7 +72,7 @@ final class RandomAnimeView: UIView {
         return stack
     }()
     
-    lazy var animeImageView: UIImageView = {
+    var animeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -77,7 +81,7 @@ final class RandomAnimeView: UIView {
         return imageView
     }()
     
-    lazy var vStack: UIStackView = {
+    var vStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = 6
@@ -86,9 +90,8 @@ final class RandomAnimeView: UIView {
         return stack
     }()
     
-    lazy var ruNameLabel: UILabel = {
+    var ruNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Test"
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         label.textColor = .label
         label.numberOfLines = 1
@@ -97,9 +100,8 @@ final class RandomAnimeView: UIView {
         return label
     }()
     
-    lazy var engNameLabel: UILabel = {
+    var engNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Test"
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .systemGray
         label.numberOfLines = 1
@@ -108,9 +110,8 @@ final class RandomAnimeView: UIView {
         return label
     }()
     
-    lazy var descriptionLabel: UILabel = {
+    var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Test"
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .systemGray2
         label.numberOfLines = 0
@@ -119,8 +120,8 @@ final class RandomAnimeView: UIView {
         return label
     }()
     
-    init() {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         self.backgroundColor = .systemBackground
         self.isSkeletonable = true
         self.addSubview(mainVStack)
@@ -139,14 +140,17 @@ final class RandomAnimeView: UIView {
         vStack.addArrangedSubview(descriptionLabel)
         
         setupConstraints()
-        showAnimatedSkeleton()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupConstraints() {
+    override class var requiresConstraintBasedLayout: Bool {
+        return true
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             mainVStack.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
             mainVStack.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
@@ -154,24 +158,30 @@ final class RandomAnimeView: UIView {
             mainVStack.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             
             animeImageView.heightAnchor.constraint(equalTo: animeHStack.heightAnchor),
-            animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500)
+            animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500),
+//            animeImageView.heightAnchor.constraint(equalTo: animeImageView.widthAnchor, multiplier: 500 / 350),
+            
         ])
     }
     
     private func updateView() {
+        if data == nil {
+            self.headerButton.isEnabled = false
+//            self.showAnimatedSkeleton()
+            return
+        }
+//        hideSkeleton(reloadDataAfter: false)
+        headerButton.isEnabled = true
+        animeImageView.image = data?.image
+        ruNameLabel.text = data?.ruName
+        engNameLabel.text = data?.engName
+        descriptionLabel.text = data?.description
+        delegate?.updateConstraints()
+    }
+    
+    func update(data: RandomAnimeViewModel) {
         DispatchQueue.main.async {
-            guard let data = self.data else {
-                self.headerButton.isEnabled = false
-                self.showAnimatedSkeleton()
-                return
-            }
-            print(data)
-            self.animeImageView.image = data.image
-            self.ruNameLabel.text = data.ruName
-            self.engNameLabel.text = data.engName
-            self.descriptionLabel.text = data.description
-            self.headerButton.isEnabled = true
-            self.hideSkeleton(reloadDataAfter: false)
+            self.data = data
         }
     }
     
