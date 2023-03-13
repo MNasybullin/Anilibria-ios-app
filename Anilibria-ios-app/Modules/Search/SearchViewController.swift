@@ -41,7 +41,7 @@ final class SearchViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.definesPresentationContext = true
-//        searchController.obscuresBackgroundDuringPresentation = true проверить
+        searchController.obscuresBackgroundDuringPresentation = true
     }
     
     private func configureNavigationItem() {
@@ -51,32 +51,33 @@ final class SearchViewController: UIViewController {
     
     private func configureRandomAnimeView() {
         randomAnimeView = RandomAnimeView(frame: .zero)
-        randomAnimeView.delegate = self
-        getRandomAnimeData()
-        randomAnimeView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(randomAnimeView)
-
-        NSLayoutConstraint.activate([
-            randomAnimeView.topAnchor.constraint(equalTo: view.topAnchor),
-            randomAnimeView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            randomAnimeView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            randomAnimeView.heightAnchor.constraint(equalToConstant: 350)
-        ])
+//        randomAnimeView.delegate = self
+//        getRandomAnimeData()
+//        randomAnimeView.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(randomAnimeView)
+//
+//        NSLayoutConstraint.activate([
+//            randomAnimeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+//            randomAnimeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+//            randomAnimeView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+//            randomAnimeView.heightAnchor.constraint(equalToConstant: 250)
+//        ])
     }
     
     private func configureSearchResultsTableView() {
         searchResultsTableView = AnimeTableView(heightForRow: 150)
-//        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(searchResultsTableView)
-//        searchResultsTableView.isHidden = true
-//        searchResultsTableView.animeTableViewDelegate = self
-//
-//        NSLayoutConstraint.activate([
-//            searchResultsTableView.topAnchor.constraint(equalTo: view.topAnchor),
-//            searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            searchResultsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//        ])
+        searchResultsTableView.isUserInteractionEnabled = true
+        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchResultsTableView)
+        searchResultsTableView.isHidden = false
+        searchResultsTableView.animeTableViewDelegate = self
+
+        NSLayoutConstraint.activate([
+            searchResultsTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchResultsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 
