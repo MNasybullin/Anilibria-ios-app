@@ -21,6 +21,7 @@ protocol SearchViewProtocol: AnyObject {
 final class SearchViewController: UIViewController {
     var presenter: SearchPresenterProtocol!
     var searchController: UISearchController!
+    var searchBar: UISearchBar!
     
     private var randomAnimeView: RandomAnimeView!
     private var searchResultsTableView: AnimeTableView!
@@ -30,55 +31,61 @@ final class SearchViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         configureSearchController()
+        configureSearchBar()
         configureNavigationItem()
         configureRandomAnimeView()
         configureSearchResultsTableView()
     }
     
     private func configureSearchController() {
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.delegate = self
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.definesPresentationContext = true
-        searchController.obscuresBackgroundDuringPresentation = true
+//        searchController = UISearchController(searchResultsController: ScheduleRouter.start(withNavigationController: UINavigationController()).entry)
+//        searchController.delegate = self
+//        searchController.searchResultsUpdater = self
+//        searchController.searchBar.delegate = self
+//        searchController.searchBar.autocapitalizationType = .none
+//        searchController.definesPresentationContext = true
+//        searchController.obscuresBackgroundDuringPresentation = true
+    }
+    
+    private func configureSearchBar() {
+        searchBar = UISearchBar()
+        navigationItem.titleView = searchBar
     }
     
     private func configureNavigationItem() {
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+//        navigationItem.searchController = searchController
+//        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func configureRandomAnimeView() {
         randomAnimeView = RandomAnimeView(frame: .zero)
-//        randomAnimeView.delegate = self
-//        getRandomAnimeData()
-//        randomAnimeView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(randomAnimeView)
-//
-//        NSLayoutConstraint.activate([
-//            randomAnimeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            randomAnimeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//            randomAnimeView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//            randomAnimeView.heightAnchor.constraint(equalToConstant: 250)
-//        ])
+        randomAnimeView.delegate = self
+        getRandomAnimeData()
+        randomAnimeView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(randomAnimeView)
+
+        NSLayoutConstraint.activate([
+            randomAnimeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            randomAnimeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            randomAnimeView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            randomAnimeView.heightAnchor.constraint(equalToConstant: 250)
+        ])
     }
     
     private func configureSearchResultsTableView() {
         searchResultsTableView = AnimeTableView(heightForRow: 150)
-        searchResultsTableView.isUserInteractionEnabled = true
-        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(searchResultsTableView)
-        searchResultsTableView.isHidden = false
-        searchResultsTableView.animeTableViewDelegate = self
-
-        NSLayoutConstraint.activate([
-            searchResultsTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchResultsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+//        searchResultsTableView.isUserInteractionEnabled = true
+//        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(searchResultsTableView)
+//        searchResultsTableView.isHidden = false
+//        searchResultsTableView.animeTableViewDelegate = self
+//
+//        NSLayoutConstraint.activate([
+//            searchResultsTableView.topAnchor.constraint(equalTo: view.topAnchor),
+//            searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            searchResultsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//        ])
     }
 }
 
@@ -101,10 +108,14 @@ extension SearchViewController: UISearchBarDelegate {
 extension SearchViewController: UISearchControllerDelegate {
     func didPresentSearchController(_ searchController: UISearchController) {
         print("Present")
+        print(view)
+        print(randomAnimeView)
     }
     
     func didDismissSearchController(_ searchController: UISearchController) {
         print("Dismiss")
+        print(view)
+        print(randomAnimeView)
     }
 }
 
@@ -122,10 +133,6 @@ extension SearchViewController: AnimeTableViewDelegate {
 extension SearchViewController: RandomAnimeViewDelegate {
     func getRandomAnimeData() {
         presenter.getRandomAnimeData()
-    }
-    
-    func updateConstraints() {
-        updateViewConstraints()
     }
 }
 

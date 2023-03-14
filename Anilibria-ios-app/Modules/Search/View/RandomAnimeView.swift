@@ -10,7 +10,6 @@ import SkeletonView
 
 protocol RandomAnimeViewDelegate: AnyObject {
     func getRandomAnimeData()
-    func updateConstraints()
 }
 
 final class RandomAnimeView: UIView {
@@ -85,29 +84,30 @@ final class RandomAnimeView: UIView {
         stack.axis = .vertical
         stack.distribution = .fill
         stack.isSkeletonable = true
+        stack.spacing = 2
         return stack
     }()
     
     lazy var ruNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Skeleton placeholder"
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         label.textColor = .label
         label.numberOfLines = 2
         label.textAlignment = .left
         label.isSkeletonable = true
-        label.skeletonTextNumberOfLines = 1
+        label.skeletonLineSpacing = 4
         return label
     }()
     
     lazy var engNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Skeleton placeholder"
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .systemGray
         label.numberOfLines = 1
         label.textAlignment = .left
         label.isSkeletonable = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: label.font.lineHeight).isActive = true
         return label
     }()
     
@@ -118,7 +118,8 @@ final class RandomAnimeView: UIView {
         label.numberOfLines = 0
         label.textAlignment = .left
         label.isSkeletonable = true
-        label.skeletonTextNumberOfLines = 5
+        label.skeletonTextLineHeight = .relativeToConstraints
+        label.skeletonLineSpacing = 4
         return label
     }()
     

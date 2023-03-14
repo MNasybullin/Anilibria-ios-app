@@ -44,7 +44,7 @@ extension TabBarViewController: UITabBarControllerDelegate {
         guard let searchViewController = navigationController.viewControllers.first as? SearchViewController else {
             return
         }
-        searchViewController.searchController.searchBar.becomeFirstResponder()
+        searchViewController.searchBar.becomeFirstResponder()
     }
 }
 
