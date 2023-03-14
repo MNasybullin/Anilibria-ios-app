@@ -1,0 +1,44 @@
+//
+//  {{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.company }} on {{ date }}.
+//
+
+import Foundation
+import UIKit
+
+protocol {{ module_info.name }}RouterProtocol: AnyObject {
+    typealias EntryPoint = {{ module_info.name }}ViewProtocol & UIViewController
+    var entry: EntryPoint! { get }
+    var navigationController: UINavigationController! { get }
+    
+    static func start(withNavigationController navigationController: UINavigationController) -> {{ module_info.name }}RouterProtocol
+}
+
+final class {{ module_info.name }}Router: {{ module_info.name }}RouterProtocol {
+    var entry: EntryPoint!
+    var navigationController: UINavigationController!
+    
+    static func start(withNavigationController navigationController: UINavigationController) -> {{ module_info.name }}RouterProtocol {
+        let router = {{ module_info.name }}Router()
+        
+        let view = {{ module_info.name }}ViewController()
+        view.title = "{{ module_info.name }}"
+        let interactor = {{ module_info.name }}Interactor()
+        let presenter = {{ module_info.name }}Presenter()
+        
+        view.presenter = presenter
+        
+        interactor.presenter = presenter
+        
+        presenter.interactor = interactor
+        presenter.router = router
+        presenter.view = view
+        
+        router.entry = view
+        
+        router.navigationController = navigationController
+        return router
+    }
+}

@@ -1,0 +1,21 @@
+//
+//  {{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.company }} on {{ date }}.
+//
+
+import Foundation
+
+protocol {{ module_info.name }}PresenterProtocol: AnyObject {
+    var view: {{ module_info.name }}ViewProtocol! { get set }
+    var interactor: {{ module_info.name }}InteractorProtocol! { get set }
+    var router: {{ module_info.name }}RouterProtocol! { get set }
+}
+
+final class {{ module_info.name }}Presenter: {{ module_info.name }}PresenterProtocol {
+    unowned var view: {{ module_info.name }}ViewProtocol!
+    var interactor: {{ module_info.name }}InteractorProtocol!
+    var router: {{ module_info.name }}RouterProtocol!
+
+}

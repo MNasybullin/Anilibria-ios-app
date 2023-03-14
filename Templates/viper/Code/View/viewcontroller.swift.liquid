@@ -1,0 +1,16 @@
+//
+//  {{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.company }} on {{ date }}.
+//
+
+import UIKit
+
+protocol {{module_info.name}}ViewProtocol: AnyObject {
+	var presenter: {{module_info.name}}PresenterProtocol! { get set }
+}
+
+final class {{ module_info.name }}ViewController: UIViewController, {{module_info.name}}ViewProtocol {
+	var presenter: {{module_info.name}}PresenterProtocol!
+}

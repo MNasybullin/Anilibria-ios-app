@@ -1,0 +1,20 @@
+### Headers settings
+company: "Mansur Nasybullin"
+
+### Xcode project settings
+project_name: Anilibria-ios-app
+xcodeproj_path: Anilibria-ios-app.xcodeproj
+
+### Code generation settings section
+# The main project target name
+project_target: Anilibria-ios-app
+
+# The file path for new modules
+project_file_path: Anilibria-ios-app/Modules
+
+# The Xcode group path to new modules
+project_group_path: Anilibria-ios-app/Modules
+
+### Templates
+templates:
+- {name: viper}
