@@ -24,7 +24,7 @@ final class SearchInteractor: SearchInteractorProtocol {
     
     func requestData(after value: Int) async throws -> ([AnimeTableViewModel], Bool) {
         do {
-            let limit: Int = 10
+            let limit: Int = 25
             let titleModels = try await PublicApiService.shared.searchTitles(genres: "комедия", withLimit: limit, after: value)
             animeTable += titleModels
             var animeTableViewModel = [AnimeTableViewModel]()

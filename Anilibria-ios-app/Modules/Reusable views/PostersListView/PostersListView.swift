@@ -94,14 +94,6 @@ final class PostersListView: UIView {
             self.collectionView.reloadData()
         }
     }
-}
-
-// MARK: - SkeletonView
-
-extension PostersListView: SkeletonCollectionViewDataSource {
-    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return cellIdentifier
-    }
     
     private func toggleSkeletonView() {
         DispatchQueue.main.async {
@@ -112,6 +104,14 @@ extension PostersListView: SkeletonCollectionViewDataSource {
                 self.collectionView.hideSkeleton(reloadDataAfter: false)
             }
         }
+    }
+}
+
+// MARK: - SkeletonView
+
+extension PostersListView: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        return cellIdentifier
     }
 }
 
@@ -183,8 +183,10 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         let section = indexPath.section
         let index = indexPath.row
         cell.titleLabel.text = postersListData?[section].postersList[index].name
-        guard let image = postersListData?[section].postersList[index].image,
-                postersListData?[section].postersList[index].imageIsLoading == false else {
+        guard let image = postersListData?[section].postersList[index].image else {
+            if postersListData?[section].postersList[index].imageIsLoading == true {
+                return cell
+            }
             postersListData?[section].postersList[index].imageIsLoading = true
             cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(for: indexPath)

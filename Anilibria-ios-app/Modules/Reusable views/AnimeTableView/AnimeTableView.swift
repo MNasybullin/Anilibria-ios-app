@@ -67,8 +67,8 @@ final class AnimeTableView: UITableView {
     
     func update(_ data: [AnimeTableViewModel]) {
         self.data = data
+        toggleSkeletonView()
         DispatchQueue.main.async {
-            self.hideSkeleton(reloadDataAfter: false)
             self.reloadData()
         }
     }
@@ -90,6 +90,17 @@ final class AnimeTableView: UITableView {
         data?[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
             self.reconfigureRows(at: [indexPath])
+        }
+    }
+    
+    private func toggleSkeletonView() {
+        DispatchQueue.main.async {
+            if self.data == nil,
+                self.sk.isSkeletonActive == false {
+                self.showAnimatedSkeleton()
+            } else if self.sk.isSkeletonActive == true {
+                self.hideSkeleton(reloadDataAfter: false)
+            }
         }
     }
 }
@@ -124,22 +135,24 @@ extension AnimeTableView: UITableViewDataSource {
             return cell
         }
         let index = indexPath.row
-        if sk.isSkeletonActive == true {
-            hideSkeleton(reloadDataAfter: false)
-        }
         
         cell.ruNameLabel.text = data?[index].ruName
         cell.engNameLabel.text = data?[index].engName
         cell.descriptionLabel.text = data?[index].description
-        if index == data!.count - 2 {
+        if index == data!.count - 6 {
             loadMoreData()
         }
-        guard let image = data?[index].image,
-              data?[index].imageIsLoading == false else {
+        guard let image = data?[index].image else {
+            if data?[index].imageIsLoading == true {
+                return cell
+            }
             data?[index].imageIsLoading = true
-            cell.animeImageView.image = UIImage(asset: Asset.Assets.blankImage)
+            cell.animeImageView.showAnimatedSkeleton()
             animeTableViewDelegate?.getImage(forIndexPath: indexPath)
             return cell
+        }
+        if cell.animeImageView.sk.isSkeletonActive == true {
+            cell.animeImageView.hideSkeleton(reloadDataAfter: false)
         }
         cell.animeImageView.image = image
         return cell
