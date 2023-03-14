@@ -47,20 +47,21 @@ final class AnimeTableView: UITableView {
         
         delegate = self
         dataSource = self
-        prefetchDataSource = self
         
         isSkeletonable = true
     }
     
     private func toggleFooterView() {
-        if tableFooterView == nil {
-            footerView.activityIndicatorView.startAnimating()
-            tableFooterView = footerView
-        } else {
-            footerView.activityIndicatorView.stopAnimating()
-            beginUpdates()
-            tableFooterView = nil
-            endUpdates()
+        DispatchQueue.main.async {
+            if self.tableFooterView == nil {
+                self.footerView.activityIndicatorView.startAnimating()
+                self.tableFooterView = self.footerView
+            } else {
+                self.footerView.activityIndicatorView.stopAnimating()
+                self.beginUpdates()
+                self.tableFooterView = nil
+                self.endUpdates()
+            }
         }
     }
     
@@ -73,13 +74,13 @@ final class AnimeTableView: UITableView {
     }
     
     func addMore(_ data: [AnimeTableViewModel], needLoadMoreData: Bool) {
-        data.forEach { item in
-            self.data?.append(item)
-        }
-        isLoadingMoreData = false
-        toggleFooterView()
-        self.needLoadMoreData = needLoadMoreData
         DispatchQueue.main.async {
+            self.isLoadingMoreData = false
+            self.toggleFooterView()
+            data.forEach { item in
+                self.data?.append(item)
+            }
+            self.needLoadMoreData = needLoadMoreData
             self.reloadData()
         }
     }
@@ -130,7 +131,9 @@ extension AnimeTableView: UITableViewDataSource {
         cell.ruNameLabel.text = data?[index].ruName
         cell.engNameLabel.text = data?[index].engName
         cell.descriptionLabel.text = data?[index].description
-        
+        if index == data!.count - 2 {
+            loadMoreData()
+        }
         guard let image = data?[index].image,
               data?[index].imageIsLoading == false else {
             data?[index].imageIsLoading = true
@@ -140,6 +143,17 @@ extension AnimeTableView: UITableViewDataSource {
         }
         cell.animeImageView.image = image
         return cell
+    }
+    
+    func loadMoreData() {
+        guard needLoadMoreData == true,
+                isLoadingMoreData == false,
+                let data = data else {
+            return
+        }
+        isLoadingMoreData = true
+        toggleFooterView()
+        animeTableViewDelegate?.getData(after: data.count)
     }
 }
 
@@ -151,20 +165,6 @@ extension AnimeTableView: SkeletonTableViewDataSource {
     
     func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
-    }
-}
-
-// MARK: - UITableViewDataSourcePrefetching
-extension AnimeTableView: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        guard needLoadMoreData == true,
-                isLoadingMoreData == false,
-                let data = data else {
-            return
-        }
-        isLoadingMoreData = true
-        self.toggleFooterView()
-        animeTableViewDelegate?.getData(after: data.count)
     }
 }
 

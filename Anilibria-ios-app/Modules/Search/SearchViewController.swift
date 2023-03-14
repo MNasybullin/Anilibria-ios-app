@@ -13,6 +13,7 @@ protocol SearchViewProtocol: AnyObject {
     
     func showErrorAlert(with title: String, message: String)
     func update(data: [AnimeTableViewModel])
+    func addMore(data: [AnimeTableViewModel], needLoadMoreData: Bool)
     func update(image: UIImage, for indexPath: IndexPath)
     func updateRandomAnimeView(withData data: RandomAnimeViewModel)
 }
@@ -113,8 +114,8 @@ extension SearchViewController: AnimeTableViewDelegate {
         presenter.getImage(forIndexPath: indexPath)
     }
     
-    func getData(after: Int) {
-        presenter.getData()
+    func getData(after value: Int) {
+        presenter.getData(after: value)
     }
 }
 
@@ -136,6 +137,10 @@ extension SearchViewController: SearchViewProtocol {
     
     func update(data: [AnimeTableViewModel]) {
         searchResultsTableView.update(data)
+    }
+    
+    func addMore(data: [AnimeTableViewModel], needLoadMoreData: Bool) {
+        searchResultsTableView.addMore(data, needLoadMoreData: needLoadMoreData)
     }
     
     func update(image: UIImage, for indexPath: IndexPath) {

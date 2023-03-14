@@ -13,7 +13,7 @@ protocol SearchPresenterProtocol: AnyObject {
     var router: SearchRouterProtocol! { get set }
     
     func getImage(forIndexPath indexPath: IndexPath)
-    func getData()
+    func getData(after value: Int)
     func getRandomAnimeData()
 }
 
@@ -22,11 +22,15 @@ final class SearchPresenter: SearchPresenterProtocol {
     var interactor: SearchInteractorProtocol!
     var router: SearchRouterProtocol!
     
-    func getData() {
+    func getData(after value: Int) {
         Task {
             do {
-                let data = try await interactor.requestData()
-                view.update(data: data)
+                let (data, needLoadMoreData) = try await interactor.requestData(after: value)
+                if value == 0 {
+                    view.update(data: data)
+                } else {
+                    view.addMore(data: data, needLoadMoreData: needLoadMoreData)
+                }
             } catch {
                 ErrorProcessing.shared.handle(error: error) { [weak view] message in
                     view?.showErrorAlert(with: Strings.AlertController.Title.error, message: message)

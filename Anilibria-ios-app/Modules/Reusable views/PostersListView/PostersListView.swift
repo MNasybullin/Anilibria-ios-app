@@ -74,7 +74,7 @@ final class PostersListView: UIView {
     
     func updateData(_ data: [PostersListViewModel]) {
         postersListData = data
-        updateSkeletonView()
+        toggleSkeletonView()
         reloadData()
     }
     
@@ -103,7 +103,7 @@ extension PostersListView: SkeletonCollectionViewDataSource {
         return cellIdentifier
     }
     
-    private func updateSkeletonView() {
+    private func toggleSkeletonView() {
         DispatchQueue.main.async {
             if self.postersListData == nil,
                 self.collectionView.sk.isSkeletonActive == false {

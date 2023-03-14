@@ -12,32 +12,34 @@ protocol SearchInteractorProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
     func requestImage(forIndex index: Int) async throws -> UIImage?
-    func requestData() async throws -> [AnimeTableViewModel]
+    func requestData(after value: Int) async throws -> ([AnimeTableViewModel], Bool)
     func requestRandomAnimeData() async throws -> RandomAnimeViewModel
 }
 
 final class SearchInteractor: SearchInteractorProtocol {
     unowned var presenter: SearchPresenterProtocol!
     
-    private var animeTable: [GetTitleModel]?
+    private var animeTable: [GetTitleModel] = [GetTitleModel]()
     private var randomAnime: GetTitleModel?
     
-    func requestData() async throws -> [AnimeTableViewModel] {
+    func requestData(after value: Int) async throws -> ([AnimeTableViewModel], Bool) {
         do {
-            let titleModels = try await PublicApiService.shared.searchTitles(genres: "комедия")
-            animeTable = titleModels
+            let limit: Int = 10
+            let titleModels = try await PublicApiService.shared.searchTitles(genres: "комедия", withLimit: limit, after: value)
+            animeTable += titleModels
             var animeTableViewModel = [AnimeTableViewModel]()
             titleModels.forEach { item in
                 animeTableViewModel.append(AnimeTableViewModel(ruName: item.names.ru, engName: item.names.en, description: item.description))
             }
-            return animeTableViewModel
+            let needLoadMoreData = titleModels.count >= limit ? true : false
+            return (animeTableViewModel, needLoadMoreData)
         } catch {
             throw error
         }
     }
     
     func requestImage(forIndex index: Int) async throws -> UIImage? {
-        guard let imageURL = animeTable?[index].posters?.original?.url else {
+        guard let imageURL = animeTable[index].posters?.original?.url else {
             throw MyInternalError.failedToFetchData
         }
         do {
