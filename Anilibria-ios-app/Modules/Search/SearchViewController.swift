@@ -77,13 +77,13 @@ final class SearchViewController: UIViewController {
         presenter.deleteAnimeTableData()
         searchResultsTableView.deleteData()
     }
+    
+    var timer: Timer? // todo
 }
 
 // MARK: - UISearchBarDelegate
 extension SearchViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("cancel button clicked")
-        
         searchBar.resignFirstResponder()
         toggleCancelButton()
         searchBar.text = nil
@@ -94,22 +94,25 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("text did change:", searchText)
-        deleteSearchResultsData()
-        presenter.getSearchResults(searchText: searchText, after: 0)
+        timer?.invalidate()
+        if searchText == "" {
+            deleteSearchResultsData()
+            return
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
+            self.deleteSearchResultsData()
+            self.searchResultsTableView.toggleSkeletonView()
+            self.presenter.getSearchResults(searchText: searchText, after: 0)
+        }
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("Нажал на строку поиска")
-        
         toggleCancelButton()
         randomAnimeView.isHidden = true
         searchResultsTableView.isHidden = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("end")
-        
         randomAnimeView.isHidden = false
         searchResultsTableView.isHidden = true
     }
@@ -126,7 +129,7 @@ extension SearchViewController: SearchResultsTableViewDelegate {
     }
     
     func getData(after value: Int) {
-        // unused
+        presenter.getSearchResults(searchText: searchBar.text ?? "", after: value)
     }
 }
 

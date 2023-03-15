@@ -47,6 +47,9 @@ final class SearchResultsTableViewCell: UITableViewCell {
         label.textColor = .label
         label.numberOfLines = 1
         label.textAlignment = .left
+        label.isSkeletonable = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: label.font.lineHeight).isActive = true
         return label
     }()
     
@@ -56,6 +59,9 @@ final class SearchResultsTableViewCell: UITableViewCell {
         label.textColor = .systemGray
         label.numberOfLines = 1
         label.textAlignment = .left
+        label.isSkeletonable = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: label.font.lineHeight).isActive = true
         return label
     }()
     
@@ -66,7 +72,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.textAlignment = .left
         label.isSkeletonable = true
-        label.skeletonTextNumberOfLines = 5
+        label.skeletonTextNumberOfLines = 0
         return label
     }()
     

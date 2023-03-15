@@ -22,16 +22,16 @@ final class SearchResultsTableView: UITableView {
     
     private var heightForRow: CGFloat
     private var isLoadingMoreData: Bool = false
-    private var needLoadMoreData: Bool
+    private var needLoadMoreData: Bool = true
     
     private var footerView: SearchResultsTableFooterView = SearchResultsTableFooterView()
     
     private var data: [SearchResultsTableViewModel]?
     
-    init(heightForRow: CGFloat, needLoadMoreData: Bool = true) {
+    init(heightForRow: CGFloat) {
         self.heightForRow = heightForRow
-        self.needLoadMoreData = needLoadMoreData
         super.init(frame: .zero, style: .plain)
+        backgroundColor = .systemBackground
         
         configureTableView()
     }
@@ -41,8 +41,6 @@ final class SearchResultsTableView: UITableView {
     }
     
     private func configureTableView() {
-        backgroundColor = .systemBackground
-        
         register(SearchResultsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
         delegate = self
@@ -53,7 +51,7 @@ final class SearchResultsTableView: UITableView {
     
     private func toggleFooterView() {
         DispatchQueue.main.async {
-            if self.tableFooterView == nil {
+            if self.isLoadingMoreData == true {
                 self.footerView.activityIndicatorView.startAnimating()
                 self.tableFooterView = self.footerView
             } else {
@@ -68,6 +66,9 @@ final class SearchResultsTableView: UITableView {
     func deleteData() {
         DispatchQueue.main.async {
             self.data = nil
+            self.needLoadMoreData = true
+            self.isLoadingMoreData = false
+            self.toggleFooterView()
             self.reloadData()
         }
     }
@@ -84,9 +85,7 @@ final class SearchResultsTableView: UITableView {
         DispatchQueue.main.async {
             self.isLoadingMoreData = false
             self.toggleFooterView()
-            data.forEach { item in
-                self.data?.append(item)
-            }
+            data.forEach { self.data?.append($0) }
             self.needLoadMoreData = needLoadMoreData
             self.reloadData()
         }
@@ -100,7 +99,7 @@ final class SearchResultsTableView: UITableView {
         }
     }
     
-    private func toggleSkeletonView() {
+    func toggleSkeletonView() {
         DispatchQueue.main.async {
             if self.data == nil,
                 self.sk.isSkeletonActive == false {
@@ -127,7 +126,7 @@ extension SearchResultsTableView: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension SearchResultsTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data?.count ?? 5
+        return data?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -135,10 +134,6 @@ extension SearchResultsTableView: UITableViewDataSource {
             fatalError("Cell is doesn`t AnimeTableViewCell")
         }
         guard data != nil else {
-            if sk.isSkeletonActive == false {
-                showAnimatedSkeleton()
-                searchResultsTableViewDelegate?.getData(after: 0)
-            }
             return cell
         }
         let index = indexPath.row
@@ -146,22 +141,22 @@ extension SearchResultsTableView: UITableViewDataSource {
         cell.ruNameLabel.text = data?[index].ruName
         cell.engNameLabel.text = data?[index].engName
         cell.descriptionLabel.text = data?[index].description
-        if index == data!.count - 6 {
+        if index == data!.count - 2 {
             loadMoreData()
         }
+        if data?[index].imageIsLoading == true {
+            return cell
+        }
         guard let image = data?[index].image else {
-            if data?[index].imageIsLoading == true {
-                return cell
-            }
             data?[index].imageIsLoading = true
             cell.animeImageView.showAnimatedSkeleton()
             searchResultsTableViewDelegate?.getImage(forIndexPath: indexPath)
             return cell
         }
+        cell.animeImageView.image = image
         if cell.animeImageView.sk.isSkeletonActive == true {
             cell.animeImageView.hideSkeleton(reloadDataAfter: false)
         }
-        cell.animeImageView.image = image
         return cell
     }
     
