@@ -11,35 +11,40 @@ import UIKit
 protocol SearchInteractorProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
+    func deleteSearchResultsTableData()
     func requestImage(forIndex index: Int) async throws -> UIImage?
-    func requestData(after value: Int) async throws -> ([AnimeTableViewModel], Bool)
+    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsTableViewModel], Bool)
     func requestRandomAnimeData() async throws -> RandomAnimeViewModel
 }
 
 final class SearchInteractor: SearchInteractorProtocol {
     unowned var presenter: SearchPresenterProtocol!
     
-    private var animeTable: [GetTitleModel] = [GetTitleModel]()
+    private var searchResultsTable: [GetTitleModel] = [GetTitleModel]()
     private var randomAnime: GetTitleModel?
     
-    func requestData(after value: Int) async throws -> ([AnimeTableViewModel], Bool) {
+    func deleteSearchResultsTableData() {
+        searchResultsTable = [GetTitleModel]()
+    }
+    
+    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsTableViewModel], Bool) {
         do {
-            let limit: Int = 25
-            let titleModels = try await PublicApiService.shared.searchTitles(genres: "комедия", withLimit: limit, after: value)
-            animeTable += titleModels
-            var animeTableViewModel = [AnimeTableViewModel]()
+            let limit: Int = 10
+            let titleModels = try await PublicApiService.shared.searchTitles(withSearchText: searchText, withLimit: limit, after: value)
+            searchResultsTable += titleModels
+            var searchResultsTableViewModel = [SearchResultsTableViewModel]()
             titleModels.forEach { item in
-                animeTableViewModel.append(AnimeTableViewModel(ruName: item.names.ru, engName: item.names.en, description: item.description))
+                searchResultsTableViewModel.append(SearchResultsTableViewModel(ruName: item.names.ru, engName: item.names.en, description: item.description))
             }
             let needLoadMoreData = titleModels.count >= limit ? true : false
-            return (animeTableViewModel, needLoadMoreData)
+            return (searchResultsTableViewModel, needLoadMoreData)
         } catch {
             throw error
         }
     }
     
     func requestImage(forIndex index: Int) async throws -> UIImage? {
-        guard let imageURL = animeTable[index].posters?.original?.url else {
+        guard let imageURL = searchResultsTable[index].posters?.original?.url else {
             throw MyInternalError.failedToFetchData
         }
         do {

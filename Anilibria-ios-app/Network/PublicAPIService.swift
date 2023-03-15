@@ -164,13 +164,13 @@ final class PublicApiService: QueryService {
     
     /// Возвращает список найденных по фильтрам тайтлов
     /// - Parameters:
-    ///     - withSearch: Поиск по именам и описанию
+    ///     - withSearchText: Поиск по именам и описанию
     ///     - year: Список годов выхода (Пример: 2004,2005)
     ///     - season_code: Список сезонов (1 - Зима, 2 - Весна, 3 - Лето, 4 - Осень) (Пример: 1,2)
     ///     - genres: Список жанров (Пример: комедия,музыка)
     ///     - withLimit: Количество роликов запрашиваемые у сервера. (По умолчанию 10)
     ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
-    func searchTitles(withSearch search: String = "",
+    func searchTitles(withSearchText search: String = "",
                       year: String = "",
                       seasonCode: String = "",
                       genres: String = "",

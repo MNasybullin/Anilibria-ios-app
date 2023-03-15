@@ -1,5 +1,5 @@
 //
-//  AnimeTableFooterView.swift
+//  SearchResultsTableFooterView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 11.03.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AnimeTableFooterView: UIView {
+final class SearchResultsTableFooterView: UIView {
     
     var activityIndicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .medium)

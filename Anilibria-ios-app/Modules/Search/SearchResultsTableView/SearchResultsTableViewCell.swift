@@ -1,5 +1,5 @@
 //
-//  AnimeTableViewCell.swift
+//  SearchResultsTableViewCell.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 08.03.2023.
@@ -8,7 +8,7 @@
 import UIKit
 import SkeletonView
 
-final class AnimeTableViewCell: UITableViewCell {
+final class SearchResultsTableViewCell: UITableViewCell {
     static let vStackSpacing: CGFloat = 3
     static let hStackSpacing: CGFloat = 6
     
@@ -106,10 +106,10 @@ final class AnimeTableViewCell: UITableViewCell {
 
 // MARK: - Live Preview In UIKit
 import SwiftUI
-struct AnimeView_Previews: PreviewProvider {
+struct SearchResultsTableViewCell_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            AnimeTableViewCell()
+            SearchResultsTableViewCell()
         }
         .frame(width: 390, height: 100)
     }

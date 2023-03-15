@@ -129,7 +129,7 @@ class PublicApiServiceTests: XCTestCase {
     
     func testSearchTitles() async throws {
         do {
-            _ = try await PublicApiService.shared.searchTitles(withSearch: "Песнь")
+            _ = try await PublicApiService.shared.searchTitles(withSearchText: "Песнь")
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)

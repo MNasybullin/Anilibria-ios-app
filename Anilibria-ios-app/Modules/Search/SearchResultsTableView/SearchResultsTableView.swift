@@ -1,5 +1,5 @@
 //
-//  AnimeTableView.swift
+//  SearchResultsTableView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 08.03.2023.
@@ -9,24 +9,24 @@ import Foundation
 import UIKit
 import SkeletonView
 
-protocol AnimeTableViewDelegate: AnyObject {
+protocol SearchResultsTableViewDelegate: AnyObject {
     func getData(after: Int)
     func getImage(forIndexPath indexPath: IndexPath)
 }
 
-final class AnimeTableView: UITableView {
-    weak var animeTableViewDelegate: AnimeTableViewDelegate?
+final class SearchResultsTableView: UITableView {
+    weak var searchResultsTableViewDelegate: SearchResultsTableViewDelegate?
     
-    private let cellIdentifier = "AnimeCell"
-    private let footerIdentifier = "AnimeFooter"
+    private let cellIdentifier = "SearchResultsCell"
+    private let footerIdentifier = "SearchResultsFooter"
     
     private var heightForRow: CGFloat
     private var isLoadingMoreData: Bool = false
     private var needLoadMoreData: Bool
     
-    private var footerView: AnimeTableFooterView = AnimeTableFooterView()
+    private var footerView: SearchResultsTableFooterView = SearchResultsTableFooterView()
     
-    private var data: [AnimeTableViewModel]?
+    private var data: [SearchResultsTableViewModel]?
     
     init(heightForRow: CGFloat, needLoadMoreData: Bool = true) {
         self.heightForRow = heightForRow
@@ -43,7 +43,7 @@ final class AnimeTableView: UITableView {
     private func configureTableView() {
         backgroundColor = .systemBackground
         
-        register(AnimeTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        register(SearchResultsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
         delegate = self
         dataSource = self
@@ -65,15 +65,22 @@ final class AnimeTableView: UITableView {
         }
     }
     
-    func update(_ data: [AnimeTableViewModel]) {
-        self.data = data
-        toggleSkeletonView()
+    func deleteData() {
         DispatchQueue.main.async {
+            self.data = nil
             self.reloadData()
         }
     }
     
-    func addMore(_ data: [AnimeTableViewModel], needLoadMoreData: Bool) {
+    func update(_ data: [SearchResultsTableViewModel]) {
+        DispatchQueue.main.async {
+            self.data = data
+            self.toggleSkeletonView()
+            self.reloadData()
+        }
+    }
+    
+    func addMore(_ data: [SearchResultsTableViewModel], needLoadMoreData: Bool) {
         DispatchQueue.main.async {
             self.isLoadingMoreData = false
             self.toggleFooterView()
@@ -86,9 +93,9 @@ final class AnimeTableView: UITableView {
     }
     
     func update(_ image: UIImage, for indexPath: IndexPath) {
-        data?[indexPath.row].image = image
-        data?[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
+            self.data?[indexPath.row].image = image
+            self.data?[indexPath.row].imageIsLoading = false
             self.reconfigureRows(at: [indexPath])
         }
     }
@@ -106,7 +113,7 @@ final class AnimeTableView: UITableView {
 }
 
 // MARK: - UITableViewDelegate
-extension AnimeTableView: UITableViewDelegate {
+extension SearchResultsTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return heightForRow
     }
@@ -118,19 +125,19 @@ extension AnimeTableView: UITableViewDelegate {
 }
 
 // MARK: - UITableViewDataSource
-extension AnimeTableView: UITableViewDataSource {
+extension SearchResultsTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data?.count ?? 5
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? AnimeTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SearchResultsTableViewCell else {
             fatalError("Cell is doesn`t AnimeTableViewCell")
         }
         guard data != nil else {
             if sk.isSkeletonActive == false {
                 showAnimatedSkeleton()
-                animeTableViewDelegate?.getData(after: 0)
+                searchResultsTableViewDelegate?.getData(after: 0)
             }
             return cell
         }
@@ -148,7 +155,7 @@ extension AnimeTableView: UITableViewDataSource {
             }
             data?[index].imageIsLoading = true
             cell.animeImageView.showAnimatedSkeleton()
-            animeTableViewDelegate?.getImage(forIndexPath: indexPath)
+            searchResultsTableViewDelegate?.getImage(forIndexPath: indexPath)
             return cell
         }
         if cell.animeImageView.sk.isSkeletonActive == true {
@@ -166,12 +173,12 @@ extension AnimeTableView: UITableViewDataSource {
         }
         isLoadingMoreData = true
         toggleFooterView()
-        animeTableViewDelegate?.getData(after: data.count)
+        searchResultsTableViewDelegate?.getData(after: data.count)
     }
 }
 
 // MARK: - SkeletonTableViewDataSource
-extension AnimeTableView: SkeletonTableViewDataSource {
+extension SearchResultsTableView: SkeletonTableViewDataSource {
     func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
         return cellIdentifier
     }
@@ -185,10 +192,10 @@ extension AnimeTableView: SkeletonTableViewDataSource {
 
 // MARK: - Live Preview In UIKit
 import SwiftUI
-struct AnimeTableView_Previews: PreviewProvider {
+struct SearchResultsTableView_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            AnimeTableView(heightForRow: 150)
+            SearchResultsTableView(heightForRow: 150)
         }
     }
 }

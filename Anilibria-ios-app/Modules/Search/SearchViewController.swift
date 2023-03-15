@@ -12,49 +12,34 @@ protocol SearchViewProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
     func showErrorAlert(with title: String, message: String)
-    func update(data: [AnimeTableViewModel])
-    func addMore(data: [AnimeTableViewModel], needLoadMoreData: Bool)
-    func update(image: UIImage, for indexPath: IndexPath)
+    func updateSearchResultsTableView(data: [SearchResultsTableViewModel])
+    func addMoreSearchResultsTableView(data: [SearchResultsTableViewModel], needLoadMoreData: Bool)
+    func updateSearchResultsTableView(image: UIImage, for indexPath: IndexPath)
     func updateRandomAnimeView(withData data: RandomAnimeViewModel)
 }
 
 final class SearchViewController: UIViewController {
     var presenter: SearchPresenterProtocol!
-    var searchController: UISearchController!
     var searchBar: UISearchBar!
     
     private var randomAnimeView: RandomAnimeView!
-    private var searchResultsTableView: AnimeTableView!
+    private var searchResultsTableView: SearchResultsTableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .systemBackground
-        configureSearchController()
+        
         configureSearchBar()
-        configureNavigationItem()
         configureRandomAnimeView()
         configureSearchResultsTableView()
     }
     
-    private func configureSearchController() {
-//        searchController = UISearchController(searchResultsController: ScheduleRouter.start(withNavigationController: UINavigationController()).entry)
-//        searchController.delegate = self
-//        searchController.searchResultsUpdater = self
-//        searchController.searchBar.delegate = self
-//        searchController.searchBar.autocapitalizationType = .none
-//        searchController.definesPresentationContext = true
-//        searchController.obscuresBackgroundDuringPresentation = true
-    }
-    
     private func configureSearchBar() {
         searchBar = UISearchBar()
+        searchBar.placeholder = Strings.SearchModule.SearchBar.placeholder
+        searchBar.isTranslucent = false
+        searchBar.delegate = self
         navigationItem.titleView = searchBar
-    }
-    
-    private func configureNavigationItem() {
-//        navigationItem.searchController = searchController
-//        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func configureRandomAnimeView() {
@@ -73,60 +58,75 @@ final class SearchViewController: UIViewController {
     }
     
     private func configureSearchResultsTableView() {
-        searchResultsTableView = AnimeTableView(heightForRow: 150)
-//        searchResultsTableView.isUserInteractionEnabled = true
-//        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(searchResultsTableView)
-//        searchResultsTableView.isHidden = false
-//        searchResultsTableView.animeTableViewDelegate = self
-//
-//        NSLayoutConstraint.activate([
-//            searchResultsTableView.topAnchor.constraint(equalTo: view.topAnchor),
-//            searchResultsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            searchResultsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            searchResultsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//        ])
-    }
-}
+        searchResultsTableView = SearchResultsTableView(heightForRow: 150)
+        searchResultsTableView.isUserInteractionEnabled = true
+        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchResultsTableView)
+        searchResultsTableView.isHidden = true
+        searchResultsTableView.searchResultsTableViewDelegate = self
 
-// MARK: - UISearchResultsUpdating
-extension SearchViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        // TODO
-//        print("updateSearchResults")
+        NSLayoutConstraint.activate([
+            searchResultsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchResultsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchResultsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            searchResultsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    private func deleteSearchResultsData() {
+        presenter.cancellTasks()
+        presenter.deleteAnimeTableData()
+        searchResultsTableView.deleteData()
     }
 }
 
 // MARK: - UISearchBarDelegate
 extension SearchViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("cancel")
-    }
-}
-
-// MARK: - UISearchControllerDelegate
-extension SearchViewController: UISearchControllerDelegate {
-    func didPresentSearchController(_ searchController: UISearchController) {
-        print("Present")
-        print(view)
-        print(randomAnimeView)
+        print("cancel button clicked")
+        
+        searchBar.resignFirstResponder()
+        toggleCancelButton()
+        searchBar.text = nil
     }
     
-    func didDismissSearchController(_ searchController: UISearchController) {
-        print("Dismiss")
-        print(view)
-        print(randomAnimeView)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("search button clicked")
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("text did change:", searchText)
+        deleteSearchResultsData()
+        presenter.getSearchResults(searchText: searchText, after: 0)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("Нажал на строку поиска")
+        
+        toggleCancelButton()
+        randomAnimeView.isHidden = true
+        searchResultsTableView.isHidden = false
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("end")
+        
+        randomAnimeView.isHidden = false
+        searchResultsTableView.isHidden = true
+    }
+    
+    private func toggleCancelButton() {
+        searchBar.setShowsCancelButton(!self.searchBar.showsCancelButton, animated: true)
     }
 }
 
 // MARK: - AnimeTableViewDelegate
-extension SearchViewController: AnimeTableViewDelegate {
+extension SearchViewController: SearchResultsTableViewDelegate {
     func getImage(forIndexPath indexPath: IndexPath) {
         presenter.getImage(forIndexPath: indexPath)
     }
     
     func getData(after value: Int) {
-        presenter.getData(after: value)
+        // unused
     }
 }
 
@@ -142,15 +142,15 @@ extension SearchViewController: SearchViewProtocol {
         Alert.showErrorAlert(on: self, with: title, message: message)
     }
     
-    func update(data: [AnimeTableViewModel]) {
+    func updateSearchResultsTableView(data: [SearchResultsTableViewModel]) {
         searchResultsTableView.update(data)
     }
     
-    func addMore(data: [AnimeTableViewModel], needLoadMoreData: Bool) {
+    func addMoreSearchResultsTableView(data: [SearchResultsTableViewModel], needLoadMoreData: Bool) {
         searchResultsTableView.addMore(data, needLoadMoreData: needLoadMoreData)
     }
     
-    func update(image: UIImage, for indexPath: IndexPath) {
+    func updateSearchResultsTableView(image: UIImage, for indexPath: IndexPath) {
         searchResultsTableView.update(image, for: indexPath)
     }
     

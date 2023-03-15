@@ -85,6 +85,7 @@
 // MARK: - Search Module
 "SearchModule.title.randomAnime" = "Случайное аниме";
 "SearchModule.image.refresh" = "arrow.clockwise";
+"SearchModule.searchBar.placeholder" = "Поиск";
 
 // MARK: - Screen Titles
 "ScreenTitles.home" = "Главное";

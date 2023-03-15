@@ -12,9 +12,11 @@ protocol SearchPresenterProtocol: AnyObject {
     var interactor: SearchInteractorProtocol! { get set }
     var router: SearchRouterProtocol! { get set }
     
+    func cancellTasks()
     func getImage(forIndexPath indexPath: IndexPath)
-    func getData(after value: Int)
+    func getSearchResults(searchText: String, after value: Int)
     func getRandomAnimeData()
+    func deleteAnimeTableData()
 }
 
 final class SearchPresenter: SearchPresenterProtocol {
@@ -22,39 +24,60 @@ final class SearchPresenter: SearchPresenterProtocol {
     var interactor: SearchInteractorProtocol!
     var router: SearchRouterProtocol!
     
-    func getData(after value: Int) {
-        Task {
+    var searchResultsTasks: [Task<(), Never>] = [Task<(), Never>]()
+    var imageTasks: [Task<(), Never>] = [Task<(), Never>]()
+    
+    func cancellTasks() {
+        searchResultsTasks.forEach { $0.cancel() }
+        searchResultsTasks.removeAll()
+        
+        imageTasks.forEach { $0.cancel() }
+        imageTasks.removeAll()
+    }
+    
+    func getSearchResults(searchText: String, after value: Int) {
+        let task = Task {
             do {
-                let (data, needLoadMoreData) = try await interactor.requestData(after: value)
+                let (data, needLoadMoreData) = try await interactor.searchTitles(searchText: searchText, after: value)
+                if Task.isCancelled { return }
                 if value == 0 {
-                    view.update(data: data)
+                    view.updateSearchResultsTableView(data: data)
                 } else {
-                    view.addMore(data: data, needLoadMoreData: needLoadMoreData)
+                    view.addMoreSearchResultsTableView(data: data, needLoadMoreData: needLoadMoreData)
                 }
             } catch {
+                if Task.isCancelled { return }
                 ErrorProcessing.shared.handle(error: error) { [weak view] message in
                     view?.showErrorAlert(with: Strings.AlertController.Title.error, message: message)
                 }
             }
         }
+        searchResultsTasks.append(task)
+    }
+    
+    func deleteAnimeTableData() {
+        interactor.deleteSearchResultsTableData()
     }
     
     func getImage(forIndexPath indexPath: IndexPath) {
         if NetworkMonitor.shared.isConnected == false {
             return
         }
-        Task {
+        let task = Task {
             do {
                 guard let image = try await interactor.requestImage(forIndex: indexPath.row) else {
                     return
                 }
-                view.update(image: image, for: indexPath)
+                if Task.isCancelled { return }
+                view.updateSearchResultsTableView(image: image, for: indexPath)
             } catch {
+                if Task.isCancelled { return }
                 ErrorProcessing.shared.handle(error: error) { [weak view] message in
                     view?.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
                 }
             }
         }
+        imageTasks.append(task)
     }
     
     func getRandomAnimeData() {

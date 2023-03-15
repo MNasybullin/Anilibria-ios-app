@@ -49,7 +49,7 @@ final class HomeRouter: HomeRouterProtocol {
         let image = UIImage(systemName: Strings.TabBarControllers.Home.image)
         
         rootViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
-        rootViewController.navigationItem.title = title
+        rootViewController.navigationItem.title = Strings.ScreenTitles.home
         return UINavigationController(rootViewController: rootViewController)
     }
     
