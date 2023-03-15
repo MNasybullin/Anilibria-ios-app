@@ -85,6 +85,7 @@
 		27F5E5A0287EAA5D00BCF61C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A2287EAA5D00BCF61C /* Localizable.strings */; };
 		27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A5287EAC8100BCF61C /* SwiftGen */; };
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
+		27F8D8E529C2245900D8F4D1 /* SearchResultsTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8D8E429C2245900D8F4D1 /* SearchResultsTableHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +177,7 @@
 		27F5E5A3287EAA6E00BCF61C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		27F5E5A5287EAC8100BCF61C /* SwiftGen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftGen; sourceTree = "<group>"; };
 		27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		27F8D8E429C2245900D8F4D1 /* SearchResultsTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				2744762829B8CB160062F6D2 /* SearchResultsTableView.swift */,
+				27F8D8E429C2245900D8F4D1 /* SearchResultsTableHeaderView.swift */,
 				2744C87629BC71A700105F11 /* SearchResultsTableFooterView.swift */,
 				2744762A29B8CCF60062F6D2 /* SearchResultsTableViewCell.swift */,
 				2744763029BA0BF00062F6D2 /* SearchResultsTableViewModel.swift */,
@@ -686,6 +689,7 @@
 				272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
 				27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */,
+				27F8D8E529C2245900D8F4D1 /* SearchResultsTableHeaderView.swift in Sources */,
 				27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */,
 				279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */,
 				279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */,

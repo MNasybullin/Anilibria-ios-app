@@ -18,12 +18,14 @@ final class SearchResultsTableView: UITableView {
     weak var searchResultsTableViewDelegate: SearchResultsTableViewDelegate?
     
     private let cellIdentifier = "SearchResultsCell"
+    private let headerIdentifier = "SearchResultsHeader"
     private let footerIdentifier = "SearchResultsFooter"
     
     private var heightForRow: CGFloat
     private var isLoadingMoreData: Bool = false
     private var needLoadMoreData: Bool = true
     
+    private var headerView: SearchResultsTableHeaderView = SearchResultsTableHeaderView()
     private var footerView: SearchResultsTableFooterView = SearchResultsTableFooterView()
     
     private var data: [SearchResultsTableViewModel]?
@@ -49,6 +51,18 @@ final class SearchResultsTableView: UITableView {
         isSkeletonable = true
     }
     
+    private func toggleHeaderView() {
+        DispatchQueue.main.async {
+            self.beginUpdates()
+            if self.data?.count == 0 {
+                self.tableHeaderView = self.headerView
+            } else {
+                self.tableHeaderView = nil
+            }
+            self.endUpdates()
+        }
+    }
+    
     private func toggleFooterView() {
         DispatchQueue.main.async {
             if self.isLoadingMoreData == true {
@@ -68,6 +82,7 @@ final class SearchResultsTableView: UITableView {
             self.data = nil
             self.needLoadMoreData = true
             self.isLoadingMoreData = false
+            self.toggleHeaderView()
             self.toggleFooterView()
             self.reloadData()
         }
@@ -76,6 +91,7 @@ final class SearchResultsTableView: UITableView {
     func update(_ data: [SearchResultsTableViewModel]) {
         DispatchQueue.main.async {
             self.data = data
+            self.toggleHeaderView()
             self.toggleSkeletonView()
             self.reloadData()
         }

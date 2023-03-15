@@ -25,6 +25,8 @@ final class SearchViewController: UIViewController {
     private var randomAnimeView: RandomAnimeView!
     private var searchResultsTableView: SearchResultsTableView!
     
+    var textEditingTimer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -77,8 +79,6 @@ final class SearchViewController: UIViewController {
         presenter.deleteAnimeTableData()
         searchResultsTableView.deleteData()
     }
-    
-    var timer: Timer? // todo
 }
 
 // MARK: - UISearchBarDelegate
@@ -87,6 +87,7 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         toggleCancelButton()
         searchBar.text = nil
+        deleteSearchResultsData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -94,12 +95,12 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        timer?.invalidate()
+        textEditingTimer?.invalidate()
         if searchText == "" {
             deleteSearchResultsData()
             return
         }
-        timer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
+        textEditingTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
             self.deleteSearchResultsData()
             self.searchResultsTableView.toggleSkeletonView()
             self.presenter.getSearchResults(searchText: searchText, after: 0)
