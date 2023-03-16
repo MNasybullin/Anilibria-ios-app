@@ -11,7 +11,7 @@ final class SearchResultsTableHeaderView: UIView {
     
     var headerLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ничего не найдено :(" // TODO
+        label.text = Strings.SearchModule.HeaderView.notFound
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false

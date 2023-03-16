@@ -12,8 +12,8 @@ protocol SearchViewProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
     func showErrorAlert(with title: String, message: String)
-    func updateSearchResultsTableView(data: [SearchResultsTableViewModel])
-    func addMoreSearchResultsTableView(data: [SearchResultsTableViewModel], needLoadMoreData: Bool)
+    func updateSearchResultsTableView(data: [SearchResultsRowsModel])
+    func addMoreSearchResultsTableView(data: [SearchResultsRowsModel], needLoadMoreData: Bool)
     func updateSearchResultsTableView(image: UIImage, for indexPath: IndexPath)
     func updateRandomAnimeView(withData data: RandomAnimeViewModel)
 }
@@ -76,7 +76,7 @@ final class SearchViewController: UIViewController {
     }
     private func deleteSearchResultsData() {
         presenter.cancellTasks()
-        presenter.deleteAnimeTableData()
+        presenter.deleteSearchResultsData()
         searchResultsTableView.deleteData()
         searchResultsTableView.hideSkeleton(reloadDataAfter: false)
     }
@@ -101,7 +101,7 @@ extension SearchViewController: UISearchBarDelegate {
         guard let searchText = searchBar.text else {
             return
         }
-        if searchText == "" {
+        if searchText.isEmpty {
             return
         }
         searchResultsTableView.showAnimatedSkeleton()
@@ -110,7 +110,7 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         textEditingTimer?.invalidate()
-        if searchText == "" {
+        if searchText.isEmpty {
             deleteSearchResultsData()
             return
         }
@@ -127,8 +127,14 @@ extension SearchViewController: UISearchBarDelegate {
         searchResultsTableView.isHidden = false
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+//        cancel button becomes disabled when search bar isn't first responder, force it back enabled
+        DispatchQueue.main.async {
+            if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+                cancelButton.isEnabled = true
+            }
+        }
+        return true
     }
 }
 
@@ -155,11 +161,11 @@ extension SearchViewController: SearchViewProtocol {
         Alert.showErrorAlert(on: self, with: title, message: message)
     }
     
-    func updateSearchResultsTableView(data: [SearchResultsTableViewModel]) {
+    func updateSearchResultsTableView(data: [SearchResultsRowsModel]) {
         searchResultsTableView.update(data)
     }
     
-    func addMoreSearchResultsTableView(data: [SearchResultsTableViewModel], needLoadMoreData: Bool) {
+    func addMoreSearchResultsTableView(data: [SearchResultsRowsModel], needLoadMoreData: Bool) {
         searchResultsTableView.addMore(data, needLoadMoreData: needLoadMoreData)
     }
     

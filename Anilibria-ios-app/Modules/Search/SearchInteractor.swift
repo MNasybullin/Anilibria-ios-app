@@ -11,40 +11,44 @@ import UIKit
 protocol SearchInteractorProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
-    func deleteSearchResultsTableData()
-    func requestImage(forIndex index: Int) async throws -> UIImage?
-    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsTableViewModel], Bool)
+    func deleteSearchResultsData()
+    func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage?
+    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsRowsModel], Bool)
     func requestRandomAnimeData() async throws -> RandomAnimeViewModel
 }
 
 final class SearchInteractor: SearchInteractorProtocol {
     unowned var presenter: SearchPresenterProtocol!
     
-    private var searchResultsTable: [GetTitleModel] = [GetTitleModel]()
-    private var randomAnime: GetTitleModel?
-    
-    func deleteSearchResultsTableData() {
-        searchResultsTable = [GetTitleModel]()
+    private struct Section {
+        var rowsData: [GetTitleModel]?
     }
     
-    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsTableViewModel], Bool) {
+    private var searchResultsSection = [Section]()
+    private var randomAnime: GetTitleModel?
+    
+    func deleteSearchResultsData() {
+        searchResultsSection.removeAll()
+    }
+    
+    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsRowsModel], Bool) {
         do {
-            let limit: Int = 20
+            let limit: Int = 15
             let titleModels = try await PublicApiService.shared.searchTitles(withSearchText: searchText, withLimit: limit, after: value)
-            searchResultsTable += titleModels
-            var searchResultsTableViewModel = [SearchResultsTableViewModel]()
+            searchResultsSection.append(Section(rowsData: titleModels))
+            var searchResultsRowsModel = [SearchResultsRowsModel]()
             titleModels.forEach { item in
-                searchResultsTableViewModel.append(SearchResultsTableViewModel(ruName: item.names.ru, engName: item.names.en, description: item.description))
+                searchResultsRowsModel.append(SearchResultsRowsModel(ruName: item.names.ru, engName: item.names.en, description: item.description))
             }
-            let needLoadMoreData = titleModels.count >= limit ? true : false
-            return (searchResultsTableViewModel, needLoadMoreData)
+            let needLoadMoreData = titleModels.count == limit
+            return (searchResultsRowsModel, needLoadMoreData)
         } catch {
             throw error
         }
     }
     
-    func requestImage(forIndex index: Int) async throws -> UIImage? {
-        guard let imageURL = searchResultsTable[index].posters?.original?.url else {
+    func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage? {
+        guard let imageURL = searchResultsSection[indexPath.section].rowsData?[indexPath.row].posters?.original?.url else {
             throw MyInternalError.failedToFetchData
         }
         do {

@@ -16,7 +16,7 @@ protocol SearchPresenterProtocol: AnyObject {
     func getImage(forIndexPath indexPath: IndexPath)
     func getSearchResults(searchText: String, after value: Int)
     func getRandomAnimeData()
-    func deleteAnimeTableData()
+    func deleteSearchResultsData()
 }
 
 final class SearchPresenter: SearchPresenterProtocol {
@@ -55,8 +55,8 @@ final class SearchPresenter: SearchPresenterProtocol {
         searchResultsTasks.append(task)
     }
     
-    func deleteAnimeTableData() {
-        interactor.deleteSearchResultsTableData()
+    func deleteSearchResultsData() {
+        interactor.deleteSearchResultsData()
     }
     
     func getImage(forIndexPath indexPath: IndexPath) {
@@ -65,7 +65,7 @@ final class SearchPresenter: SearchPresenterProtocol {
         }
         let task = Task {
             do {
-                guard let image = try await interactor.requestImage(forIndex: indexPath.row) else {
+                guard let image = try await interactor.requestImage(forIndexPath: indexPath) else {
                     return
                 }
                 if Task.isCancelled { return }
