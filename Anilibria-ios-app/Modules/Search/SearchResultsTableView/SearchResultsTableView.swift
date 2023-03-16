@@ -49,6 +49,7 @@ final class SearchResultsTableView: UITableView {
         dataSource = self
         
         isSkeletonable = true
+        keyboardDismissMode = .onDrag
     }
     
     private func toggleHeaderView() {
@@ -99,7 +100,7 @@ final class SearchResultsTableView: UITableView {
     
     func addMore(_ data: [SearchResultsTableViewModel], needLoadMoreData: Bool) {
         DispatchQueue.main.async {
-            self.isLoadingMoreData = false
+            self.isLoadingMoreData = false // TODO может быть после релоад даты поставить и уйдет проблема с изображениями 
             self.toggleFooterView()
             data.forEach { self.data?.append($0) }
             self.needLoadMoreData = needLoadMoreData
@@ -115,7 +116,7 @@ final class SearchResultsTableView: UITableView {
         }
     }
     
-    func toggleSkeletonView() {
+    private func toggleSkeletonView() {
         DispatchQueue.main.async {
             if self.data == nil,
                 self.sk.isSkeletonActive == false {
@@ -158,7 +159,7 @@ extension SearchResultsTableView: UITableViewDataSource {
         cell.engNameLabel.text = data?[index].engName
         cell.descriptionLabel.text = data?[index].description
         if index == data!.count - 2 {
-            loadMoreData()
+//            loadMoreData() // TODO
         }
         if data?[index].imageIsLoading == true {
             return cell

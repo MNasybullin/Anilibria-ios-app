@@ -78,6 +78,7 @@ final class SearchViewController: UIViewController {
         presenter.cancellTasks()
         presenter.deleteAnimeTableData()
         searchResultsTableView.deleteData()
+        searchResultsTableView.hideSkeleton(reloadDataAfter: false)
     }
 }
 
@@ -85,13 +86,26 @@ final class SearchViewController: UIViewController {
 extension SearchViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        toggleCancelButton()
-        searchBar.text = nil
         deleteSearchResultsData()
+        randomAnimeView.isHidden = false
+        searchResultsTableView.isHidden = true
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.text = nil
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("search button clicked")
+        
+        searchBar.endEditing(true)
+        deleteSearchResultsData()
+        guard let searchText = searchBar.text else {
+            return
+        }
+        if searchText == "" {
+            return
+        }
+        searchResultsTableView.showAnimatedSkeleton()
+        presenter.getSearchResults(searchText: searchText, after: 0)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -102,24 +116,19 @@ extension SearchViewController: UISearchBarDelegate {
         }
         textEditingTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
             self.deleteSearchResultsData()
-            self.searchResultsTableView.toggleSkeletonView()
+            self.searchResultsTableView.showAnimatedSkeleton()
             self.presenter.getSearchResults(searchText: searchText, after: 0)
         }
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        toggleCancelButton()
+        searchBar.setShowsCancelButton(true, animated: true)
         randomAnimeView.isHidden = true
         searchResultsTableView.isHidden = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        randomAnimeView.isHidden = false
-        searchResultsTableView.isHidden = true
-    }
-    
-    private func toggleCancelButton() {
-        searchBar.setShowsCancelButton(!self.searchBar.showsCancelButton, animated: true)
+        
     }
 }
 

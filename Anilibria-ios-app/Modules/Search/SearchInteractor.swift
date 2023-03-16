@@ -29,7 +29,7 @@ final class SearchInteractor: SearchInteractorProtocol {
     
     func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsTableViewModel], Bool) {
         do {
-            let limit: Int = 10
+            let limit: Int = 20
             let titleModels = try await PublicApiService.shared.searchTitles(withSearchText: searchText, withLimit: limit, after: value)
             searchResultsTable += titleModels
             var searchResultsTableViewModel = [SearchResultsTableViewModel]()
