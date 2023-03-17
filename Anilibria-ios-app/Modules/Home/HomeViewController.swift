@@ -52,7 +52,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     // MARK: - NavigationBarAppearance
-    func configureNavigationBarAppearance() {
+    private func configureNavigationBarAppearance() {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
         navigationBarAppearance.shadowColor = .clear
@@ -60,14 +60,14 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     // MARK: - scrollView
-    func configureScrollView() {
+    private func configureScrollView() {
         view.addSubview(scrollView)
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
         setScrollViewConstraints()
     }
     
-    func setScrollViewConstraints() {
+    private func setScrollViewConstraints() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         let frameGuide = scrollView.frameLayoutGuide
         let contentGuide = scrollView.contentLayoutGuide
@@ -82,7 +82,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     // MARK: - RefreshControl
-    func configureRefreshControl() {
+    private func configureRefreshControl() {
         scrollView.refreshControl = UIRefreshControl()
         scrollView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
@@ -97,7 +97,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         updatesCarouselView.refreshData()
     }
     
-    func programaticallyBeginRefreshing() {
+    private func programaticallyBeginRefreshing() {
         DispatchQueue.main.async {
             self.scrollView.refreshControl?.beginRefreshing()
             let offsetPoint = CGPoint(x: 0, y: self.scrollView.contentOffset.y - (self.scrollView.refreshControl?.frame.size.height ?? 0))
@@ -113,14 +113,14 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
         
     // MARK: - vContentStackView
-    func configureVContentStackView() {
+    private func configureVContentStackView() {
         scrollView.addSubview(vContentStackView)
         vContentStackView.axis = .vertical
         vContentStackView.spacing = 10
         setVContentStackViewConstraints()
     }
     
-    func setVContentStackViewConstraints() {
+    private func setVContentStackViewConstraints() {
         vContentStackView.translatesAutoresizingMaskIntoConstraints = false
         let contentGuide = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
@@ -132,7 +132,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     // MARK: - toDayCarouselView
-    func configureTodayCarouselView() {
+    private func configureTodayCarouselView() {
         let multiplier: CGFloat = 500 / 350
         let cellWidth: CGFloat = 300
         todayCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.today, buttonTitle: Strings.HomeModule.ButtonTitle.allDays, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: true)
@@ -141,7 +141,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     }
     
     // MARK: - updatesCarouselView
-    func configureUpdatesCarouselView() {
+    private func configureUpdatesCarouselView() {
         let multiplier: CGFloat = 500 / 350
         let cellWidth: CGFloat = 200
         updatesCarouselView = CarouselView(withTitle: Strings.HomeModule.Title.updates, buttonTitle: nil, imageSize: CGSize(width: cellWidth, height: cellWidth * multiplier), cellFocusAnimation: false)
@@ -149,7 +149,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         vContentStackView.addArrangedSubview(updatesCarouselView)
     }
     
-    func getViewType(fromCarouselView carouselView: CarouselView) -> CarouselViewType {
+    private func getViewType(fromCarouselView carouselView: CarouselView) -> CarouselViewType {
         switch carouselView {
             case todayCarouselView:
                 return .todayCarouselView
