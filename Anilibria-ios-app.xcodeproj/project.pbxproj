@@ -75,6 +75,7 @@
 		27DEEBC72886A9A30014055F /* HomeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC62886A9A30014055F /* HomeEntity.swift */; };
 		27DEEBC92886A9AC0014055F /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC82886A9AC0014055F /* HomeRouter.swift */; };
 		27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B074293B6E57006CC8E1 /* PostersListView.swift */; };
+		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27F09BF0289EEBD20051BF2E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BEF289EEBD20051BF2E /* FirebaseAnalytics */; };
 		27F09BF2289EEBD20051BF2E /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BF1289EEBD20051BF2E /* FirebaseMessaging */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
@@ -86,6 +87,10 @@
 		27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A5287EAC8100BCF61C /* SwiftGen */; };
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 		27F8D8E529C2245900D8F4D1 /* SearchResultsTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8D8E429C2245900D8F4D1 /* SearchResultsTableHeaderView.swift */; };
+		B7F860D2BEF13A065FD78F45 /* AnimeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC68094FE9F4F68E9E305C6B /* AnimeInteractor.swift */; };
+		D8C99D49149319702991DAA2 /* AnimeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F145667CAE506357C67C632 /* AnimeRouter.swift */; };
+		E7726D23BE35B09B857A5C09 /* AnimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF20FE98BEBFB4D4724EBE5 /* AnimeViewController.swift */; };
+		E7D6F8B211D855AE958BFBC1 /* AnimePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73A3274815022D754EEEDFD /* AnimePresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +104,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F145667CAE506357C67C632 /* AnimeRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnimeRouter.swift; sourceTree = "<group>"; };
 		2710E99C29B510ED00B66C62 /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
 		2710E99E29B5117500B66C62 /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
 		2710E9A029B5146500B66C62 /* PublicApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicApiService.swift; sourceTree = "<group>"; };
@@ -167,6 +173,7 @@
 		27DEEBC62886A9A30014055F /* HomeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEntity.swift; sourceTree = "<group>"; };
 		27DEEBC82886A9AC0014055F /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		27E7B074293B6E57006CC8E1 /* PostersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListView.swift; sourceTree = "<group>"; };
+		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -178,6 +185,9 @@
 		27F5E5A5287EAC8100BCF61C /* SwiftGen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftGen; sourceTree = "<group>"; };
 		27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		27F8D8E429C2245900D8F4D1 /* SearchResultsTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableHeaderView.swift; sourceTree = "<group>"; };
+		C73A3274815022D754EEEDFD /* AnimePresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnimePresenter.swift; sourceTree = "<group>"; };
+		CC68094FE9F4F68E9E305C6B /* AnimeInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnimeInteractor.swift; sourceTree = "<group>"; };
+		FAF20FE98BEBFB4D4724EBE5 /* AnimeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnimeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -385,6 +395,7 @@
 				27DEEBBF2886A92F0014055F /* Home */,
 				27A66E632987FA8500369EAF /* Search */,
 				276FCF97293CEA960005B82E /* Schedule */,
+				74AD8E03849D0FE618EC2FC5 /* Anime */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -436,6 +447,22 @@
 			path = PostersListView;
 			sourceTree = "<group>";
 		};
+		27EA392729C4562D00D777AE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				27EA392829C4564200D777AE /* AnimeImageView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		27EA392829C4564200D777AE /* AnimeImageView */ = {
+			isa = PBXGroup;
+			children = (
+				27EA392929C4565400D777AE /* AnimeImageView.swift */,
+			);
+			path = AnimeImageView;
+			sourceTree = "<group>";
+		};
 		27F5E54B287C6DCA00BCF61C = {
 			isa = PBXGroup;
 			children = (
@@ -476,6 +503,18 @@
 				279E4F38289EC362008038FF /* GoogleService-Info.plist */,
 			);
 			path = "Anilibria-ios-app";
+			sourceTree = "<group>";
+		};
+		74AD8E03849D0FE618EC2FC5 /* Anime */ = {
+			isa = PBXGroup;
+			children = (
+				27EA392729C4562D00D777AE /* Views */,
+				FAF20FE98BEBFB4D4724EBE5 /* AnimeViewController.swift */,
+				CC68094FE9F4F68E9E305C6B /* AnimeInteractor.swift */,
+				C73A3274815022D754EEEDFD /* AnimePresenter.swift */,
+				0F145667CAE506357C67C632 /* AnimeRouter.swift */,
+			);
+			path = Anime;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -689,6 +728,7 @@
 				272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
 				27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */,
+				27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */,
 				27F8D8E529C2245900D8F4D1 /* SearchResultsTableHeaderView.swift in Sources */,
 				27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */,
 				279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */,
@@ -713,6 +753,10 @@
 				2754F63128A94525003485E6 /* ViewPreview.swift in Sources */,
 				27CB081128855EE0009E2583 /* TabBarEntity.swift in Sources */,
 				272D6541288EC4EC00FA4F60 /* IB-Scenes+Generated.swift in Sources */,
+				E7726D23BE35B09B857A5C09 /* AnimeViewController.swift in Sources */,
+				B7F860D2BEF13A065FD78F45 /* AnimeInteractor.swift in Sources */,
+				E7D6F8B211D855AE958BFBC1 /* AnimePresenter.swift in Sources */,
+				D8C99D49149319702991DAA2 /* AnimeRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,7 +966,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -956,7 +1000,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

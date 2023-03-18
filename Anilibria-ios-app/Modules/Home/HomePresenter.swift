@@ -16,6 +16,7 @@ protocol HomePresenterProtocol: AnyObject {
     func getImage(forIndexPath indexPath: IndexPath, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView)
     
     func titleButtonAction(viewType: CarouselViewType)
+    func cellClicked()
 }
 
 final class HomePresenter: HomePresenterProtocol {
@@ -94,6 +95,10 @@ final class HomePresenter: HomePresenterProtocol {
             case .updatesCarouselView:
                 break
         }
+    }
+    
+    func cellClicked() {
+        router.showAnimeView()
     }
     
 }

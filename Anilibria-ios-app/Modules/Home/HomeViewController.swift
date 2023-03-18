@@ -178,6 +178,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
 
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Not used
     }
 }
 
@@ -191,6 +192,7 @@ extension HomeViewController: CarouselViewProtocol {
     
     func cellClicked() {
         print("Cell Click")
+        presenter.cellClicked()
     }
     
     func titleButtonAction(sender: UIButton, carouselView: CarouselView) {
