@@ -18,8 +18,6 @@ final class SearchResultsTableView: UITableView {
     weak var searchResultsTableViewDelegate: SearchResultsTableViewDelegate?
     
     private let cellIdentifier = "SearchResultsCell"
-    private let headerIdentifier = "SearchResultsHeader"
-    private let footerIdentifier = "SearchResultsFooter"
     
     private var heightForRow: CGFloat
     private var isLoadingMoreData: Bool = false {
@@ -29,6 +27,11 @@ final class SearchResultsTableView: UITableView {
     
     private var headerView = SearchResultsTableHeaderView()
     private var footerView = SearchResultsTableFooterView()
+    private lazy var errorFooterView: SearchResultsTableErrorFooterView = {
+        let view = SearchResultsTableErrorFooterView()
+        view.delegate = self
+        return view
+    }()
     
     private var data = [SearchResultsModel]()
     
@@ -80,6 +83,15 @@ final class SearchResultsTableView: UITableView {
                 self.footerView.activityIndicatorView.stopAnimating()
                 self.tableFooterView = nil
             }
+            self.endUpdates()
+        }
+    }
+    
+    func showErrorFooterView(with message: String) {
+        DispatchQueue.main.async {
+            self.beginUpdates()
+            self.errorFooterView.title.text = message
+            self.tableFooterView = self.errorFooterView
             self.endUpdates()
         }
     }
@@ -187,6 +199,14 @@ extension SearchResultsTableView: UITableViewDataSource {
         isLoadingMoreData = true
         toggleFooterView()
         searchResultsTableViewDelegate?.getData(after: data.count)
+    }
+}
+
+// MARK: - SearchResultsTableErrorFooterViewDelegate
+extension SearchResultsTableView: SearchResultsTableErrorFooterViewDelegate {
+    func refreshButtonClicked() {
+        isLoadingMoreData = false
+        loadMoreData()
     }
 }
 

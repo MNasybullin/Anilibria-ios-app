@@ -9,7 +9,7 @@ import UIKit
 
 final class SearchResultsTableHeaderView: UIView {
     
-    var headerLabel: UILabel = {
+    lazy var headerLabel: UILabel = {
         let label = UILabel()
         label.text = Strings.SearchModule.HeaderView.notFound
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -20,14 +20,15 @@ final class SearchResultsTableHeaderView: UIView {
     
     init() {
         super.init(frame: .zero)
-        self.backgroundColor = .systemBackground
-        self.addSubview(headerLabel)
+        backgroundColor = .systemBackground
+        addSubview(headerLabel)
+        let border: CGFloat = 6
         
-        self.frame.size.height = headerLabel.font.lineHeight + 4 * 2
+        frame.size.height = headerLabel.font.lineHeight + border * 2
         
         NSLayoutConstraint.activate([
-            headerLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            headerLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            headerLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            headerLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     

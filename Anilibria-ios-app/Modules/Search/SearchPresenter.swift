@@ -47,6 +47,10 @@ final class SearchPresenter: SearchPresenterProtocol {
                 }
             } catch {
                 if Task.isCancelled { return }
+                if value != 0 {
+                    view.showSearchResultsErrorFooterView(with: error.localizedDescription)
+                    return
+                }
                 ErrorProcessing.shared.handle(error: error) { [weak view] message in
                     view?.showErrorAlert(with: Strings.AlertController.Title.error, message: message)
                 }

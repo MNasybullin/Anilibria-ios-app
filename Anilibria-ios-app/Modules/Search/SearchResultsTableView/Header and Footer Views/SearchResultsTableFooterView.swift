@@ -9,7 +9,7 @@ import UIKit
 
 final class SearchResultsTableFooterView: UIView {
     
-    var activityIndicatorView: UIActivityIndicatorView = {
+    lazy var activityIndicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .medium)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -17,14 +17,14 @@ final class SearchResultsTableFooterView: UIView {
     
     init() {
         super.init(frame: .zero)
-        self.backgroundColor = .systemBackground
-        self.addSubview(activityIndicatorView)
+        backgroundColor = .systemBackground
+        addSubview(activityIndicatorView)
         
-        self.frame.size.height = activityIndicatorView.frame.height + 4 * 2
+        frame.size.height = activityIndicatorView.frame.height + 4 * 2
         
         NSLayoutConstraint.activate([
-            activityIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            activityIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            activityIndicatorView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     

@@ -86,7 +86,8 @@
 "SearchModule.title.randomAnime" = "Случайное аниме";
 "SearchModule.image.refresh" = "arrow.clockwise";
 "SearchModule.searchBar.placeholder" = "Поиск";
-"SearchModule.HeaderView.notFound" = "Ничего не нашлось";  
+"SearchModule.HeaderView.notFound" = "Ничего не нашлось";
+"SearchModule.ErrorFooterView.refreshButton" = "Обновить";
 
 // MARK: - Screen Titles
 "ScreenTitles.home" = "Главное";

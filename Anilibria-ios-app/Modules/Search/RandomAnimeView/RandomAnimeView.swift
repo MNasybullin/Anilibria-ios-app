@@ -125,9 +125,9 @@ final class RandomAnimeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .systemBackground
-        self.isSkeletonable = true
-        self.addSubview(mainVStack)
+        backgroundColor = .systemBackground
+        isSkeletonable = true
+        addSubview(mainVStack)
         
         mainVStack.addArrangedSubview(headerHStack)
         mainVStack.addArrangedSubview(animeHStack)
@@ -157,10 +157,10 @@ final class RandomAnimeView: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            mainVStack.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
-            mainVStack.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            mainVStack.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
-            mainVStack.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
+            mainVStack.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            mainVStack.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            mainVStack.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            mainVStack.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             
             headerHStack.heightAnchor.constraint(equalToConstant: headerLabel.font.lineHeight),
             

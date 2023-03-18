@@ -11,6 +11,7 @@ import UIKit
 protocol SearchViewProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
+    func showSearchResultsErrorFooterView(with message: String)
     func showErrorAlert(with title: String, message: String)
     func updateSearchResultsTableView(data: [SearchResultsModel])
     func addMoreSearchResultsTableView(data: [SearchResultsModel], needLoadMoreData: Bool)
@@ -171,6 +172,10 @@ extension SearchViewController: SearchViewProtocol {
     
     func updateSearchResultsTableView(image: UIImage, for indexPath: IndexPath) {
         searchResultsTableView.update(image, for: indexPath)
+    }
+    
+    func showSearchResultsErrorFooterView(with message: String) {
+        searchResultsTableView.showErrorFooterView(with: message)
     }
     
     func updateRandomAnimeView(withData data: RandomAnimeViewModel) {
