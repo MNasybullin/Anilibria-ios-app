@@ -30,7 +30,7 @@ final class SearchResultsTableView: UITableView {
     private var headerView = SearchResultsTableHeaderView()
     private var footerView = SearchResultsTableFooterView()
     
-    private var sectionData = [SearchResultsSectionsModel]()
+    private var data = [SearchResultsModel]()
     
     init(heightForRow: CGFloat) {
         self.heightForRow = heightForRow
@@ -72,21 +72,21 @@ final class SearchResultsTableView: UITableView {
     
     private func toggleFooterView() {
         DispatchQueue.main.async {
+            self.beginUpdates()
             if self.isLoadingMoreData == true {
                 self.footerView.activityIndicatorView.startAnimating()
                 self.tableFooterView = self.footerView
             } else {
                 self.footerView.activityIndicatorView.stopAnimating()
-                self.beginUpdates()
                 self.tableFooterView = nil
-                self.endUpdates()
             }
+            self.endUpdates()
         }
     }
     
     func deleteData() {
         DispatchQueue.main.async {
-            self.sectionData.removeAll()
+            self.data.removeAll()
             self.needLoadMoreData = true
             self.isLoadingMoreData = false
             self.hideHeaderView()
@@ -94,10 +94,10 @@ final class SearchResultsTableView: UITableView {
         }
     }
     
-    func update(_ data: [SearchResultsRowsModel]) {
+    func update(_ newData: [SearchResultsModel]) {
         DispatchQueue.main.async {
-            self.sectionData.append(SearchResultsSectionsModel(rowsData: data))
-            if data.isEmpty {
+            self.data.append(contentsOf: newData)
+            if newData.isEmpty {
                 self.showHeaderView()
             }
             self.hideSkeleton(reloadDataAfter: false)
@@ -105,20 +105,28 @@ final class SearchResultsTableView: UITableView {
         }
     }
     
-    func addMore(_ data: [SearchResultsRowsModel], needLoadMoreData: Bool) {
+    func addMore(_ newData: [SearchResultsModel], needLoadMoreData: Bool) {
         DispatchQueue.main.async {
+            self.beginUpdates()
+            var indexPaths: [IndexPath] = []
+            for row in (self.data.count..<(self.data.count + newData.count)) {
+                indexPaths.append(IndexPath(row: row, section: 0))
+            }
+            self.data.append(contentsOf: newData)
             self.isLoadingMoreData = false
-            self.sectionData.append(SearchResultsSectionsModel(rowsData: data))
             self.needLoadMoreData = needLoadMoreData
-            self.insertSections(IndexSet(integer: self.sectionData.count - 1), with: .fade)
+            self.insertRows(at: indexPaths, with: .fade)
+            self.endUpdates()
         }
     }
     
     func update(_ image: UIImage, for indexPath: IndexPath) {
         DispatchQueue.main.async {
-            self.sectionData[indexPath.section].rowsData?[indexPath.row].image = image
-            self.sectionData[indexPath.section].rowsData?[indexPath.row].imageIsLoading = false
+            self.beginUpdates()
+            self.data[indexPath.row].image = image
+            self.data[indexPath.row].imageIsLoading = false
             self.reconfigureRows(at: [indexPath])
+            self.endUpdates()
         }
     }
 }
@@ -138,37 +146,31 @@ extension SearchResultsTableView: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension SearchResultsTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sectionData[section].rowsData?.count ?? 0
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionData.count
+        return data.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SearchResultsTableViewCell else {
             fatalError("Cell is doesn`t AnimeTableViewCell")
         }
-        let section = indexPath.section
-        let row = indexPath.row
-        guard let data = sectionData[section].rowsData?[row] else {
+        let index = indexPath.row
+        if data.isEmpty {
             return cell
         }
         
-        cell.ruNameLabel.text = data.ruName
-        cell.engNameLabel.text = data.engName
-        cell.descriptionLabel.text = data.description
+        cell.ruNameLabel.text = data[index].ruName
+        cell.engNameLabel.text = data[index].engName
+        cell.descriptionLabel.text = data[index].description
         
-        if (section == sectionData.count - 1) &&
-            (row == sectionData[section].rowsData!.count - 3) {
-            loadMoreData(section: section)
+        if index == data.count - 2 {
+            loadMoreData()
         }
 
-        guard let image = data.image else {
-            if data.imageIsLoading == true {
+        guard let image = data[index].image else {
+            if data[index].imageIsLoading == true {
                 return cell
             }
-            sectionData[section].rowsData?[row].imageIsLoading = true
+            data[index].imageIsLoading = true
             cell.animeImageView.image = UIImage(asset: Asset.Assets.blankImage)
             searchResultsTableViewDelegate?.getImage(forIndexPath: indexPath)
             return cell
@@ -177,15 +179,14 @@ extension SearchResultsTableView: UITableViewDataSource {
         return cell
     }
     
-    func loadMoreData(section: Int) {
+    func loadMoreData() {
         guard needLoadMoreData == true,
-                isLoadingMoreData == false,
-              let data = sectionData[section].rowsData else {
+                isLoadingMoreData == false else {
             return
         }
         isLoadingMoreData = true
         toggleFooterView()
-        searchResultsTableViewDelegate?.getData(after: data.count * (section + 1))
+        searchResultsTableViewDelegate?.getData(after: data.count)
     }
 }
 

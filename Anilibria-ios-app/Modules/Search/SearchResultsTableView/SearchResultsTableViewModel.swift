@@ -7,11 +7,7 @@
 
 import UIKit
 
-struct SearchResultsSectionsModel {
-    var rowsData: [SearchResultsRowsModel]?
-}
-
-struct SearchResultsRowsModel {
+struct SearchResultsModel {
     var ruName: String
     var engName: String?
     var description: String?

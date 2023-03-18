@@ -12,8 +12,8 @@ protocol SearchViewProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
     func showErrorAlert(with title: String, message: String)
-    func updateSearchResultsTableView(data: [SearchResultsRowsModel])
-    func addMoreSearchResultsTableView(data: [SearchResultsRowsModel], needLoadMoreData: Bool)
+    func updateSearchResultsTableView(data: [SearchResultsModel])
+    func addMoreSearchResultsTableView(data: [SearchResultsModel], needLoadMoreData: Bool)
     func updateSearchResultsTableView(image: UIImage, for indexPath: IndexPath)
     func updateRandomAnimeView(withData data: RandomAnimeViewModel)
 }
@@ -161,11 +161,11 @@ extension SearchViewController: SearchViewProtocol {
         Alert.showErrorAlert(on: self, with: title, message: message)
     }
     
-    func updateSearchResultsTableView(data: [SearchResultsRowsModel]) {
+    func updateSearchResultsTableView(data: [SearchResultsModel]) {
         searchResultsTableView.update(data)
     }
     
-    func addMoreSearchResultsTableView(data: [SearchResultsRowsModel], needLoadMoreData: Bool) {
+    func addMoreSearchResultsTableView(data: [SearchResultsModel], needLoadMoreData: Bool) {
         searchResultsTableView.addMore(data, needLoadMoreData: needLoadMoreData)
     }
     

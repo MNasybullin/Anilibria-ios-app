@@ -13,42 +13,38 @@ protocol SearchInteractorProtocol: AnyObject {
     
     func deleteSearchResultsData()
     func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage?
-    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsRowsModel], Bool)
+    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsModel], Bool)
     func requestRandomAnimeData() async throws -> RandomAnimeViewModel
 }
 
 final class SearchInteractor: SearchInteractorProtocol {
     unowned var presenter: SearchPresenterProtocol!
     
-    private struct Section {
-        var rowsData: [GetTitleModel]?
-    }
-    
-    private var searchResultsSection = [Section]()
+    private var searchResults = [GetTitleModel]()
     private var randomAnime: GetTitleModel?
     
     func deleteSearchResultsData() {
-        searchResultsSection.removeAll()
+        searchResults.removeAll()
     }
     
-    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsRowsModel], Bool) {
+    func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsModel], Bool) {
         do {
             let limit: Int = 15
             let titleModels = try await PublicApiService.shared.searchTitles(withSearchText: searchText, withLimit: limit, after: value)
-            searchResultsSection.append(Section(rowsData: titleModels))
-            var searchResultsRowsModel = [SearchResultsRowsModel]()
+            searchResults.append(contentsOf: titleModels)
+            var searchResultsModel = [SearchResultsModel]()
             titleModels.forEach { item in
-                searchResultsRowsModel.append(SearchResultsRowsModel(ruName: item.names.ru, engName: item.names.en, description: item.description))
+                searchResultsModel.append(SearchResultsModel(ruName: item.names.ru, engName: item.names.en, description: item.description))
             }
             let needLoadMoreData = titleModels.count == limit
-            return (searchResultsRowsModel, needLoadMoreData)
+            return (searchResultsModel, needLoadMoreData)
         } catch {
             throw error
         }
     }
     
     func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage? {
-        guard let imageURL = searchResultsSection[indexPath.section].rowsData?[indexPath.row].posters?.original?.url else {
+        guard let imageURL = searchResults[indexPath.row].posters?.original?.url else {
             throw MyInternalError.failedToFetchData
         }
         do {
