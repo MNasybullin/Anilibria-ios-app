@@ -77,6 +77,7 @@
 		27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B074293B6E57006CC8E1 /* PostersListView.swift */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsTableErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsTableErrorFooterView.swift */; };
+		27EA393129C5FBBB00D777AE /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */; };
 		27F09BF0289EEBD20051BF2E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BEF289EEBD20051BF2E /* FirebaseAnalytics */; };
 		27F09BF2289EEBD20051BF2E /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BF1289EEBD20051BF2E /* FirebaseMessaging */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
@@ -176,6 +177,7 @@
 		27E7B074293B6E57006CC8E1 /* PostersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListView.swift; sourceTree = "<group>"; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27EA392B29C5B5AB00D777AE /* SearchResultsTableErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableErrorFooterView.swift; sourceTree = "<group>"; };
+		27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				279E4F32289C706B008038FF /* UserDefaultsExtension.swift */,
 				27A66E5129771D4500369EAF /* Alert.swift */,
 				2710E9A829B7243700B66C62 /* Cache.swift */,
+				27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -735,6 +738,7 @@
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
 				27DEEBC52886A99A0014055F /* HomePresenter.swift in Sources */,
 				2744762929B8CB160062F6D2 /* SearchResultsTableView.swift in Sources */,
+				27EA393129C5FBBB00D777AE /* UINavigationControllerExtension.swift in Sources */,
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,
 				272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,

@@ -42,6 +42,8 @@ final class HomeRouter: HomeRouterProtocol {
         router.entry = view
         
         router.navigationController = createNavigationController(for: view)
+//        Common/UINavigationControllerExtension file
+        router.navigationController.interactivePopGestureRecognizer?.delegate = router.navigationController
         return router
     }
     

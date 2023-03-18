@@ -21,17 +21,27 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationController?.isNavigationBarHidden = true
+        
         configureScrollView()
         configureAnimeImageView()
         configureContentVStack()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     private func configureScrollView() {
         scrollView = UIScrollView()
         view.addSubview(scrollView)
         scrollView.delegate = self
-
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         let frameGuide = scrollView.frameLayoutGuide
         let contentGuide = scrollView.contentLayoutGuide
@@ -46,16 +56,19 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     }
     
     private func configureAnimeImageView() {
-        let topSafeAreaHeight = self.view.window?.safeAreaInsets.top ?? 0.0
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScenes = scenes.first as? UIWindowScene
+        let window = windowScenes?.windows.first
+        let topSafeAreaHeight = window?.safeAreaInsets.top ?? 0.0
         animeImageView = AnimeImageView(topSafeAreaHeight: topSafeAreaHeight) // TODO
         scrollView.addSubview(animeImageView)
         
         animeImageView.translatesAutoresizingMaskIntoConstraints = false
-        let contentGuide = scrollView.contentLayoutGuide
+        let frameGuide = scrollView.frameLayoutGuide
         NSLayoutConstraint.activate([
-            animeImageView.topAnchor.constraint(equalTo: contentGuide.topAnchor),
-            animeImageView.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
-            animeImageView.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
+            animeImageView.topAnchor.constraint(equalTo: frameGuide.topAnchor),
+            animeImageView.leadingAnchor.constraint(equalTo: frameGuide.leadingAnchor),
+            animeImageView.trailingAnchor.constraint(equalTo: frameGuide.trailingAnchor),
             animeImageView.heightAnchor.constraint(equalToConstant: view.frame.height / 2)
         ])
     }

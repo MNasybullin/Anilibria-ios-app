@@ -16,8 +16,12 @@ final class RootViewController: UIViewController {
         return TabBarRouter.start().entry
     }()
     
-    // Value is set in sceneDelegate
-    var safeAreaInsetBottomHeight: CGFloat = 0.0
+    private lazy var safeAreaInsetBottomHeight: CGFloat = {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScenes = scenes.first as? UIWindowScene
+        let window = windowScenes?.windows.first
+        return window?.safeAreaInsets.bottom ?? 0
+    }()
     
     private var networkStatusView: NetworkStatusView = {
         let networkStatusView = NetworkStatusView(isNetworkActive: false)
@@ -39,13 +43,13 @@ final class RootViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        networkStatusViewConfigure()
-        tabBarConfigure()
+        configureNetworkStatusView()
+        configureTabBar()
         subscribeToNetworkMonitor()
         updateView()
     }
         
-    private func networkStatusViewConfigure() {
+    private func configureNetworkStatusView() {
         view.addSubview(networkStatusView)
         NSLayoutConstraint.activate([
             networkStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -57,7 +61,7 @@ final class RootViewController: UIViewController {
         networkActivityViewHeightConstraint.isActive = true
     }
     
-    private func tabBarConfigure() {
+    private func configureTabBar() {
         view.addSubview(tabBar.view)
         addChild(tabBar)
         tabBar.view.translatesAutoresizingMaskIntoConstraints = false
