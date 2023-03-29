@@ -56,11 +56,7 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     }
     
     private func configureAnimeImageView() {
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScenes = scenes.first as? UIWindowScene
-        let window = windowScenes?.windows.first
-        let topSafeAreaHeight = window?.safeAreaInsets.top ?? 0.0
-        animeImageView = AnimeImageView(topSafeAreaHeight: topSafeAreaHeight) // TODO
+        animeImageView = AnimeImageView()
         scrollView.addSubview(animeImageView)
         
         animeImageView.translatesAutoresizingMaskIntoConstraints = false

@@ -21,10 +21,14 @@ final class AnimeImageView: UIView {
         return imageView
     }()
     
-    let topSafeAreaHeight: CGFloat
+    lazy var topSafeAreaHeight: CGFloat = {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScenes = scenes.first as? UIWindowScene
+        let window = windowScenes?.windows.first
+        return window?.safeAreaInsets.top ?? 0.0
+    }()
     
-    init(topSafeAreaHeight: CGFloat) {
-        self.topSafeAreaHeight = topSafeAreaHeight
+    init() {
         super.init(frame: .zero)
         
         addSubview(backgroundImageView)
@@ -45,8 +49,7 @@ final class AnimeImageView: UIView {
             backgroundImageView.topAnchor.constraint(equalTo: self.topAnchor),
             backgroundImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backgroundImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//            backgroundImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-            backgroundImageView.heightAnchor.constraint(equalTo: backgroundImageView.widthAnchor, multiplier: 500 / 350)
+            backgroundImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
@@ -54,12 +57,13 @@ final class AnimeImageView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: backgroundImageView.safeAreaLayoutGuide.topAnchor, constant: topSafeAreaHeight + 10),
-            imageView.leadingAnchor.constraint(equalTo: backgroundImageView.leadingAnchor, constant: 40),
-            imageView.trailingAnchor.constraint(equalTo: backgroundImageView.trailingAnchor, constant: -40),
-            imageView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -20),
+            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500)
+            imageView.topAnchor.constraint(equalTo: backgroundImageView.safeAreaLayoutGuide.topAnchor, constant: topSafeAreaHeight),
+            imageView.leadingAnchor.constraint(greaterThanOrEqualTo: backgroundImageView.leadingAnchor, constant: 20),
+            imageView.trailingAnchor.constraint(lessThanOrEqualTo: backgroundImageView.trailingAnchor, constant: -20),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500),
+            imageView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -40)
         ])
     }
 }
@@ -71,7 +75,7 @@ import SwiftUI
 struct AnimeImageView_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            AnimeImageView(topSafeAreaHeight: 50)
+            AnimeImageView()
         }
         .frame(height: 500)
     }
