@@ -58,12 +58,10 @@ final class AnimeImageView: UIView {
         
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            
-            imageView.topAnchor.constraint(equalTo: backgroundImageView.safeAreaLayoutGuide.topAnchor, constant: topSafeAreaHeight),
-            imageView.leadingAnchor.constraint(greaterThanOrEqualTo: backgroundImageView.leadingAnchor, constant: 20),
-            imageView.trailingAnchor.constraint(lessThanOrEqualTo: backgroundImageView.trailingAnchor, constant: -20),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500),
-            imageView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -40)
+            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            imageView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: topSafeAreaHeight),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 500 / 350),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500)
         ])
     }
 }

@@ -34,6 +34,7 @@
 		2744C87B29BCAEEB00105F11 /* RandomAnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C87A29BCAEEB00105F11 /* RandomAnimeView.swift */; };
 		2744C88229BCF5AE00105F11 /* RandomAnimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C88129BCF5AE00105F11 /* RandomAnimeViewModel.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
+		275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275287B529D5913B00D403F6 /* AnimeInfoView.swift */; };
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
 		2754F63128A94525003485E6 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2754F63028A94525003485E6 /* ViewPreview.swift */; };
 		276FCF96293C8A3A0005B82E /* PostersListCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */; };
@@ -135,6 +136,7 @@
 		2744C88129BCF5AE00105F11 /* RandomAnimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeViewModel.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		275287B529D5913B00D403F6 /* AnimeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeInfoView.swift; sourceTree = "<group>"; };
 		2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		2754F63028A94525003485E6 /* ViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPreview.swift; sourceTree = "<group>"; };
 		276FCF95293C8A3A0005B82E /* PostersListCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListCollectionViewHeader.swift; sourceTree = "<group>"; };
@@ -308,6 +310,14 @@
 			path = "Anilibria-ios-appTests";
 			sourceTree = "<group>";
 		};
+		275287B429D5911700D403F6 /* AnimeInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				275287B529D5913B00D403F6 /* AnimeInfoView.swift */,
+			);
+			path = AnimeInfoView;
+			sourceTree = "<group>";
+		};
 		2752C4CB28A938D600B17073 /* LivePreviewInUIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,6 +464,7 @@
 		27EA392729C4562D00D777AE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				275287B429D5911700D403F6 /* AnimeInfoView */,
 				27EA392829C4564200D777AE /* AnimeImageView */,
 			);
 			path = Views;
@@ -772,6 +783,7 @@
 				B7F860D2BEF13A065FD78F45 /* AnimeInteractor.swift in Sources */,
 				E7D6F8B211D855AE958BFBC1 /* AnimePresenter.swift in Sources */,
 				27EA392C29C5B5AB00D777AE /* SearchResultsTableErrorFooterView.swift in Sources */,
+				275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */,
 				D8C99D49149319702991DAA2 /* AnimeRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

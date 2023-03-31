@@ -17,14 +17,18 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     private var scrollView: UIScrollView!
     private var animeImageView: AnimeImageView!
     private var contentVStack: UIStackView!
+    private var animeInfoView: AnimeInfoView!
+    
+    var animeHeight: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
         configureScrollView()
-        configureAnimeImageView()
         configureContentVStack()
+        configureAnimeImageView()
+        configureAnimeInfoView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,6 +45,7 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         scrollView = UIScrollView()
         view.addSubview(scrollView)
         scrollView.delegate = self
+        scrollView.contentInset = UIEdgeInsets(top: 380, left: 0, bottom: 0, right: 0)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         let frameGuide = scrollView.frameLayoutGuide
@@ -58,15 +63,20 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     private func configureAnimeImageView() {
         animeImageView = AnimeImageView()
         scrollView.addSubview(animeImageView)
-        
+
         animeImageView.translatesAutoresizingMaskIntoConstraints = false
         let frameGuide = scrollView.frameLayoutGuide
         NSLayoutConstraint.activate([
             animeImageView.topAnchor.constraint(equalTo: frameGuide.topAnchor),
             animeImageView.leadingAnchor.constraint(equalTo: frameGuide.leadingAnchor),
             animeImageView.trailingAnchor.constraint(equalTo: frameGuide.trailingAnchor),
-            animeImageView.heightAnchor.constraint(equalToConstant: view.frame.height / 2)
+//            animeImageView.heightAnchor.constraint(equalToConstant: 700)
         ])
+        animeHeight = animeImageView.heightAnchor.constraint(equalToConstant: view.frame.height / 2)
+        animeHeight.isActive = true
+//        animeTop = animeImageView.topAnchor.constraint(equalTo: frameGuide.topAnchor)
+//        animeTopLet = animeTop
+//        animeTop.isActive = true
     }
     
     private func configureContentVStack() {
@@ -77,16 +87,36 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         contentVStack.translatesAutoresizingMaskIntoConstraints = false
         let contentGuide = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
-            contentVStack.topAnchor.constraint(equalTo: animeImageView.bottomAnchor),
+            contentVStack.topAnchor.constraint(equalTo: contentGuide.topAnchor),
             contentVStack.leadingAnchor.constraint(equalTo: contentGuide.leadingAnchor),
             contentVStack.trailingAnchor.constraint(equalTo: contentGuide.trailingAnchor),
             contentVStack.bottomAnchor.constraint(equalTo: contentGuide.bottomAnchor)
         ])
     }
+    
+    private func configureAnimeInfoView() {
+        animeInfoView = AnimeInfoView()
+        contentVStack.addArrangedSubview(animeInfoView)
+        contentVStack.addArrangedSubview(AnimeInfoView())
+        contentVStack.addArrangedSubview(AnimeInfoView())
+        contentVStack.addArrangedSubview(AnimeInfoView())
+        contentVStack.addArrangedSubview(AnimeInfoView())
+        contentVStack.addArrangedSubview(AnimeInfoView())
+        contentVStack.addArrangedSubview(AnimeInfoView())
+    }
 }
 
 // MARK: - UIScrollViewDelegate
 extension AnimeViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        print(scrollView.contentOffset)
+        animeHeight.constant = 350 - (scrollView.contentOffset.y + 380 - 27)
+//        if 350 - (scrollView.contentOffset.y + 380 - 27) > 200 {
+//            animeHeight.constant = 350 - (scrollView.contentOffset.y + 380 - 27)
+//            animeTop.constant -= scrollView.contentOffset.y
+//        }
+//        print(animeHeight.constant)
+    }
     
 }
 
