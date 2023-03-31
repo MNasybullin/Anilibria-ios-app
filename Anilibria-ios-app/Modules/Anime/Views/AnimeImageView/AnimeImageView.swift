@@ -11,12 +11,14 @@ final class AnimeImageView: UIView {
     
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(asset: Asset.Assets.testImage)
         imageView.backgroundColor = .red
         return imageView
     }()
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(asset: Asset.Assets.testImage)
         imageView.backgroundColor = .yellow
         return imageView
     }()
@@ -33,6 +35,12 @@ final class AnimeImageView: UIView {
         
         addSubview(backgroundImageView)
         addSubview(imageView)
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = backgroundImageView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundImageView.addSubview(blurEffectView)
         
         setupBackgroundImageViewConstraints()
         setupImageViewConstraints()
@@ -60,7 +68,7 @@ final class AnimeImageView: UIView {
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             imageView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: topSafeAreaHeight),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 500 / 350),
+            imageView.heightAnchor.constraint(lessThanOrEqualTo: backgroundImageView.heightAnchor, constant: -topSafeAreaHeight - 40),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500)
         ])
     }
