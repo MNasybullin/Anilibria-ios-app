@@ -7,7 +7,8 @@
 
 import Foundation
 import UIKit
-
+// TODO при нажатии на поиск и скрыв клавиатуру при пустом вводе должен показываться экран со случайным релизом.
+// TODO убирать клавиатуру не только при свайпе, но и при нажатии в любое место вьюшки.
 protocol SearchViewProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
