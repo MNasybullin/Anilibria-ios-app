@@ -7,8 +7,7 @@
 
 import Foundation
 import UIKit
-// TODO при нажатии на поиск и скрыв клавиатуру при пустом вводе должен показываться экран со случайным релизом.
-// TODO убирать клавиатуру не только при свайпе, но и при нажатии в любое место вьюшки.
+
 protocol SearchViewProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
@@ -130,10 +129,19 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-//        cancel button becomes disabled when search bar isn't first responder, force it back enabled
-        DispatchQueue.main.async {
-            if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
-                cancelButton.isEnabled = true
+        guard let searchText = searchBar.text else {
+            return true
+        }
+        if searchText.isEmpty {
+            randomAnimeView.isHidden = false
+            searchResultsTableView.isHidden = true
+            searchBar.setShowsCancelButton(false, animated: true)
+        } else {
+//            cancel button becomes disabled when search bar isn't first responder, force it back enabled
+            DispatchQueue.main.async {
+                if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+                    cancelButton.isEnabled = true
+                }
             }
         }
         return true
@@ -148,6 +156,10 @@ extension SearchViewController: SearchResultsTableViewDelegate {
     
     func getData(after value: Int) {
         presenter.getSearchResults(searchText: searchBar.text ?? "", after: value)
+    }
+    
+    func dismissKeyboard() {
+        searchBar.resignFirstResponder()
     }
 }
 

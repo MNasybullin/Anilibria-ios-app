@@ -51,6 +51,7 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         view.addSubview(scrollView)
         scrollView.delegate = self
         scrollView.contentInset = UIEdgeInsets(top: animeImageViewHeight + 47, left: 0, bottom: 0, right: 0)
+        scrollView.showsVerticalScrollIndicator = false
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         let frameGuide = scrollView.frameLayoutGuide

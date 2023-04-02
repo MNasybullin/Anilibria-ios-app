@@ -30,24 +30,29 @@ final class AnimeImageView: UIView {
         return window?.safeAreaInsets.top ?? 0.0
     }()
     
+    var bottomHeightAfterImageView: CGFloat = 40
+    
     init() {
         super.init(frame: .zero)
         
         addSubview(backgroundImageView)
         addSubview(imageView)
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = backgroundImageView.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        backgroundImageView.addSubview(blurEffectView)
-        
         setupBackgroundImageViewConstraints()
+        setupBlurEffect()
         setupImageViewConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupBlurEffect() {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = backgroundImageView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundImageView.addSubview(blurEffectView)
     }
     
     private func setupBackgroundImageViewConstraints() {
@@ -68,7 +73,7 @@ final class AnimeImageView: UIView {
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             imageView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: topSafeAreaHeight),
-            imageView.heightAnchor.constraint(lessThanOrEqualTo: backgroundImageView.heightAnchor, constant: -topSafeAreaHeight - 40),
+            imageView.heightAnchor.constraint(lessThanOrEqualTo: backgroundImageView.heightAnchor, constant: -topSafeAreaHeight - bottomHeightAfterImageView),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500)
         ])
     }

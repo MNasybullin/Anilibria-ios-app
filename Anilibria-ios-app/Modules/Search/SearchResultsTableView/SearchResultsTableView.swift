@@ -12,6 +12,7 @@ import SkeletonView
 protocol SearchResultsTableViewDelegate: AnyObject {
     func getData(after: Int)
     func getImage(forIndexPath indexPath: IndexPath)
+    func dismissKeyboard()
 }
 
 final class SearchResultsTableView: UITableView {
@@ -41,6 +42,7 @@ final class SearchResultsTableView: UITableView {
         backgroundColor = .systemBackground
         
         configureTableView()
+        configureKeyboard()
     }
     
     required init?(coder: NSCoder) {
@@ -54,7 +56,17 @@ final class SearchResultsTableView: UITableView {
         dataSource = self
         
         isSkeletonable = true
+    }
+    
+    private func configureKeyboard() {
         keyboardDismissMode = .onDrag
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboardWhenTappedAround))
+        self.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboardWhenTappedAround() {
+        searchResultsTableViewDelegate?.dismissKeyboard()
     }
     
     private func showHeaderView() {
