@@ -65,6 +65,7 @@ final class SearchPresenter: SearchPresenterProtocol {
     
     func getImage(forIndexPath indexPath: IndexPath) {
         if NetworkMonitor.shared.isConnected == false {
+            view.updateSearchResultsTableView(image: nil, for: indexPath)
             return
         }
         let task = Task {
@@ -76,6 +77,7 @@ final class SearchPresenter: SearchPresenterProtocol {
                 view.updateSearchResultsTableView(image: image, for: indexPath)
             } catch {
                 if Task.isCancelled { return }
+                view.updateSearchResultsTableView(image: nil, for: indexPath)
                 ErrorProcessing.shared.handle(error: error) { [weak view] message in
                     view?.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
                 }

@@ -54,6 +54,7 @@ final class SearchResultsTableView: UITableView {
         
         delegate = self
         dataSource = self
+        prefetchDataSource = self
         
         isSkeletonable = true
     }
@@ -144,7 +145,7 @@ final class SearchResultsTableView: UITableView {
         }
     }
     
-    func update(_ image: UIImage, for indexPath: IndexPath) {
+    func update(_ image: UIImage?, for indexPath: IndexPath) {
         DispatchQueue.main.async {
             self.beginUpdates()
             self.data[indexPath.row].image = image
@@ -185,13 +186,15 @@ extension SearchResultsTableView: UITableViewDataSource {
         cell.ruNameLabel.text = data[index].ruName
         cell.engNameLabel.text = data[index].engName
         cell.descriptionLabel.text = data[index].description
+        cell.animeImageView.image = nil
         
         if index == data.count - 2 {
             loadMoreData()
         }
-
+        
         guard let image = data[index].image else {
             if data[index].imageIsLoading == true {
+                cell.animeImageView.image = UIImage(asset: Asset.Assets.blankImage)
                 return cell
             }
             data[index].imageIsLoading = true
@@ -211,6 +214,17 @@ extension SearchResultsTableView: UITableViewDataSource {
         isLoadingMoreData = true
         toggleFooterView()
         searchResultsTableViewDelegate?.getData(after: data.count)
+    }
+}
+
+extension SearchResultsTableView: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if data[indexPath.row].image == nil && data[indexPath.row].imageIsLoading == false {
+                data[indexPath.row].imageIsLoading = true
+                searchResultsTableViewDelegate?.getImage(forIndexPath: indexPath)
+            }
+        }
     }
 }
 
