@@ -53,6 +53,7 @@ final class PostersListView: UIView {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.prefetchDataSource = self
         
         setCollectionViewConstraints()
     }
@@ -78,7 +79,7 @@ final class PostersListView: UIView {
         reloadData()
     }
     
-    func updateImage(_ image: UIImage, for indexPath: IndexPath) {
+    func updateImage(_ image: UIImage?, for indexPath: IndexPath) {
         postersListData?[indexPath.section].postersList[indexPath.row].image = image
         postersListData?[indexPath.section].postersList[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
@@ -180,14 +181,18 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
             return cell
         }
                 
-        let section = indexPath.section
-        let index = indexPath.row
-        cell.titleLabel.text = postersListData?[section].postersList[index].name
-        guard let image = postersListData?[section].postersList[index].image else {
-            if postersListData?[section].postersList[index].imageIsLoading == true {
+        var data = postersListData?[indexPath.section].postersList[indexPath.row]
+        cell.titleLabel.text = data?.name
+        cell.imageView.image = nil
+        
+        guard let image = data?.image else {
+            if data?.imageIsLoading == true {
+                if cell.imageView.sk.isSkeletonActive == false {
+                    cell.imageView.showAnimatedSkeleton()
+                }
                 return cell
             }
-            postersListData?[section].postersList[index].imageIsLoading = true
+            data?.imageIsLoading = true
             cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(for: indexPath)
             return cell
@@ -203,6 +208,19 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         print("Cell Clicked")
     }
     
+}
+
+extension PostersListView: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            var data = postersListData?[indexPath.section].postersList[indexPath.row]
+            
+            if data?.image == nil && data?.imageIsLoading == false {
+                data?.imageIsLoading = true
+                delegate?.getImage(for: indexPath)
+            }
+        }
+    }
 }
 
 #if DEBUG

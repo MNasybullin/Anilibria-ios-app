@@ -36,7 +36,7 @@ final class SchedulePresenter: SchedulePresenterProtocol {
     
     func getImage(for indexPath: IndexPath) {
         if NetworkMonitor.shared.isConnected == false {
-            return
+            view.update(image: nil, for: indexPath)
         }
         Task {
             do {
@@ -45,6 +45,7 @@ final class SchedulePresenter: SchedulePresenterProtocol {
                 }
                 view.update(image: image, for: indexPath)
             } catch {
+                view.update(image: nil, for: indexPath)
                 ErrorProcessing.shared.handle(error: error) { [weak view] message in
                     view?.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
                 }

@@ -14,7 +14,7 @@ protocol ScheduleViewProtocol: AnyObject {
     
     func showErrorAlert(with title: String, message: String)
     func update(data: [PostersListViewModel])
-    func update(image: UIImage, for indexPath: IndexPath)
+    func update(image: UIImage?, for indexPath: IndexPath)
 }
 
 final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
@@ -70,7 +70,7 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
         postersListView.updateData(data)
     }
     
-    func update(image: UIImage, for indexPath: IndexPath) {
+    func update(image: UIImage?, for indexPath: IndexPath) {
         postersListView.updateImage(image, for: indexPath)
     }
 }
