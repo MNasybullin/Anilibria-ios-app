@@ -70,7 +70,7 @@ final class HomePresenter: HomePresenterProtocol {
     
     func getImage(forIndexPath indexPath: IndexPath, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView) {
         if NetworkMonitor.shared.isConnected == false {
-            return
+            view.update(image: nil, for: indexPath, inCarouselView: carouselView)
         }
         Task {
             do {
@@ -79,6 +79,7 @@ final class HomePresenter: HomePresenterProtocol {
                 }
                 view.update(image: image, for: indexPath, inCarouselView: carouselView)
             } catch {
+                view.update(image: nil, for: indexPath, inCarouselView: carouselView)
                 ErrorProcessing.shared.handle(error: error) { [weak view] message in
                     view?.showErrorAlert(with: Strings.AlertController.Title.imageLoadingError, message: message)
                 }

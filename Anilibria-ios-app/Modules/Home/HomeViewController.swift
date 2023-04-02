@@ -14,7 +14,7 @@ protocol HomeViewProtocol: AnyObject {
     
     func showErrorAlert(with title: String, message: String)
     func update(data: [CarouselViewModel], inCarouselView carouselView: CarouselView)
-    func update(image: UIImage, for indexPath: IndexPath, inCarouselView carouselView: CarouselView)
+    func update(image: UIImage?, for indexPath: IndexPath, inCarouselView carouselView: CarouselView)
     func refreshControlEndRefreshing()
 }
 
@@ -170,7 +170,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         carouselView.updateData(data)
     }
     
-    func update(image: UIImage, for indexPath: IndexPath, inCarouselView carouselView: CarouselView) {
+    func update(image: UIImage?, for indexPath: IndexPath, inCarouselView carouselView: CarouselView) {
         carouselView.updateImage(image, for: indexPath)
     }
     

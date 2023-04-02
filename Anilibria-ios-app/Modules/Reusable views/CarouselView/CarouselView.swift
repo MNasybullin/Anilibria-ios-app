@@ -153,6 +153,7 @@ final class CarouselView: UIView {
         
         carouselView.delegate = self
         carouselView.dataSource = self
+        carouselView.prefetchDataSource = self
     }
     
     private func setCarouselViewConstraints() {
@@ -177,7 +178,7 @@ final class CarouselView: UIView {
         reloadData()
     }
     
-    func updateImage(_ image: UIImage, for indexPath: IndexPath) {
+    func updateImage(_ image: UIImage?, for indexPath: IndexPath) {
         carouselData?[indexPath.row].image = image
         carouselData?[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
@@ -230,13 +231,18 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
             return cell
         }
         
-        let index = indexPath.row
-        cell.titleLabel.text = carouselData?[index].name
-        guard let image = carouselData?[index].image else {
-            if carouselData?[index].imageIsLoading == true {
+        var data = carouselData?[indexPath.row]
+        cell.titleLabel.text = data?.name
+        cell.imageView.image = nil
+        
+        guard let image = data?.image else {
+            if data?.imageIsLoading == true {
+                if cell.imageView.sk.isSkeletonActive == false {
+                    cell.imageView.showAnimatedSkeleton()
+                }
                 return cell
             }
-            carouselData?[index].imageIsLoading = true
+            data?.imageIsLoading = true
             cell.imageView.showAnimatedSkeleton()
             delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             return cell
@@ -253,6 +259,20 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         delegate?.cellClicked()
     }
     
+}
+
+// MARK: - UICollectionViewDataSourcePrefetching
+extension CarouselView: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            var data = carouselData?[indexPath.row]
+            
+            if data?.image == nil && data?.imageIsLoading == false {
+                data?.imageIsLoading = true
+                delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
+            }
+        }
+    }
 }
 
 // MARK: - UIScrollViewDelegate

@@ -210,6 +210,7 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
     
 }
 
+// MARK: - UICollectionViewDataSourcePrefetching
 extension PostersListView: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
