@@ -20,7 +20,7 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     private var animeInfoView: AnimeInfoView!
     
     private lazy var animeImageViewHeight: CGFloat = self.view.frame.height / 1.7
-    private var animeImageViewSmallHeight: CGFloat = 300
+    private lazy var animeImageViewSmallHeight: CGFloat = animeImageViewHeight / 1.5
     private var animeHeightConstraint: NSLayoutConstraint!
     private var animeTopConstraint: NSLayoutConstraint!
     private var animeTopFlag: Bool = false
@@ -50,7 +50,7 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         scrollView = UIScrollView()
         view.addSubview(scrollView)
         scrollView.delegate = self
-        scrollView.contentInset = UIEdgeInsets(top: animeImageViewHeight + 47, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: animeImageViewHeight, left: 0, bottom: 0, right: 0)
         scrollView.showsVerticalScrollIndicator = false
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -103,12 +103,6 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     private func configureAnimeInfoView() {
         animeInfoView = AnimeInfoView()
         contentVStack.addArrangedSubview(animeInfoView)
-        contentVStack.addArrangedSubview(AnimeInfoView())
-        contentVStack.addArrangedSubview(AnimeInfoView())
-        contentVStack.addArrangedSubview(AnimeInfoView())
-        contentVStack.addArrangedSubview(AnimeInfoView())
-        contentVStack.addArrangedSubview(AnimeInfoView())
-        contentVStack.addArrangedSubview(AnimeInfoView())
     }
 }
 
