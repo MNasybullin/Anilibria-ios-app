@@ -55,7 +55,12 @@ final class RandomAnimeView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: Strings.SearchModule.Image.refresh), for: .normal)
-        button.addTarget(self, action: #selector(headerButtonClicked), for: .touchUpInside)
+        
+        button.addAction(UIAction { [weak self] _ in
+            self?.data = nil
+            self?.delegate?.getRandomAnimeData()
+        }, for: .touchUpInside)
+        
         button.isEnabled = false
         return button
     }()
@@ -198,12 +203,7 @@ final class RandomAnimeView: UIView {
         }
     }
     
-    @objc func headerButtonClicked(sender: UIButton) {
-        data = nil
-        delegate?.getRandomAnimeData()
-    }
-    
-    @objc func animeStackTapped(sender: UITapGestureRecognizer) {
+    @objc private func animeStackTapped(sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             print("animeView tapped")
         }
