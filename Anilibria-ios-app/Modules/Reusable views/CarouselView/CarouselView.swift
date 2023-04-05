@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 protocol CarouselViewProtocol: AnyObject {
-    func titleButtonAction(sender: UIButton, carouselView: CarouselView)
+    func titleButtonAction(carouselView: CarouselView)
     func cellClicked()
     
     func getData(for carouselView: CarouselView)
@@ -110,15 +110,26 @@ final class CarouselView: UIView {
     // MARK: - titleButton
     private func configureTitleButton(withTitle title: String?) {
         hTitleAndButtonStackView.addArrangedSubview(titleButton)
-        titleButton.setTitle(title, for: .normal)
-        titleButton.setTitleColor(UIColor.label, for: .normal)
-        titleButton.setTitleColor(UIColor.tertiaryLabel, for: .disabled)
-        titleButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        var config = UIButton.Configuration.plain()
+        config.title = title
+        config.contentInsets.trailing = 0
+        config.baseForegroundColor = .systemRed
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+            return outgoing
+        }
+        titleButton.configuration = config
+
         titleButton.isEnabled = false
         if title == nil {
             titleButton.isHidden = true
         }
-        titleButton.addTarget(self, action: #selector(titleButtonAction(sender:)), for: .touchUpInside)
+        
+        titleButton.addAction(UIAction { [weak self] _ in
+            self?.delegate?.titleButtonAction(carouselView: self!)
+        }, for: .touchUpInside)
+        
         setTitleButtonConstraints()
     }
     
@@ -129,10 +140,6 @@ final class CarouselView: UIView {
         titleButton.heightAnchor.constraint(greaterThanOrEqualToConstant: lineHeight).isActive = true
         titleButton.trailingAnchor.constraint(equalTo: vContentStackView.trailingAnchor, constant: -16).isActive = true
         titleButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-    }
-    
-    @objc private func titleButtonAction(sender: UIButton) {
-        delegate?.titleButtonAction(sender: sender, carouselView: self)
     }
     
     // MARK: - carouselView
