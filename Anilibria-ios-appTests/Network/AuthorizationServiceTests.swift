@@ -33,7 +33,7 @@ class AuthorizationServiceTests: XCTestCase {
         }
     }
     
-    func testGetFavorite() async throws {
+    func testGetFavorites() async throws {
         do {
             try await testLogin()
             _ = try await AuthorizationService.shared.getFavorites()
