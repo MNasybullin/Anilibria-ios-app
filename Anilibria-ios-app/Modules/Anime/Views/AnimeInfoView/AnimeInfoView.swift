@@ -44,7 +44,7 @@ final class AnimeInfoView: UIView {
     
     lazy var engNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .label
         label.textAlignment = .center
         label.text = "Yofukashi no Uta"
@@ -53,18 +53,18 @@ final class AnimeInfoView: UIView {
     
     lazy var seasonAndTypeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
         label.text = "2022 лето, ТВ (13 эп.), 24 мин."
         label.textAlignment = .center
         return label
     }()
     
-    lazy var watchAndDownloadButtonsView = WatchAndDownloadView()
+    lazy var watchAndDownloadButtonsView = WatchAndDownloadButtonsView()
     
     lazy var genresLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
         label.text = "Вампиры, Романтика, Сверхъестественное, Сёнен"
         label.textAlignment = .center
@@ -72,9 +72,11 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
+    lazy var favoriteAndShareButtonsView = FavoriteAndShareButtonsView()
+    
     lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .label
         label.text = "Ко Ямори уже долгое время ощущал апатию ко всему, что окружало его днём. Его бесили и люди, и школа, и весь этот городский шум. Из-за постоянного пребывания в таком состоянии он даже не мог спокойно спать. Его мысли постоянно путались и не давали отдохнуть. \r\nОднажды, вместо того чтобы бесцельно ворочаться в кровати и нервничать, парень решает выйти на ночную прогулку. Увиденное поражает его. Ночью на улицах тихо и спокойно. Всё совсем не так, как днём. \r\nГуляя по пустым улицам, Ямори встретил загодочную девушку по имени Надзуна. Оказалось, что таинственная незнакомка тоже обожает ночную жизнь и многое о ней знает. И она с радостью поделилась знаниями с Ко и согласилась прогуляться с ним. Что было дальше, мы пока умолчим, но можем сказать, что ночное рандеву закончилось совместным пробуждением молодых людей в кровати в квартире Надзуны. Пикантные подробности расскажем вам летом.\r\n\n\r\n\n\r\nСпонсор озвучки: kino.pub\r\n\n\r\nПри регистрации по промокоду «anilibria» 5 дней бесплатного pro аккаунта!".replacingOccurrences(of: "[\r\n]{3,}", with: "\n\n", options: .regularExpression, range: nil)
         label.textAlignment = .natural
@@ -112,6 +114,7 @@ final class AnimeInfoView: UIView {
         contentVStack.addArrangedSubview(engNameAndSeasonAndTypeVStack)
         contentVStack.addArrangedSubview(watchAndDownloadButtonsView)
         contentVStack.addArrangedSubview(genresLabel)
+        contentVStack.addArrangedSubview(favoriteAndShareButtonsView)
         contentVStack.addArrangedSubview(descriptionLabel)
     }
     

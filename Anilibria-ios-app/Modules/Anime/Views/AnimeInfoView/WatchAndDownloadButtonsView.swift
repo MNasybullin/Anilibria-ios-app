@@ -1,5 +1,5 @@
 //
-//  WatchAndDownloadView.swift
+//  WatchAndDownloadButtonsView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 03.04.2023.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol WatchAndDownloadViewDelegate: AnyObject {
+protocol WatchAndDownloadButtonsViewDelegate: AnyObject {
     func watchButtonClicked()
     func downloadButtonClicked()
 }
 
-final class WatchAndDownloadView: UIView {
-    weak var delegate: WatchAndDownloadViewDelegate?
+final class WatchAndDownloadButtonsView: UIView {
+    weak var delegate: WatchAndDownloadButtonsViewDelegate?
     
     lazy var vStack: UIStackView = {
         let stack = UIStackView()
@@ -56,7 +56,7 @@ final class WatchAndDownloadView: UIView {
         config.cornerStyle = .capsule
         config.buttonSize = .large
         config.baseForegroundColor = .white
-        config.baseBackgroundColor = .systemGray5
+        config.baseBackgroundColor = .secondaryLabel
         
         config.image = UIImage(systemName: "arrow.down.to.line")
         config.imagePlacement = .all
@@ -103,10 +103,10 @@ final class WatchAndDownloadView: UIView {
 
 // MARK: - Live Preview In UIKit
 import SwiftUI
-struct WatchAndDownloadView_Previews: PreviewProvider {
+struct WatchAndDownloadButtonsView_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            WatchAndDownloadView()
+            WatchAndDownloadButtonsView()
         }
         .frame(height: 80)
     }
