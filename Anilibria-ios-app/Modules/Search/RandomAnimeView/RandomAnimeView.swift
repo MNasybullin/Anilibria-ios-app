@@ -41,7 +41,7 @@ final class RandomAnimeView: UIView {
         return stack
     }()
     
-    lazy var headerLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = Strings.SearchModule.Title.randomAnime
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
@@ -51,9 +51,10 @@ final class RandomAnimeView: UIView {
         return label
     }()
     
-    lazy var headerButton: UIButton = {
+    lazy var refreshButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .systemRed
         button.setImage(UIImage(systemName: Strings.SearchModule.Image.refresh), for: .normal)
         
         button.addAction(UIAction { [weak self] _ in
@@ -137,8 +138,8 @@ final class RandomAnimeView: UIView {
         mainVStack.addArrangedSubview(headerHStack)
         mainVStack.addArrangedSubview(animeHStack)
         
-        headerHStack.addArrangedSubview(headerLabel)
-        headerHStack.addArrangedSubview(headerButton)
+        headerHStack.addArrangedSubview(titleLabel)
+        headerHStack.addArrangedSubview(refreshButton)
         
         animeHStack.addArrangedSubview(animeImageView)
         animeHStack.addArrangedSubview(vStack)
@@ -167,10 +168,10 @@ final class RandomAnimeView: UIView {
             mainVStack.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             mainVStack.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
             
-            headerHStack.heightAnchor.constraint(equalToConstant: headerLabel.font.lineHeight),
+            headerHStack.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight),
             
-            headerButton.heightAnchor.constraint(equalTo: headerHStack.heightAnchor),
-            headerButton.widthAnchor.constraint(equalTo: headerButton.heightAnchor),
+            refreshButton.heightAnchor.constraint(equalTo: headerHStack.heightAnchor),
+            refreshButton.widthAnchor.constraint(equalTo: refreshButton.heightAnchor),
             
             animeImageView.heightAnchor.constraint(equalTo: animeHStack.heightAnchor),
             animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500)
@@ -184,13 +185,13 @@ final class RandomAnimeView: UIView {
     
     private func updateView() {
         guard data != nil else {
-            self.headerButton.isEnabled = false
+            self.refreshButton.isEnabled = false
             self.showAnimatedSkeleton()
             return
         }
         
         hideSkeleton(reloadDataAfter: false)
-        headerButton.isEnabled = true
+        refreshButton.isEnabled = true
         animeImageView.image = data?.image
         ruNameLabel.text = data?.ruName
         engNameLabel.text = data?.engName
