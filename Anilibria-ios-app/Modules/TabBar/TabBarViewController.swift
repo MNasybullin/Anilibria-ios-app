@@ -21,8 +21,9 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
         
         tabBar.tintColor = .systemRed
         let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
+        appearance.configureWithDefaultBackground()
         tabBar.scrollEdgeAppearance = appearance
+        tabBar.standardAppearance = appearance
     }
 }
 
