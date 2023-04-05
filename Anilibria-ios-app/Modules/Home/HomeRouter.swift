@@ -51,9 +51,11 @@ final class HomeRouter: HomeRouterProtocol {
         let title = Strings.TabBarControllers.Home.title
         let image = UIImage(systemName: Strings.TabBarControllers.Home.image)
         
-        rootViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
+        rootViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: TabBarItemsTag.home.rawValue)
         rootViewController.navigationItem.title = Strings.ScreenTitles.home
-        return UINavigationController(rootViewController: rootViewController)
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.navigationBar.tintColor = .systemRed
+        return navigationController
     }
     
 }

@@ -195,7 +195,7 @@ extension HomeViewController: CarouselViewProtocol {
         presenter.cellClicked()
     }
     
-    func titleButtonAction(sender: UIButton, carouselView: CarouselView) {
+    func titleButtonAction(carouselView: CarouselView) {
         let viewType = getViewType(fromCarouselView: carouselView)
         presenter.titleButtonAction(viewType: viewType)
     }

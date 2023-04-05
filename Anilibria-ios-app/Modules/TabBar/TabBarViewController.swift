@@ -18,6 +18,11 @@ final class TabBarViewController: UITabBarController, TabBarViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
+        
+        tabBar.tintColor = .systemRed
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        tabBar.scrollEdgeAppearance = appearance
     }
 }
 
