@@ -140,6 +140,10 @@ final class SearchResultsTableView: UITableView {
     }
     
     func update(_ image: UIImage?, for indexPath: IndexPath) {
+        if image == nil {
+            self.data[indexPath.row].imageIsLoading = false
+            return
+        }
         DispatchQueue.main.async {
             self.beginUpdates()
             self.data[indexPath.row].image = image
@@ -188,16 +192,20 @@ extension SearchResultsTableView: UITableViewDataSource {
         }
         
         guard let image = data[index].image else {
-            if data[index].imageIsLoading == true {
-                cell.animeImageView.image = UIImage(asset: Asset.Assets.blankImage)
-                return cell
+            if data[index].imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
+                data[index].imageIsLoading = true
+                searchResultsTableViewDelegate?.getImage(forIndexPath: indexPath)
             }
-            data[index].imageIsLoading = true
-            cell.animeImageView.image = UIImage(asset: Asset.Assets.blankImage)
-            searchResultsTableViewDelegate?.getImage(forIndexPath: indexPath)
+            if cell.animeImageView.sk.isSkeletonActive == false {
+                cell.animeImageView.showAnimatedSkeleton()
+            }
             return cell
         }
+        
         cell.animeImageView.image = image
+        if cell.animeImageView.sk.isSkeletonActive == true {
+            cell.animeImageView.hideSkeleton(reloadDataAfter: false)
+        }
         return cell
     }
     
@@ -215,7 +223,7 @@ extension SearchResultsTableView: UITableViewDataSource {
 extension SearchResultsTableView: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
-            if data[indexPath.row].image == nil && data[indexPath.row].imageIsLoading == false {
+            if data[indexPath.row].image == nil && data[indexPath.row].imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
                 data[indexPath.row].imageIsLoading = true
                 searchResultsTableViewDelegate?.getImage(forIndexPath: indexPath)
             }

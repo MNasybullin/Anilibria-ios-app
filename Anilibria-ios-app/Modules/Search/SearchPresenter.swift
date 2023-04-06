@@ -66,10 +66,6 @@ final class SearchPresenter: SearchPresenterProtocol {
     }
     
     func getImage(forIndexPath indexPath: IndexPath) {
-        if NetworkMonitor.shared.isConnected == false {
-            view.updateSearchResultsTableView(image: nil, for: indexPath)
-            return
-        }
         let task = Task {
             do {
                 guard let image = try await interactor.requestImage(forIndexPath: indexPath) else {

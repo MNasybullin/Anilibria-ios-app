@@ -244,17 +244,24 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         
         var data = carouselData?[indexPath.row]
         cell.titleLabel.text = data?.name
+        cell.imageView.image = nil
         
         guard let image = data?.image else {
             if data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
                 data?.imageIsLoading = true
                 delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             }
-            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
+            if cell.imageView.sk.isSkeletonActive == false {
+                cell.imageView.showAnimatedSkeleton()
+            }
+//            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
             return cell
         }
         
         cell.imageView.image = image
+        if cell.imageView.sk.isSkeletonActive == true {
+            cell.imageView.hideSkeleton(reloadDataAfter: false)
+        }
         return cell
     }
     
