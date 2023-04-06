@@ -19,7 +19,7 @@ final class SearchResultsTableErrorFooterView: UIView {
         stack.axis = .vertical
         stack.alignment = .center
         stack.distribution = .fill
-        stack.spacing = 4
+        stack.spacing = 8
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -27,14 +27,17 @@ final class SearchResultsTableErrorFooterView: UIView {
     lazy var title: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        label.numberOfLines = 1
+        label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
     
     lazy var refreshButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(Strings.SearchModule.ErrorFooterView.refreshButton, for: .normal)
-        button.setTitleColor(.tintColor, for: .normal)
+        var config = UIButton.Configuration.plain()
+        config.title = Strings.SearchModule.ErrorFooterView.refreshButton
+        config.baseForegroundColor = .systemRed
+        config.buttonSize = .medium
+        let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.refreshButtonClicked()
@@ -49,9 +52,7 @@ final class SearchResultsTableErrorFooterView: UIView {
         addSubview(vStack)
         vStack.addArrangedSubview(title)
         vStack.addArrangedSubview(refreshButton)
-        let border: CGFloat = 6
-        
-        frame.size.height = title.font.lineHeight + vStack.spacing + (refreshButton.titleLabel?.font.lineHeight ?? 20) + (border * 2)
+        let border: CGFloat = 18
 
         NSLayoutConstraint.activate([
             vStack.topAnchor.constraint(equalTo: topAnchor, constant: border),

@@ -98,6 +98,8 @@ final class SearchResultsTableView: UITableView {
         DispatchQueue.main.async {
             self.beginUpdates()
             self.errorFooterView.title.text = message
+            let size = self.errorFooterView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+            self.errorFooterView.frame.size.height = size.height
             self.tableFooterView = self.errorFooterView
             self.endUpdates()
         }
