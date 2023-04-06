@@ -35,7 +35,11 @@ final class SearchResultsTableErrorFooterView: UIView {
         let button = UIButton()
         button.setTitle(Strings.SearchModule.ErrorFooterView.refreshButton, for: .normal)
         button.setTitleColor(.tintColor, for: .normal)
-        button.addTarget(self, action: #selector(refreshButtonClicked), for: .touchUpInside)
+        
+        button.addAction(UIAction { [weak self] _ in
+            self?.delegate?.refreshButtonClicked()
+        }, for: .touchUpInside)
+        
         return button
     }()
     
@@ -59,9 +63,5 @@ final class SearchResultsTableErrorFooterView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc func refreshButtonClicked(sender: UIButton) {
-        delegate?.refreshButtonClicked()
     }
 }

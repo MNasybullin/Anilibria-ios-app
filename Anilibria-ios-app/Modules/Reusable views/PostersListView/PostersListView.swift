@@ -199,7 +199,6 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
             if cell.imageView.sk.isSkeletonActive == false {
                 cell.imageView.showAnimatedSkeleton()
             }
-//            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
             return cell
         }
 
