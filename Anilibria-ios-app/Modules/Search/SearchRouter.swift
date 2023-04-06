@@ -13,6 +13,8 @@ protocol SearchRouterProtocol: AnyObject {
     var entry: EntryPoint! { get }
     var navigationController: UINavigationController! { get }
     static func start() -> SearchRouterProtocol!
+    
+    func showAnimeView(with data: GetTitleModel)
 }
 
 final class SearchRouter: SearchRouterProtocol {
@@ -37,7 +39,8 @@ final class SearchRouter: SearchRouterProtocol {
         router.entry = view
         
         router.navigationController = createNavigationController(for: view)
-        
+//        Common/UINavigationControllerExtension file
+        router.navigationController.interactivePopGestureRecognizer?.delegate = router.navigationController
         return router
     }
     
@@ -51,5 +54,12 @@ final class SearchRouter: SearchRouterProtocol {
         navigationController.navigationBar.tintColor = .systemRed
         return navigationController
     }
-    
+}
+
+// MARK: - Show Other Views
+extension SearchRouter {
+    func showAnimeView(with data: GetTitleModel) {
+        let animeView = AnimeRouter.start(withNavigationController: navigationController, withTitleModel: data)
+        navigationController.pushViewController(animeView.entry, animated: true)
+    }
 }

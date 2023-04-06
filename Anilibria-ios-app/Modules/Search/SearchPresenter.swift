@@ -17,6 +17,8 @@ protocol SearchPresenterProtocol: AnyObject {
     func getSearchResults(searchText: String, after value: Int)
     func getRandomAnimeData()
     func deleteSearchResultsData()
+    func cellClicked(at indexPath: IndexPath)
+    func randomAnimeViewTapped()
 }
 
 final class SearchPresenter: SearchPresenterProtocol {
@@ -97,5 +99,18 @@ final class SearchPresenter: SearchPresenterProtocol {
                 }
             }
         }
+    }
+    
+    func cellClicked(at indexPath: IndexPath) {
+        let searchData = interactor.getSearchData()
+        router.showAnimeView(with: searchData[indexPath.row])
+    }
+    
+    func randomAnimeViewTapped() {
+        let data = interactor.getRandomAnimeData()
+        guard let data else {
+            return
+        }
+        router.showAnimeView(with: data)
     }
 }

@@ -27,6 +27,7 @@ final class SearchViewController: UIViewController {
     private var searchResultsTableView: SearchResultsTableView!
     
     var textEditingTimer: Timer?
+    var lastSearchText: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,18 +96,19 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("search button clicked")
-        
         searchBar.endEditing(true)
-        deleteSearchResultsData()
         guard let searchText = searchBar.text else {
             return
         }
         if searchText.isEmpty {
             return
         }
+        if lastSearchText == searchText {
+            return
+        }
+        deleteSearchResultsData()
         searchResultsTableView.showAnimatedSkeleton()
-        presenter.getSearchResults(searchText: searchText, after: 0)
+        search(searchText: searchText, after: 0)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -118,7 +120,7 @@ extension SearchViewController: UISearchBarDelegate {
         textEditingTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
             self.deleteSearchResultsData()
             self.searchResultsTableView.showAnimatedSkeleton()
-            self.presenter.getSearchResults(searchText: searchText, after: 0)
+            self.search(searchText: searchText, after: 0)
         }
     }
     
@@ -146,10 +148,19 @@ extension SearchViewController: UISearchBarDelegate {
         }
         return true
     }
+    
+    private func search(searchText: String, after: Int) {
+        lastSearchText = searchText
+        self.presenter.getSearchResults(searchText: searchText, after: 0)
+    }
 }
 
 // MARK: - AnimeTableViewDelegate
 extension SearchViewController: SearchResultsTableViewDelegate {
+    func cellClicked(at indexPath: IndexPath) {
+        presenter.cellClicked(at: indexPath)
+    }
+    
     func getImage(forIndexPath indexPath: IndexPath) {
         presenter.getImage(forIndexPath: indexPath)
     }
@@ -164,6 +175,10 @@ extension SearchViewController: SearchResultsTableViewDelegate {
 }
 
 extension SearchViewController: RandomAnimeViewDelegate {
+    func viewTapped() {
+        presenter.randomAnimeViewTapped()
+    }
+    
     func getRandomAnimeData() {
         presenter.getRandomAnimeData()
     }

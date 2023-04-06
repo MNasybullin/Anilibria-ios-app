@@ -10,6 +10,7 @@ import UIKit
 import SkeletonView
 
 protocol SearchResultsTableViewDelegate: AnyObject {
+    func cellClicked(at indexPath: IndexPath)
     func getData(after: Int)
     func getImage(forIndexPath indexPath: IndexPath)
     func dismissKeyboard()
@@ -61,13 +62,6 @@ final class SearchResultsTableView: UITableView {
     
     private func configureKeyboard() {
         keyboardDismissMode = .onDrag
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboardWhenTappedAround))
-        self.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc private func dismissKeyboardWhenTappedAround() {
-        searchResultsTableViewDelegate?.dismissKeyboard()
     }
     
     private func showHeaderView() {
@@ -164,7 +158,8 @@ extension SearchResultsTableView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print("tapped")
+        searchResultsTableViewDelegate?.dismissKeyboard()
+        searchResultsTableViewDelegate?.cellClicked(at: indexPath)
     }
 }
 
@@ -188,7 +183,7 @@ extension SearchResultsTableView: UITableViewDataSource {
         cell.descriptionLabel.text = data[index].description
         cell.animeImageView.image = nil
         
-        if index == data.count - 2 {
+        if index == data.count - 4 {
             loadMoreData()
         }
         

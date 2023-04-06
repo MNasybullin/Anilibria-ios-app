@@ -10,6 +10,7 @@ import SkeletonView
 
 protocol RandomAnimeViewDelegate: AnyObject {
     func getRandomAnimeData()
+    func viewTapped()
 }
 
 final class RandomAnimeView: UIView {
@@ -205,8 +206,8 @@ final class RandomAnimeView: UIView {
     }
     
     @objc private func animeStackTapped(sender: UITapGestureRecognizer) {
-        if sender.state == .ended {
-            print("animeView tapped")
+        if sender.state == .ended && data != nil {
+            delegate?.viewTapped()
         }
     }
 }
