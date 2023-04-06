@@ -9,6 +9,8 @@ import UIKit
 import SkeletonView
 
 protocol PostersListViewProtocol: AnyObject {
+    func cellClicked(at indexPath: IndexPath)
+    
     func getData()
     func getImage(for indexPath: IndexPath)
 }
@@ -205,7 +207,7 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Cell Clicked")
+        delegate?.cellClicked(at: indexPath)
     }
     
 }

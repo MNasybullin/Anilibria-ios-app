@@ -78,6 +78,10 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
 // MARK: - PostersListViewProtocol
 
 extension ScheduleViewController: PostersListViewProtocol {
+    func cellClicked(at indexPath: IndexPath) {
+        presenter.cellClicked(at: indexPath)
+    }
+    
     func getData() {
         presenter.getScheduleData()
     }

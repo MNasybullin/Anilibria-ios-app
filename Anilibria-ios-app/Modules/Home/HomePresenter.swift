@@ -88,7 +88,7 @@ final class HomePresenter: HomePresenterProtocol {
         }
     }
     
-    // MARK: - TitleButtonAction
+    // MARK: - ButtonActions
     
     func titleButtonAction(viewType: CarouselViewType) {
         switch viewType {

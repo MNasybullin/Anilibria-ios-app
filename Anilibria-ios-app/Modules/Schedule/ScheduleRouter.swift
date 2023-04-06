@@ -15,6 +15,8 @@ protocol ScheduleRouterProtocol: AnyObject {
     var navigationController: UINavigationController! { get }
     
     static func start(withNavigationController navigationController: UINavigationController) -> ScheduleRouterProtocol
+    
+    func showAnimeView(with data: GetTitleModel)
 }
 
 final class ScheduleRouter: ScheduleRouterProtocol {
@@ -41,5 +43,13 @@ final class ScheduleRouter: ScheduleRouterProtocol {
         
         router.navigationController = navigationController
         return router
+    }
+}
+
+// MARK: - Show Other Views
+extension ScheduleRouter {
+    func showAnimeView(with data: GetTitleModel) {
+        let animeView = AnimeRouter.start(withNavigationController: navigationController, withTitleModel: data)
+        navigationController.pushViewController(animeView.entry, animated: true)
     }
 }

@@ -11,6 +11,7 @@ import UIKit
 protocol ScheduleInteractorProtocol: AnyObject {
     var presenter: SchedulePresenterProtocol! { get set }
     
+    func getData() -> [GetScheduleModel]? 
     func requestScheduleData() async throws -> [PostersListViewModel]
     func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage?
 }
@@ -18,6 +19,10 @@ protocol ScheduleInteractorProtocol: AnyObject {
 final class ScheduleInteractor: ScheduleInteractorProtocol {
     unowned var presenter: SchedulePresenterProtocol!
     private var scheduleModel: [GetScheduleModel]?
+    
+    func getData() -> [GetScheduleModel]? {
+        return scheduleModel
+    }
     
     func requestScheduleData() async throws -> [PostersListViewModel] {
         do {

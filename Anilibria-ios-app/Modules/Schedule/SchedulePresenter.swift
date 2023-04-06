@@ -11,9 +11,10 @@ protocol SchedulePresenterProtocol: AnyObject {
     var router: ScheduleRouterProtocol! { get set }
     var interactor: ScheduleInteractorProtocol! { get set }
     var view: ScheduleViewProtocol! { get set }
-    
+        
     func getScheduleData()
     func getImage(for indexPath: IndexPath)
+    func cellClicked(at indexPath: IndexPath)
 }
 
 final class SchedulePresenter: SchedulePresenterProtocol {
@@ -52,5 +53,13 @@ final class SchedulePresenter: SchedulePresenterProtocol {
                 }
             }
         }
+    }
+    
+    func cellClicked(at indexPath: IndexPath) {
+        let getScheduleModel = interactor.getData()
+        guard let data = getScheduleModel?[indexPath.section].list[indexPath.row] else {
+            return
+        }
+        router.showAnimeView(with: data)
     }
 }
