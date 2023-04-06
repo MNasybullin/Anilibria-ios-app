@@ -186,6 +186,10 @@ final class CarouselView: UIView {
     }
     
     func updateImage(_ image: UIImage?, for indexPath: IndexPath) {
+        if image == nil {
+            carouselData?[indexPath.row].imageIsLoading = false
+            return
+        }
         carouselData?[indexPath.row].image = image
         carouselData?[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
@@ -242,13 +246,11 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         cell.titleLabel.text = data?.name
         
         guard let image = data?.image else {
-            if data?.imageIsLoading == true {
-                cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
-                return cell
+            if data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
+                data?.imageIsLoading = true
+                delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             }
-            data?.imageIsLoading = true
             cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
-            delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             return cell
         }
         
@@ -269,7 +271,7 @@ extension CarouselView: UICollectionViewDataSourcePrefetching {
         for indexPath in indexPaths {
             var data = carouselData?[indexPath.row]
             
-            if data?.image == nil && data?.imageIsLoading == false {
+            if data?.image == nil && data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
                 data?.imageIsLoading = true
                 delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             }

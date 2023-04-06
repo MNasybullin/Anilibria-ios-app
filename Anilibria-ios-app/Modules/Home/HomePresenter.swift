@@ -69,10 +69,6 @@ final class HomePresenter: HomePresenterProtocol {
     }
     
     func getImage(forIndexPath indexPath: IndexPath, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView) {
-        if NetworkMonitor.shared.isConnected == false {
-            view.update(image: nil, for: indexPath, inCarouselView: carouselView)
-            return
-        }
         Task {
             do {
                 guard let image = try await interactor.requestImage(forIndex: indexPath.row, forViewType: viewType) else {

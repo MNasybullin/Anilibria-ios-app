@@ -82,6 +82,10 @@ final class PostersListView: UIView {
     }
     
     func updateImage(_ image: UIImage?, for indexPath: IndexPath) {
+        if image == nil {
+            postersListData?[indexPath.section].postersList[indexPath.row].imageIsLoading = false
+            return
+        }
         postersListData?[indexPath.section].postersList[indexPath.row].image = image
         postersListData?[indexPath.section].postersList[indexPath.row].imageIsLoading = false
         DispatchQueue.main.async {
@@ -187,13 +191,11 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
         cell.titleLabel.text = data?.name
         
         guard let image = data?.image else {
-            if data?.imageIsLoading == true {
-                cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
-                return cell
+            if data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
+                data?.imageIsLoading = true
+                delegate?.getImage(for: indexPath)
             }
-            data?.imageIsLoading = true
             cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
-            delegate?.getImage(for: indexPath)
             return cell
         }
 
@@ -213,7 +215,7 @@ extension PostersListView: UICollectionViewDataSourcePrefetching {
         for indexPath in indexPaths {
             var data = postersListData?[indexPath.section].postersList[indexPath.row]
             
-            if data?.image == nil && data?.imageIsLoading == false {
+            if data?.image == nil && data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
                 data?.imageIsLoading = true
                 delegate?.getImage(for: indexPath)
             }

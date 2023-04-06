@@ -36,10 +36,6 @@ final class SchedulePresenter: SchedulePresenterProtocol {
     }
     
     func getImage(for indexPath: IndexPath) {
-        if NetworkMonitor.shared.isConnected == false {
-            view.update(image: nil, for: indexPath)
-            return
-        }
         Task {
             do {
                 guard let image = try await interactor.requestImage(forSection: indexPath.section, forIndex: indexPath.row) else {
