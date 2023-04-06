@@ -20,7 +20,6 @@ final class AnimeInfoView: UIView {
     lazy var contentVStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.alignment = .center
         stack.spacing = 14
         return stack
     }()
@@ -84,6 +83,8 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
+    lazy var seriesView = SeriesView()
+    
     // TODO .replacingOccurrences(of: "[\r\n]{3,}", with: "\n\n", options: .regularExpression, range: nil)
     
     init() {
@@ -116,6 +117,7 @@ final class AnimeInfoView: UIView {
         contentVStack.addArrangedSubview(genresLabel)
         contentVStack.addArrangedSubview(favoriteAndShareButtonsView)
         contentVStack.addArrangedSubview(descriptionLabel)
+        contentVStack.addArrangedSubview(seriesView)
     }
     
     private func setupEngNameAndSeasonAndTypeVStack() {

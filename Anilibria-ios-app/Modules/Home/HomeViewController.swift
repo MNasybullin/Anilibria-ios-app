@@ -191,7 +191,6 @@ extension HomeViewController: CarouselViewProtocol {
     }
     
     func cellClicked() {
-        print("Cell Click")
         presenter.cellClicked()
     }
     
