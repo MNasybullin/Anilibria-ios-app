@@ -240,29 +240,24 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
         
         var data = carouselData?[indexPath.row]
         cell.titleLabel.text = data?.name
-        cell.imageView.image = nil
         
         guard let image = data?.image else {
             if data?.imageIsLoading == true {
-                if cell.imageView.sk.isSkeletonActive == false {
-                    cell.imageView.showAnimatedSkeleton()
-                }
+                cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
                 return cell
             }
             data?.imageIsLoading = true
-            cell.imageView.showAnimatedSkeleton()
+            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
             delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             return cell
         }
-        if cell.imageView.sk.isSkeletonActive == true {
-            cell.imageView.hideSkeleton(reloadDataAfter: false)
-        }
+        
         cell.imageView.image = image
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        collectionView.deselectItem(at: indexPath, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
         delegate?.cellClicked(at: indexPath, carouselView: self)
     }
     

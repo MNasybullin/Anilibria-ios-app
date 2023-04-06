@@ -185,23 +185,18 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
                 
         var data = postersListData?[indexPath.section].postersList[indexPath.row]
         cell.titleLabel.text = data?.name
-        cell.imageView.image = nil
         
         guard let image = data?.image else {
             if data?.imageIsLoading == true {
-                if cell.imageView.sk.isSkeletonActive == false {
-                    cell.imageView.showAnimatedSkeleton()
-                }
+                cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
                 return cell
             }
             data?.imageIsLoading = true
-            cell.imageView.showAnimatedSkeleton()
+            cell.imageView.image = UIImage(asset: Asset.Assets.blankImage)
             delegate?.getImage(for: indexPath)
             return cell
         }
-        if cell.imageView.sk.isSkeletonActive == true {
-            cell.imageView.hideSkeleton(reloadDataAfter: false)
-        }
+
         cell.imageView.image = image
         return cell
     }
