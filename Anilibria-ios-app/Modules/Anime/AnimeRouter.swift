@@ -13,19 +13,19 @@ protocol AnimeRouterProtocol: AnyObject {
     var entry: EntryPoint! { get }
     var navigationController: UINavigationController! { get }
     
-    static func start(withNavigationController navigationController: UINavigationController) -> AnimeRouterProtocol
+    static func start(withNavigationController navigationController: UINavigationController, withTitleModel titleModel: GetTitleModel) -> AnimeRouterProtocol
 }
 
 final class AnimeRouter: AnimeRouterProtocol {
     var entry: EntryPoint!
     var navigationController: UINavigationController!
     
-    static func start(withNavigationController navigationController: UINavigationController) -> AnimeRouterProtocol {
+    static func start(withNavigationController navigationController: UINavigationController, withTitleModel titleModel: GetTitleModel) -> AnimeRouterProtocol {
         let router = AnimeRouter()
         
         let view = AnimeViewController()
         view.title = "Anime"
-        let interactor = AnimeInteractor()
+        let interactor = AnimeInteractor(data: titleModel)
         let presenter = AnimePresenter()
         
         view.presenter = presenter

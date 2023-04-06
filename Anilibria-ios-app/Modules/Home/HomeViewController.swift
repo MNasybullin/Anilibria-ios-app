@@ -190,8 +190,8 @@ extension HomeViewController: CarouselViewProtocol {
         presenter.getDataFor(carouselView: carouselView, viewType: viewType)
     }
     
-    func cellClicked() {
-        presenter.cellClicked()
+    func cellClicked(at indexPath: IndexPath, carouselView: CarouselView) {
+        presenter.cellClicked(at: indexPath, viewType: getViewType(fromCarouselView: carouselView))
     }
     
     func titleButtonAction(carouselView: CarouselView) {

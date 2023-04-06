@@ -10,7 +10,7 @@ import SkeletonView
 
 protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(carouselView: CarouselView)
-    func cellClicked()
+    func cellClicked(at indexPath: IndexPath, carouselView: CarouselView)
     
     func getData(for carouselView: CarouselView)
     func getImage(forIndexPath indexPath: IndexPath, forCarouselView carouselView: CarouselView)
@@ -263,7 +263,7 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        collectionView.deselectItem(at: indexPath, animated: true)
-        delegate?.cellClicked()
+        delegate?.cellClicked(at: indexPath, carouselView: self)
     }
     
 }

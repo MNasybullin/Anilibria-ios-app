@@ -9,6 +9,8 @@ import UIKit
 
 protocol AnimeViewProtocol: AnyObject {
 	var presenter: AnimePresenterProtocol! { get set }
+    
+    func update(image: UIImage)
 }
 
 final class AnimeViewController: UIViewController, AnimeViewProtocol {
@@ -82,7 +84,6 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         
         animeHeightConstraint = animeImageView.heightAnchor.constraint(equalToConstant: animeImageViewHeight)
         animeHeightConstraint.isActive = true
-
     }
     
     private func configureContentVStack() {
@@ -102,7 +103,22 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     
     private func configureAnimeInfoView() {
         animeInfoView = AnimeInfoView()
+        
+        let data = presenter.getData()
+        animeInfoView.ruNameLabel.text = data.ruName
+        animeInfoView.engNameLabel.text = data.engName
+        animeInfoView.seasonAndTypeLabel.text = data.seasonAndType
+        animeInfoView.genresLabel.text = data.genres
+        animeInfoView.descriptionLabel.text = data.description
+        
         contentVStack.addArrangedSubview(animeInfoView)
+    }
+    
+    func update(image: UIImage) {
+        DispatchQueue.main.async {
+            self.animeImageView.backgroundImageView.image = image
+            self.animeImageView.imageView.image = image
+        }
     }
 }
 
@@ -123,17 +139,3 @@ extension AnimeViewController: UIScrollViewDelegate {
         lastContentOffsetY = scrollView.contentOffset.y
     }
 }
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct AnimeViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewControllerPreview {
-            AnimeRouter.start(withNavigationController: UINavigationController()).entry
-        }
-    }
-}
-
-#endif

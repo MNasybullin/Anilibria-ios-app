@@ -11,14 +11,14 @@ final class AnimeImageView: UIView {
     
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(asset: Asset.Assets.testImage)
+        imageView.image = UIImage(asset: Asset.Assets.blankImage)
         imageView.backgroundColor = .red
         return imageView
     }()
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(asset: Asset.Assets.testImage)
+        imageView.image = UIImage(asset: Asset.Assets.blankImage)
         imageView.backgroundColor = .yellow
         return imageView
     }()

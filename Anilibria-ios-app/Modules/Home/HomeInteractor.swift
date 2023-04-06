@@ -14,6 +14,7 @@ protocol HomeInteractorProtocol: AnyObject {
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel]
     func requestDataForUpdatesView() async throws -> [CarouselViewModel]
     func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage?
+    func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]?
 }
 
 final class HomeInteractor: HomeInteractorProtocol {
@@ -57,9 +58,7 @@ final class HomeInteractor: HomeInteractorProtocol {
         }
     }
     
-    // MARK: - Private Functions
-    
-    private func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]? {
+    func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]? {
         switch viewType {
             case .todayCarouselView:
                 return todayGetTitleModel
@@ -68,6 +67,7 @@ final class HomeInteractor: HomeInteractorProtocol {
         }
     }
     
+    // MARK: - Private Functions
     private func convertGetTitleModelToCarouselViewModel(_ titleModel: [GetTitleModel]) -> [CarouselViewModel] {
         var carouselViewModel = [CarouselViewModel]()
         titleModel.forEach {
