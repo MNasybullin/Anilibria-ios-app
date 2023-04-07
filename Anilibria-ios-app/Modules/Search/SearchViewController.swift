@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 protocol SearchViewProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
@@ -26,6 +27,8 @@ final class SearchViewController: UIViewController {
     private var randomAnimeView: RandomAnimeView!
     private var searchResultsTableView: SearchResultsTableView!
     
+    private var cancellable: AnyCancellable!
+    
     var textEditingTimer: Timer?
     var lastSearchText: String?
     
@@ -36,6 +39,19 @@ final class SearchViewController: UIViewController {
         configureSearchBar()
         configureRandomAnimeView()
         configureSearchResultsTableView()
+        subscribeToNetworkMonitor()
+    }
+    
+    private func subscribeToNetworkMonitor() {
+        cancellable = NetworkMonitor.shared.isConnectedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { isConnected in
+                if isConnected == true {
+                    if self.randomAnimeView.sk.isSkeletonActive == true {
+                        self.getRandomAnimeData()
+                    }
+                }
+            }
     }
     
     private func configureSearchBar() {
