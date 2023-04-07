@@ -14,6 +14,7 @@ protocol AnimePresenterProtocol: AnyObject {
     
     func getData() -> AnimeModel
     func getImage()
+    func seriesViewClicked()
 }
 
 final class AnimePresenter: AnimePresenterProtocol {
@@ -45,5 +46,9 @@ final class AnimePresenter: AnimePresenterProtocol {
                 }
             }
         }
+    }
+    
+    func seriesViewClicked() {
+        router.showSeriesView()
     }
 }

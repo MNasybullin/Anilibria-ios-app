@@ -32,6 +32,7 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
+        setupNavBarBackButton()
         configureScrollView()
         configureContentVStack()
         configureAnimeImageView()
@@ -46,6 +47,10 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    private func setupNavBarBackButton() {
+        navigationItem.backButtonTitle = ""
     }
     
     private func configureScrollView() {
@@ -104,6 +109,8 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     private func configureAnimeInfoView() {
         animeInfoView = AnimeInfoView()
         
+        animeInfoView.seriesView.delegate = self
+        
         let data = presenter.getData()
         animeInfoView.ruNameLabel.text = data.ruName
         animeInfoView.engNameLabel.text = data.engName
@@ -119,6 +126,13 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
             self.animeImageView.backgroundImageView.image = image
             self.animeImageView.imageView.image = image
         }
+    }
+}
+
+// MARK: - SeriesViewDelegate
+extension AnimeViewController: SeriesViewDelegate {
+    func viewClicked() {
+        presenter.seriesViewClicked()
     }
 }
 

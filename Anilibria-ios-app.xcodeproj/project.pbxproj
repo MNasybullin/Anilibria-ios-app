@@ -69,6 +69,7 @@
 		27A66E792990EF9200369EAF /* ScrollableViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E782990EF9200369EAF /* ScrollableViewProtocol.swift */; };
 		27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E7A2990F0ED00369EAF /* NetworkStatusView.swift */; };
 		27A66E7D299298B200369EAF /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E7C299298B200369EAF /* NetworkMonitor.swift */; };
+		27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CB080B28855EB4009E2583 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080A28855EB4009E2583 /* TabBarViewController.swift */; };
 		27CB080D28855EC5009E2583 /* TabBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB080C28855EC5009E2583 /* TabBarInteractor.swift */; };
@@ -177,6 +178,7 @@
 		27A66E782990EF9200369EAF /* ScrollableViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableViewProtocol.swift; sourceTree = "<group>"; };
 		27A66E7A2990F0ED00369EAF /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
 		27A66E7C299298B200369EAF /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesTableViewCell.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CB080A28855EB4009E2583 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		27CB080C28855EC5009E2583 /* TabBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarInteractor.swift; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 				A51D4FB4C42F0009531F681D /* SeriesInteractor.swift */,
 				A0F7559E4DB0F874840D57A2 /* SeriesPresenter.swift */,
 				F381B81937D6BF9C971B8DD9 /* SeriesRouter.swift */,
+				27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */,
 			);
 			path = Series;
 			sourceTree = "<group>";
@@ -748,6 +751,7 @@
 			files = (
 				272D6535288C63E100FA4F60 /* GetYouTubeModel.swift in Sources */,
 				272FF68328B6535900CAE5DB /* CarouselView.swift in Sources */,
+				27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */,
 				275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
 				2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */,
