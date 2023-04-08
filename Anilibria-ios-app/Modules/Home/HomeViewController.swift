@@ -33,7 +33,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         self.view.backgroundColor = .systemBackground
 
         setupNavBarBackButton()
-//        configureNavigationBarAppearance()
+        configureNavigationBarAppearance()
         configureScrollView()
         configureRefreshControl()
         configureVContentStackView()
