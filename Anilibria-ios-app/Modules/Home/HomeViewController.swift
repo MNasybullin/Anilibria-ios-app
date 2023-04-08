@@ -32,7 +32,8 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
 
-        configureNavigationBarAppearance()
+        setupNavBarBackButton()
+//        configureNavigationBarAppearance()
         configureScrollView()
         configureRefreshControl()
         configureVContentStackView()
@@ -49,6 +50,10 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
                     self.programaticallyBeginRefreshing()
                 }
             }
+    }
+    
+    private func setupNavBarBackButton() {
+        navigationItem.backButtonTitle = ""
     }
     
     // MARK: - NavigationBarAppearance

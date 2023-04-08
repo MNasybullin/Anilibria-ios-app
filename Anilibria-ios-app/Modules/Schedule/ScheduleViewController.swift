@@ -27,8 +27,13 @@ final class ScheduleViewController: UIViewController, ScheduleViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavBarBackButton()
         configurePostersListView()
         subscribeToNetworkMonitor()
+    }
+    
+    private func setupNavBarBackButton() {
+        navigationItem.backButtonTitle = ""
     }
     
     private func subscribeToNetworkMonitor() {

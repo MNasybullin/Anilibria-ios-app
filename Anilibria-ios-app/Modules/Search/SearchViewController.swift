@@ -36,10 +36,15 @@ final class SearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
+        setupNavBarBackButton()
         configureSearchBar()
         configureRandomAnimeView()
         configureSearchResultsTableView()
         subscribeToNetworkMonitor()
+    }
+    
+    private func setupNavBarBackButton() {
+        navigationItem.backButtonTitle = ""
     }
     
     private func subscribeToNetworkMonitor() {
