@@ -11,6 +11,9 @@ protocol SeriesPresenterProtocol: AnyObject {
     var view: SeriesViewProtocol! { get set }
     var interactor: SeriesInteractorProtocol! { get set }
     var router: SeriesRouterProtocol! { get set }
+    
+    func getData() -> AnimeModel
+    func getImage(forIndexPath indexPath: IndexPath)
 }
 
 final class SeriesPresenter: SeriesPresenterProtocol {
@@ -18,4 +21,23 @@ final class SeriesPresenter: SeriesPresenterProtocol {
     var interactor: SeriesInteractorProtocol!
     var router: SeriesRouterProtocol!
 
+    func getData() -> AnimeModel {
+        return interactor.getData()
+    }
+    
+    func getImage(forIndexPath indexPath: IndexPath) {
+        Task {
+            do {
+                guard let image = try await interactor.requestImage(forIndex: indexPath.row) else {
+                    return
+                }
+                view.update(image, for: indexPath)
+            } catch {
+                view.update(nil, for: indexPath)
+                ErrorProcessing.shared.handle(error: error) { message in
+                    print(message)
+                }
+            }
+        }
+    }
 }

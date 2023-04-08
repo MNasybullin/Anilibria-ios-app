@@ -242,13 +242,13 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
             return cell
         }
         
-        var data = carouselData?[indexPath.row]
+        let data = carouselData?[indexPath.row]
         cell.titleLabel.text = data?.name
         cell.imageView.image = nil
         
         guard let image = data?.image else {
             if data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
-                data?.imageIsLoading = true
+                carouselData?[indexPath.row].imageIsLoading = true
                 delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             }
             if cell.imageView.sk.isSkeletonActive == false {
@@ -275,10 +275,10 @@ extension CarouselView: UICollectionViewDataSource, UICollectionViewDelegate {
 extension CarouselView: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
-            var data = carouselData?[indexPath.row]
+            let data = carouselData?[indexPath.row]
             
             if data?.image == nil && data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
-                data?.imageIsLoading = true
+                carouselData?[indexPath.row].imageIsLoading = true
                 delegate?.getImage(forIndexPath: indexPath, forCarouselView: self)
             }
         }

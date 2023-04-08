@@ -186,14 +186,14 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
             }
             return cell
         }
-                
-        var data = postersListData?[indexPath.section].postersList[indexPath.row]
+        
+        let data = postersListData?[indexPath.section].postersList[indexPath.row]
         cell.titleLabel.text = data?.name
         cell.imageView.image = nil
         
         guard let image = data?.image else {
             if data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
-                data?.imageIsLoading = true
+                postersListData?[indexPath.section].postersList[indexPath.row].imageIsLoading = true
                 delegate?.getImage(for: indexPath)
             }
             if cell.imageView.sk.isSkeletonActive == false {
@@ -219,10 +219,10 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
 extension PostersListView: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
-            var data = postersListData?[indexPath.section].postersList[indexPath.row]
+            let data = postersListData?[indexPath.section].postersList[indexPath.row]
             
             if data?.image == nil && data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
-                data?.imageIsLoading = true
+                postersListData?[indexPath.section].postersList[indexPath.row].imageIsLoading = true
                 delegate?.getImage(for: indexPath)
             }
         }

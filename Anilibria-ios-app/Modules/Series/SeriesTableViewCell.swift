@@ -19,7 +19,6 @@ class SeriesTableViewCell: UITableViewCell {
     
     lazy var seriesImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(asset: Asset.Assets.testImage)
         return imageView
     }()
     
@@ -50,7 +49,6 @@ class SeriesTableViewCell: UITableViewCell {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "1 Series"
         label.font = titleLabelFont
         label.textColor = .label
         return label
@@ -58,7 +56,6 @@ class SeriesTableViewCell: UITableViewCell {
     
     lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "17 july 2019"
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
         return label

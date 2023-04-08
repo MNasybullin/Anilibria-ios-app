@@ -13,19 +13,19 @@ protocol SeriesRouterProtocol: AnyObject {
     var entry: EntryPoint! { get }
     var navigationController: UINavigationController! { get }
     
-    static func start(withNavigationController navigationController: UINavigationController) -> SeriesRouterProtocol
+    static func start(withNavigationController navigationController: UINavigationController, withData data: AnimeModel) -> SeriesRouterProtocol
 }
 
 final class SeriesRouter: SeriesRouterProtocol {
     var entry: EntryPoint!
     var navigationController: UINavigationController!
     
-    static func start(withNavigationController navigationController: UINavigationController) -> SeriesRouterProtocol {
+    static func start(withNavigationController navigationController: UINavigationController, withData data: AnimeModel) -> SeriesRouterProtocol {
         let router = SeriesRouter()
         
         let view = SeriesViewController()
-        view.title = "Series"
-        let interactor = SeriesInteractor()
+        view.title = data.ruName
+        let interactor = SeriesInteractor(data: data)
         let presenter = SeriesPresenter()
         
         view.presenter = presenter

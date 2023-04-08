@@ -49,6 +49,7 @@ final class AnimePresenter: AnimePresenterProtocol {
     }
     
     func seriesViewClicked() {
-        router.showSeriesView()
+        let data = getData()
+        router.showSeriesView(with: data)
     }
 }

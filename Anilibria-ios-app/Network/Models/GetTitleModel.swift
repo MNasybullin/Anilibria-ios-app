@@ -139,11 +139,15 @@ struct GTSeries: Codable {
 struct GTPlaylist: Codable {
     let serie: Double?
     let createdTimestamp: Int?
+    let preview: String?
+    let skips: GTSkips?
     let hls: GTHls?
     
     enum CodingKeys: String, CodingKey {
         case serie
         case createdTimestamp = "created_timestamp"
+        case preview
+        case skips
         case hls
     }
 }
@@ -152,6 +156,11 @@ struct GTHls: Codable {
     let fhd: String?
     let hd: String?
     let sd: String?
+}
+
+struct GTSkips: Codable {
+    let opening: [Double?]
+    let ending: [Double?]
 }
 
 /*

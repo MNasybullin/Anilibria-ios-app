@@ -39,7 +39,6 @@ final class SeriesView: UIView {
     
     lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "12 серий"
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textColor = .secondaryLabel
         return label

@@ -179,11 +179,8 @@ extension SearchResultsTableView: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SearchResultsTableViewCell else {
             fatalError("Cell is doesn`t AnimeTableViewCell")
         }
-        let index = indexPath.row
-        if data.isEmpty {
-            return cell
-        }
         
+        let index = indexPath.row
         cell.ruNameLabel.text = data[index].ruName
         cell.engNameLabel.text = data[index].engName
         cell.descriptionLabel.text = data[index].description

@@ -15,7 +15,7 @@ protocol AnimeRouterProtocol: AnyObject {
     
     static func start(withNavigationController navigationController: UINavigationController, withTitleModel titleModel: GetTitleModel) -> AnimeRouterProtocol
     
-    func showSeriesView()
+    func showSeriesView(with data: AnimeModel)
 }
 
 final class AnimeRouter: AnimeRouterProtocol {
@@ -47,8 +47,8 @@ final class AnimeRouter: AnimeRouterProtocol {
 
 // MARK: - Show Other Views
 extension AnimeRouter {
-    func showSeriesView() {
-        let seriesView = SeriesRouter.start(withNavigationController: navigationController)
+    func showSeriesView(with data: AnimeModel) {
+        let seriesView = SeriesRouter.start(withNavigationController: navigationController, withData: data)
         navigationController.pushViewController(seriesView.entry, animated: true)
     }
 }

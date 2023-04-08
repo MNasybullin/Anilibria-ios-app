@@ -117,6 +117,7 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         animeInfoView.seasonAndTypeLabel.text = data.seasonAndType
         animeInfoView.genresLabel.text = data.genres
         animeInfoView.descriptionLabel.text = data.description
+        animeInfoView.seriesView.subtitleLabel.text = (data.series?.string ?? "") + " " + "серий"
         
         contentVStack.addArrangedSubview(animeInfoView)
     }

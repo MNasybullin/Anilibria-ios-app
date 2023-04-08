@@ -9,6 +9,8 @@ import UIKit
 
 protocol SeriesViewProtocol: AnyObject {
 	var presenter: SeriesPresenterProtocol! { get set }
+    
+    func update(_ image: UIImage?, for indexPath: IndexPath)
 }
 
 final class SeriesViewController: UIViewController, SeriesViewProtocol {
@@ -16,18 +18,27 @@ final class SeriesViewController: UIViewController, SeriesViewProtocol {
     
     private var tableView: UITableView!
     private let cellIdentifier = "SeriesTableViewCell"
+    private var data: AnimeModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        data = presenter.getData()
+        configureNavigationBar()
         setupTableView()
+    }
+    
+    private func configureNavigationBar() {
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.shadowColor = .clear
+        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
     }
     
     private func setupTableView() {
         tableView = UITableView()
         tableView.register(SeriesTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 60
         
         setupTableViewHeader()
         
@@ -35,6 +46,7 @@ final class SeriesViewController: UIViewController, SeriesViewProtocol {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
         
         view.addSubview(tableView)
         tableViewConstraints()
@@ -57,7 +69,7 @@ final class SeriesViewController: UIViewController, SeriesViewProtocol {
         
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.text = "16 серий"
+        label.text = (data.series?.string ?? "") + " " + "серий"
         label.textColor = .secondaryLabel
         stack.addArrangedSubview(label)
         
@@ -76,6 +88,18 @@ final class SeriesViewController: UIViewController, SeriesViewProtocol {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    func update(_ image: UIImage?, for indexPath: IndexPath) {
+        if image == nil {
+            self.data.playlist[indexPath.row].imageIsLoading = false
+            return
+        }
+        self.data.playlist[indexPath.row].image = image
+        self.data.playlist[indexPath.row].imageIsLoading = false
+        DispatchQueue.main.async {
+            self.tableView.reconfigureRows(at: [indexPath])
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -89,7 +113,7 @@ extension SeriesViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension SeriesViewController: UITableViewDataSource {    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 16
+        return data.playlist.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,6 +121,32 @@ extension SeriesViewController: UITableViewDataSource {
             fatalError("Cell is doesn`t SeriesTableViewCell")
         }
         
+        let rowData = data.playlist[indexPath.row]
+        cell.titleLabel.text = rowData.serieString
+        cell.subtitleLabel.text = rowData.createdDateString
+        
+        guard let image = rowData.image else {
+            if rowData.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
+                data.playlist[indexPath.row].imageIsLoading = true
+                presenter.getImage(forIndexPath: indexPath)
+            }
+            cell.seriesImageView.image = UIImage(asset: Asset.Assets.blankImage)
+            return cell
+        }
+        
+        cell.seriesImageView.image = image
         return cell
+    }
+}
+
+// MARK: - UITableViewDataSourcePrefetching
+extension SeriesViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if data.playlist[indexPath.row].image == nil && data.playlist[indexPath.row].imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
+                data.playlist[indexPath.row].imageIsLoading = true
+                presenter.getImage(forIndexPath: indexPath)
+            }
+        }
     }
 }

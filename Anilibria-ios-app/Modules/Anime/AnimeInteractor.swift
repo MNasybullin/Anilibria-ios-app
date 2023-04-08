@@ -28,8 +28,9 @@ final class AnimeInteractor: AnimeInteractorProtocol {
                                      engName: getEngNameText(),
                                      seasonAndType: getSeasonAndTypeText(),
                                      genres: getgenresText(),
-                                     description: getDescriptionText())
-        
+                                     description: getDescriptionText(),
+                                     series: getSeries(),
+                                     playlist: getPlaylist())
     }
     
     func getData() -> AnimeModel {
@@ -71,5 +72,43 @@ final class AnimeInteractor: AnimeInteractorProtocol {
     
     private func getDescriptionText() -> String? {
         return titleModel.description?.replacingOccurrences(of: "[\r\n]{3,}", with: "\n\n", options: .regularExpression, range: nil)
+    }
+    
+    private func getSeries() -> GTSeries? {
+        return titleModel.player?.series
+    }
+    
+    private func getPlaylist() -> [Playlist] {
+        var array = [Playlist]()
+        titleModel.player?.playlist?.forEach { item in
+            array.append(Playlist(serie: item.serie,
+                                  serieString: getSerieString(from: item.serie),
+                                  createdTimestamp: item.createdTimestamp,
+                                  createdDateString: getCreatedDateString(from: item.createdTimestamp),
+                                  preview: item.preview,
+                                  image: nil,
+                                  skips: item.skips,
+                                  hls: item.hls))
+        }
+        return array
+    }
+    
+    private func getSerieString(from serie: Double?) -> String {
+        var serieString = ""
+        if serie != nil {
+            let int = Int(exactly: serie!)
+            let numberString: String = int == nil ? serie!.description : int!.description
+            serieString = numberString + " " + "серия"
+        }
+        return serieString
+    }
+    
+    private func getCreatedDateString(from createdTimestamp: Int?) -> String {
+        var createdDateString = ""
+        if let timestamp = createdTimestamp {
+            let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
+            createdDateString = date.formatted(date: .long, time: .omitted)
+        }
+        return createdDateString
     }
 }
