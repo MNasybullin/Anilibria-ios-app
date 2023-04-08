@@ -36,7 +36,7 @@ final class ScheduleInteractor: ScheduleInteractorProtocol {
     
     func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage? {
         guard let imageURL = scheduleModel?[section].list[index].posters?.original?.url else {
-            throw MyInternalError.failedToFetchData
+            throw MyInternalError.failedToFetchURLFromData
         }
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)

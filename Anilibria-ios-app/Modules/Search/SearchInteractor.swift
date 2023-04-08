@@ -55,7 +55,7 @@ final class SearchInteractor: SearchInteractorProtocol {
     
     func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage? {
         guard let imageURL = searchResults[indexPath.row].posters?.original?.url else {
-            throw MyInternalError.failedToFetchData
+            throw MyInternalError.failedToFetchURLFromData
         }
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)

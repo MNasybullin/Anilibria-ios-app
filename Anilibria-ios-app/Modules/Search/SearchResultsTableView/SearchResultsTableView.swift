@@ -21,7 +21,6 @@ final class SearchResultsTableView: UITableView {
     
     private let cellIdentifier = "SearchResultsCell"
     
-    private var heightForRow: CGFloat
     private var isLoadingMoreData: Bool = false {
         didSet { toggleFooterView() }
     }
@@ -37,8 +36,7 @@ final class SearchResultsTableView: UITableView {
     
     private var data = [SearchResultsModel]()
     
-    init(heightForRow: CGFloat) {
-        self.heightForRow = heightForRow
+    init() {
         super.init(frame: .zero, style: .plain)
         backgroundColor = .systemBackground
         
@@ -52,6 +50,7 @@ final class SearchResultsTableView: UITableView {
     
     private func configureTableView() {
         register(SearchResultsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        rowHeight = UITableView.automaticDimension
         
         delegate = self
         dataSource = self
@@ -158,10 +157,6 @@ final class SearchResultsTableView: UITableView {
 
 // MARK: - UITableViewDelegate
 extension SearchResultsTableView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightForRow
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         searchResultsTableViewDelegate?.dismissKeyboard()
@@ -256,7 +251,7 @@ import SwiftUI
 struct SearchResultsTableView_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            SearchResultsTableView(heightForRow: 150)
+            SearchResultsTableView()
         }
     }
 }

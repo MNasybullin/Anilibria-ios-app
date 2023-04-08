@@ -48,7 +48,7 @@ final class HomeInteractor: HomeInteractorProtocol {
     func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage? {
         let getTitleModel = getData(forViewType: viewType)
         guard let imageURL = getTitleModel?[index].posters?.original?.url else {
-            throw MyInternalError.failedToFetchData
+            throw MyInternalError.failedToFetchURLFromData
         }
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)

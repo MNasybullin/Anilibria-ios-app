@@ -101,6 +101,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
             hStack.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             hStack.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             hStack.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            hStack.heightAnchor.constraint(equalToConstant: 150),
             
             animeImageView.heightAnchor.constraint(equalTo: hStack.heightAnchor),
             animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500)

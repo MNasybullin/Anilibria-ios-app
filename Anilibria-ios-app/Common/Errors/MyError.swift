@@ -8,6 +8,8 @@
 import Foundation
 
 enum MyInternalError: Error {
+    /// Не удалось получить URL из данных
+    case failedToFetchURLFromData
     /// Не удалось извлечь данные
     case failedToFetchData
 }
@@ -15,6 +17,8 @@ enum MyInternalError: Error {
 extension MyInternalError: CustomStringConvertible {
     var description: String {
         switch self {
+            case .failedToFetchURLFromData:
+                return Strings.InternalError.failedToFetchURLFromData
             case .failedToFetchData:
                 return Strings.InternalError.failedToFetchData
         }

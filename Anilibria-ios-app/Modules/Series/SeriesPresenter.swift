@@ -33,8 +33,10 @@ final class SeriesPresenter: SeriesPresenterProtocol {
                 }
                 view.update(image, for: indexPath)
             } catch {
-                view.update(nil, for: indexPath)
-                ErrorProcessing.shared.handle(error: error) { message in
+                ErrorProcessing.shared.handle(error: error) { [weak self] message in
+                    if message != MyInternalError.failedToFetchURLFromData.description {
+                        self?.view.update(nil, for: indexPath)
+                    }
                     print(message)
                 }
             }

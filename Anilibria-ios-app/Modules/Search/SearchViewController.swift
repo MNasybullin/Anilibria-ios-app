@@ -78,7 +78,7 @@ final class SearchViewController: UIViewController {
     }
     
     private func configureSearchResultsTableView() {
-        searchResultsTableView = SearchResultsTableView(heightForRow: 150)
+        searchResultsTableView = SearchResultsTableView()
         searchResultsTableView.isUserInteractionEnabled = true
         searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchResultsTableView)
