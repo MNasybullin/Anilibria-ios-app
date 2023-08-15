@@ -13,7 +13,7 @@ protocol ScheduleInteractorProtocol: AnyObject {
     
     func getData() -> [GetScheduleModel]? 
     func requestScheduleData() async throws -> [PostersListViewModel]
-    func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage?
+    func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage
 }
 
 final class ScheduleInteractor: ScheduleInteractorProtocol {
@@ -34,13 +34,16 @@ final class ScheduleInteractor: ScheduleInteractorProtocol {
         }
     }
     
-    func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage? {
+    func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage {
         guard let imageURL = scheduleModel?[section].list[index].posters?.original?.url else {
             throw MyInternalError.failedToFetchURLFromData
         }
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
-            return UIImage(data: imageData)
+            guard let image = UIImage(data: imageData) else {
+                throw MyImageError.failedToInitialize
+            }
+            return image
         } catch {
             throw error
         }

@@ -68,9 +68,7 @@ final class SearchPresenter: SearchPresenterProtocol {
     func getImage(forIndexPath indexPath: IndexPath) {
         let task = Task {
             do {
-                guard let image = try await interactor.requestImage(forIndexPath: indexPath) else {
-                    return
-                }
+                let image = try await interactor.requestImage(forIndexPath: indexPath)
                 if Task.isCancelled { return }
                 view.updateSearchResultsTableView(image: image, for: indexPath)
             } catch {

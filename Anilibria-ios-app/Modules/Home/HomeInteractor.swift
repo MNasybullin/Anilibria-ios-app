@@ -13,7 +13,7 @@ protocol HomeInteractorProtocol: AnyObject {
     
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel]
     func requestDataForUpdatesView() async throws -> [CarouselViewModel]
-    func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage?
+    func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage
     func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]?
 }
 
@@ -45,14 +45,17 @@ final class HomeInteractor: HomeInteractorProtocol {
         }
     }
     
-    func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage? {
+    func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage {
         let getTitleModel = getData(forViewType: viewType)
         guard let imageURL = getTitleModel?[index].posters?.original?.url else {
             throw MyInternalError.failedToFetchURLFromData
         }
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
-            return UIImage(data: imageData)
+            guard let image = UIImage(data: imageData) else {
+                throw MyImageError.failedToInitialize
+            }
+            return image
         } catch {
             throw error
         }

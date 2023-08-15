@@ -38,9 +38,7 @@ final class SchedulePresenter: SchedulePresenterProtocol {
     func getImage(for indexPath: IndexPath) {
         Task {
             do {
-                guard let image = try await interactor.requestImage(forSection: indexPath.section, forIndex: indexPath.row) else {
-                    return
-                }
+                let image = try await interactor.requestImage(forSection: indexPath.section, forIndex: indexPath.row)
                 view.update(image: image, for: indexPath)
             } catch {
                 view.update(image: nil, for: indexPath)

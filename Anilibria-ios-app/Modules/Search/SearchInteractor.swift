@@ -14,7 +14,7 @@ protocol SearchInteractorProtocol: AnyObject {
     func getSearchData() -> [GetTitleModel]
     func getRandomAnimeData() -> GetTitleModel?
     func deleteSearchResultsData()
-    func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage?
+    func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage
     func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsModel], Bool)
     func requestRandomAnimeData() async throws -> RandomAnimeViewModel
 }
@@ -53,13 +53,16 @@ final class SearchInteractor: SearchInteractorProtocol {
         }
     }
     
-    func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage? {
+    func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage {
         guard let imageURL = searchResults[indexPath.row].posters?.original?.url else {
             throw MyInternalError.failedToFetchURLFromData
         }
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
-            return UIImage(data: imageData)
+            guard let image = UIImage(data: imageData) else {
+                throw MyImageError.failedToInitialize
+            }
+            return image
         } catch {
             throw error
         }

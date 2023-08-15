@@ -11,7 +11,7 @@ protocol AnimeInteractorProtocol: AnyObject {
 	var presenter: AnimePresenterProtocol! { get set }
     
     func getData() -> AnimeModel
-    func requestImage() async throws -> UIImage?
+    func requestImage() async throws -> UIImage
 }
 
 final class AnimeInteractor: AnimeInteractorProtocol {
@@ -37,13 +37,15 @@ final class AnimeInteractor: AnimeInteractorProtocol {
         return animeModel
     }
     
-    func requestImage() async throws -> UIImage? {
+    func requestImage() async throws -> UIImage {
         guard let imageURL = titleModel.posters?.original?.url else {
             throw MyInternalError.failedToFetchURLFromData
         }
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
-            let image = UIImage(data: imageData)
+            guard let image = UIImage(data: imageData) else {
+                throw MyImageError.failedToInitialize
+            }
             animeModel.image = image
             return image
         } catch {

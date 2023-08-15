@@ -71,9 +71,7 @@ final class HomePresenter: HomePresenterProtocol {
     func getImage(forIndexPath indexPath: IndexPath, forViewType viewType: CarouselViewType, forCarouselView carouselView: CarouselView) {
         Task {
             do {
-                guard let image = try await interactor.requestImage(forIndex: indexPath.row, forViewType: viewType) else {
-                    return
-                }
+                let image = try await interactor.requestImage(forIndex: indexPath.row, forViewType: viewType)
                 view.update(image: image, for: indexPath, inCarouselView: carouselView)
             } catch {
                 view.update(image: nil, for: indexPath, inCarouselView: carouselView)

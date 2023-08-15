@@ -36,9 +36,7 @@ final class AnimePresenter: AnimePresenterProtocol {
         }
         Task {
             do {
-                guard let image = try await interactor.requestImage() else {
-                    return
-                }
+                let image = try await interactor.requestImage()
                 view.update(image: image)
             } catch {
                 ErrorProcessing.shared.handle(error: error) { message in
