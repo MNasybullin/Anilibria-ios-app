@@ -1,5 +1,5 @@
 //
-//  MyError.swift
+//  MyInternalError.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 01.12.2022.

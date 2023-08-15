@@ -14,6 +14,8 @@ protocol SeriesRouterProtocol: AnyObject {
     var navigationController: UINavigationController! { get }
     
     static func start(withNavigationController navigationController: UINavigationController, withData data: AnimeModel) -> SeriesRouterProtocol
+    
+    func showPlayer(url: URL)
 }
 
 final class SeriesRouter: SeriesRouterProtocol {
@@ -40,5 +42,13 @@ final class SeriesRouter: SeriesRouterProtocol {
         
         router.navigationController = navigationController
         return router
+    }
+}
+
+extension SeriesRouter {
+    func showPlayer(url: URL) {
+        DispatchQueue.main.async {
+            Player.playVideo(url: url, viewController: self.entry)
+        }
     }
 }

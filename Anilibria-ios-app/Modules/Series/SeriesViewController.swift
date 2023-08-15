@@ -106,7 +106,7 @@ final class SeriesViewController: UIViewController, SeriesViewProtocol {
 extension SeriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print("series cell clicked")
+        presenter.cellClicked(at: indexPath)
     }
 }
 

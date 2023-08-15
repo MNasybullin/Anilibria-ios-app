@@ -11,7 +11,8 @@ protocol SeriesInteractorProtocol: AnyObject {
 	var presenter: SeriesPresenterProtocol! { get set }
     
     func getData() -> AnimeModel
-    func requestImage(forIndex index: Int) async throws -> UIImage?
+    func requestImage(forIndex index: Int) async throws -> UIImage
+    func requestCachingNodes() async throws -> String
 }
 
 final class SeriesInteractor: SeriesInteractorProtocol {
@@ -27,13 +28,28 @@ final class SeriesInteractor: SeriesInteractorProtocol {
         return data
     }
     
-    func requestImage(forIndex index: Int) async throws -> UIImage? {
+    func requestImage(forIndex index: Int) async throws -> UIImage {
         guard let imageURL = data.playlist[index].preview else {
             throw MyInternalError.failedToFetchURLFromData
         }
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
-            return UIImage(data: imageData)
+            guard let image = UIImage(data: imageData) else {
+                throw MyImageError.failedToInitialize
+            }
+            return image
+        } catch {
+            throw error
+        }
+    }
+    
+    func requestCachingNodes() async throws -> String {
+        do {
+            let cachingNodes = try await PublicApiService.shared.getCachingNodes()
+            guard let cachingNode = cachingNodes.first else {
+                throw MyInternalError.failedToFetchData
+            }
+            return cachingNode
         } catch {
             throw error
         }
