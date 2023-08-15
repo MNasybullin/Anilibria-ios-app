@@ -20,7 +20,7 @@ protocol SchedulePresenterProtocol: AnyObject {
 final class SchedulePresenter: SchedulePresenterProtocol {
     var router: ScheduleRouterProtocol!
     var interactor: ScheduleInteractorProtocol!
-    unowned var view: ScheduleViewProtocol!
+    weak var view: ScheduleViewProtocol!
     
     func getScheduleData() {
         Task {

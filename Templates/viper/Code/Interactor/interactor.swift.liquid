@@ -12,6 +12,6 @@ protocol {{ module_info.name }}InteractorProtocol: AnyObject {
 }
 
 final class {{ module_info.name }}Interactor: {{ module_info.name }}InteractorProtocol {
-    unowned var presenter: {{ module_info.name }}PresenterProtocol!
+    weak var presenter: {{ module_info.name }}PresenterProtocol!
 
 }

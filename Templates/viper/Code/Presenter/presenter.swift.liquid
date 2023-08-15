@@ -14,7 +14,7 @@ protocol {{ module_info.name }}PresenterProtocol: AnyObject {
 }
 
 final class {{ module_info.name }}Presenter: {{ module_info.name }}PresenterProtocol {
-    unowned var view: {{ module_info.name }}ViewProtocol!
+    weak var view: {{ module_info.name }}ViewProtocol!
     var interactor: {{ module_info.name }}InteractorProtocol!
     var router: {{ module_info.name }}RouterProtocol!
 

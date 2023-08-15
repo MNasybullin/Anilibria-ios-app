@@ -15,7 +15,7 @@ protocol AnimeInteractorProtocol: AnyObject {
 }
 
 final class AnimeInteractor: AnimeInteractorProtocol {
-    unowned var presenter: AnimePresenterProtocol!
+    weak var presenter: AnimePresenterProtocol!
     
     var titleModel: GetTitleModel
     var animeModel: AnimeModel!

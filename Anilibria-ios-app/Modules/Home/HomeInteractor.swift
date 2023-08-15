@@ -18,7 +18,7 @@ protocol HomeInteractorProtocol: AnyObject {
 }
 
 final class HomeInteractor: HomeInteractorProtocol {
-    unowned var presenter: HomePresenterProtocol!
+    weak var presenter: HomePresenterProtocol!
     private var todayGetTitleModel: [GetTitleModel]?
     private var updatesGetTitleModel: [GetTitleModel]?
     

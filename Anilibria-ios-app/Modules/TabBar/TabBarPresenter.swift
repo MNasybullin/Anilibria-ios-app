@@ -18,6 +18,6 @@ final class TabBarPresenter: TabBarPresenterProtocol {
     
     var interactor: TabBarInteractorProtocol!
     
-    unowned var view: TabBarViewProtocol!
+    weak var view: TabBarViewProtocol!
     
 }

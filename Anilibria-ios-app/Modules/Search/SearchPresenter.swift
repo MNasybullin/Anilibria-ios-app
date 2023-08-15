@@ -22,7 +22,7 @@ protocol SearchPresenterProtocol: AnyObject {
 }
 
 final class SearchPresenter: SearchPresenterProtocol {
-    unowned var view: SearchViewProtocol!
+    weak var view: SearchViewProtocol!
     var interactor: SearchInteractorProtocol!
     var router: SearchRouterProtocol!
     

@@ -18,7 +18,7 @@ protocol AnimePresenterProtocol: AnyObject {
 }
 
 final class AnimePresenter: AnimePresenterProtocol {
-    unowned var view: AnimeViewProtocol!
+    weak var view: AnimeViewProtocol!
     var interactor: AnimeInteractorProtocol!
     var router: AnimeRouterProtocol!
     

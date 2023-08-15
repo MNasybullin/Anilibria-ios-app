@@ -18,7 +18,7 @@ protocol SeriesPresenterProtocol: AnyObject {
 }
 
 final class SeriesPresenter: SeriesPresenterProtocol {
-    unowned var view: SeriesViewProtocol!
+    weak var view: SeriesViewProtocol!
     var interactor: SeriesInteractorProtocol!
     var router: SeriesRouterProtocol!
 

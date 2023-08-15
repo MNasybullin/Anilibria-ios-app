@@ -20,7 +20,7 @@ protocol SearchInteractorProtocol: AnyObject {
 }
 
 final class SearchInteractor: SearchInteractorProtocol {
-    unowned var presenter: SearchPresenterProtocol!
+    weak var presenter: SearchPresenterProtocol!
     
     private var searchResults = [GetTitleModel]()
     private var randomAnime: GetTitleModel?

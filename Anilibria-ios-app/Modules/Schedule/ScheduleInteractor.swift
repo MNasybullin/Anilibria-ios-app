@@ -17,7 +17,7 @@ protocol ScheduleInteractorProtocol: AnyObject {
 }
 
 final class ScheduleInteractor: ScheduleInteractorProtocol {
-    unowned var presenter: SchedulePresenterProtocol!
+    weak var presenter: SchedulePresenterProtocol!
     private var scheduleModel: [GetScheduleModel]?
     
     func getData() -> [GetScheduleModel]? {

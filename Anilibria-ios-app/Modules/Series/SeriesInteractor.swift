@@ -16,7 +16,7 @@ protocol SeriesInteractorProtocol: AnyObject {
 }
 
 final class SeriesInteractor: SeriesInteractorProtocol {
-    unowned var presenter: SeriesPresenterProtocol!
+    weak var presenter: SeriesPresenterProtocol!
     
     private var data: AnimeModel
     

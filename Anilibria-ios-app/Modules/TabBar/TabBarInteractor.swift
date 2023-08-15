@@ -12,6 +12,6 @@ protocol TabBarInteractorProtocol: AnyObject {
 }
 
 final class TabBarInteractor: TabBarInteractorProtocol {
-    unowned var presenter: TabBarPresenterProtocol!
+    weak var presenter: TabBarPresenterProtocol!
     
 }

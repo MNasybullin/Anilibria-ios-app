@@ -22,7 +22,7 @@ protocol HomePresenterProtocol: AnyObject {
 final class HomePresenter: HomePresenterProtocol {
     var router: HomeRouterProtocol!
     var interactor: HomeInteractorProtocol!
-    unowned var view: HomeViewProtocol!
+    weak var view: HomeViewProtocol!
     
     // MARK: - GetData
     
