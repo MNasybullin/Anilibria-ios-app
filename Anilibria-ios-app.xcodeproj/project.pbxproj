@@ -97,9 +97,13 @@
 		27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A5287EAC8100BCF61C /* SwiftGen */; };
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 		27F8D8E529C2245900D8F4D1 /* SearchResultsTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8D8E429C2245900D8F4D1 /* SearchResultsTableHeaderView.swift */; };
+		33628CDA82A86A202A774E7E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BF03B7CB208501EFC3404 /* ProfileViewController.swift */; };
+		5EA96FF075BFD3B91CE65DBC /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07E0036608CBBE05247EDEF /* ProfileRouter.swift */; };
+		8F762683FC41C9C3A8F39D7D /* ProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A1B3108D5BD1CB9F961EA8 /* ProfileInteractor.swift */; };
 		AC005AACFC88C19706DBD9B1 /* SeriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70434A4C195B54BBB6A03E23 /* SeriesViewController.swift */; };
 		B7F860D2BEF13A065FD78F45 /* AnimeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC68094FE9F4F68E9E305C6B /* AnimeInteractor.swift */; };
 		BB381D24A0FBC49F8FDFAE15 /* SeriesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7559E4DB0F874840D57A2 /* SeriesPresenter.swift */; };
+		C33E0E13A1DA0CF1A51BC021 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F694A4EA7CA93C7E01BF41B /* ProfilePresenter.swift */; };
 		C92CC8F171A011A8F6282AAC /* SeriesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51D4FB4C42F0009531F681D /* SeriesInteractor.swift */; };
 		D8C99D49149319702991DAA2 /* AnimeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F145667CAE506357C67C632 /* AnimeRouter.swift */; };
 		E7726D23BE35B09B857A5C09 /* AnimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF20FE98BEBFB4D4724EBE5 /* AnimeViewController.swift */; };
@@ -207,9 +211,13 @@
 		27F5E5A5287EAC8100BCF61C /* SwiftGen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftGen; sourceTree = "<group>"; };
 		27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		27F8D8E429C2245900D8F4D1 /* SearchResultsTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableHeaderView.swift; sourceTree = "<group>"; };
+		307BF03B7CB208501EFC3404 /* ProfileViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		6F694A4EA7CA93C7E01BF41B /* ProfilePresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		70434A4C195B54BBB6A03E23 /* SeriesViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeriesViewController.swift; sourceTree = "<group>"; };
 		A0F7559E4DB0F874840D57A2 /* SeriesPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeriesPresenter.swift; sourceTree = "<group>"; };
 		A51D4FB4C42F0009531F681D /* SeriesInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeriesInteractor.swift; sourceTree = "<group>"; };
+		B07E0036608CBBE05247EDEF /* ProfileRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
+		B3A1B3108D5BD1CB9F961EA8 /* ProfileInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileInteractor.swift; sourceTree = "<group>"; };
 		C73A3274815022D754EEEDFD /* AnimePresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnimePresenter.swift; sourceTree = "<group>"; };
 		CC68094FE9F4F68E9E305C6B /* AnimeInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnimeInteractor.swift; sourceTree = "<group>"; };
 		F381B81937D6BF9C971B8DD9 /* SeriesRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeriesRouter.swift; sourceTree = "<group>"; };
@@ -443,6 +451,7 @@
 				276FCF97293CEA960005B82E /* Schedule */,
 				74AD8E03849D0FE618EC2FC5 /* Anime */,
 				4FB36A2C3101B0A821719FAD /* Series */,
+				60CCE2CD633563611A10C1C7 /* Profile */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -575,6 +584,18 @@
 			path = Series;
 			sourceTree = "<group>";
 		};
+		60CCE2CD633563611A10C1C7 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				307BF03B7CB208501EFC3404 /* ProfileViewController.swift */,
+				B3A1B3108D5BD1CB9F961EA8 /* ProfileInteractor.swift */,
+				6F694A4EA7CA93C7E01BF41B /* ProfilePresenter.swift */,
+				B07E0036608CBBE05247EDEF /* ProfileRouter.swift */,
+			);
+			name = Profile;
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		74AD8E03849D0FE618EC2FC5 /* Anime */ = {
 			isa = PBXGroup;
 			children = (
@@ -664,7 +685,7 @@
 			mainGroup = 27F5E54B287C6DCA00BCF61C;
 			packageReferences = (
 				27F09BEE289EEBD20051BF2E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */,
+				2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView.git" */,
 			);
 			productRefGroup = 27F5E555287C6DCA00BCF61C /* Products */;
 			projectDirPath = "";
@@ -841,6 +862,10 @@
 				C92CC8F171A011A8F6282AAC /* SeriesInteractor.swift in Sources */,
 				BB381D24A0FBC49F8FDFAE15 /* SeriesPresenter.swift in Sources */,
 				058BB6E07DB9C1B7E768A179 /* SeriesRouter.swift in Sources */,
+				33628CDA82A86A202A774E7E /* ProfileViewController.swift in Sources */,
+				8F762683FC41C9C3A8F39D7D /* ProfileInteractor.swift in Sources */,
+				C33E0E13A1DA0CF1A51BC021 /* ProfilePresenter.swift in Sources */,
+				5EA96FF075BFD3B91CE65DBC /* ProfileRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1127,7 +1152,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+		2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
 			requirement = {
@@ -1148,7 +1173,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		2775F1E32938DE9000C7D079 /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			package = 2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView.git" */;
 			productName = SkeletonView;
 		};
 		27F09BEF289EEBD20051BF2E /* FirebaseAnalytics */ = {
