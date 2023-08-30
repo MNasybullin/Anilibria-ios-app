@@ -8,11 +8,6 @@
 import Foundation
 import UIKit
 
-enum TabBarItemsTag: Int {
-    case home = 0
-    case search = 1
-}
-
 protocol TabBarRouterProtocol: AnyObject {
     typealias EntryPoint = TabBarViewProtocol & UITabBarController
     
@@ -31,7 +26,8 @@ final class TabBarRouter: TabBarRouterProtocol {
         view.setViewControllers(
             [
                 HomeRouter.start().navigationController,
-                SearchRouter.start().navigationController
+                SearchRouter.start().navigationController,
+                ProfileRouter.start().navigationController
             ],
             animated: true)
         
