@@ -100,3 +100,9 @@
 //MARK: - Network Status View
 "NetworkStatusView.connectionRestored" = "Подключение восстановлено";
 "NetworkStatusView.noConnection" = "Нет подключения";
+
+// MARK: - Sign In View
+"SignInView.email" = "Почта";
+"SignInView.password" = "Пароль";
+"SignInView.SignInButton" = "Войти";
+

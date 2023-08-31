@@ -50,6 +50,7 @@
 		276FCFA1293CEC120005B82E /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCFA0293CEC120005B82E /* ScheduleRouter.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
 		2775F1E42938DE9000C7D079 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 2775F1E32938DE9000C7D079 /* SkeletonView */; };
+		27960A842AA0DB8C0088FFDA /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27960A832AA0DB8C0088FFDA /* UserInfo.swift */; };
 		279E4F30289C4C70008038FF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginModel.swift */; };
 		279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F32289C706B008038FF /* UserDefaultsExtension.swift */; };
 		279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteModel.swift */; };
@@ -86,6 +87,7 @@
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsTableErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsTableErrorFooterView.swift */; };
 		27EA393129C5FBBB00D777AE /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */; };
+		27EE6A3B2A9FAB9B00E48B24 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EE6A3A2A9FAB9B00E48B24 /* SignInView.swift */; };
 		27F09BF0289EEBD20051BF2E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BEF289EEBD20051BF2E /* FirebaseAnalytics */; };
 		27F09BF2289EEBD20051BF2E /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 27F09BF1289EEBD20051BF2E /* FirebaseMessaging */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
@@ -164,6 +166,7 @@
 		276FCF9E293CEC010005B82E /* ScheduleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntity.swift; sourceTree = "<group>"; };
 		276FCFA0293CEC120005B82E /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
+		27960A832AA0DB8C0088FFDA /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		279E4F32289C706B008038FF /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		279E4F34289D0304008038FF /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
@@ -200,6 +203,7 @@
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27EA392B29C5B5AB00D777AE /* SearchResultsTableErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableErrorFooterView.swift; sourceTree = "<group>"; };
 		27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
+		27EE6A3A2A9FAB9B00E48B24 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -591,8 +595,9 @@
 				B3A1B3108D5BD1CB9F961EA8 /* ProfileInteractor.swift */,
 				6F694A4EA7CA93C7E01BF41B /* ProfilePresenter.swift */,
 				B07E0036608CBBE05247EDEF /* ProfileRouter.swift */,
+				27EE6A3A2A9FAB9B00E48B24 /* SignInView.swift */,
+				27960A832AA0DB8C0088FFDA /* UserInfo.swift */,
 			);
-			name = Profile;
 			path = Profile;
 			sourceTree = "<group>";
 		};
@@ -685,7 +690,7 @@
 			mainGroup = 27F5E54B287C6DCA00BCF61C;
 			packageReferences = (
 				27F09BEE289EEBD20051BF2E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView.git" */,
+				2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = 27F5E555287C6DCA00BCF61C /* Products */;
 			projectDirPath = "";
@@ -788,7 +793,9 @@
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
 				2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */,
 				2710E99D29B510ED00B66C62 /* ImageLoaderService.swift in Sources */,
+				27960A842AA0DB8C0088FFDA /* UserInfo.swift in Sources */,
 				276FCF99293CEBC20005B82E /* ScheduleViewController.swift in Sources */,
+				27EE6A3B2A9FAB9B00E48B24 /* SignInView.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
 				27A66E6F298BCFC600369EAF /* GetTeamModel.swift in Sources */,
 				279E4F30289C4C70008038FF /* LoginModel.swift in Sources */,
@@ -1152,7 +1159,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView.git" */ = {
+		2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
 			requirement = {
@@ -1173,7 +1180,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		2775F1E32938DE9000C7D079 /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView.git" */;
+			package = 2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */;
 			productName = SkeletonView;
 		};
 		27F09BEF289EEBD20051BF2E /* FirebaseAnalytics */ = {

@@ -13,4 +13,8 @@ protocol ProfileViewProtocol: AnyObject {
 
 final class ProfileViewController: UIViewController, ProfileViewProtocol {
 	var presenter: ProfilePresenterProtocol!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 }
