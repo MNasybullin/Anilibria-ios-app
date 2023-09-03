@@ -21,27 +21,38 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     private var contentVStack: UIStackView!
     private var animeInfoView: AnimeInfoView!
     
-    private lazy var animeImageViewHeight: CGFloat = self.view.frame.height / 1.7
+    private lazy var animeImageViewHeight: CGFloat = self.view.bounds.height / 1.7
     private lazy var animeImageViewSmallHeight: CGFloat = animeImageViewHeight / 1.5
     private var animeHeightConstraint: NSLayoutConstraint!
     private var animeTopConstraint: NSLayoutConstraint!
     private var animeTopFlag: Bool = false
     private var lastContentOffsetY: Double!
     
-    private var navBarTitle: String!
+    private var animeName: String!
     
-    private lazy var topSafeAreaHeight: CGFloat = {
+    private let windowTopSafeAreHeight: CGFloat = {
         let scenes = UIApplication.shared.connectedScenes
         let windowScenes = scenes.first as? UIWindowScene
         let window = windowScenes?.windows.first
-        return (window?.safeAreaInsets.top ?? 0.0) + (navigationController?.navigationBar.frame.height ?? 0.0)
+        return window?.safeAreaInsets.top ?? 0.0
+    }()
+    
+    private lazy var topSafeAreaHeight: CGFloat = {
+        return windowTopSafeAreHeight + (navigationController?.navigationBar.bounds.height ?? 0.0)
+    }()
+    
+    private lazy var navigationBarAppearance: UINavigationBarAppearance = {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.shadowColor = .clear
+        return navBarAppearance
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        navBarTitle = presenter.getData().ruName
+        animeName = presenter.getData().ruName
         setupNavBarBackButton()
         configureScrollView()
         configureContentVStack()
@@ -54,6 +65,10 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         configureNavigationBarAppearance()
         setupNavBar()
     }
+    
+    override func viewWillLayoutSubviews() {
+        topSafeAreaHeight = windowTopSafeAreHeight + (navigationController?.navigationBar.bounds.height ?? 0.0)
+    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -61,9 +76,6 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     }
     
     private func configureNavigationBarAppearance() {
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.shadowColor = .clear
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
     }
     
@@ -158,7 +170,7 @@ extension AnimeViewController: SeriesViewDelegate {
 // MARK: - UIScrollViewDelegate
 extension AnimeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            setupNavBar()
+        setupNavBar()
         if -scrollView.contentOffset.y >= animeImageViewSmallHeight && Int(animeTopConstraint.constant) >= 0 {
             if animeTopConstraint.constant != 0 {
                 animeTopConstraint.constant = 0
@@ -174,12 +186,12 @@ extension AnimeViewController: UIScrollViewDelegate {
     }
     
     private func setupNavBar() {
-        if scrollView.contentOffset.y + topSafeAreaHeight - 1 < 0 { // -1 - погрешность
-                navigationController?.navigationBar.standardAppearance.backgroundColor = .clear
-                self.title = ""
+        if scrollView.contentOffset.y + topSafeAreaHeight <= 0 {
+            navigationController?.navigationBar.standardAppearance.backgroundColor = .clear
+            self.title = ""
         } else {
-                navigationController?.navigationBar.standardAppearance.backgroundColor = .systemBackground
-                self.title = navBarTitle
+            navigationController?.navigationBar.standardAppearance.backgroundColor = .systemBackground
+            self.title = animeName
         }
     }
 }
