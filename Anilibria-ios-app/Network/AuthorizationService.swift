@@ -10,6 +10,7 @@ import Foundation
 final class AuthorizationService: QueryService {
     // MARK: - Singleton
     static let shared: AuthorizationService = AuthorizationService()
+    private override init() { }
     
     /// Авторизация
     func login(email: String, password: String) async throws -> LoginModel {

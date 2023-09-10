@@ -11,6 +11,7 @@ class ErrorProcessing {
     
     // MARK: - Singleton
     static let shared: ErrorProcessing = ErrorProcessing()
+    private init() { }
     
     func handle(error: Error, showErrorAlertWith: (_ message: String) -> Void) {
         var message: String?

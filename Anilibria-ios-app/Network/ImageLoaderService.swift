@@ -10,6 +10,7 @@ import Foundation
 final class ImageLoaderService: QueryService {
     // MARK: - Singleton
     static let shared: ImageLoaderService = ImageLoaderService()
+    private override init() { }
     
     private let cache = Cache<String, Data>()
     

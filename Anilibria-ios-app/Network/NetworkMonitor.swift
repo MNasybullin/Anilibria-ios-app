@@ -11,6 +11,7 @@ import Combine
 
 final class NetworkMonitor {
     static let shared = NetworkMonitor()
+    private init() { }
     
     private let queue = DispatchQueue.global()
     private let monitor = NWPathMonitor()
