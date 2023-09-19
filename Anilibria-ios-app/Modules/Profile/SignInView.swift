@@ -115,14 +115,14 @@ class SignInView: UIView {
         
         buttonStack.addArrangedSubview(signInButton)
         
-        setupConsraints()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupConsraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             mainVStack.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
             mainVStack.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
