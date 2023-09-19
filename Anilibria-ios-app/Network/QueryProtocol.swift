@@ -1,5 +1,5 @@
 //
-//  QueryService.swift
+//  QueryProtocol.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 22.07.2022.
@@ -8,15 +8,20 @@
 import Foundation
 import UIKit
 
-class QueryService {
-    
-    enum HttpMethods: String {
-        case get = "GET"
-        case post = "POST"
-        case put = "PUT"
-        case del = "DELETE"
-    }
-    
+enum HTTPMethods: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case del = "DELETE"
+}
+
+protocol QueryProtocol {
+    func errorHandling(for response: URLResponse) -> MyNetworkError
+    func dataRequest(with urlComponents: URLComponents?,
+                     httpMethod: HTTPMethods) async throws -> Data
+}
+
+extension QueryProtocol {
     func errorHandling(for response: URLResponse) -> MyNetworkError {
         guard let httpResonse = response as? HTTPURLResponse else {
             return MyNetworkError.invalidServerResponse
@@ -34,7 +39,7 @@ class QueryService {
     }
     
     func dataRequest(with urlComponents: URLComponents?,
-                     httpMethod: HttpMethods) async throws -> Data {
+                     httpMethod: HTTPMethods) async throws -> Data {
         guard let url = urlComponents?.url else {
             throw MyNetworkError.invalidURLComponents
         }

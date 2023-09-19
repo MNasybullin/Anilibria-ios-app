@@ -7,10 +7,9 @@
 
 import Foundation
 
-final class AuthorizationService: QueryService {
+final class AuthorizationService: QueryProtocol {
     // MARK: - Singleton
     static let shared: AuthorizationService = AuthorizationService()
-    private override init() { }
     
     /// Авторизация
     func login(email: String, password: String) async throws -> LoginModel {
@@ -18,7 +17,7 @@ final class AuthorizationService: QueryService {
             throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = HttpMethods.post.rawValue
+        urlRequest.httpMethod = HTTPMethods.post.rawValue
         var body = URLComponents()
         body.queryItems = [
             URLQueryItem(name: "mail", value: email),
@@ -104,7 +103,7 @@ final class AuthorizationService: QueryService {
             throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = HttpMethods.post.rawValue
+        urlRequest.httpMethod = HTTPMethods.post.rawValue
         var body = URLComponents()
         body.queryItems = [
             URLQueryItem(name: "query", value: "user")

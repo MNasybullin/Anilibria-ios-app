@@ -14,9 +14,8 @@
 		2710E9A329B5187000B66C62 /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
 		2710E9A529B518AD00B66C62 /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
 		2710E9A729B518E200B66C62 /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
-		2710E9A929B7243700B66C62 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A829B7243700B66C62 /* Cache.swift */; };
 		2710E9AE29B724EB00B66C62 /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9AD29B724EB00B66C62 /* CacheTests.swift */; };
-		272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6531288AEF3800FA4F60 /* QueryService.swift */; };
+		272D6532288AEF3800FA4F60 /* QueryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6531288AEF3800FA4F60 /* QueryProtocol.swift */; };
 		272D6535288C63E100FA4F60 /* GetYouTubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */; };
 		272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */; };
 		272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653B288EC4EC00FA4F60 /* Strings+Generated.swift */; };
@@ -50,7 +49,7 @@
 		276FCFA1293CEC120005B82E /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCFA0293CEC120005B82E /* ScheduleRouter.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
 		2775F1E42938DE9000C7D079 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 2775F1E32938DE9000C7D079 /* SkeletonView */; };
-		27960A842AA0DB8C0088FFDA /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27960A832AA0DB8C0088FFDA /* UserInfo.swift */; };
+		27960A842AA0DB8C0088FFDA /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27960A832AA0DB8C0088FFDA /* UserInfoView.swift */; };
 		279E4F30289C4C70008038FF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginModel.swift */; };
 		279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F32289C706B008038FF /* UserDefaultsExtension.swift */; };
 		279E4F35289D0304008038FF /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteModel.swift */; };
@@ -130,9 +129,8 @@
 		2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicApiServiceTests.swift; sourceTree = "<group>"; };
 		2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationServiceTests.swift; sourceTree = "<group>"; };
 		2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderServiceTests.swift; sourceTree = "<group>"; };
-		2710E9A829B7243700B66C62 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		2710E9AD29B724EB00B66C62 /* CacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
-		272D6531288AEF3800FA4F60 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
+		272D6531288AEF3800FA4F60 /* QueryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryProtocol.swift; sourceTree = "<group>"; };
 		272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYouTubeModel.swift; sourceTree = "<group>"; };
 		272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IB-Segues+Generated.swift"; sourceTree = "<group>"; };
 		272D653B288EC4EC00FA4F60 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
@@ -166,7 +164,7 @@
 		276FCF9E293CEC010005B82E /* ScheduleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntity.swift; sourceTree = "<group>"; };
 		276FCFA0293CEC120005B82E /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
-		27960A832AA0DB8C0088FFDA /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		27960A832AA0DB8C0088FFDA /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		279E4F32289C706B008038FF /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
 		279E4F34289D0304008038FF /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
@@ -381,7 +379,6 @@
 				274BFB9628A260D500C3F9C9 /* Errors */,
 				279E4F32289C706B008038FF /* UserDefaultsExtension.swift */,
 				27A66E5129771D4500369EAF /* Alert.swift */,
-				2710E9A829B7243700B66C62 /* Cache.swift */,
 				27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */,
 			);
 			path = Common;
@@ -488,7 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				272D6533288C63CA00FA4F60 /* Models */,
-				272D6531288AEF3800FA4F60 /* QueryService.swift */,
+				272D6531288AEF3800FA4F60 /* QueryProtocol.swift */,
 				2710E9A029B5146500B66C62 /* PublicApiService.swift */,
 				2710E99E29B5117500B66C62 /* AuthorizationService.swift */,
 				2710E99C29B510ED00B66C62 /* ImageLoaderService.swift */,
@@ -596,7 +593,7 @@
 				6F694A4EA7CA93C7E01BF41B /* ProfilePresenter.swift */,
 				B07E0036608CBBE05247EDEF /* ProfileRouter.swift */,
 				27EE6A3A2A9FAB9B00E48B24 /* SignInView.swift */,
-				27960A832AA0DB8C0088FFDA /* UserInfo.swift */,
+				27960A832AA0DB8C0088FFDA /* UserInfoView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -793,7 +790,7 @@
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
 				2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */,
 				2710E99D29B510ED00B66C62 /* ImageLoaderService.swift in Sources */,
-				27960A842AA0DB8C0088FFDA /* UserInfo.swift in Sources */,
+				27960A842AA0DB8C0088FFDA /* UserInfoView.swift in Sources */,
 				276FCF99293CEBC20005B82E /* ScheduleViewController.swift in Sources */,
 				27EE6A3B2A9FAB9B00E48B24 /* SignInView.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
@@ -817,12 +814,11 @@
 				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
 				2744C87729BC71A700105F11 /* SearchResultsTableFooterView.swift in Sources */,
 				27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */,
-				272D6532288AEF3800FA4F60 /* QueryService.swift in Sources */,
+				272D6532288AEF3800FA4F60 /* QueryProtocol.swift in Sources */,
 				276FCFA1293CEC120005B82E /* ScheduleRouter.swift in Sources */,
 				276FCF9D293CEBF30005B82E /* SchedulePresenter.swift in Sources */,
 				272FF68528B664FF00CAE5DB /* CarouselCollectionViewCell.swift in Sources */,
 				272D65492897E22100FA4F60 /* GetScheduleModel.swift in Sources */,
-				2710E9A929B7243700B66C62 /* Cache.swift in Sources */,
 				27A66E612987F28900369EAF /* PostersListViewModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
 				27DEEBC52886A99A0014055F /* HomePresenter.swift in Sources */,

@@ -7,10 +7,9 @@
 
 import Foundation
 
-final class PublicApiService: QueryService {
+final class PublicApiService: QueryProtocol {
     // MARK: - Singleton
     static let shared: PublicApiService = PublicApiService()
-    private override init() { }
     
     /// Получить информацию о тайтле по id
     /// - Parameters:
