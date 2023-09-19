@@ -48,6 +48,8 @@ final class WatchAndDownloadButtonsView: UIView {
             self?.delegate?.watchButtonClicked()
         }, for: .touchUpInside)
         
+        button.isEnabled = false
+        
         return button
     }()
     
@@ -66,6 +68,8 @@ final class WatchAndDownloadButtonsView: UIView {
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.downloadButtonClicked()
         }, for: .touchUpInside)
+        
+        button.isEnabled = false
         
         return button
     }()
