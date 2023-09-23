@@ -166,7 +166,7 @@ final class RandomAnimeView: UIView {
             mainVStack.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
             mainVStack.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             mainVStack.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
-            ])
+        ])
         
         headerHStack.translatesAutoresizingMaskIntoConstraints = false
         headerHStack.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight).isActive = true

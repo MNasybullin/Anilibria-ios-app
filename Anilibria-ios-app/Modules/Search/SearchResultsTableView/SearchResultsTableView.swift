@@ -36,11 +36,11 @@ final class SearchResultsTableView: UITableView {
     
     private var data = [SearchResultsModel]()
     
-    init() {
+    init(rowHeight: CGFloat) {
         super.init(frame: .zero, style: .plain)
         backgroundColor = .systemBackground
         
-        configureTableView()
+        configureTableView(rowHeight: rowHeight)
         configureKeyboard()
     }
     
@@ -48,10 +48,10 @@ final class SearchResultsTableView: UITableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureTableView() {
+    private func configureTableView(rowHeight: CGFloat) {
         register(SearchResultsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        rowHeight = UITableView.automaticDimension
-        
+        self.rowHeight = rowHeight
+
         delegate = self
         dataSource = self
         prefetchDataSource = self
@@ -251,7 +251,7 @@ import SwiftUI
 struct SearchResultsTableView_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            SearchResultsTableView()
+            SearchResultsTableView(rowHeight: 150)
         }
     }
 }

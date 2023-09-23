@@ -14,7 +14,6 @@ final class SearchResultsTableViewCell: UITableViewCell {
     
     var hStack: UIStackView = {
         let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.spacing = hStackSpacing
         stack.distribution = .fill
@@ -25,7 +24,6 @@ final class SearchResultsTableViewCell: UITableViewCell {
     
     var animeImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.isSkeletonable = true
@@ -48,8 +46,6 @@ final class SearchResultsTableViewCell: UITableViewCell {
         label.numberOfLines = 1
         label.textAlignment = .left
         label.isSkeletonable = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.heightAnchor.constraint(equalToConstant: label.font.lineHeight).isActive = true
         return label
     }()
     
@@ -60,8 +56,6 @@ final class SearchResultsTableViewCell: UITableViewCell {
         label.numberOfLines = 1
         label.textAlignment = .left
         label.isSkeletonable = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.heightAnchor.constraint(equalToConstant: label.font.lineHeight).isActive = true
         return label
     }()
     
@@ -96,16 +90,21 @@ final class SearchResultsTableViewCell: UITableViewCell {
     }
     
     func setupConstraints() {
+        hStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             hStack.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             hStack.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             hStack.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            hStack.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            hStack.heightAnchor.constraint(equalToConstant: 150),
-            
+            hStack.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+        ])
+        
+        animeImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
             animeImageView.heightAnchor.constraint(equalTo: hStack.heightAnchor),
             animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500)
         ])
+        
+        descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
 }
 
