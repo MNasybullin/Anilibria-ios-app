@@ -49,6 +49,7 @@
 		276FCFA1293CEC120005B82E /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCFA0293CEC120005B82E /* ScheduleRouter.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
 		2775F1E42938DE9000C7D079 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 2775F1E32938DE9000C7D079 /* SkeletonView */; };
+		278356AE2ABDC7DE00878B8F /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278356AD2ABDC7DE00878B8F /* UIViewControllerExtension.swift */; };
 		27960A842AA0DB8C0088FFDA /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27960A832AA0DB8C0088FFDA /* UserInfoView.swift */; };
 		279E4F30289C4C70008038FF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginModel.swift */; };
 		279E4F33289C706B008038FF /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F32289C706B008038FF /* UserDefaultsExtension.swift */; };
@@ -164,6 +165,7 @@
 		276FCF9E293CEC010005B82E /* ScheduleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntity.swift; sourceTree = "<group>"; };
 		276FCFA0293CEC120005B82E /* ScheduleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRouter.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
+		278356AD2ABDC7DE00878B8F /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		27960A832AA0DB8C0088FFDA /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		279E4F32289C706B008038FF /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
@@ -372,14 +374,32 @@
 			path = Schedule;
 			sourceTree = "<group>";
 		};
+		278356992AB9F22100878B8F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				27EE6A3A2A9FAB9B00E48B24 /* SignInView.swift */,
+				27960A832AA0DB8C0088FFDA /* UserInfoView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		278356AF2ABF3A5600878B8F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				279E4F32289C706B008038FF /* UserDefaultsExtension.swift */,
+				27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */,
+				278356AD2ABDC7DE00878B8F /* UIViewControllerExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		279E4F31289C7044008038FF /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				27A66E772990EF6C00369EAF /* Protocols */,
 				274BFB9628A260D500C3F9C9 /* Errors */,
-				279E4F32289C706B008038FF /* UserDefaultsExtension.swift */,
+				278356AF2ABF3A5600878B8F /* Extensions */,
 				27A66E5129771D4500369EAF /* Alert.swift */,
-				27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -588,12 +608,11 @@
 		60CCE2CD633563611A10C1C7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				278356992AB9F22100878B8F /* Views */,
 				307BF03B7CB208501EFC3404 /* ProfileViewController.swift */,
 				B3A1B3108D5BD1CB9F961EA8 /* ProfileInteractor.swift */,
 				6F694A4EA7CA93C7E01BF41B /* ProfilePresenter.swift */,
 				B07E0036608CBBE05247EDEF /* ProfileRouter.swift */,
-				27EE6A3A2A9FAB9B00E48B24 /* SignInView.swift */,
-				27960A832AA0DB8C0088FFDA /* UserInfoView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -664,7 +683,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					274BFB9E28A29C3400C3F9C9 = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -827,6 +846,7 @@
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,
 				272D6547288ED42B00FA4F60 /* GetTitleModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
+				278356AE2ABDC7DE00878B8F /* UIViewControllerExtension.swift in Sources */,
 				27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */,
 				27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */,
 				27F8D8E529C2245900D8F4D1 /* SearchResultsTableHeaderView.swift in Sources */,

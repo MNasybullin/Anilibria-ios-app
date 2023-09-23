@@ -8,21 +8,11 @@
 import UIKit
 
 protocol SignInViewDelegate: AnyObject {
-    func signInButtonTapped()
+    func signInButtonTapped(email: String, password: String)
 }
 
-class SignInView: UIView {
+final class SignInView: UIView {
     var delegate: SignInViewDelegate?
-    
-    private lazy var mainVStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.spacing = 16 * 1.5
-        stack.alignment = .fill
-        stack.distribution = .fill
-        return stack
-    }()
     
     private lazy var textFieldsVStack: UIStackView = {
         let stack = UIStackView()
@@ -39,6 +29,9 @@ class SignInView: UIView {
         textField.tintColor = .systemRed
         textField.placeholder = Strings.SignInView.email
         textField.keyboardType = .emailAddress
+        
+        textField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+        
         return textField
     }()
     
@@ -49,36 +42,27 @@ class SignInView: UIView {
         textField.placeholder = Strings.SignInView.password
         
         textField.isSecureTextEntry = true
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(passwordTextFieldRightViewTapped(sender:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(passwordTextFieldRightViewTapped(sender:)))
         
         textField.rightView = UIImageView(image: eyeImageView)
         textField.rightView?.addGestureRecognizer(tapGestureRecognizer)
         textField.rightView?.isUserInteractionEnabled = true
-        textField.rightView?.tintColor = .black
+        textField.rightView?.tintColor = .secondaryLabel
         textField.rightViewMode = .always
+        
+        textField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+        
         return textField
     }()
     
     private lazy var eyeImageView: UIImage? = {
-        return UIImage(systemName: "eye")
+        return UIImage(systemName: Strings.SignInView.ImageName.eye)
     }()
     
     private lazy var eyeSlashImageView: UIImage? = {
-        return UIImage(systemName: "eye.slash")
-    }()
-    
-    @objc private func passwordTextFieldRightViewTapped(sender: UITapGestureRecognizer) {
-        passwordTextField.isSecureTextEntry = !passwordTextField.isSecureTextEntry
-        (passwordTextField.rightView as? UIImageView)?.image = passwordTextField.isSecureTextEntry ? eyeImageView : eyeSlashImageView
-    }
-    
-    private lazy var buttonStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.alignment = .leading
-        stack.distribution = .fill
-        return stack
+        return UIImage(systemName: Strings.SignInView.ImageName.eyeSlash)
     }()
     
     private lazy var signInButton: UIButton = {
@@ -93,9 +77,12 @@ class SignInView: UIView {
         
         button.addAction(UIAction { [weak self] _ in
             self?.signInButton.isEnabled = false
-            self?.delegate?.signInButtonTapped()
+            self?.delegate?.signInButtonTapped(
+                email: self?.emailTextField.text ?? "",
+                password: self?.passwordTextField.text ?? "")
         }, for: .touchUpInside)
         
+        button.isEnabled = false
         return button
     }()
     
@@ -105,15 +92,11 @@ class SignInView: UIView {
         self.layer.cornerRadius = 20
         self.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         
-        addSubview(mainVStack)
-        
-        mainVStack.addArrangedSubview(textFieldsVStack)
-        mainVStack.addArrangedSubview(buttonStack)
+        addSubview(textFieldsVStack)
+        addSubview(signInButton)
         
         textFieldsVStack.addArrangedSubview(emailTextField)
         textFieldsVStack.addArrangedSubview(passwordTextField)
-        
-        buttonStack.addArrangedSubview(signInButton)
         
         setupConstraints()
     }
@@ -123,29 +106,47 @@ class SignInView: UIView {
     }
     
     private func setupConstraints() {
+        textFieldsVStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            mainVStack.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            mainVStack.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
-            mainVStack.centerXAnchor.constraint(equalTo: self.layoutMarginsGuide.centerXAnchor),
-            mainVStack.centerYAnchor.constraint(equalTo: self.layoutMarginsGuide.centerYAnchor)
+            textFieldsVStack.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            textFieldsVStack.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7)
         ])
         
+        signInButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            buttonStack.widthAnchor.constraint(equalTo: mainVStack.widthAnchor, multiplier: 0.5),
-            buttonStack.centerXAnchor.constraint(equalTo: self.layoutMarginsGuide.centerXAnchor)
+            signInButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            signInButton.topAnchor.constraint(equalTo: textFieldsVStack.bottomAnchor, constant: 25),
+            signInButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
         ])
     }
     
-    func getEmail() -> String {
-        return self.emailTextField.text ?? ""
+    @objc private func passwordTextFieldRightViewTapped(sender: UITapGestureRecognizer) {
+        passwordTextField.isSecureTextEntry = !passwordTextField.isSecureTextEntry
+        guard let rightView = passwordTextField.rightView as? UIImageView else { return }
+        rightView.image = passwordTextField.isSecureTextEntry ? eyeImageView : eyeSlashImageView
     }
     
-    func getPassword() -> String {
-        return self.passwordTextField.text ?? ""
+    @objc private func textFieldsChanged() {
+        if emailTextField.hasText && passwordTextField.hasText {
+            signInButton.isEnabled = true
+        } else {
+            signInButton.isEnabled = false
+        }
     }
     
+}
+
+extension SignInView {
     func signInButton(isEnabled status: Bool) {
         signInButton.isEnabled = status
+    }
+    
+    func emailTextField(isEnabled status: Bool) {
+        emailTextField.isEnabled = status
+    }
+    
+    func passwordTextField(isEnabled status: Bool) {
+        passwordTextField.isEnabled = status
     }
 }
 
@@ -158,7 +159,7 @@ struct SignInView_Previews: PreviewProvider {
         ViewPreview {
             SignInView()
         }
-        .frame(height: 300)
+        .frame(height: 200)
     }
 }
 

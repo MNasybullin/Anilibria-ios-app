@@ -105,4 +105,6 @@
 "SignInView.email" = "Почта";
 "SignInView.password" = "Пароль";
 "SignInView.SignInButton" = "Войти";
+"SignInView.imageName.eye" = "eye";
+"SignInView.imageName.eyeSlash" = "eye.slash";
 
