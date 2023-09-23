@@ -24,7 +24,6 @@ final class RandomAnimeView: UIView {
     
     lazy var mainVStack: UIStackView = {
         let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 6
         stack.distribution = .fill
@@ -38,7 +37,7 @@ final class RandomAnimeView: UIView {
         stack.axis = .horizontal
         stack.spacing = 6
         stack.distribution = .fill
-        stack.alignment = .top
+        stack.alignment = .center
         return stack
     }()
     
@@ -54,9 +53,10 @@ final class RandomAnimeView: UIView {
     
     lazy var refreshButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .systemRed
-        button.setImage(UIImage(systemName: Strings.SearchModule.Image.refresh), for: .normal)
+        button.setImage(
+            UIImage(systemName: Strings.SearchModule.Image.refresh),
+            for: .normal)
         
         button.addAction(UIAction { [weak self] _ in
             self?.data = nil
@@ -79,7 +79,6 @@ final class RandomAnimeView: UIView {
     
     lazy var animeImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.isSkeletonable = true
@@ -113,8 +112,6 @@ final class RandomAnimeView: UIView {
         label.numberOfLines = 1
         label.textAlignment = .left
         label.isSkeletonable = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.heightAnchor.constraint(equalToConstant: label.font.lineHeight).isActive = true
         return label
     }()
     
@@ -163,20 +160,28 @@ final class RandomAnimeView: UIView {
     }
     
     private func setupConstraints() {
+        mainVStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             mainVStack.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             mainVStack.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
             mainVStack.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            mainVStack.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            
-            headerHStack.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight),
-            
-            refreshButton.heightAnchor.constraint(equalTo: headerHStack.heightAnchor),
-            refreshButton.widthAnchor.constraint(equalTo: refreshButton.heightAnchor),
-            
+            mainVStack.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            ])
+        
+        headerHStack.translatesAutoresizingMaskIntoConstraints = false
+        headerHStack.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight).isActive = true
+        
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        refreshButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        animeImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
             animeImageView.heightAnchor.constraint(equalTo: animeHStack.heightAnchor),
             animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500)
         ])
+        
+        descriptionLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
     
     private func setupTapGR() {
