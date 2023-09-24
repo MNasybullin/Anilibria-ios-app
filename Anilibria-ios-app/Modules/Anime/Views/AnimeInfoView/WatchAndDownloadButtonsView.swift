@@ -17,13 +17,12 @@ final class WatchAndDownloadButtonsView: UIView {
     
     lazy var vStack: UIStackView = {
         let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.alignment = .center
         return stack
     }()
     
-    lazy var buttonsHStack: UIStackView = {
+    lazy var hStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 20
@@ -78,28 +77,26 @@ final class WatchAndDownloadButtonsView: UIView {
         super.init(frame: .zero)
         addSubview(vStack)
         
-        setupVStack()
-        setupButtonsHStack()
+        vStack.addArrangedSubview(hStack)
+        
+        hStack.addArrangedSubview(watchButton)
+        hStack.addArrangedSubview(downloadButton)
+        
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupVStack() {
+    private func setupConstraints() {
+        vStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: self.topAnchor),
-            vStack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            vStack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            vStack.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            vStack.topAnchor.constraint(equalTo: topAnchor),
+            vStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            vStack.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        
-        vStack.addArrangedSubview(buttonsHStack)
-    }
-    
-    private func setupButtonsHStack() {
-        buttonsHStack.addArrangedSubview(watchButton)
-        buttonsHStack.addArrangedSubview(downloadButton)
     }
 }
 
