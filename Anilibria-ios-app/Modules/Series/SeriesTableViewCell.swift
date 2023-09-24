@@ -45,12 +45,11 @@ class SeriesTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    lazy var titleLabelFont = UIFont.systemFont(ofSize: 16, weight: .medium)
-    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = titleLabelFont
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = .label
+        label.numberOfLines = 1
         return label
     }()
     
@@ -58,18 +57,15 @@ class SeriesTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
+        label.numberOfLines = 1
         return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         contentView.addSubview(hStack)
-        setupHStack()
         
         hStack.addArrangedSubview(seriesImageView)
-        setupSeriesImageView()
-        
         hStack.addArrangedSubview(labelsVStack)
         
         labelsVStack.addArrangedSubview(indicatorAndTitleHStack)
@@ -78,40 +74,35 @@ class SeriesTableViewCell: UITableViewCell {
         indicatorAndTitleHStack.addArrangedSubview(indicatorImageView)
         indicatorAndTitleHStack.addArrangedSubview(titleLabel)
         
-        setupIndicatorImageView()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupHStack() {
+    private func setupConstraints() {
         hStack.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             hStack.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             hStack.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             hStack.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             hStack.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
         ])
-    }
-    
-    private func setupSeriesImageView() {
-        seriesImageView.translatesAutoresizingMaskIntoConstraints = false
         
+        seriesImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             seriesImageView.widthAnchor.constraint(equalTo: seriesImageView.heightAnchor, multiplier: (1920/1080)),
-            seriesImageView.widthAnchor.constraint(lessThanOrEqualTo: hStack.widthAnchor, multiplier: (1/2.5))
+            seriesImageView.widthAnchor.constraint(lessThanOrEqualTo: hStack.widthAnchor, multiplier: 0.4)
         ])
-    }
-    
-    private func setupIndicatorImageView() {
+        
         indicatorImageView.translatesAutoresizingMaskIntoConstraints = false
-
         NSLayoutConstraint.activate([
             indicatorImageView.heightAnchor.constraint(equalTo: indicatorImageView.widthAnchor, multiplier: 1),
-            indicatorImageView.heightAnchor.constraint(equalToConstant: titleLabelFont.lineHeight / 2)
+            indicatorImageView.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 0.5)
         ])
+        
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
 }
 
