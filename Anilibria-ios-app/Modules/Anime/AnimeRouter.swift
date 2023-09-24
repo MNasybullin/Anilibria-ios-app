@@ -26,7 +26,6 @@ final class AnimeRouter: AnimeRouterProtocol {
         let router = AnimeRouter()
         
         let view = AnimeViewController()
-        view.title = "Anime"
         let interactor = AnimeInteractor(data: titleModel)
         let presenter = AnimePresenter()
         

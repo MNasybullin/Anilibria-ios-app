@@ -21,24 +21,21 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
     private var contentVStack: UIStackView!
     private var animeInfoView: AnimeInfoView!
     
-    private lazy var animeImageViewHeight: CGFloat = self.view.bounds.height / 1.7
-    private lazy var animeImageViewSmallHeight: CGFloat = animeImageViewHeight / 1.5
+    private lazy var animeImageViewHeight: CGFloat = view.bounds.height * 0.55
+    private lazy var animeImageViewSmallHeight: CGFloat = animeImageViewHeight * 0.75
     private var animeHeightConstraint: NSLayoutConstraint!
     private var animeTopConstraint: NSLayoutConstraint!
-    private var animeTopFlag: Bool = false
-    private var lastContentOffsetY: Double!
+    private var lastContentOffsetY: Double = 0
     
     private var animeName: String!
     
-    private let windowTopSafeAreHeight: CGFloat = {
+    private lazy var topSafeAreaHeight: CGFloat = {
         let scenes = UIApplication.shared.connectedScenes
         let windowScenes = scenes.first as? UIWindowScene
         let window = windowScenes?.windows.first
-        return window?.safeAreaInsets.top ?? 0.0
-    }()
-    
-    private lazy var topSafeAreaHeight: CGFloat = {
-        return windowTopSafeAreHeight + (navigationController?.navigationBar.bounds.height ?? 0.0)
+        let windowTopSafeAreaHeight = window?.safeAreaInsets.top ?? 0.0
+        let navBarHeight = navigationController?.navigationBar.bounds.height ?? 0.0
+        return windowTopSafeAreaHeight + navBarHeight
     }()
     
     private lazy var navigationBarAppearance: UINavigationBarAppearance = {
@@ -53,6 +50,7 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         view.backgroundColor = .systemBackground
         
         animeName = presenter.getData().ruName
+        
         setupNavBarBackButton()
         configureScrollView()
         configureContentVStack()
@@ -64,10 +62,6 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         super.viewWillAppear(animated)
         configureNavigationBarAppearance()
         setupNavBar()
-    }
-    
-    override func viewWillLayoutSubviews() {
-        topSafeAreaHeight = windowTopSafeAreHeight + (navigationController?.navigationBar.bounds.height ?? 0.0)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -110,7 +104,6 @@ final class AnimeViewController: UIViewController, AnimeViewProtocol {
         animeImageView.translatesAutoresizingMaskIntoConstraints = false
         let frameGuide = scrollView.frameLayoutGuide
         NSLayoutConstraint.activate([
-            animeImageView.topAnchor.constraint(equalTo: frameGuide.topAnchor),
             animeImageView.leadingAnchor.constraint(equalTo: frameGuide.leadingAnchor),
             animeImageView.trailingAnchor.constraint(equalTo: frameGuide.trailingAnchor)
         ])
@@ -171,15 +164,12 @@ extension AnimeViewController: SeriesViewDelegate {
 extension AnimeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         setupNavBar()
-        if -scrollView.contentOffset.y >= animeImageViewSmallHeight && Int(animeTopConstraint.constant) >= 0 {
+        if -scrollView.contentOffset.y >= animeImageViewSmallHeight {
             if animeTopConstraint.constant != 0 {
                 animeTopConstraint.constant = 0
             }
-            if animeTopFlag == false {
-                animeTopFlag = true
-            }
             animeHeightConstraint.constant = -scrollView.contentOffset.y
-        } else if animeTopFlag == true {
+        } else {
             animeTopConstraint.constant -= scrollView.contentOffset.y - lastContentOffsetY
         }
         lastContentOffsetY = scrollView.contentOffset.y
