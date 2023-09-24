@@ -38,13 +38,31 @@ final class AnimeImageView: UIView {
         addSubview(backgroundImageView)
         addSubview(imageView)
         
-        setupBackgroundImageViewConstraints()
         setupBlurEffect()
-        setupImageViewConstraints()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupConstraints() {
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            backgroundImageView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            imageView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: topSafeAreaHeight),
+            imageView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -bottomHeightAfterImageView),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500)
+        ])
     }
     
     private func setupBlurEffect() {
@@ -53,29 +71,6 @@ final class AnimeImageView: UIView {
         blurEffectView.frame = backgroundImageView.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundImageView.addSubview(blurEffectView)
-    }
-    
-    private func setupBackgroundImageViewConstraints() {
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: self.topAnchor),
-            backgroundImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            backgroundImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-    }
-    
-    private func setupImageViewConstraints() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            imageView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: topSafeAreaHeight),
-            imageView.heightAnchor.constraint(lessThanOrEqualTo: backgroundImageView.heightAnchor, constant: -topSafeAreaHeight - bottomHeightAfterImageView),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500)
-        ])
     }
 }
 
