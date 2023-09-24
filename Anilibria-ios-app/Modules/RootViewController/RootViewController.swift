@@ -16,26 +16,13 @@ final class RootViewController: UIViewController {
         return TabBarRouter.start().entry
     }()
     
-    private lazy var safeAreaInsetBottomHeight: CGFloat = {
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScenes = scenes.first as? UIWindowScene
-        let window = windowScenes?.windows.first
-        return window?.safeAreaInsets.bottom ?? 0
-    }()
-    
-    private var networkStatusView: NetworkStatusView = {
-        let networkStatusView = NetworkStatusView(isNetworkActive: false)
-        networkStatusView.translatesAutoresizingMaskIntoConstraints = false
-        return networkStatusView
-    }()
-    
-    private let networkActivityViewHeight: CGFloat = NetworkStatusView.labelFont.lineHeight
+    private var networkStatusView = NetworkStatusView()
     
     private var isHiddenBottomBar: Bool = NetworkMonitor.shared.isConnected {
         didSet { updateView() }
     }
     
-    private var networkActivityViewHeightConstraint: NSLayoutConstraint!
+    private var networkStatusViewIsZeroHeightConstraint: NSLayoutConstraint!
     
     private var cancellable: AnyCancellable!
     
@@ -51,19 +38,21 @@ final class RootViewController: UIViewController {
         
     private func configureNetworkStatusView() {
         view.addSubview(networkStatusView)
+        
+        networkStatusView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             networkStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             networkStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             networkStatusView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
-        networkActivityViewHeightConstraint = networkStatusView.heightAnchor.constraint(equalToConstant: 0)
-        networkActivityViewHeightConstraint.isActive = true
+        networkStatusViewIsZeroHeightConstraint = networkStatusView.heightAnchor.constraint(equalToConstant: 0)
+        networkStatusViewIsZeroHeightConstraint.isActive = true
     }
     
     private func configureTabBar() {
         view.addSubview(tabBar.view)
         addChild(tabBar)
+        
         tabBar.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tabBar.view.topAnchor.constraint(equalTo: view.topAnchor),
@@ -71,6 +60,7 @@ final class RootViewController: UIViewController {
             tabBar.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tabBar.view.bottomAnchor.constraint(equalTo: networkStatusView.topAnchor)
         ])
+        
         tabBar.didMove(toParent: self)
     }
     
@@ -88,11 +78,10 @@ final class RootViewController: UIViewController {
     
     private func updateView() {
         let delay: TimeInterval = isHiddenBottomBar == true ? 3 : 0
-        let constant: CGFloat = isHiddenBottomBar == true ? 0 : (safeAreaInsetBottomHeight + networkActivityViewHeight)
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             UIView.animate(withDuration: 0.3) {
-                self.networkActivityViewHeightConstraint.constant = constant
+                self.networkStatusViewIsZeroHeightConstraint.isActive = self.isHiddenBottomBar
                 self.view.layoutIfNeeded()
             }
         }

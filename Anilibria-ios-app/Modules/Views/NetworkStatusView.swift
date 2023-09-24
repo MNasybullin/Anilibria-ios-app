@@ -8,31 +8,26 @@
 import UIKit
 
 final class NetworkStatusView: UIView {
-    static let labelFont = UIFont.systemFont(ofSize: 14, weight: .medium)
-    
-    private var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = labelFont
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textColor = .label
         label.numberOfLines = 1
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    var isNetworkActive: Bool! {
+    var isNetworkActive: Bool = false {
         didSet {
             viewConfigure()
         }
     }
     
-    init(isNetworkActive: Bool) {
+    init() {
         super.init(frame: .zero)
-        self.isNetworkActive = isNetworkActive
         
         addSubview(titleLabel)
         titleLabelConstraints()
-        
         viewConfigure()
     }
     
@@ -41,11 +36,12 @@ final class NetworkStatusView: UIView {
     }
     
     private func titleLabelConstraints() {
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: NetworkStatusView.labelFont.lineHeight)
+            titleLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -71,7 +67,7 @@ import SwiftUI
 struct NetworkStatusView_Previews: PreviewProvider {
     static var previews: some View {
         ViewPreview {
-            NetworkStatusView(isNetworkActive: false)
+            NetworkStatusView()
         }
     }
 }
