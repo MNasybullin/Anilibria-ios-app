@@ -15,28 +15,31 @@ protocol FavoriteAndShareButtonsViewDelegate: AnyObject {
 final class FavoriteAndShareButtonsView: UIView {
     weak var delegate: FavoriteAndShareButtonsViewDelegate?
     
+    let imagePadding: CGFloat = 5
+    
     lazy var vStack: UIStackView = {
         let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.alignment = .center
         return stack
     }()
     
-    lazy var buttonsHStack: UIStackView = {
+    lazy var hStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 20
+        stack.alignment = .center
+        stack.distribution = .fillProportionally
         return stack
     }()
-
+    
     lazy var favoriteButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.buttonSize = .mini
         config.baseForegroundColor = .secondaryLabel
         
         config.image = UIImage(systemName: "star")
-        config.imagePadding = 5
+        config.imagePadding = imagePadding
         config.imagePlacement = .top
         
         config.title = "Избранное"
@@ -55,7 +58,7 @@ final class FavoriteAndShareButtonsView: UIView {
         config.baseForegroundColor = .secondaryLabel
         
         config.image = UIImage(systemName: "square.and.arrow.up")
-        config.imagePadding = 5
+        config.imagePadding = imagePadding
         config.imagePlacement = .top
         
         config.title = "Поделиться"
@@ -72,28 +75,26 @@ final class FavoriteAndShareButtonsView: UIView {
         super.init(frame: .zero)
         addSubview(vStack)
         
-        setupVStack()
-        setupButtonsHStack()
+        vStack.addArrangedSubview(hStack)
+        
+        hStack.addArrangedSubview(favoriteButton)
+        hStack.addArrangedSubview(shareButton)
+        
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupVStack() {
+    private func setupConstraints() {
+        vStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: self.topAnchor),
-            vStack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            vStack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            vStack.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            vStack.topAnchor.constraint(equalTo: topAnchor),
+            vStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            vStack.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        
-        vStack.addArrangedSubview(buttonsHStack)
-    }
-    
-    private func setupButtonsHStack() {
-        buttonsHStack.addArrangedSubview(favoriteButton)
-        buttonsHStack.addArrangedSubview(shareButton)
     }
 }
 
