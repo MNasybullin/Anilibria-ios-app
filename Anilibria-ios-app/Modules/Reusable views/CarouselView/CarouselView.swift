@@ -70,10 +70,10 @@ final class CarouselView: UIView {
     private func setVContentStackViewConstraints() {
         vContentStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            vContentStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            vContentStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            vContentStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            vContentStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            vContentStackView.topAnchor.constraint(equalTo: topAnchor),
+            vContentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            vContentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            vContentStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
@@ -102,7 +102,6 @@ final class CarouselView: UIView {
     }
     
     private func setTitleLabelConstraints() {
-        titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: vContentStackView.leadingAnchor, constant: 16).isActive = true
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
@@ -112,7 +111,6 @@ final class CarouselView: UIView {
         hTitleAndButtonStackView.addArrangedSubview(titleButton)
         var config = UIButton.Configuration.plain()
         config.title = title
-        config.contentInsets.trailing = 0
         config.baseForegroundColor = .systemRed
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
@@ -134,22 +132,12 @@ final class CarouselView: UIView {
     }
     
     private func setTitleButtonConstraints() {
-        guard let lineHeight = titleButton.titleLabel?.font.lineHeight else {
-            return
-        }
-        titleButton.heightAnchor.constraint(greaterThanOrEqualToConstant: lineHeight).isActive = true
-        titleButton.trailingAnchor.constraint(equalTo: vContentStackView.trailingAnchor, constant: -16).isActive = true
         titleButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
     // MARK: - carouselView
     private func configureCarouselView() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: cellLineSpacing, bottom: 0, right: cellLineSpacing)
-        layout.minimumLineSpacing = cellLineSpacing
-        layout.itemSize = CGSize(width: cellSize.width, height: cellSize.height)
-        
+        let layout = configureCollectionViewLayout()
         carouselView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         vContentStackView.addArrangedSubview(carouselView)
         carouselView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
@@ -161,6 +149,19 @@ final class CarouselView: UIView {
         carouselView.delegate = self
         carouselView.dataSource = self
         carouselView.prefetchDataSource = self
+    }
+    
+    private func configureCollectionViewLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(
+            top: 0,
+            left: cellLineSpacing,
+            bottom: 0,
+            right: cellLineSpacing)
+        layout.minimumLineSpacing = cellLineSpacing
+        layout.itemSize = CGSize(width: cellSize.width, height: cellSize.height)
+        return layout
     }
     
     private func setCarouselViewConstraints() {

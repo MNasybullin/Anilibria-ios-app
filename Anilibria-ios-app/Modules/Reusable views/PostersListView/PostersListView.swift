@@ -45,9 +45,9 @@ final class PostersListView: UIView {
     
     // MARK: - collectionView
     private func configureCollectionView() {
-        let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.sectionHeadersPinToVisibleBounds = true
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionHeadersPinToVisibleBounds = true
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         addSubview(collectionView)
         collectionView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView.register(PostersListCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
@@ -63,10 +63,10 @@ final class PostersListView: UIView {
     private func setCollectionViewConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     

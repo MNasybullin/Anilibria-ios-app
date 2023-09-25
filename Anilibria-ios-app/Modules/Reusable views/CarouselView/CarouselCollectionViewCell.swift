@@ -15,7 +15,6 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
     
     var vStack: UIStackView = {
         let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = stackSpacing
         stack.distribution = .fill
@@ -61,12 +60,15 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.addSubview(vStack)
+        isSkeletonable = true
+        
         vStack.addArrangedSubview(imageView)
         vStack.addArrangedSubview(labelStack)
+        
         labelStack.addArrangedSubview(titleLabel)
-        contentView.addSubview(vStack)
+        
         setupConstraints()
-        isSkeletonable = true
     }
     
     required init?(coder: NSCoder) {
@@ -74,13 +76,16 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
     }
     
     func setupConstraints() {
+        vStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             vStack.topAnchor.constraint(equalTo: contentView.topAnchor),
             vStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             vStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
-            labelStack.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight * CGFloat(titleLabel.numberOfLines) + 0.1)
+            vStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500)
         ])
     }
 }

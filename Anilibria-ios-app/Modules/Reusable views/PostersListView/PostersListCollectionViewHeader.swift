@@ -15,7 +15,7 @@ final class PostersListCollectionViewHeader: UICollectionReusableView {
     static let labelFont = UIFont.systemFont(ofSize: 26, weight: .semibold)
     static let labelNumberOfLines = 1
     
-    let leadingConstant: CGFloat = 8
+    private let leadingTrainlingConstants: CGFloat = 8
     
     var titleLabel: UILabel = {
         let label = UILabel()
@@ -23,7 +23,6 @@ final class PostersListCollectionViewHeader: UICollectionReusableView {
         label.numberOfLines = labelNumberOfLines
         label.textColor = .label
         label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.isSkeletonable = true
         label.linesCornerRadius = 5
         return label
@@ -35,13 +34,16 @@ final class PostersListCollectionViewHeader: UICollectionReusableView {
         addSubview(titleLabel)
         isSkeletonable = true
         
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.font.lineHeight * CGFloat(titleLabel.numberOfLines))
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingTrainlingConstants),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: leadingTrainlingConstants),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
