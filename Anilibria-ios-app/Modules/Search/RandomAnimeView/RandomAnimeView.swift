@@ -122,7 +122,6 @@ final class RandomAnimeView: UIView {
         label.numberOfLines = 0
         label.textAlignment = .left
         label.isSkeletonable = true
-        label.skeletonTextLineHeight = .relativeToConstraints
         label.skeletonLineSpacing = 4
         return label
     }()
@@ -148,16 +147,16 @@ final class RandomAnimeView: UIView {
         
         setupConstraints()
         setupTapGR()
-        showAnimatedSkeleton()
+//        showAnimatedSkeleton()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
-    }
+//    override class var requiresConstraintBasedLayout: Bool {
+//        return true
+//    }
     
     private func setupConstraints() {
         mainVStack.translatesAutoresizingMaskIntoConstraints = false
@@ -171,7 +170,6 @@ final class RandomAnimeView: UIView {
         headerHStack.translatesAutoresizingMaskIntoConstraints = false
         headerHStack.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight).isActive = true
         
-        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         refreshButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         animeImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -182,6 +180,11 @@ final class RandomAnimeView: UIView {
         
         descriptionLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        
+        // Для skeletonView
+        ruNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: ruNameLabel.font.lineHeight).isActive = true
+        engNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: engNameLabel.font.lineHeight).isActive = true
+        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: descriptionLabel.font.lineHeight * 3).isActive = true
     }
     
     private func setupTapGR() {

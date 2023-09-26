@@ -67,6 +67,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
         label.textAlignment = .left
         label.isSkeletonable = true
         label.skeletonTextNumberOfLines = 0
+        label.skeletonLineSpacing = 4
         return label
     }()
     
@@ -105,6 +106,11 @@ final class SearchResultsTableViewCell: UITableViewCell {
         ])
         
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        
+        // Для skeletonView
+        ruNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: ruNameLabel.font.lineHeight).isActive = true
+        engNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: engNameLabel.font.lineHeight).isActive = true
+        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: descriptionLabel.font.lineHeight * 3).isActive = true
     }
 }
 

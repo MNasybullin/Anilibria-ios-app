@@ -80,6 +80,7 @@ final class SearchViewController: UIViewController {
             randomAnimeView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             randomAnimeView.heightAnchor.constraint(equalToConstant: 250)
         ])
+        randomAnimeView.showAnimatedSkeleton()
     }
     
     private func configureSearchResultsTableView() {
