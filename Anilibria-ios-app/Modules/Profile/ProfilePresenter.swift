@@ -21,6 +21,19 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     var router: ProfileRouterProtocol!
 
     func signInButtonTapped(email: String, password: String) {
-        
+        Task {
+            do {
+                let user = try await interactor.authorization(email: email, password: password)
+                let userInfo = try await interactor.requestProfileInfo()
+                guard let data = userInfo.data else {
+                    print("error ") // TODO: - error
+                    return
+                }
+                let userImage = try await interactor.requestImage(forURL: data.avatar)
+                view.configureUserView(image: userImage, userName: data.login)
+            } catch {
+                print(error)
+            }
+        }
     }
 }

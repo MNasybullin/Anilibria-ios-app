@@ -88,9 +88,11 @@ final class SignInView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .secondarySystemBackground
-        self.layer.cornerRadius = 20
+        self.backgroundColor = .systemBackground
+        self.layer.cornerRadius = 25
         self.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        self.layer.borderWidth = 2
+        self.layer.borderColor = UIColor.secondarySystemBackground.cgColor
         
         addSubview(textFieldsVStack)
         addSubview(signInButton)

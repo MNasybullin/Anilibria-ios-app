@@ -12,7 +12,6 @@ class UserInfoView: UIView {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = imageView.bounds.width / 2
         return imageView
     }()
     
@@ -26,9 +25,8 @@ class UserInfoView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         self.backgroundColor = .secondarySystemBackground
-        self.layer.cornerRadius = 20
+        self.layer.cornerRadius = 25
         self.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
                 
         addSubview(imageView)
@@ -62,6 +60,7 @@ class UserInfoView: UIView {
 extension UserInfoView {
     func set(image: UIImage) {
         imageView.image = image
+        imageView.layer.cornerRadius = imageView.bounds.width / 2
     }
     
     func set(userName: String) {
