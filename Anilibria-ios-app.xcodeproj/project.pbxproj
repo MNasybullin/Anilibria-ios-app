@@ -14,7 +14,6 @@
 		2710E9A329B5187000B66C62 /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
 		2710E9A529B518AD00B66C62 /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
 		2710E9A729B518E200B66C62 /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
-		2710E9AE29B724EB00B66C62 /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9AD29B724EB00B66C62 /* CacheTests.swift */; };
 		272D6532288AEF3800FA4F60 /* QueryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6531288AEF3800FA4F60 /* QueryProtocol.swift */; };
 		272D6535288C63E100FA4F60 /* GetYouTubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */; };
 		272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */; };
@@ -130,7 +129,6 @@
 		2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicApiServiceTests.swift; sourceTree = "<group>"; };
 		2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationServiceTests.swift; sourceTree = "<group>"; };
 		2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderServiceTests.swift; sourceTree = "<group>"; };
-		2710E9AD29B724EB00B66C62 /* CacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
 		272D6531288AEF3800FA4F60 /* QueryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryProtocol.swift; sourceTree = "<group>"; };
 		272D6534288C63E100FA4F60 /* GetYouTubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYouTubeModel.swift; sourceTree = "<group>"; };
 		272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IB-Segues+Generated.swift"; sourceTree = "<group>"; };
@@ -262,7 +260,6 @@
 		2710E9AC29B724D500B66C62 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				2710E9AD29B724EB00B66C62 /* CacheTests.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -793,7 +790,6 @@
 			files = (
 				2710E9A329B5187000B66C62 /* PublicApiServiceTests.swift in Sources */,
 				2710E9A729B518E200B66C62 /* ImageLoaderServiceTests.swift in Sources */,
-				2710E9AE29B724EB00B66C62 /* CacheTests.swift in Sources */,
 				2710E9A529B518AD00B66C62 /* AuthorizationServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
