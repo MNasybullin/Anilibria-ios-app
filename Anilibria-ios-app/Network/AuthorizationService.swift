@@ -10,6 +10,29 @@ import Foundation
 final class AuthorizationService: QueryProtocol {
     // MARK: - Singleton
     static let shared: AuthorizationService = AuthorizationService()
+    private init() { }
+    
+    private let securityStorage = SecurityStorage()
+    
+    private lazy var credentials: SecurityStorage.Credentials? = try? securityStorage.getCredentials() {
+        didSet {
+            if credentials != nil {
+                try? securityStorage.addCredentials(credentials!)
+            } else {
+                try? securityStorage.deleteCredentials()
+            }
+        }
+    }
+    
+    private lazy var sessionId: String? = try? securityStorage.getSession() {
+        didSet {
+            if sessionId != nil {
+                try? securityStorage.addSession(sessionId!)
+            } else {
+                try? securityStorage.deleteSession()
+            }
+        }
+    }
     
     /// Авторизация
     func login(email: String, password: String) async throws -> LoginModel {
@@ -31,14 +54,26 @@ final class AuthorizationService: QueryProtocol {
             throw errorHandling(for: response)
         }
         let decoded = try JSONDecoder().decode(LoginModel.self, from: data)
-        if decoded.key == KeyLogin.success.rawValue {
-            UserDefaults.standard.setSessionId(decoded.sessionId)
+        if decoded.key == KeyLogin.success.rawValue, let sessionId = decoded.sessionId {
+            self.sessionId = sessionId
+            self.credentials = SecurityStorage.Credentials(login: email, password: password)
         }
         return decoded
     }
     
+    // Тихая авторизация
+    func relogin() async throws -> LoginModel {
+        guard let credentials = credentials else {
+            throw MyNetworkError.userIsNotAuthorized
+        }
+        return try await login(email: credentials.login, password: credentials.password)
+    }
+    
     /// Выход
     func logout() async throws {
+        self.sessionId = nil
+        self.credentials = nil
+        
         let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.logout)
         _ = try await dataRequest(with: urlComponents, httpMethod: .post)
     }
@@ -46,7 +81,7 @@ final class AuthorizationService: QueryProtocol {
     /// Получить список избранных тайтлов пользователя
     func getFavorites() async throws -> [GetTitleModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
-        guard let sessionId = UserDefaults.standard.getSessionId() else {
+        guard let sessionId = sessionId else {
             throw MyNetworkError.userIsNotAuthorized
         }
         urlComponents?.queryItems = [
@@ -62,7 +97,7 @@ final class AuthorizationService: QueryProtocol {
     /// Добавить тайтл в список избранных
     func addFavorite(from titleId: Int) async throws {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
-        guard let sessionId = UserDefaults.standard.getSessionId() else {
+        guard let sessionId = sessionId else {
             throw MyNetworkError.userIsNotAuthorized
         }
         urlComponents?.queryItems = [
@@ -81,7 +116,7 @@ final class AuthorizationService: QueryProtocol {
     /// Удалить тайтл из списка избранных
     func delFavorite(from titleId: Int) async throws {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
-        guard let sessionId = UserDefaults.standard.getSessionId() else {
+        guard let sessionId = sessionId else {
             throw MyNetworkError.userIsNotAuthorized
         }
         urlComponents?.queryItems = [
