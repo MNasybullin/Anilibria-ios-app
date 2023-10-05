@@ -37,6 +37,8 @@
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
 		2754F63128A94525003485E6 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2754F63028A94525003485E6 /* ViewPreview.swift */; };
 		2758657A2ACEB2D700F98884 /* SecurityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865792ACEB2D700F98884 /* SecurityStorage.swift */; };
+		275865852ACF093100F98884 /* SecurityStorageCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */; };
+		275865872ACF094200F98884 /* SecurityStorageSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */; };
 		275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */; };
 		275B1AF229DECF50006A00EA /* SeriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AF129DECF50006A00EA /* SeriesView.swift */; };
 		275B1AF629DEDAFC006A00EA /* AnimeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AF529DEDAFC006A00EA /* AnimeEntity.swift */; };
@@ -153,6 +155,8 @@
 		2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
 		2754F63028A94525003485E6 /* ViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPreview.swift; sourceTree = "<group>"; };
 		275865792ACEB2D700F98884 /* SecurityStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
+		275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorageCredentialsTests.swift; sourceTree = "<group>"; };
+		275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorageSessionTests.swift; sourceTree = "<group>"; };
 		275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAndShareButtonsView.swift; sourceTree = "<group>"; };
 		275B1AF129DECF50006A00EA /* SeriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesView.swift; sourceTree = "<group>"; };
 		275B1AF529DEDAFC006A00EA /* AnimeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeEntity.swift; sourceTree = "<group>"; };
@@ -253,6 +257,8 @@
 				2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */,
 				2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */,
 				2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */,
+				275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */,
+				275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -798,6 +804,8 @@
 			files = (
 				2710E9A329B5187000B66C62 /* PublicApiServiceTests.swift in Sources */,
 				2710E9A729B518E200B66C62 /* ImageLoaderServiceTests.swift in Sources */,
+				275865852ACF093100F98884 /* SecurityStorageCredentialsTests.swift in Sources */,
+				275865872ACF094200F98884 /* SecurityStorageSessionTests.swift in Sources */,
 				2710E9A529B518AD00B66C62 /* AuthorizationServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
