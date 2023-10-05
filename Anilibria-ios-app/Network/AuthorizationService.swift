@@ -12,27 +12,10 @@ final class AuthorizationService: QueryProtocol {
     static let shared: AuthorizationService = AuthorizationService()
     private init() { }
     
+    typealias KeychainError = SecurityStorage.KeychainError
+    typealias Credentials = SecurityStorage.Credentials
+    
     private let securityStorage = SecurityStorage()
-    
-    private lazy var credentials: SecurityStorage.Credentials? = try? securityStorage.getCredentials() {
-        didSet {
-            if credentials != nil {
-                try? securityStorage.addCredentials(credentials!)
-            } else {
-                try? securityStorage.deleteCredentials()
-            }
-        }
-    }
-    
-    private lazy var sessionId: String? = try? securityStorage.getSession() {
-        didSet {
-            if sessionId != nil {
-                try? securityStorage.addSession(sessionId!)
-            } else {
-                try? securityStorage.deleteSession()
-            }
-        }
-    }
     
     /// Авторизация
     func login(email: String, password: String) async throws -> LoginModel {
@@ -53,37 +36,52 @@ final class AuthorizationService: QueryProtocol {
               httpResponse.statusCode == 200 /* OK */ else {
             throw errorHandling(for: response)
         }
+        
         let decoded = try JSONDecoder().decode(LoginModel.self, from: data)
-        if decoded.key == KeyLogin.success.rawValue, let sessionId = decoded.sessionId {
-            self.sessionId = sessionId
-            self.credentials = SecurityStorage.Credentials(login: email, password: password)
+        if decoded.key == KeyLogin.success.rawValue,
+            let sessionId = decoded.sessionId {
+            try securityStorage.addOrUpdateSession(sessionId)
+            
+            let credentials = Credentials(login: email, password: password)
+            try securityStorage.addOrUpdateCredentials(credentials)
         }
         return decoded
     }
     
     // Тихая авторизация
     func relogin() async throws -> LoginModel {
-        guard let credentials = credentials else {
+        let credentials: Credentials
+        
+        do {
+            credentials = try securityStorage.getCredentials()
+        } catch KeychainError.itemNotFound {
             throw MyNetworkError.userIsNotAuthorized
         }
+        
         return try await login(email: credentials.login, password: credentials.password)
     }
     
     /// Выход
     func logout() async throws {
-        self.sessionId = nil
-        self.credentials = nil
-        
         let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.logout)
         _ = try await dataRequest(with: urlComponents, httpMethod: .post)
+        
+        try securityStorage.deleteSession()
+        try securityStorage.deleteCredentials()
     }
-
+    
     /// Получить список избранных тайтлов пользователя
     func getFavorites() async throws -> [GetTitleModel] {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
-        guard let sessionId = sessionId else {
+        let sessionId: String
+        
+        do {
+            sessionId = try securityStorage.getSession()
+        } catch KeychainError.itemNotFound {
             throw MyNetworkError.userIsNotAuthorized
         }
+        
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
+        
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
             URLQueryItem(name: "playlist_type", value: "array")
@@ -96,10 +94,16 @@ final class AuthorizationService: QueryProtocol {
     
     /// Добавить тайтл в список избранных
     func addFavorite(from titleId: Int) async throws {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
-        guard let sessionId = sessionId else {
+        let sessionId: String
+        
+        do {
+            sessionId = try securityStorage.getSession()
+        } catch KeychainError.itemNotFound {
             throw MyNetworkError.userIsNotAuthorized
         }
+        
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
+        
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
             URLQueryItem(name: "title_id", value: String(titleId))
@@ -115,10 +119,16 @@ final class AuthorizationService: QueryProtocol {
     
     /// Удалить тайтл из списка избранных
     func delFavorite(from titleId: Int) async throws {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
-        guard let sessionId = sessionId else {
+        let sessionId: String
+        
+        do {
+            sessionId = try securityStorage.getSession()
+        } catch KeychainError.itemNotFound {
             throw MyNetworkError.userIsNotAuthorized
         }
+        
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
+        
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
             URLQueryItem(name: "title_id", value: String(titleId))
