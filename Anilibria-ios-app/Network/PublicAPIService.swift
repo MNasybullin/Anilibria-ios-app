@@ -7,7 +7,9 @@
 
 import Foundation
 
-final class PublicApiService: QueryProtocol {
+final class PublicApiService: NetworkQuery {
+    // TODO - Убрать Singleton
+    
     // MARK: - Singleton
     static let shared: PublicApiService = PublicApiService()
     
@@ -22,7 +24,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
+        let decoded = try jsonDecoder.decode(GetTitleModel.self, from: data)
         return decoded
     }
     
@@ -37,7 +39,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([GetTitleModel].self, from: data)
         return decoded
     }
     
@@ -55,7 +57,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([GetTitleModel].self, from: data)
         return decoded
     }
     
@@ -70,7 +72,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([GetTitleModel].self, from: data)
         return decoded
     }
     
@@ -86,7 +88,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetScheduleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([GetScheduleModel].self, from: data)
         return decoded
     }
     
@@ -98,7 +100,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
+        let decoded = try jsonDecoder.decode(GetTitleModel.self, from: data)
         return decoded
     }
     
@@ -115,7 +117,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
+        let decoded = try jsonDecoder.decode([GetYouTubeModel].self, from: data)
         return decoded
     }
     
@@ -124,7 +126,7 @@ final class PublicApiService: QueryProtocol {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYears)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([Int].self, from: data)
+        let decoded = try jsonDecoder.decode([Int].self, from: data)
         return decoded
     }
     
@@ -140,7 +142,7 @@ final class PublicApiService: QueryProtocol {
             URLQueryItem(name: "sorting_type", value: String(sortingType))
         ]
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([String].self, from: data)
+        let decoded = try jsonDecoder.decode([String].self, from: data)
         return decoded
     }
     
@@ -149,7 +151,7 @@ final class PublicApiService: QueryProtocol {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTeam)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode(GetTeamModel.self, from: data)
+        let decoded = try jsonDecoder.decode(GetTeamModel.self, from: data)
         return decoded
     }
     
@@ -158,7 +160,7 @@ final class PublicApiService: QueryProtocol {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getCachingNodes)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([String].self, from: data)
+        let decoded = try jsonDecoder.decode([String].self, from: data)
         return decoded
     }
     
@@ -188,7 +190,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([GetTitleModel].self, from: data)
         return decoded
     }
 }

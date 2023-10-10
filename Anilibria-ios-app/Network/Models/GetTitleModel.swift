@@ -12,7 +12,7 @@ import Foundation
 /// Возвращается в запросах:
 /// getTitle, getTitles, getUpdates, getChanges, getRandomTitle, getFavorites
 /// - Prefix `GT` = GetTitle
-struct GetTitleModel: Codable {
+struct GetTitleModel: Decodable {
     let id: Int
     let code: String
     let names: GTNames
@@ -31,65 +31,38 @@ struct GetTitleModel: Codable {
     let player: GTPlayer?
     // GTTorrents не реализованно скачивание по торренту.
 //    let torrents: GTTorrents
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case code
-        case names
-        case announce
-        case status
-        case posters
-        case updated
-        case lastChange = "last_change"
-        case type
-        case genres
-        case team
-        case season
-        case description
-        case inFavorites = "in_favorites"
-        case blocked
-        case player
-    }
 }
 
-struct GTNames: Codable {
+struct GTNames: Decodable {
     let ru: String
     let en: String?
     let alternative: String?
 }
 
-struct GTStatus: Codable {
+struct GTStatus: Decodable {
     let string: String?
     let code: Int?
 }
 
-struct GTPosters: Codable {
+struct GTPosters: Decodable {
     let small: GTPoster?
     let medium: GTPoster?
     let original: GTPoster?
 }
 
-struct GTPoster: Codable {
+struct GTPoster: Decodable {
     let url: String?
 }
 
-struct GTType: Codable {
+struct GTType: Decodable {
     let fullString: String?
     let code: Int?
     let string: String?
     let series: Int?
     let length: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case fullString = "full_string"
-        case code
-        case string
-        case series
-        case length
-    }
 }
 
-struct GTTeam: Codable {
+struct GTTeam: Decodable {
     let voice: [String]?
     let translator: [String]?
     let editing: [String]?
@@ -97,79 +70,57 @@ struct GTTeam: Codable {
     let timing: [String]?
 }
 
-struct GTSeason: Codable {
+struct GTSeason: Decodable {
     let string: String?
     let code: Int?
     let year: Int?
     let weekDay: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case string
-        case code
-        case year
-        case weekDay = "week_day"
-    }
 }
 
-struct GTBlocked: Codable {
+struct GTBlocked: Decodable {
     let blocked: Bool?
     let bakanim: Bool?
 }
 
-struct GTPlayer: Codable {
+struct GTPlayer: Decodable {
     let alternativePlayer: String?
     let host: String?
     let series: GTSeries?
     let playlist: [GTPlaylist]?
-    
-    enum CodingKeys: String, CodingKey {
-        case alternativePlayer = "alternative_player"
-        case host
-        case series
-        case playlist
-    }
 }
 
-struct GTSeries: Codable {
+struct GTSeries: Decodable {
     let first: Double?
     let last: Double?
     let string: String?
 }
 
-struct GTPlaylist: Codable {
+struct GTPlaylist: Decodable {
     let serie: Double?
     let createdTimestamp: Int?
     let preview: String?
     let skips: GTSkips?
     let hls: GTHls?
-    
-    enum CodingKeys: String, CodingKey {
-        case serie
-        case createdTimestamp = "created_timestamp"
-        case preview
-        case skips
-        case hls
-    }
 }
 
-struct GTHls: Codable {
+struct GTHls: Decodable {
     let fhd: String?
     let hd: String?
     let sd: String?
 }
 
-struct GTSkips: Codable {
+struct GTSkips: Decodable {
     let opening: [Double?]
     let ending: [Double?]
 }
 
 /*
-struct GTTorrents: Codable {
+struct GTTorrents: Decodable {
     let series: GTSeries?
     let list: [GTList]
 }
 
-struct GTList: Codable {
+struct GTList: Decodable {
     let torrent_id: Int
     let series: GTSeries
     let quality: GTQuality
@@ -181,7 +132,7 @@ struct GTList: Codable {
     let uploaded_timestamp: Int
 }
 
-struct GTQuality: Codable {
+struct GTQuality: Decodable {
     let string: String
     let type: String
     let resolution: String

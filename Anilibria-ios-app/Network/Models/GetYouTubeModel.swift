@@ -9,18 +9,10 @@ import Foundation
 
 /// Возвращается в запросах:
 /// getYouTube
-struct GetYouTubeModel: Codable {
-    enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case image
-        case youTubeId = "youtube_id"
-        case timeStamp = "timestamp"
-    }
-    
+struct GetYouTubeModel: Decodable {
     let id: Int
     let title: String
     let image: String
-    let youTubeId: String
-    let timeStamp: Int
+    let youtubeId: String
+    let timestamp: Int
 }

@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct ProfileModel: Codable {
+struct ProfileModel: Decodable {
     let status: Bool
     let data: PUser?
     let error: MyError?
 }
 
-struct PUser: Codable {
+struct PUser: Decodable {
     let id: Int
     let login: String
     let avatar: String

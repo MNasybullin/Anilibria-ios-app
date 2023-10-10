@@ -7,10 +7,11 @@
 
 import Foundation
 
-final class AuthorizationService: QueryProtocol {
+final class AuthorizationService: NetworkQuery {
+    // TODO - Убрать Singleton
     // MARK: - Singleton
     static let shared: AuthorizationService = AuthorizationService()
-    private init() { }
+    private override init() { }
     
     typealias KeychainError = SecurityStorage.KeychainError
     typealias Credentials = SecurityStorage.Credentials
@@ -37,7 +38,7 @@ final class AuthorizationService: QueryProtocol {
             throw errorHandling(for: response)
         }
         
-        let decoded = try JSONDecoder().decode(LoginModel.self, from: data)
+        let decoded = try jsonDecoder.decode(LoginModel.self, from: data)
         if decoded.key == KeyLogin.success.rawValue,
             let sessionId = decoded.sessionId {
             try securityStorage.addOrUpdateSession(sessionId)
@@ -88,7 +89,7 @@ final class AuthorizationService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([GetTitleModel].self, from: data)
         return decoded
     }
     
@@ -110,7 +111,7 @@ final class AuthorizationService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .put)
-        let decoded = try JSONDecoder().decode(FavoriteModel.self, from: data)
+        let decoded = try jsonDecoder.decode(FavoriteModel.self, from: data)
         guard let error = decoded.error else {
             return
         }
@@ -135,7 +136,7 @@ final class AuthorizationService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .del)
-        let decoded = try JSONDecoder().decode(FavoriteModel.self, from: data)
+        let decoded = try jsonDecoder.decode(FavoriteModel.self, from: data)
         guard let error = decoded.error else {
             return
         }
@@ -160,7 +161,7 @@ final class AuthorizationService: QueryProtocol {
               httpResponse.statusCode == 200 /* OK */ else {
             throw errorHandling(for: response)
         }
-        let decoded = try JSONDecoder().decode(ProfileModel.self, from: data)
+        let decoded = try jsonDecoder.decode(ProfileModel.self, from: data)
         guard let error = decoded.error else {
             return decoded
         }

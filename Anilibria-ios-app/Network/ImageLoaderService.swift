@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ImageLoaderService {
+final class ImageLoaderService: NetworkQuery {
     // MARK: - Singleton
     static let shared: ImageLoaderService = ImageLoaderService()
     
@@ -32,10 +32,7 @@ final class ImageLoaderService {
         return data
     }
     
-}
-
-extension ImageLoaderService: QueryProtocol {
-    func dataRequest(with urlComponents: URLComponents?, httpMethod: HTTPMethods) async throws -> Data {
+    override func dataRequest(with urlComponents: URLComponents?, httpMethod: HTTPMethods) async throws -> Data {
         guard let url = urlComponents?.url else {
             throw MyNetworkError.invalidURLComponents
         }
@@ -50,4 +47,5 @@ extension ImageLoaderService: QueryProtocol {
         }
         return data
     }
+    
 }

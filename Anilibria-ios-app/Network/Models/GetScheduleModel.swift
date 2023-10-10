@@ -9,13 +9,13 @@ import Foundation
 
 /// Возвращается в запросах:
 /// getSchedule
-struct GetScheduleModel: Codable {
-    var day: DaysOfTheWeek?
-    var list: [GetTitleModel]
+struct GetScheduleModel: Decodable {
+    let day: DaysOfTheWeek?
+    let list: [GetTitleModel]
 }
 
 /// Счет дней недели идет с понедельника, где 0 - Понедельник, а 6 - Воскресенье.
-enum DaysOfTheWeek: Int, Codable, CaseIterable {
+enum DaysOfTheWeek: Int, Decodable, CaseIterable {
     case monday = 0,
          tuesday = 1,
          wednesday = 2,

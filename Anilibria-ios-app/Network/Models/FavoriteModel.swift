@@ -9,12 +9,12 @@ import Foundation
 
 /// Возвращается в запросах:
 /// addFavorite, delFavorite
-struct FavoriteModel: Codable {
+struct FavoriteModel: Decodable {
     let error: MyError?
     let success: Bool?
 }
 
-struct MyError: Error, Codable {
+struct MyError: Error, Decodable {
     let code: Int
     let message: String
 }

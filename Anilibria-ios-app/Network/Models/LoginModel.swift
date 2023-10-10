@@ -9,22 +9,17 @@ import Foundation
 
 /// Возвращается в запросах:
 /// login
-struct LoginModel: Codable {
-    enum CodingKeys: String, CodingKey {
-        case error = "err"
-        case message = "mes"
-        case key
-        case sessionId
-    }
-    
-    let error: String
-    let message: String
+struct LoginModel: Decodable {
+    // error
+    let err: String
+    // message
+    let mes: String
     let key: String
     let sessionId: String?
 }
 
 /// Варианты значений key в Login возвращаемые сервером
-enum KeyLogin: String, Codable {
+enum KeyLogin: String, Decodable {
     case authorized
     case success
     case invalidUser

@@ -9,6 +9,6 @@ import Foundation
 
 /// Возвращается в запросах:
 /// getTeam
-struct GetTeamModel: Codable {
+struct GetTeamModel: Decodable {
     let team: GTTeam?
 }

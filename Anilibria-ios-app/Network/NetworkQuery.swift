@@ -1,27 +1,26 @@
 //
-//  QueryProtocol.swift
+//  NetworkQuery.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 22.07.2022.
 //
 
 import Foundation
-import UIKit
 
-enum HTTPMethods: String {
-    case get = "GET"
-    case post = "POST"
-    case put = "PUT"
-    case del = "DELETE"
-}
-
-protocol QueryProtocol {
-    func errorHandling(for response: URLResponse) -> MyNetworkError
-    func dataRequest(with urlComponents: URLComponents?,
-                     httpMethod: HTTPMethods) async throws -> Data
-}
-
-extension QueryProtocol {
+class NetworkQuery {
+    enum HTTPMethods: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case del = "DELETE"
+    }
+    
+    lazy var jsonDecoder: JSONDecoder = {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        return jsonDecoder
+    }()
+    
     func errorHandling(for response: URLResponse) -> MyNetworkError {
         guard let httpResonse = response as? HTTPURLResponse else {
             return MyNetworkError.invalidServerResponse
