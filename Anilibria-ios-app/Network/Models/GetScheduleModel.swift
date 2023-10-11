@@ -16,13 +16,13 @@ struct GetScheduleModel: Decodable {
 
 /// Счет дней недели идет с понедельника, где 0 - Понедельник, а 6 - Воскресенье.
 enum DaysOfTheWeek: Int, Decodable, CaseIterable {
-    case monday = 0,
-         tuesday = 1,
-         wednesday = 2,
-         thursday = 3,
-         friday = 4,
-         saturday = 5,
-         sunday = 6
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case sunday
     
     static func currentDayOfTheWeek() -> DaysOfTheWeek {
         let date = Date()
