@@ -30,7 +30,7 @@ final class SeriesView: UIView {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Серии" // TODO: localizable
+        label.text = "Серии" //  localizable
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.textColor = .label
         return label
@@ -45,7 +45,7 @@ final class SeriesView: UIView {
     
     lazy var allButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.title = "Все" // TODO: localizable
+        config.title = "Все" //  localizable
         config.baseForegroundColor = .systemRed
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming

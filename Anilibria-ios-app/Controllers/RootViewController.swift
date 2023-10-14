@@ -5,26 +5,30 @@
 //  Created by Mansur Nasybullin on 04.02.2023.
 //
 
-import Foundation
 import UIKit
 import Combine
 
 final class RootViewController: UIViewController {
-    static let shared: RootViewController = RootViewController()
-    
-    private var tabBar: (UITabBarController & TabBarViewProtocol) = {
-        return TabBarRouter.start().entry
-    }()
+    private let tabBar: UITabBarController
     
     private var networkStatusView = NetworkStatusView()
+    private var networkStatusViewIsZeroHeightConstraint: NSLayoutConstraint!
     
     private var isHiddenBottomBar: Bool = NetworkMonitor.shared.isConnected {
         didSet { updateView() }
     }
     
-    private var networkStatusViewIsZeroHeightConstraint: NSLayoutConstraint!
-    
     private var cancellable: AnyCancellable!
+    
+    // MARK: LifeCycle
+    init(tabBarController: UITabBarController) {
+        self.tabBar = tabBarController
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +39,7 @@ final class RootViewController: UIViewController {
         subscribeToNetworkMonitor()
         updateView()
     }
-        
+    
     private func configureNetworkStatusView() {
         view.addSubview(networkStatusView)
         
@@ -78,7 +82,7 @@ final class RootViewController: UIViewController {
     
     private func updateView() {
         let delay: TimeInterval = isHiddenBottomBar == true ? 3 : 0
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             UIView.animate(withDuration: 0.3) {
                 self.networkStatusViewIsZeroHeightConstraint.isActive = self.isHiddenBottomBar
@@ -86,7 +90,7 @@ final class RootViewController: UIViewController {
             }
         }
     }
-        
+    
     private func showNetworkActivityView() {
         guard isHiddenBottomBar == true else { return }
         networkStatusView.isNetworkActive = false
@@ -99,7 +103,7 @@ final class RootViewController: UIViewController {
         isHiddenBottomBar = true
     }
     
-    public func showFlashNetworkActivityView() {
+    func showFlashNetworkActivityView() {
         guard NetworkMonitor.shared.isConnected == false else { return }
         showNetworkActivityView()
         DispatchQueue.main.async {
@@ -114,17 +118,3 @@ final class RootViewController: UIViewController {
         }
     }
 }
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct RootViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewControllerPreview {
-            RootViewController.shared
-        }
-    }
-}
-
-#endif

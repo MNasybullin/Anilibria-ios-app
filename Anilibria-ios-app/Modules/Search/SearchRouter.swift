@@ -48,7 +48,7 @@ final class SearchRouter: SearchRouterProtocol {
         let title = Strings.TabBarControllers.Search.title
         let image = UIImage(systemName: Strings.TabBarControllers.Search.image)
         
-        rootViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: TabBarItemsTag.search.rawValue)
+        rootViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: TabBarItemTags.search.rawValue)
         rootViewController.navigationItem.title = title
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.navigationBar.tintColor = .systemRed

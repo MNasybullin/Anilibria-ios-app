@@ -8,14 +8,7 @@
 import UIKit
 
 final class NetworkStatusView: UIView {
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .label
-        label.numberOfLines = 1
-        label.textAlignment = .center
-        return label
-    }()
+    private var titleLabel = UILabel()
     
     var isNetworkActive: Bool = false {
         didSet {
@@ -26,13 +19,22 @@ final class NetworkStatusView: UIView {
     init() {
         super.init(frame: .zero)
         
-        addSubview(titleLabel)
-        titleLabelConstraints()
+        setupTitleLabel()
         viewConfigure()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupTitleLabel() {
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        titleLabel.textColor = .label
+        titleLabel.numberOfLines = 1
+        titleLabel.textAlignment = .center
+        
+        addSubview(titleLabel)
+        titleLabelConstraints()
     }
     
     private func titleLabelConstraints() {
@@ -59,17 +61,3 @@ final class NetworkStatusView: UIView {
         }
     }
 }
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct NetworkStatusView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPreview {
-            NetworkStatusView()
-        }
-    }
-}
-
-#endif

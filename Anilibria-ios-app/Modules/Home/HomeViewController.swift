@@ -94,7 +94,7 @@ final class HomeViewController: UIViewController, HomeViewProtocol {
     
     @objc func handleRefreshControl() {
         guard NetworkMonitor.shared.isConnected == true else {
-            RootViewController.shared.showFlashNetworkActivityView()
+            MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
             refreshControlEndRefreshing()
             return
         }

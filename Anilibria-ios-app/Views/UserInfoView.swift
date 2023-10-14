@@ -2,33 +2,22 @@
 //  UserInfoView.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 31.08.2023.
+//  Created by Mansur Nasybullin on 14.10.2023.
 //
 
 import UIKit
 
-class UserInfoView: UIView {
+final class UserInfoView: UIView {
+    private var imageView = UIImageView()
+    private var userNameLabel = UILabel()
     
-    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
-    private lazy var userNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 26, weight: .regular)
-        label.textColor = .label
-        label.textAlignment = .center
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = .secondarySystemBackground
-        self.layer.cornerRadius = 25
-        self.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-                
+    init() {
+        super.init(frame: .zero)
+        
+        configureView()
+        setupImageView()
+        setupUserNameLabel()
+        
         addSubview(imageView)
         addSubview(userNameLabel)
         
@@ -37,6 +26,22 @@ class UserInfoView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureView() {
+        backgroundColor = .secondarySystemBackground
+        layer.cornerRadius = 25
+        layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+    }
+    
+    private func setupImageView() {
+        imageView.clipsToBounds = true
+    }
+    
+    private func setupUserNameLabel() {
+        userNameLabel.font = UIFont.systemFont(ofSize: 26, weight: .regular)
+        userNameLabel.textColor = .label
+        userNameLabel.textAlignment = .center
     }
     
     private func setupConstraints() {
@@ -59,26 +64,11 @@ class UserInfoView: UIView {
 
 extension UserInfoView {
     func set(image: UIImage) {
-        imageView.image = image
-        imageView.layer.cornerRadius = imageView.bounds.width / 2
+        self.imageView.image = image
+        self.imageView.layer.cornerRadius = self.imageView.bounds.width / 2
     }
     
     func set(userName: String) {
-        userNameLabel.text = userName
+        self.userNameLabel.text = userName
     }
 }
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct UserInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPreview {
-            UserInfoView()
-        }
-        .frame(height: 300)
-    }
-}
-
-#endif
