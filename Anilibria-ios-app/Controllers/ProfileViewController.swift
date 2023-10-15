@@ -35,10 +35,19 @@ final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
         
         hideKeyboardWhenTappedAround()
         configureNavBar()
+        configureFlow()
     }
     
     private func configureNavBar() {
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    private func configureFlow() {
+        if UserDefaults.standard.isUserAuthorized == true {
+            userInfoController.configureView { [weak self] in
+                self?.customView.hideSignInView(animated: false)
+            }
+        }
     }
 }
 
@@ -47,7 +56,7 @@ final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
 extension ProfileController: SignInControllerDelegate {
     func authorizationIsSuccessful() {
         userInfoController.configureView { [weak self] in
-            self?.customView.hideSignInView()
+            self?.customView.hideSignInView(animated: true)
         }
     }
     
