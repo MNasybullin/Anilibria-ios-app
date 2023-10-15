@@ -32,7 +32,16 @@ final class SignInController: UIViewController, HasCustomView {
 
 extension SignInController: SignInViewDelegate {
     func signInButtonTapped(email: String, password: String) {
+        customView.signInButton(isEnabled: false)
+        customView.activityIndicator(animation: true)
+        
         model.authorization(email: email, password: password) { [weak self] result in
+            
+            DispatchQueue.main.async {
+                self?.customView.activityIndicator(animation: false)
+                self?.customView.signInButton(isEnabled: true)
+            }
+            
             switch result {
                 case .success:
                     self?.delegate?.authorizationIsSuccessful()

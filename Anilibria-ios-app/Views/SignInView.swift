@@ -16,6 +16,7 @@ final class SignInView: UIView {
     private var textFieldsVStack = UIStackView()
     private var emailTextField = UITextField()
     private var passwordTextField = UITextField()
+    private var activityIndicator = UIActivityIndicatorView()
     
     private lazy var eyeImageView = UIImage(systemName: Strings.SignInView.ImageName.eye)
     private lazy var eyeSlashImageView = UIImage(systemName: Strings.SignInView.ImageName.eyeSlash)
@@ -29,6 +30,7 @@ final class SignInView: UIView {
         setupTextFieldsVStack()
         setupEmailTextField()
         setupPasswordTextField()
+        setupActivityIndicator()
         setupSignInButton()
         
         addSubview(textFieldsVStack)
@@ -36,6 +38,7 @@ final class SignInView: UIView {
         
         textFieldsVStack.addArrangedSubview(emailTextField)
         textFieldsVStack.addArrangedSubview(passwordTextField)
+        textFieldsVStack.addArrangedSubview(activityIndicator)
         
         setupConstraints()
     }
@@ -87,6 +90,12 @@ final class SignInView: UIView {
         passwordTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
     }
     
+    private func setupActivityIndicator() {
+        activityIndicator.style = .medium
+        activityIndicator.color = .systemRed
+        activityIndicator.hidesWhenStopped = true
+    }
+    
     private func setupSignInButton() {
         var config = UIButton.Configuration.filled()
         config.cornerStyle = .dynamic
@@ -98,7 +107,6 @@ final class SignInView: UIView {
         signInButton.configuration = config
         
         signInButton.addAction(UIAction { [weak self] _ in
-            self?.signInButton.isEnabled = false
             self?.delegate?.signInButtonTapped(
                 email: self?.emailTextField.text ?? "",
                 password: self?.passwordTextField.text ?? "")
@@ -124,6 +132,16 @@ final class SignInView: UIView {
     
     func signInButton(isEnabled status: Bool) {
         signInButton.isEnabled = status
+    }
+        
+    func activityIndicator(animation: Bool) {
+        UIView.animate(withDuration: 0.5) {
+            if animation == true {
+                self.activityIndicator.startAnimating()
+            } else {
+                self.activityIndicator.stopAnimating()
+            }
+        }
     }
 }
 
