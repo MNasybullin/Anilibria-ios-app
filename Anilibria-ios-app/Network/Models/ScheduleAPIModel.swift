@@ -1,5 +1,5 @@
 //
-//  GetScheduleModel.swift
+//  ScheduleAPIModel.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 01.08.2022.
@@ -9,9 +9,9 @@ import Foundation
 
 /// Возвращается в запросах:
 /// getSchedule
-struct GetScheduleModel: Decodable {
+struct ScheduleAPIModel: Decodable {
     let day: DaysOfTheWeek?
-    let list: [GetTitleModel]
+    let list: [TitleAPIModel]
 }
 
 /// Счет дней недели идет с понедельника, где 0 - Понедельник, а 6 - Воскресенье.

@@ -13,7 +13,7 @@ protocol AnimeRouterProtocol: AnyObject {
     var entry: EntryPoint! { get }
     var navigationController: UINavigationController! { get }
     
-    static func start(withNavigationController navigationController: UINavigationController, withTitleModel titleModel: GetTitleModel) -> AnimeRouterProtocol
+    static func start(withNavigationController navigationController: UINavigationController, withTitleModel titleModel: TitleAPIModel) -> AnimeRouterProtocol
     
     func showSeriesView(with data: AnimeModel)
 }
@@ -22,7 +22,7 @@ final class AnimeRouter: AnimeRouterProtocol {
     var entry: EntryPoint!
     var navigationController: UINavigationController!
     
-    static func start(withNavigationController navigationController: UINavigationController, withTitleModel titleModel: GetTitleModel) -> AnimeRouterProtocol {
+    static func start(withNavigationController navigationController: UINavigationController, withTitleModel titleModel: TitleAPIModel) -> AnimeRouterProtocol {
         let router = AnimeRouter()
         
         let view = AnimeViewController()

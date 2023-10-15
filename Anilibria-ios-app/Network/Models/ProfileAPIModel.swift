@@ -1,5 +1,5 @@
 //
-//  ProfileModel.swift
+//  ProfileAPIModel.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 05.08.2022.
@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct ProfileModel: Decodable {
+struct ProfileAPIModel: Decodable {
     let status: Bool
     let data: PUser?
-    let error: MyError?
+    let error: APIError?
 }
 
 struct PUser: Decodable {

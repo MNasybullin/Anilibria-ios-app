@@ -11,8 +11,8 @@ import UIKit
 protocol SearchInteractorProtocol: AnyObject {
     var presenter: SearchPresenterProtocol! { get set }
     
-    func getSearchData() -> [GetTitleModel]
-    func getRandomAnimeData() -> GetTitleModel?
+    func getSearchData() -> [TitleAPIModel]
+    func getRandomAnimeData() -> TitleAPIModel?
     func deleteSearchResultsData()
     func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage
     func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsModel], Bool)
@@ -22,18 +22,18 @@ protocol SearchInteractorProtocol: AnyObject {
 final class SearchInteractor: SearchInteractorProtocol {
     weak var presenter: SearchPresenterProtocol!
     
-    private var searchResults = [GetTitleModel]()
-    private var randomAnime: GetTitleModel?
+    private var searchResults = [TitleAPIModel]()
+    private var randomAnime: TitleAPIModel?
     
     func deleteSearchResultsData() {
         searchResults.removeAll()
     }
     
-    func getSearchData() -> [GetTitleModel] {
+    func getSearchData() -> [TitleAPIModel] {
         return searchResults
     }
     
-    func getRandomAnimeData() -> GetTitleModel? {
+    func getRandomAnimeData() -> TitleAPIModel? {
         return randomAnime
     }
     

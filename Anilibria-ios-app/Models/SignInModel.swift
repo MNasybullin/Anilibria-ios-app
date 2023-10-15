@@ -16,7 +16,7 @@ final class SignInModel {
             do {
                 let user = try await AuthorizationService.shared.login(email: email, password: password)
                 
-                if user.key == KeyLogin.success.rawValue || user.key == KeyLogin.authorized.rawValue {
+                if user.key == KeyLoginAPI.success.rawValue || user.key == KeyLoginAPI.authorized.rawValue {
                     completionHandler(.success(user.key))
                 } else {
                     let error = NSError(domain: user.key, code: 0)

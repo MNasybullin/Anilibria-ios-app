@@ -17,7 +17,7 @@ protocol HomeRouterProtocol: AnyObject {
     static func start() -> HomeRouterProtocol
     
     func showScheduleView()
-    func showAnimeView(with data: GetTitleModel)
+    func showAnimeView(with data: TitleAPIModel)
 }
 
 final class HomeRouter: HomeRouterProtocol {
@@ -68,7 +68,7 @@ extension HomeRouter {
         navigationController.pushViewController(scheduleView.entry, animated: true)
     }
     
-    func showAnimeView(with data: GetTitleModel) {
+    func showAnimeView(with data: TitleAPIModel) {
         let animeView = AnimeRouter.start(withNavigationController: navigationController, withTitleModel: data)
         navigationController.pushViewController(animeView.entry, animated: true)
     }

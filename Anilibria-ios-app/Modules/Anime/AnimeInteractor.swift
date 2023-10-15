@@ -17,10 +17,10 @@ protocol AnimeInteractorProtocol: AnyObject {
 final class AnimeInteractor: AnimeInteractorProtocol {
     weak var presenter: AnimePresenterProtocol!
     
-    var titleModel: GetTitleModel
+    var titleModel: TitleAPIModel
     var animeModel: AnimeModel!
     
-    init(data: GetTitleModel) {
+    init(data: TitleAPIModel) {
         self.titleModel = data
         self.animeModel = AnimeModel(image: nil,
 //                                     imageIsLoading: false,

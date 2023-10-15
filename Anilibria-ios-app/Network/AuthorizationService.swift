@@ -19,7 +19,7 @@ final class AuthorizationService: NetworkQuery {
     private let securityStorage = SecurityStorage()
     
     /// Авторизация
-    func login(email: String, password: String) async throws -> LoginModel {
+    func login(email: String, password: String) async throws -> LoginAPIModel {
         guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.login) else {
             throw MyNetworkError.invalidURLComponents
         }
@@ -38,19 +38,21 @@ final class AuthorizationService: NetworkQuery {
             throw errorHandling(for: response)
         }
         
-        let decoded = try jsonDecoder.decode(LoginModel.self, from: data)
-        if decoded.key == KeyLogin.success.rawValue,
+        let decoded = try jsonDecoder.decode(LoginAPIModel.self, from: data)
+        if decoded.key == KeyLoginAPI.success.rawValue,
             let sessionId = decoded.sessionId {
             try securityStorage.addOrUpdateSession(sessionId)
             
             let credentials = Credentials(login: email, password: password)
             try securityStorage.addOrUpdateCredentials(credentials)
+            
+            UserDefaults.standard.isUserAuthorized = true
         }
         return decoded
     }
     
     // Тихая авторизация
-    func relogin() async throws -> LoginModel {
+    func relogin() async throws -> LoginAPIModel {
         let credentials: Credentials
         
         do {
@@ -69,10 +71,12 @@ final class AuthorizationService: NetworkQuery {
         
         try securityStorage.deleteSession()
         try securityStorage.deleteCredentials()
+        
+        UserDefaults.standard.isUserAuthorized = false
     }
     
     /// Получить список избранных тайтлов пользователя
-    func getFavorites() async throws -> [GetTitleModel] {
+    func getFavorites() async throws -> [TitleAPIModel] {
         let sessionId: String
         
         do {
@@ -89,7 +93,7 @@ final class AuthorizationService: NetworkQuery {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try jsonDecoder.decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([TitleAPIModel].self, from: data)
         return decoded
     }
     
@@ -111,7 +115,7 @@ final class AuthorizationService: NetworkQuery {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .put)
-        let decoded = try jsonDecoder.decode(FavoriteModel.self, from: data)
+        let decoded = try jsonDecoder.decode(FavoriteAPIModel.self, from: data)
         guard let error = decoded.error else {
             return
         }
@@ -136,7 +140,7 @@ final class AuthorizationService: NetworkQuery {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .del)
-        let decoded = try jsonDecoder.decode(FavoriteModel.self, from: data)
+        let decoded = try jsonDecoder.decode(FavoriteAPIModel.self, from: data)
         guard let error = decoded.error else {
             return
         }
@@ -144,7 +148,7 @@ final class AuthorizationService: NetworkQuery {
     }
     
     /// Получить информацию о пользователе
-    func profileInfo() async throws -> ProfileModel {
+    func profileInfo() async throws -> ProfileAPIModel {
         guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.profile) else {
             throw MyNetworkError.invalidURLComponents
         }
@@ -161,7 +165,7 @@ final class AuthorizationService: NetworkQuery {
               httpResponse.statusCode == 200 /* OK */ else {
             throw errorHandling(for: response)
         }
-        let decoded = try jsonDecoder.decode(ProfileModel.self, from: data)
+        let decoded = try jsonDecoder.decode(ProfileAPIModel.self, from: data)
         guard let error = decoded.error else {
             return decoded
         }

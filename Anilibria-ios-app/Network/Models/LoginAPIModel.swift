@@ -1,5 +1,5 @@
 //
-//  LoginModel.swift
+//  LoginAPIModel.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 04.08.2022.
@@ -9,7 +9,7 @@ import Foundation
 
 /// Возвращается в запросах:
 /// login
-struct LoginModel: Decodable {
+struct LoginAPIModel: Decodable {
     // error
     let err: String
     // message
@@ -19,7 +19,7 @@ struct LoginModel: Decodable {
 }
 
 /// Варианты значений key в Login возвращаемые сервером
-enum KeyLogin: String, Decodable {
+enum KeyLoginAPI: String, Decodable {
     case authorized
     case success
     case invalidUser

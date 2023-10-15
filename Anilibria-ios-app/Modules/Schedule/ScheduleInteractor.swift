@@ -11,16 +11,16 @@ import UIKit
 protocol ScheduleInteractorProtocol: AnyObject {
     var presenter: SchedulePresenterProtocol! { get set }
     
-    func getData() -> [GetScheduleModel]? 
+    func getData() -> [ScheduleAPIModel]?
     func requestScheduleData() async throws -> [PostersListViewModel]
     func requestImage(forSection section: Int, forIndex index: Int) async throws -> UIImage
 }
 
 final class ScheduleInteractor: ScheduleInteractorProtocol {
     weak var presenter: SchedulePresenterProtocol!
-    private var scheduleModel: [GetScheduleModel]?
+    private var scheduleModel: [ScheduleAPIModel]?
     
-    func getData() -> [GetScheduleModel]? {
+    func getData() -> [ScheduleAPIModel]? {
         return scheduleModel
     }
     
@@ -51,7 +51,7 @@ final class ScheduleInteractor: ScheduleInteractorProtocol {
     
     // MARK: - Private Functions
     
-    private func convertScheduleModelToPostersListViewModel(_ scheduleModel: [GetScheduleModel]) -> [PostersListViewModel] {
+    private func convertScheduleModelToPostersListViewModel(_ scheduleModel: [ScheduleAPIModel]) -> [PostersListViewModel] {
         var postersListViewModel = [PostersListViewModel]()
         scheduleModel.forEach {
             var postersListModel = [PostersListModel]()

@@ -1,5 +1,5 @@
 //
-//  GetTitleModel.swift
+//  TitleAPIModel.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 25.07.2022.
@@ -12,7 +12,7 @@ import Foundation
 /// Возвращается в запросах:
 /// getTitle, getTitles, getUpdates, getChanges, getRandomTitle, getFavorites
 /// - Prefix `GT` = GetTitle
-struct GetTitleModel: Decodable {
+struct TitleAPIModel: Decodable {
     let id: Int
     let code: String
     let names: GTNames

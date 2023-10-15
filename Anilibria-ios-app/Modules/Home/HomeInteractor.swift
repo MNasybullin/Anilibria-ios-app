@@ -14,13 +14,13 @@ protocol HomeInteractorProtocol: AnyObject {
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel]
     func requestDataForUpdatesView() async throws -> [CarouselViewModel]
     func requestImage(forIndex index: Int, forViewType viewType: CarouselViewType) async throws -> UIImage
-    func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]?
+    func getData(forViewType viewType: CarouselViewType) -> [TitleAPIModel]?
 }
 
 final class HomeInteractor: HomeInteractorProtocol {
     weak var presenter: HomePresenterProtocol!
-    private var todayGetTitleModel: [GetTitleModel]?
-    private var updatesGetTitleModel: [GetTitleModel]?
+    private var todayGetTitleModel: [TitleAPIModel]?
+    private var updatesGetTitleModel: [TitleAPIModel]?
     
     func requestDataForTodayView(withDayOfTheWeek day: DaysOfTheWeek) async throws -> [CarouselViewModel] {
         do {
@@ -61,7 +61,7 @@ final class HomeInteractor: HomeInteractorProtocol {
         }
     }
     
-    func getData(forViewType viewType: CarouselViewType) -> [GetTitleModel]? {
+    func getData(forViewType viewType: CarouselViewType) -> [TitleAPIModel]? {
         switch viewType {
             case .todayCarouselView:
                 return todayGetTitleModel
@@ -71,7 +71,7 @@ final class HomeInteractor: HomeInteractorProtocol {
     }
     
     // MARK: - Private Functions
-    private func convertGetTitleModelToCarouselViewModel(_ titleModel: [GetTitleModel]) -> [CarouselViewModel] {
+    private func convertGetTitleModelToCarouselViewModel(_ titleModel: [TitleAPIModel]) -> [CarouselViewModel] {
         var carouselViewModel = [CarouselViewModel]()
         titleModel.forEach {
             carouselViewModel.append(CarouselViewModel(name: $0.names.ru))

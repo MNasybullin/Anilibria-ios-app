@@ -14,7 +14,7 @@ protocol SearchRouterProtocol: AnyObject {
     var navigationController: UINavigationController! { get }
     static func start() -> SearchRouterProtocol!
     
-    func showAnimeView(with data: GetTitleModel)
+    func showAnimeView(with data: TitleAPIModel)
 }
 
 final class SearchRouter: SearchRouterProtocol {
@@ -58,7 +58,7 @@ final class SearchRouter: SearchRouterProtocol {
 
 // MARK: - Show Other Views
 extension SearchRouter {
-    func showAnimeView(with data: GetTitleModel) {
+    func showAnimeView(with data: TitleAPIModel) {
         let animeView = AnimeRouter.start(withNavigationController: navigationController, withTitleModel: data)
         navigationController.pushViewController(animeView.entry, animated: true)
     }
