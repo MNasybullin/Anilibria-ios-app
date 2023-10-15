@@ -2,6 +2,7 @@ disabled_rules:
 - line_length
 - trailing_whitespace
 - switch_case_alignment
+- blanket_disable_command
 
 opt_in_rules:
 

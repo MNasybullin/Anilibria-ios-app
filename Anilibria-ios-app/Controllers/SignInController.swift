@@ -23,9 +23,6 @@ final class SignInController: UIViewController, HasCustomView {
         view = signInView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 }
 
 // MARK: - SignInViewDelegate

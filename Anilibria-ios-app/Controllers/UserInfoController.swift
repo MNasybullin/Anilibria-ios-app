@@ -21,10 +21,6 @@ final class UserInfoController: UIViewController, HasCustomView {
         view = userInfoView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     func configureView(successClosure: @escaping () -> Void) {
         model.getUserInfo { [weak self] result in
             switch result {
