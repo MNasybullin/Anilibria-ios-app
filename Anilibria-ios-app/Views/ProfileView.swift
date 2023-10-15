@@ -51,6 +51,9 @@ final class ProfileView: UIView {
     }
     
     func hideSignInView() {
+        guard signInView.isHidden == false else {
+            return
+        }
         UIView.animate(withDuration: 1) {
             self.signInViewTopAnchor.constant -= self.signInView.bounds.height
             self.layoutIfNeeded()
@@ -60,7 +63,10 @@ final class ProfileView: UIView {
     }
     
     func showSignInView() {
-        self.signInView.isHidden = true
+        guard signInView.isHidden == true else {
+            return
+        }
+        self.signInView.isHidden = false
         UIView.animate(withDuration: 1) {
             self.signInViewTopAnchor.constant += self.signInView.bounds.height
             self.layoutIfNeeded()
