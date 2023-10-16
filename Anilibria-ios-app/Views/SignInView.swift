@@ -12,7 +12,14 @@ protocol SignInViewDelegate: AnyObject {
 }
 
 final class SignInView: UIView {
+    private enum Constants {
+        static let cornerRadius: CGFloat = 25
+        static let borderWidth: CGFloat = 2
+        static let textFieldsVStackSpacing: CGFloat = 16
+    }
+    
     weak var delegate: SignInViewDelegate?
+    
     private var textFieldsVStack = UIStackView()
     private var emailTextField = UITextField()
     private var passwordTextField = UITextField()
@@ -26,7 +33,7 @@ final class SignInView: UIView {
     init() {
         super.init(frame: .zero)
         
-        configureView()
+        setupView()
         setupTextFieldsVStack()
         setupEmailTextField()
         setupPasswordTextField()
@@ -47,17 +54,17 @@ final class SignInView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureView() {
+    private func setupView() {
         backgroundColor = .systemBackground
-        layer.cornerRadius = 25
+        layer.cornerRadius = Constants.cornerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        layer.borderWidth = 2
+        layer.borderWidth = Constants.borderWidth
         layer.borderColor = UIColor.secondarySystemBackground.cgColor
     }
     
     private func setupTextFieldsVStack() {
         textFieldsVStack.axis = .vertical
-        textFieldsVStack.spacing = 16
+        textFieldsVStack.spacing = Constants.textFieldsVStackSpacing
         textFieldsVStack.alignment = .fill
         textFieldsVStack.distribution = .fill
     }
@@ -129,7 +136,9 @@ final class SignInView: UIView {
             signInButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
         ])
     }
-    
+}
+
+extension SignInView {
     func signInButton(isEnabled status: Bool) {
         signInButton.isEnabled = status
     }
@@ -149,7 +158,7 @@ final class SignInView: UIView {
 
 extension SignInView {
     @objc private func passwordTextFieldRightViewTapped(sender: UITapGestureRecognizer) {
-        passwordTextField.isSecureTextEntry = !passwordTextField.isSecureTextEntry
+        passwordTextField.isSecureTextEntry.toggle()
         guard let rightView = passwordTextField.rightView as? UIImageView else { return }
         rightView.image = passwordTextField.isSecureTextEntry ? eyeImageView : eyeSlashImageView
     }
