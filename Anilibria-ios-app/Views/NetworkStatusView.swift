@@ -12,7 +12,7 @@ final class NetworkStatusView: UIView {
     
     var isNetworkActive: Bool = false {
         didSet {
-            viewConfigure()
+            setupView()
         }
     }
     
@@ -20,7 +20,7 @@ final class NetworkStatusView: UIView {
         super.init(frame: .zero)
         
         setupTitleLabel()
-        viewConfigure()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -47,7 +47,7 @@ final class NetworkStatusView: UIView {
         ])
     }
     
-    private func viewConfigure() {
+    private func setupView() {
         DispatchQueue.main.async {
             if self.isNetworkActive {
                 UIView.animate(withDuration: 1, delay: 0) {
