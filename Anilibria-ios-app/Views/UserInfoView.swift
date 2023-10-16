@@ -8,13 +8,18 @@
 import UIKit
 
 final class UserInfoView: UIView {
+    private enum Constants {
+        static let cornerRadius: CGFloat = 25
+        static let userNameLabelFontSize: CGFloat = 26
+    }
+    
     private var imageView = UIImageView()
     private var userNameLabel = UILabel()
     
     init() {
         super.init(frame: .zero)
         
-        configureView()
+        setupView()
         setupImageView()
         setupUserNameLabel()
         
@@ -28,9 +33,9 @@ final class UserInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureView() {
+    private func setupView() {
         backgroundColor = .secondarySystemBackground
-        layer.cornerRadius = 25
+        layer.cornerRadius = Constants.cornerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }
     
@@ -39,7 +44,7 @@ final class UserInfoView: UIView {
     }
     
     private func setupUserNameLabel() {
-        userNameLabel.font = UIFont.systemFont(ofSize: 26, weight: .regular)
+        userNameLabel.font = UIFont.systemFont(ofSize: Constants.userNameLabelFontSize, weight: .regular)
         userNameLabel.textColor = .label
         userNameLabel.textAlignment = .center
     }
@@ -47,17 +52,17 @@ final class UserInfoView: UIView {
     private func setupConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.25)
+            imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.25)
         ])
         
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             userNameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            userNameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            userNameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
+            userNameLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            userNameLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 }
