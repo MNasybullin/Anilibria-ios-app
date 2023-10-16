@@ -26,13 +26,12 @@ final class ProfileNavigator {
         let title = Strings.TabBarControllers.Profile.title
         let image = UIImage(systemName: Strings.TabBarControllers.Profile.image)
         
-        rootViewController.tabBarItem = UITabBarItem(
-            title: title,
-            image: image,
-            tag: TabBarItemTags.profile.rawValue)
+        rootViewController.tabBarItem = UITabBarItem(title: title,
+                                                image: image,
+                                                tag: TabBarItemTags.profile.rawValue)
         rootViewController.navigationItem.title = title
         let navigationController = UINavigationController(rootViewController: rootViewController)
-        navigationController.navigationBar.tintColor = Asset.Colors.red.color
+        navigationController.navigationBar.tintColor = .systemRed
         return navigationController
     }
 }
