@@ -7,7 +7,7 @@
 
 import UIKit
 import SkeletonView
-
+/*
 protocol CarouselViewProtocol: AnyObject {
     func titleButtonAction(carouselView: CarouselView)
     func cellClicked(at indexPath: IndexPath, carouselView: CarouselView)
@@ -49,7 +49,7 @@ final class CarouselView: UIView {
         self.imageSize = imageSize
         self.cellSize = CGSize(width: imageSize.width, height: imageSize.height + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight)
         self.cellFocusAnimation = cellFocusAnimation
-
+        
         configureVContentStackView()
         configureHTitleAndButtonStackView(withTitle: title, buttonTitle: buttonTitle)
         configureCarouselView()
@@ -318,3 +318,4 @@ struct CarouselView_Previews: PreviewProvider {
 }
 
 #endif
+*/

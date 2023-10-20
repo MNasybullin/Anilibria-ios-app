@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import FirebaseCore
-import FirebaseAnalytics
 import AVFoundation
 
 @main
@@ -19,9 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupAudioSession()
         
         NetworkMonitor.shared.startMonitoring()
-        FirebaseApp.configure()
-        Analytics.logEvent(AnalyticsEventAppOpen, parameters: nil)
-        
+                
         return true
     }
     

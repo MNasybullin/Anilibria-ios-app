@@ -8,18 +8,43 @@
 import UIKit
 
 protocol HomeFlow: AnyObject {
+    /// use weak !
     var navigator: HomeNavigator? { get set }
 }
 
 final class HomeNavigator {
-
+    private let navigationController: UINavigationController
+    
+    init() {
+        let rootViewController = HomeController()
+        
+        navigationController = HomeNavigator.createNavigationController(for: rootViewController)
+        
+        rootViewController.navigator = self
+    }
+        
+    private static func createNavigationController(for rootViewController: UIViewController) -> UINavigationController {
+        let title = Strings.TabBarControllers.Home.title
+        let image = UIImage(systemName: Strings.TabBarControllers.Home.image)
+        
+        rootViewController.tabBarItem = UITabBarItem(title: title, 
+                                                image: image,
+                                                tag: TabBarItemTags.home.rawValue)
+        rootViewController.navigationItem.title = Strings.ScreenTitles.home
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.navigationBar.tintColor = .systemRed
+//        Common/UINavigationControllerExtension file
+//        navigationController.interactivePopGestureRecognizer?.delegate = navigationController
+        // проверить
+        return navigationController
+    }
 }
 
 // MARK: - BasicNavigator
 
 extension HomeNavigator: BasicNavigator {
     func initialViewController() -> UIViewController {
-        return UIViewController()
+        return navigationController
     }
 }
 

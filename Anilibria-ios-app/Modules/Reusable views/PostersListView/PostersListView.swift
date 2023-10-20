@@ -49,7 +49,7 @@ final class PostersListView: UIView {
         layout.sectionHeadersPinToVisibleBounds = true
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         addSubview(collectionView)
-        collectionView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+//        collectionView.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView.register(PostersListCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         collectionView.isSkeletonable = true
         
@@ -141,7 +141,8 @@ extension PostersListView: UICollectionViewDelegateFlowLayout {
         let screenWidth = collectionView.bounds.width
         let multiplier: CGFloat = 500 / 350
         let itemWidth = (screenWidth / 2) - (cellLineSpacing * 3)
-        return CGSize(width: itemWidth, height: itemWidth * multiplier + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight)
+//        return CGSize(width: itemWidth, height: itemWidth * multiplier + CarouselCollectionViewCell.stackSpacing + CarouselCollectionViewCell.titleLabelHeight)
+        return CGSize()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -176,37 +177,38 @@ extension PostersListView: UICollectionViewDataSource, UICollectionViewDelegate 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
-            fatalError("Cell is doesn`t CarouselCollectionViewCell")
-        }
-        guard postersListData != nil else {
-            if collectionView.sk.isSkeletonActive == false {
-                collectionView.showAnimatedSkeleton()
-                getData()
-            }
-            return cell
-        }
-        
-        let data = postersListData?[indexPath.section].postersList[indexPath.row]
-        cell.titleLabel.text = data?.name
-        cell.imageView.image = nil
-        
-        guard let image = data?.image else {
-            if data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
-                postersListData?[indexPath.section].postersList[indexPath.row].imageIsLoading = true
-                delegate?.getImage(for: indexPath)
-            }
-            if cell.imageView.sk.isSkeletonActive == false {
-                cell.imageView.showAnimatedSkeleton()
-            }
-            return cell
-        }
-
-        cell.imageView.image = image
-        if cell.imageView.sk.isSkeletonActive == true {
-            cell.imageView.hideSkeleton(reloadDataAfter: false)
-        }
-        return cell
+//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? CarouselCollectionViewCell else {
+//            fatalError("Cell is doesn`t CarouselCollectionViewCell")
+//        }
+//        guard postersListData != nil else {
+//            if collectionView.sk.isSkeletonActive == false {
+//                collectionView.showAnimatedSkeleton()
+//                getData()
+//            }
+//            return cell
+//        }
+//        
+//        let data = postersListData?[indexPath.section].postersList[indexPath.row]
+//        cell.titleLabel.text = data?.name
+//        cell.imageView.image = nil
+//        
+//        guard let image = data?.image else {
+//            if data?.imageIsLoading == false && NetworkMonitor.shared.isConnected == true {
+//                postersListData?[indexPath.section].postersList[indexPath.row].imageIsLoading = true
+//                delegate?.getImage(for: indexPath)
+//            }
+//            if cell.imageView.sk.isSkeletonActive == false {
+//                cell.imageView.showAnimatedSkeleton()
+//            }
+//            return cell
+//        }
+//
+//        cell.imageView.image = image
+//        if cell.imageView.sk.isSkeletonActive == true {
+//            cell.imageView.hideSkeleton(reloadDataAfter: false)
+//        }
+//        return cell
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

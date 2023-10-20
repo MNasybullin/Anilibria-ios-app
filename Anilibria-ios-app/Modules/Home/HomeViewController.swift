@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import Combine
-
+/*
 protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol! { get set }
     
@@ -212,7 +212,7 @@ extension HomeViewController: CarouselViewProtocol {
 
 // MARK: - ScrollableViewProtocol
 
-extension HomeViewController: ScrollableViewProtocol {
+extension HomeViewController: HasScrollableView {
     func scrollToTop() {
         scrollView.setContentOffset(CGPoint(x: 0, y: -(scrollView.adjustedContentInset.top)), animated: true)
     }
@@ -231,3 +231,4 @@ struct HomeViewController_Previews: PreviewProvider {
 }
 
 #endif
+*/

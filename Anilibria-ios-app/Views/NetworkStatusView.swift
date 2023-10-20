@@ -39,11 +39,13 @@ final class NetworkStatusView: UIView {
     
     private func titleLabelConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        let bottomAnchor = titleLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        bottomAnchor.priority = .defaultHigh
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            bottomAnchor
         ])
     }
     
