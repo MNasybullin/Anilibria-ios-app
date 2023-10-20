@@ -187,4 +187,8 @@ extension HomeView {
     func configureCollectionViewDelegate(_ contentController: HomeContentController) {
         collectionView.delegate = contentController
     }
+    
+    func configurePrefetchDataSource(_ contentController: HomeContentController) {
+        collectionView.prefetchDataSource = contentController
+    }
 }

@@ -144,6 +144,20 @@ extension HomeContentController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - UICollectionViewDataSourcePrefetching
+
+extension HomeContentController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            if indexPath.section == 0 { // today
+                homeTodayModel.getImage(for: todayData[indexPath.row])
+            } else if indexPath.section == 1 { // updates
+                homeUpdatesModel.getImage(for: updatesData[indexPath.row])
+            }
+        }
+    }
+}
+
 // MARK: - HomeContentControllerDelegate
 
 extension HomeContentController: HomeContentControllerDelegate {

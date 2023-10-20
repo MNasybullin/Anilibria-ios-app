@@ -21,8 +21,6 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        customView.configureCollectionViewDelegate(contentController)
-        
         configureNavigationItem()
         configureNavigationBarAppearance()
         
@@ -48,6 +46,9 @@ private extension HomeController {
         let cellProvider = contentController.configureCellProvider()
         let dataSource = customView.configureDataSource(cellProvider: cellProvider)
         contentController.configureDataSource(dataSource)
+        
+        customView.configureCollectionViewDelegate(contentController)
+        customView.configurePrefetchDataSource(contentController)
     }
 }
 
