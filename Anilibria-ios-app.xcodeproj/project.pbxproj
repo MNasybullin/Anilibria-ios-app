@@ -404,8 +404,7 @@
 				275865C02ADADC3B00F98884 /* SignInView.swift */,
 				275865C42ADAFB8E00F98884 /* UserInfoView.swift */,
 				275865CC2ADB13BF00F98884 /* ProfileView.swift */,
-				271072DB2ADDBA3E0024530D /* HomeView.swift */,
-				2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */,
+				27C6B4CB2AE2EDEE00BC0184 /* Home */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -418,9 +417,7 @@
 				275865B72ADA889F00F98884 /* ProfileController.swift */,
 				275865BE2ADADBF400F98884 /* SignInController.swift */,
 				275865C62ADAFCBE00F98884 /* UserInfoController.swift */,
-				271072D92ADDB7CF0024530D /* HomeController.swift */,
-				270461A12AE1C37F00AF02E4 /* HomeContentController.swift */,
-				27C6B4C92AE2E6DC00BC0184 /* HomeModelController.swift */,
+				27C6B4CC2AE2EDFA00BC0184 /* Home */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -508,6 +505,25 @@
 				272FF68128B652BD00CAE5DB /* CarouselView */,
 			);
 			path = "Reusable views";
+			sourceTree = "<group>";
+		};
+		27C6B4CB2AE2EDEE00BC0184 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				271072DB2ADDBA3E0024530D /* HomeView.swift */,
+				2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		27C6B4CC2AE2EDFA00BC0184 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				271072D92ADDB7CF0024530D /* HomeController.swift */,
+				270461A12AE1C37F00AF02E4 /* HomeContentController.swift */,
+				27C6B4C92AE2E6DC00BC0184 /* HomeModelController.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		27CB080628855A79009E2583 /* Modules */ = {
