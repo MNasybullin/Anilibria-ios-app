@@ -91,6 +91,7 @@
 		27A66E7D299298B200369EAF /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E7C299298B200369EAF /* NetworkMonitor.swift */; };
 		27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */; };
 		27AAC70C29E2C2250079F4DD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AAC70B29E2C2250079F4DD /* Player.swift */; };
+		27C6B4CA2AE2E6DC00BC0184 /* HomeModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6B4C92AE2E6DC00BC0184 /* HomeModelController.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27DEEBC12886A9570014055F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DEEBC02886A9570014055F /* HomeViewController.swift */; };
 		27E7B075293B6E57006CC8E1 /* PostersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E7B074293B6E57006CC8E1 /* PostersListView.swift */; };
@@ -210,6 +211,7 @@
 		27A66E7C299298B200369EAF /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesTableViewCell.swift; sourceTree = "<group>"; };
 		27AAC70B29E2C2250079F4DD /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		27C6B4C92AE2E6DC00BC0184 /* HomeModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModelController.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27DEEBC02886A9570014055F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		27E7B074293B6E57006CC8E1 /* PostersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostersListView.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 				275865C62ADAFCBE00F98884 /* UserInfoController.swift */,
 				271072D92ADDB7CF0024530D /* HomeController.swift */,
 				270461A12AE1C37F00AF02E4 /* HomeContentController.swift */,
+				27C6B4C92AE2E6DC00BC0184 /* HomeModelController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -906,6 +909,7 @@
 				D8C99D49149319702991DAA2 /* AnimeRouter.swift in Sources */,
 				AC005AACFC88C19706DBD9B1 /* SeriesViewController.swift in Sources */,
 				C92CC8F171A011A8F6282AAC /* SeriesInteractor.swift in Sources */,
+				27C6B4CA2AE2E6DC00BC0184 /* HomeModelController.swift in Sources */,
 				BB381D24A0FBC49F8FDFAE15 /* SeriesPresenter.swift in Sources */,
 				270461A22AE1C37F00AF02E4 /* HomeContentController.swift in Sources */,
 				058BB6E07DB9C1B7E768A179 /* SeriesRouter.swift in Sources */,
