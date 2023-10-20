@@ -59,6 +59,9 @@ final class PosterCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        if imageView.sk.isSkeletonActive == false {
+            imageView.showAnimatedSkeleton(transition: .none)
+        }
         imageView.image = nil
         titleLabel.text = nil
     }
@@ -97,8 +100,10 @@ private extension PosterCollectionViewCell {
 
 extension PosterCollectionViewCell {
     func configureCell(model: HomeModel) {
-        if model.image == nil && imageView.sk.isSkeletonActive == false {
-            imageView.showAnimatedSkeleton()
+        if model.image == nil {
+            if imageView.sk.isSkeletonActive == false {
+                imageView.showAnimatedSkeleton()
+            }
         } else if imageView.sk.isSkeletonActive == true {
             imageView.hideSkeleton(reloadDataAfter: false)
         }
