@@ -97,6 +97,11 @@ private extension PosterCollectionViewCell {
 
 extension PosterCollectionViewCell {
     func configureCell(model: HomeModel) {
+        if model.image == nil && imageView.sk.isSkeletonActive == false {
+            imageView.showAnimatedSkeleton()
+        } else if imageView.sk.isSkeletonActive == true {
+            imageView.hideSkeleton(reloadDataAfter: false)
+        }
         imageView.image = model.image
         titleLabel.text = model.name
     }

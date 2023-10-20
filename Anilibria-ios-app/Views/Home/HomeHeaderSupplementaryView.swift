@@ -69,7 +69,6 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
         stackView.addArrangedSubview(titleButton)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
-//        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),

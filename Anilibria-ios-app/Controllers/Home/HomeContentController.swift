@@ -53,13 +53,13 @@ private extension HomeContentController {
                 
                 switch indexPath.section {
                     case Section.today.rawValue:
-                        labelText = "Сегодня"
-                        buttonText = "Все"
+                        labelText = Strings.HomeModule.Title.today
+                        buttonText = Strings.HomeModule.ButtonTitle.allDays
                     case Section.updates.rawValue:
-                        labelText = "Тест"
+                        labelText = Strings.HomeModule.Title.updates
                         buttonText = nil
                     default:
-                        fatalError("Section not found.")
+                        fatalError("Section is not found")
                 }
                 headerView.configureView(titleLabelText: labelText,
                                          titleButtonText: buttonText)
@@ -105,7 +105,7 @@ private extension HomeContentController {
             case Section.updates.rawValue:
                 homeUpdatesModel.getImage(for: model)
             default:
-                fatalError("Not found section")
+                fatalError("Section is not found")
         }
     }
 }
@@ -149,10 +149,13 @@ extension HomeContentController: UICollectionViewDelegate {
 extension HomeContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            if indexPath.section == 0 { // today
-                homeTodayModel.getImage(for: todayData[indexPath.row])
-            } else if indexPath.section == 1 { // updates
-                homeUpdatesModel.getImage(for: updatesData[indexPath.row])
+            switch indexPath.section {
+                case Section.today.rawValue:
+                    homeTodayModel.getImage(for: todayData[indexPath.row])
+                case Section.updates.rawValue:
+                    homeUpdatesModel.getImage(for: updatesData[indexPath.row])
+                default:
+                    fatalError("Section is not found")
             }
         }
     }

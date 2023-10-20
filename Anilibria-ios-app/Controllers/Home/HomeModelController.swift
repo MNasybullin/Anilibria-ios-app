@@ -14,7 +14,7 @@ class HomeModelController {
     
     fileprivate var rawData: [TitleAPIModel] = []
     fileprivate var isDataTaskLoading = false
-    fileprivate var isImageTasksLoading: [String: Bool] = [:]
+    fileprivate var isImageTasksLoading = ThreadSafeDictionary<String, Bool>()
 
     fileprivate func requestImage(from urlString: String,
                                   completionHandler: @escaping (ResultBlock) -> Void) {
@@ -29,6 +29,7 @@ class HomeModelController {
                     throw MyImageError.failedToInitialize
                 }
                 isImageTasksLoading[urlString] = false
+                
                 completionHandler(.success(image))
             } catch {
                 isImageTasksLoading[urlString] = nil

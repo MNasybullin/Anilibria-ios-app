@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 final class HomeView: UIView {
     enum Section: Int {
@@ -45,6 +46,8 @@ private extension HomeView {
         collectionView.register(HomeHeaderSupplementaryView.self, 
                                 forSupplementaryViewOfKind: ElementKind.sectionHeader,
                                 withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.isSkeletonable = true
     }
     
     func createBasicListLayout() -> UICollectionViewLayout {
