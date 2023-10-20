@@ -38,9 +38,7 @@ final class AnimeInteractor: AnimeInteractorProtocol {
     }
     
     func requestImage() async throws -> UIImage {
-        guard let imageURL = titleModel.posters?.original?.url else {
-            throw MyInternalError.failedToFetchURLFromData
-        }
+        let imageURL = titleModel.posters.original.url
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
             guard let image = UIImage(data: imageData) else {

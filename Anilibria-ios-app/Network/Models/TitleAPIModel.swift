@@ -18,7 +18,7 @@ struct TitleAPIModel: Decodable {
     let names: GTNames
     let announce: String?
     let status: GTStatus?
-    let posters: GTPosters?
+    let posters: GTPosters
     let updated: Int?
     let lastChange: Int?
     let type: GTType?
@@ -47,11 +47,11 @@ struct GTStatus: Decodable {
 struct GTPosters: Decodable {
     let small: GTPoster?
     let medium: GTPoster?
-    let original: GTPoster?
+    let original: GTPoster
 }
 
 struct GTPoster: Decodable {
-    let url: String?
+    let url: String
 }
 
 struct GTType: Decodable {

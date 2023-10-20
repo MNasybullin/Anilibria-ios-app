@@ -21,7 +21,7 @@ class HomeModel {
     
     convenience init(from model: TitleAPIModel) {
         self.init(name: model.names.ru,
-                  imageUrlString: model.posters?.original?.url ?? "",
+                  imageUrlString: model.posters.original.url,
                   image: nil)
     }
 }

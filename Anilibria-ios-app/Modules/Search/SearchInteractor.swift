@@ -54,9 +54,7 @@ final class SearchInteractor: SearchInteractorProtocol {
     }
     
     func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage {
-        guard let imageURL = searchResults[indexPath.row].posters?.original?.url else {
-            throw MyInternalError.failedToFetchURLFromData
-        }
+        let imageURL = searchResults[indexPath.row].posters.original.url
         do {
             let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
             guard let image = UIImage(data: imageData) else {
@@ -73,10 +71,9 @@ final class SearchInteractor: SearchInteractorProtocol {
             let titleModel = try await PublicApiService.shared.getRandomTitle()
             randomAnime = titleModel
             var image: UIImage?
-            if let imageURL = titleModel.posters?.original?.url {
-                let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
-                image = UIImage(data: imageData)
-            }
+            let imageURL = titleModel.posters.original.url
+            let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
+            image = UIImage(data: imageData)
             return RandomAnimeViewModel(ruName: titleModel.names.ru,
                                         engName: titleModel.names.en,
                                         description: titleModel.description,
