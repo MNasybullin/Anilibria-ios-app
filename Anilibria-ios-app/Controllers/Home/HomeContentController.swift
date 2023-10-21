@@ -41,31 +41,27 @@ final class HomeContentController: NSObject {
 private extension HomeContentController {
     func configureSupplementaryViewDataSource() {
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            if kind == ElementKind.sectionHeader {
-                guard let headerView = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: kind,
-                    withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier,
-                    for: indexPath) as? HomeHeaderSupplementaryView else {
-                    fatalError("Can`t create new header")
-                }
-                let labelText: String?
-                let buttonText: String?
-                
-                switch indexPath.section {
-                    case Section.today.rawValue:
-                        labelText = Strings.HomeModule.Title.today
-                        buttonText = Strings.HomeModule.ButtonTitle.allDays
-                    case Section.updates.rawValue:
-                        labelText = Strings.HomeModule.Title.updates
-                        buttonText = nil
-                    default:
-                        fatalError("Section is not found")
-                }
-                headerView.configureView(titleLabelText: labelText,
-                                         titleButtonText: buttonText)
-                return headerView
+            guard kind == ElementKind.sectionHeader else { return nil }
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier,
+                for: indexPath) as? HomeHeaderSupplementaryView else {
+                fatalError("Can`t create new header")
             }
-            return nil
+            
+            switch indexPath.section {
+                case Section.today.rawValue:
+                    headerView.configureView(
+                        titleLabelText: Strings.HomeModule.Title.today,
+                        titleButtonText: Strings.HomeModule.ButtonTitle.allDays)
+                case Section.updates.rawValue:
+                    headerView.configureView(
+                        titleLabelText: Strings.HomeModule.Title.updates,
+                        titleButtonText: nil)
+                default:
+                    fatalError("Section is not found")
+            }
+            return headerView
         }
     }
     

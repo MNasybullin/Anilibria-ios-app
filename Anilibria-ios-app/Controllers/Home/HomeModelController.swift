@@ -18,9 +18,7 @@ class HomeModelController {
 
     fileprivate func requestImage(from urlString: String,
                                   completionHandler: @escaping (ResultBlock) -> Void) {
-        guard isImageTasksLoading[urlString] == nil else {
-            return
-        }
+        guard isImageTasksLoading[urlString] == nil else { return }
         isImageTasksLoading[urlString] = true
         Task {
             do {
@@ -29,7 +27,6 @@ class HomeModelController {
                     throw MyImageError.failedToInitialize
                 }
                 isImageTasksLoading[urlString] = false
-                
                 completionHandler(.success(image))
             } catch {
                 isImageTasksLoading[urlString] = nil
@@ -74,7 +71,7 @@ class HomeTodayModelController: HomeModelController {
                 let animeTitleModels = todayTitleModels.map { HomeModel(from: $0) }
                 self.delegate?.update(data: animeTitleModels, from: .today)
             } catch {
-                
+                print(error)
             }
         }
     }
@@ -96,7 +93,7 @@ class HomeUpdatesModelController: HomeModelController {
                 let animeTitleModels = data.map { HomeModel(from: $0) }
                 self.delegate?.update(data: animeTitleModels, from: .updates)
             } catch {
-                
+                print(error)
             }
         }
     }
