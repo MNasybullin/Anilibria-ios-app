@@ -194,4 +194,15 @@ extension HomeView {
     func configurePrefetchDataSource(_ contentController: HomeContentController) {
         collectionView.prefetchDataSource = contentController
     }
+    
+    func addRefreshControllTarget(_ target: Any?, action: Selector) {
+        collectionView.refreshControl?.addTarget(target, action: action, for: .valueChanged)
+    }
+    
+    func refreshControlEndRefreshing() {
+        collectionView.refreshControl?.endRefreshing()
+//        DispatchQueue.main.async {
+//            self.collectionView.refreshControl?.endRefreshing()
+//        }
+    }
 }

@@ -23,6 +23,7 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         
         configureNavigationItem()
         configureNavigationBarAppearance()
+        configureHomeView()
         
         configureContentController()
     }
@@ -49,6 +50,19 @@ private extension HomeController {
         
         customView.configureCollectionViewDelegate(contentController)
         customView.configurePrefetchDataSource(contentController)
+    }
+    
+    func configureHomeView() {
+        customView.addRefreshControllTarget(self, action: #selector(handleRefreshControl))
+    }
+    
+    @objc func handleRefreshControl() {
+        guard NetworkMonitor.shared.isConnected == true else {
+            MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
+            customView.refreshControlEndRefreshing()
+            return
+        }
+        contentController.refreshData()
     }
 }
 

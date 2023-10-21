@@ -130,6 +130,11 @@ extension HomeContentController {
         configureSupplementaryViewDataSource()
         initialSnapshot()
     }
+    
+    func refreshData() {
+        homeTodayModel.requestData()
+        homeUpdatesModel.requestData()
+    }
 }
 
 // MARK: - UICollectionViewDelegate
