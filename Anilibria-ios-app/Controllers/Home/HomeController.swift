@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol HomeControllerProtoocol: AnyObject {
+    func refreshControlEndRefreshing()
+}
+
 final class HomeController: UIViewController, HomeFlow, HasCustomView {
     typealias CustomView = HomeView
     
@@ -44,6 +48,8 @@ private extension HomeController {
     }
     
     func configureContentController() {
+        contentController.homeController = self
+        
         let cellProvider = contentController.configureCellProvider()
         let dataSource = customView.configureDataSource(cellProvider: cellProvider)
         contentController.configureDataSource(dataSource)
@@ -63,6 +69,14 @@ private extension HomeController {
             return
         }
         contentController.refreshData()
+    }
+}
+
+// MARK: - HomeControllerProtoocol
+
+extension HomeController: HomeControllerProtoocol {
+    func refreshControlEndRefreshing() {
+        customView.refreshControlEndRefreshing()
     }
 }
 

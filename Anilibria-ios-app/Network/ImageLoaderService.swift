@@ -12,10 +12,9 @@ final class ImageLoaderService: NetworkQuery {
     static let shared: ImageLoaderService = ImageLoaderService()
     
     private let mByte = 1024 * 1024
-        
+    
     private lazy var urlCache: URLCache = {
-//        let urlCache = URLCache(memoryCapacity: 50 * mByte, diskCapacity: 50 * mByte, diskPath: "images")
-        let urlCache = URLCache(memoryCapacity: 0 * mByte, diskCapacity: 0 * mByte, diskPath: "images") // TODO:  del
+        let urlCache = URLCache(memoryCapacity: 50 * mByte, diskCapacity: 50 * mByte, diskPath: "images")
         return urlCache
     }()
     
@@ -40,7 +39,7 @@ final class ImageLoaderService: NetworkQuery {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
         urlRequest.cachePolicy = .useProtocolCachePolicy
-
+        
         let (data, response) = try await session.data(for: urlRequest)
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 /* OK */ else {

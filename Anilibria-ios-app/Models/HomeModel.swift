@@ -8,32 +8,49 @@
 import UIKit
 
 class HomeModel {
-    var identifier: String = UUID().uuidString
+    var id: Int
     var name: String
     var imageUrlString: String
     var image: UIImage?
     
-    init(name: String, imageUrlString: String, image: UIImage? = nil) {
+    init(id: Int, name: String, imageUrlString: String, image: UIImage? = nil) {
+        self.id = id
         self.name = name
         self.imageUrlString = imageUrlString
         self.image = image
     }
     
     convenience init(from model: TitleAPIModel) {
-        self.init(name: model.names.ru,
+        self.init(id: model.id,
+                  name: model.names.ru,
                   imageUrlString: model.posters.original.url,
                   image: nil)
     }
 }
 
+// MARK: - Hashable
+
 extension HomeModel: Hashable {
     func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
+        hasher.combine(id)
     }
     
     // swiftlint: disable operator_whitespace
     static func ==(lhs: HomeModel, rhs: HomeModel) -> Bool {
-        return lhs.identifier == rhs.identifier
+        return lhs.id == rhs.id
     }
     // swiftlint: enable operator_whitespace
+}
+
+// MARK: - For SkeletonView
+
+extension HomeModel {
+    static func getSkeletonInitialData() -> [HomeModel] {
+        var data: [HomeModel] = []
+        for number in 0..<5 {
+            let model = HomeModel(id: number, name: "", imageUrlString: "")
+            data.append(model)
+        }
+        return data
+    }
 }

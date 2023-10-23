@@ -107,6 +107,15 @@ extension PosterCollectionViewCell {
         } else if imageView.sk.isSkeletonActive == true {
             imageView.hideSkeleton(reloadDataAfter: false)
         }
+        
+        if model.name.isEmpty {
+            if titleLabel.sk.isSkeletonActive == false {
+                titleLabel.showAnimatedSkeleton()
+            }
+        } else if titleLabel.sk.isSkeletonActive == true {
+            titleLabel.hideSkeleton(reloadDataAfter: false)
+        }
+        
         imageView.image = model.image
         titleLabel.text = model.name
     }

@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupAudioSession()
         
         NetworkMonitor.shared.startMonitoring()
-                
+        
         return true
     }
     

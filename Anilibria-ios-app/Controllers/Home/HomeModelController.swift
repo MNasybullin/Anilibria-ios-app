@@ -8,56 +8,61 @@
 import UIKit
 
 class HomeModelController {
-    typealias ResultBlock = Result<UIImage, Error>
-    
-    weak var delegate: HomeContentControllerDelegate?
+    typealias ResultImageBlock = (Result<UIImage, Error>) -> Void
+    typealias DataBlock = ([HomeModel], HomeView.Section)
+    typealias ResultDataBlock = (Result<DataBlock, Error>) -> Void
     
     fileprivate var rawData: [TitleAPIModel] = []
-    fileprivate var isDataTaskLoading = false
-    fileprivate var isImageTasksLoading = ThreadSafeDictionary<String, Bool>()
+    fileprivate (set) var isDataTaskLoading = false
+    fileprivate var isImageTasksLoading = AsyncDictionary<String, Bool>()
 
     fileprivate func requestImage(from urlString: String,
-                                  completionHandler: @escaping (ResultBlock) -> Void) {
-        guard isImageTasksLoading[urlString] == nil else { return }
-        isImageTasksLoading[urlString] = true
+                                  completionHandler: @escaping ResultImageBlock) {
         Task {
+            guard await isImageTasksLoading.get(urlString) != true else { return }
+            await isImageTasksLoading.set(urlString, value: true)
             do {
                 let imageData = try await ImageLoaderService.shared.getImageData(from: urlString)
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
                 }
-                isImageTasksLoading[urlString] = false
+                await isImageTasksLoading.set(urlString, value: false)
                 completionHandler(.success(image))
             } catch {
-                isImageTasksLoading[urlString] = nil
+                await isImageTasksLoading.set(urlString, value: nil)
                 completionHandler(.failure(error))
             }
         }
     }
     
-    func getImage(for model: HomeModel) {
+    func getImage(for model: HomeModel,
+                  comletionHandler: @escaping (_: HomeModel) -> Void) {
+        guard !model.imageUrlString.isEmpty else { return }
+        
         requestImage(from: model.imageUrlString) { result in
             switch result {
                 case .success(let image):
                     model.image = image
-                    self.delegate?.reconfigure(data: model)
+                    comletionHandler(model)
                 case.failure(let error):
                     print(error)
             }
         }
     }
     
-    func requestData() {
-        fatalError("You must override this method in child class")
+    func requestData(completionHanlder: @escaping ResultDataBlock) {
+        guard isDataTaskLoading == false else {
+            return
+        }
+        isDataTaskLoading = true
     }
 }
 
 // MARK: - HomeTodayModelController
 
 class HomeTodayModelController: HomeModelController {
-    override func requestData() {
-        guard isDataTaskLoading == false else { return }
-        isDataTaskLoading = true
+    override func requestData(completionHanlder: @escaping ResultDataBlock) {
+        super.requestData(completionHanlder: completionHanlder)
         Task {
             defer {
                 isDataTaskLoading = false
@@ -69,9 +74,9 @@ class HomeTodayModelController: HomeModelController {
                 }
                 rawData = todayTitleModels
                 let animeTitleModels = todayTitleModels.map { HomeModel(from: $0) }
-                self.delegate?.update(data: animeTitleModels, from: .today)
+                completionHanlder(.success((animeTitleModels, .today)))
             } catch {
-                print(error)
+                completionHanlder(.failure(error))
             }
         }
     }
@@ -80,9 +85,8 @@ class HomeTodayModelController: HomeModelController {
 // MARK: - HomeUpdatesModelController
 
 class HomeUpdatesModelController: HomeModelController {
-    override func requestData() {
-        guard isDataTaskLoading == false else { return }
-        isDataTaskLoading = true
+    override func requestData(completionHanlder: @escaping ResultDataBlock) {
+        super.requestData(completionHanlder: completionHanlder)
         Task {
             defer {
                 isDataTaskLoading = false
@@ -91,9 +95,9 @@ class HomeUpdatesModelController: HomeModelController {
                 let data = try await PublicApiService.shared.getUpdates()
                 rawData = data
                 let animeTitleModels = data.map { HomeModel(from: $0) }
-                self.delegate?.update(data: animeTitleModels, from: .updates)
+                completionHanlder(.success((animeTitleModels, .updates)))
             } catch {
-                print(error)
+                completionHanlder(.failure(error))
             }
         }
     }

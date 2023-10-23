@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol HomeContentControllerDelegate: AnyObject {
-    func update(data: [HomeModel], from section: HomeContentController.Section)
-    func reconfigure(data: HomeModel)
-}
-
 final class HomeContentController: NSObject {
     typealias ElementKind = HomeView.ElementKind
     typealias Section = HomeView.Section
@@ -23,16 +18,15 @@ final class HomeContentController: NSObject {
     
     private var dataSource: DataSource!
     
-    private var todayData: [HomeModel] = []
-    private var updatesData: [HomeModel] = []
+    private var todayData: [HomeModel] = HomeModel.getSkeletonInitialData()
+    private var updatesData: [HomeModel] = HomeModel.getSkeletonInitialData()
+    
+    weak var homeController: HomeControllerProtoocol?
     
     override init() {
         super.init()
-        homeTodayModel.delegate = self
-        homeUpdatesModel.delegate = self
         
-        homeTodayModel.requestData()
-        homeUpdatesModel.requestData()
+        requestInitialData()
     }
 }
 
@@ -65,6 +59,20 @@ private extension HomeContentController {
         }
     }
     
+    func requestInitialData() {
+        let completionBlock: HomeModelController.ResultDataBlock = { [weak self] result in
+            switch result {
+                case .success((let data, let section)):
+                    self?.update(data: data, from: section)
+                    self?.refreshSnapshot()
+                case .failure(let error):
+                    print(error)
+            }
+        }
+        homeTodayModel.requestData(completionHanlder: completionBlock)
+        homeUpdatesModel.requestData(completionHanlder: completionBlock)
+    }
+    
     func initialSnapshot() {
         var snapshot = Snapshot()
         snapshot.appendSections([.today, .updates])
@@ -72,16 +80,13 @@ private extension HomeContentController {
         snapshot.appendItems(updatesData, toSection: .updates)
         dataSource.apply(snapshot, animatingDifferences: false)
     }
-    
-    func applySnapshot(for section: Section) {
+        
+    func refreshSnapshot() {
         DispatchQueue.main.async {
-            var snapshot = self.dataSource.snapshot()
-            switch section {
-                case .today:
-                    snapshot.appendItems(self.todayData, toSection: section)
-                case .updates:
-                    snapshot.appendItems(self.updatesData, toSection: section)
-            }
+            var snapshot = Snapshot()
+            snapshot.appendSections([.today, .updates])
+            snapshot.appendItems(self.todayData, toSection: .today)
+            snapshot.appendItems(self.updatesData, toSection: .updates)
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
@@ -97,11 +102,24 @@ private extension HomeContentController {
     func requestImage(for model: HomeModel, indexPath: IndexPath) {
         switch indexPath.section {
             case Section.today.rawValue:
-                homeTodayModel.getImage(for: model)
+                homeTodayModel.getImage(for: model) {
+                    self.reconfigureSnapshot(model: $0)
+                }
             case Section.updates.rawValue:
-                homeUpdatesModel.getImage(for: model)
+                homeUpdatesModel.getImage(for: model) {
+                    self.reconfigureSnapshot(model: $0)
+                }
             default:
                 fatalError("Section is not found")
+        }
+    }
+    
+    func update(data: [HomeModel], from section: Section) {
+        switch section {
+            case .today:
+                todayData = data
+            case .updates:
+                updatesData = data
         }
     }
 }
@@ -132,8 +150,26 @@ extension HomeContentController {
     }
     
     func refreshData() {
-        homeTodayModel.requestData()
-        homeUpdatesModel.requestData()
+        if homeTodayModel.isDataTaskLoading || homeUpdatesModel.isDataTaskLoading {
+            DispatchQueue.main.async { [weak self] in
+                self?.homeController?.refreshControlEndRefreshing()
+            }
+            return
+        }
+        let completionBlock: HomeModelController.ResultDataBlock = { [weak self] result in
+            switch result {
+                case .success((let data, let section)):
+                    self?.update(data: data, from: section)
+                    self?.refreshSnapshot()
+                case .failure(let error):
+                    print(error)
+            }
+            DispatchQueue.main.async {
+                self?.homeController?.refreshControlEndRefreshing()
+            }
+        }
+        homeTodayModel.requestData(completionHanlder: completionBlock)
+        homeUpdatesModel.requestData(completionHanlder: completionBlock)
     }
 }
 
@@ -152,30 +188,18 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
         indexPaths.forEach { indexPath in
             switch indexPath.section {
                 case Section.today.rawValue:
-                    homeTodayModel.getImage(for: todayData[indexPath.row])
+                    guard todayData[indexPath.row].image == nil else { return }
+                    homeTodayModel.getImage(for: todayData[indexPath.row]) {
+                        self.reconfigureSnapshot(model: $0)
+                    }
                 case Section.updates.rawValue:
-                    homeUpdatesModel.getImage(for: updatesData[indexPath.row])
+                    guard updatesData[indexPath.row].image == nil else { return }
+                    homeUpdatesModel.getImage(for: updatesData[indexPath.row]) {
+                        self.reconfigureSnapshot(model: $0)
+                    }
                 default:
                     fatalError("Section is not found")
             }
         }
-    }
-}
-
-// MARK: - HomeContentControllerDelegate
-
-extension HomeContentController: HomeContentControllerDelegate {
-    func update(data: [HomeModel], from section: Section) {
-        switch section {
-            case .today:
-                todayData = data
-            case .updates:
-                updatesData = data
-        }
-        applySnapshot(for: section)
-    }
-    
-    func reconfigure(data: HomeModel) {
-        reconfigureSnapshot(model: data)
     }
 }

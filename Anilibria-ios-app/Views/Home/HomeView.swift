@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SkeletonView
 
 final class HomeView: UIView {
     enum Section: Int {
@@ -47,7 +46,6 @@ private extension HomeView {
                                 forSupplementaryViewOfKind: ElementKind.sectionHeader,
                                 withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.isSkeletonable = true
     }
     
     func createBasicListLayout() -> UICollectionViewLayout {
@@ -155,7 +153,6 @@ private extension HomeView {
     func configureRefreshControll() {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .systemRed
-        //        refreshControl.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
         collectionView.refreshControl = refreshControl
     }
     
@@ -200,9 +197,11 @@ extension HomeView {
     }
     
     func refreshControlEndRefreshing() {
-        collectionView.refreshControl?.endRefreshing()
-//        DispatchQueue.main.async {
-//            self.collectionView.refreshControl?.endRefreshing()
-//        }
+        DispatchQueue.main.async {
+            guard self.collectionView.refreshControl?.isRefreshing == true else { return }
+            UIView.animate(withDuration: 1) {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
+        }
     }
 }
