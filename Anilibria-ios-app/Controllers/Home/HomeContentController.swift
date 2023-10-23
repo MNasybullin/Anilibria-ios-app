@@ -64,7 +64,7 @@ private extension HomeContentController {
             switch result {
                 case .success((let data, let section)):
                     self?.update(data: data, from: section)
-                    self?.refreshSnapshot()
+                    self?.initialSnapshot()
                 case .failure(let error):
                     print(error)
             }
@@ -74,14 +74,6 @@ private extension HomeContentController {
     }
     
     func initialSnapshot() {
-        var snapshot = Snapshot()
-        snapshot.appendSections([.today, .updates])
-        snapshot.appendItems(todayData, toSection: .today)
-        snapshot.appendItems(updatesData, toSection: .updates)
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
-        
-    func refreshSnapshot() {
         DispatchQueue.main.async {
             var snapshot = Snapshot()
             snapshot.appendSections([.today, .updates])
@@ -90,10 +82,30 @@ private extension HomeContentController {
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
+        
+    func refreshSnapshot(for section: Section, data: [HomeModel]) {
+        DispatchQueue.main.async {
+            var snapshot = self.dataSource.snapshot()
+            switch section {
+                case .today:
+                    snapshot.deleteItems(self.todayData)
+                    self.todayData = data
+                    snapshot.appendItems(self.todayData, toSection: .today)
+                case .updates:
+                    snapshot.deleteItems(self.updatesData)
+                    self.updatesData = data
+                    snapshot.appendItems(self.updatesData, toSection: .updates)
+            }
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
+    }
     
     func reconfigureSnapshot(model: HomeModel) {
         DispatchQueue.main.async {
             var snapshot = self.dataSource.snapshot()
+            guard snapshot.indexOfItem(model) != nil else {
+                return
+            }
             snapshot.reconfigureItems([model])
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
@@ -150,7 +162,8 @@ extension HomeContentController {
     }
     
     func refreshData() {
-        if homeTodayModel.isDataTaskLoading || homeUpdatesModel.isDataTaskLoading {
+        guard homeTodayModel.isDataTaskLoading == false
+                && homeUpdatesModel.isDataTaskLoading == false else {
             DispatchQueue.main.async { [weak self] in
                 self?.homeController?.refreshControlEndRefreshing()
             }
@@ -159,8 +172,7 @@ extension HomeContentController {
         let completionBlock: HomeModelController.ResultDataBlock = { [weak self] result in
             switch result {
                 case .success((let data, let section)):
-                    self?.update(data: data, from: section)
-                    self?.refreshSnapshot()
+                    self?.refreshSnapshot(for: section, data: data)
                 case .failure(let error):
                     print(error)
             }
