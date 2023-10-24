@@ -9,6 +9,7 @@ import UIKit
 
 protocol HomeViewOutput: AnyObject {
     func todayHeaderButtonTapped()
+    func handleRefreshControl()
     func requestImage(for item: AnimePosterItem, indexPath: IndexPath)
 }
 
@@ -23,15 +24,17 @@ final class HomeView: UIView {
     }
     
     private var collectionView: UICollectionView!
+    
     weak var delegate: HomeViewOutput?
     
-    init(delegate: HomeController) {
+    init(delegate homeController: HomeController) {
         super.init(frame: .zero)
         
-        self.delegate = delegate
+        delegate = homeController
         configureView()
         configureCollectionView()
         configureRefreshControll()
+        configureDataSourceAndDelegate(homeController)
         
         configureConstraints()
     }
@@ -65,6 +68,7 @@ private extension HomeView {
     func configureRefreshControll() {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .systemRed
+        refreshControl.addTarget(self, action: #selector(handleRefreshControll), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
     
@@ -108,10 +112,6 @@ private extension HomeView {
         return supplementaryViewProvider
     }
     
-    @objc func todayHeaderButtonTapped() {
-        delegate?.todayHeaderButtonTapped()
-    }
-    
     func configureCellProvider() -> DataSource.CellProvider {
         let cellProvider: DataSource.CellProvider = { (collectionView, indexPath, model) in
             guard let cell = collectionView.dequeueReusableCell(
@@ -129,6 +129,18 @@ private extension HomeView {
     }
 }
 
+// MARK: - Targets
+
+private extension HomeView {
+    @objc func handleRefreshControll() {
+        delegate?.handleRefreshControl()
+    }
+    
+    @objc func todayHeaderButtonTapped() {
+        delegate?.todayHeaderButtonTapped()
+    }
+}
+
 // MARK: - Internal methods
 
 extension HomeView {
@@ -143,19 +155,15 @@ extension HomeView {
         collectionView.scrollToItem(at: IndexPath(row: 0, section: section), at: .centeredHorizontally, animated: true)
     }
     
-    func configureDataSourceAndDelegate(_ contentController: HomeContentController) {
+    func configureDataSourceAndDelegate(_ homeController: HomeController) {
         let cellProvider = configureCellProvider()
         let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
         dataSource.supplementaryViewProvider = configureSupplementaryViewDataSource()
         
-        contentController.configureDataSource(dataSource)
+        homeController.dataSource = dataSource
         
-        collectionView.delegate = contentController
-        collectionView.prefetchDataSource = contentController
-    }
-    
-    func addRefreshControllTarget(_ target: Any?, action: Selector) {
-        collectionView.refreshControl?.addTarget(target, action: action, for: .valueChanged)
+        collectionView.delegate = homeController
+        collectionView.prefetchDataSource = homeController
     }
     
     func refreshControlEndRefreshing() {

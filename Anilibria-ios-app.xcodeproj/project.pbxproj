@@ -10,7 +10,6 @@
 		058BB6E07DB9C1B7E768A179 /* SeriesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F381B81937D6BF9C971B8DD9 /* SeriesRouter.swift */; };
 		2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */; };
 		270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */; };
-		270461A22AE1C37F00AF02E4 /* HomeContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270461A12AE1C37F00AF02E4 /* HomeContentController.swift */; };
 		271072DA2ADDB7CF0024530D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072D92ADDB7CF0024530D /* HomeController.swift */; };
 		271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072DB2ADDBA3E0024530D /* HomeView.swift */; };
 		271072E32ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072E22ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift */; };
@@ -136,7 +135,6 @@
 		0F145667CAE506357C67C632 /* AnimeRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnimeRouter.swift; sourceTree = "<group>"; };
 		2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifierExtensions.swift; sourceTree = "<group>"; };
-		270461A12AE1C37F00AF02E4 /* HomeContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentController.swift; sourceTree = "<group>"; };
 		271072D92ADDB7CF0024530D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		271072DB2ADDBA3E0024530D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		271072E22ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimePosterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -547,7 +545,6 @@
 			isa = PBXGroup;
 			children = (
 				271072D92ADDB7CF0024530D /* HomeController.swift */,
-				270461A12AE1C37F00AF02E4 /* HomeContentController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -959,7 +956,6 @@
 				C92CC8F171A011A8F6282AAC /* SeriesInteractor.swift in Sources */,
 				27C6B4CA2AE2E6DC00BC0184 /* HomeBaseModel.swift in Sources */,
 				BB381D24A0FBC49F8FDFAE15 /* SeriesPresenter.swift in Sources */,
-				270461A22AE1C37F00AF02E4 /* HomeContentController.swift in Sources */,
 				058BB6E07DB9C1B7E768A179 /* SeriesRouter.swift in Sources */,
 				275865C72ADAFCBE00F98884 /* UserInfoController.swift in Sources */,
 			);

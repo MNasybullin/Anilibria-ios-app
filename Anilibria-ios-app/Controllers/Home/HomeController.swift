@@ -7,17 +7,28 @@
 
 import UIKit
 
-protocol HomeControllerInput: AnyObject {
-    func refreshControlEndRefreshing()
-    func scrollToStart(section: Int)
-}
-
 final class HomeController: UIViewController, HomeFlow, HasCustomView {
     typealias CustomView = HomeView
+    typealias Section = HomeView.Section
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, AnimePosterItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, AnimePosterItem>
     
     weak var navigator: HomeNavigator?
     
-    var contentController = HomeContentController()
+    private lazy var homeTodayModel: HomeModelInput = {
+        let model = HomeTodayModel()
+        model.output = self
+        return model
+    }()
+    private lazy var homeUpdatesModel: HomeModelInput = {
+        let model = HomeUpdatesModel()
+        model.output = self
+        return model
+    }()
+    
+    var dataSource: DataSource!
+    private lazy var todayData: [AnimePosterItem] = AnimePosterItem.getSkeletonInitialData()
+    private lazy var updatesData: [AnimePosterItem] = AnimePosterItem.getSkeletonInitialData()
     
     override func loadView() {
         view = HomeView(delegate: self)
@@ -28,15 +39,15 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         
         configureNavigationItem()
         configureNavigationBarAppearance()
-        configureHomeView()
         
-        configureContentController()
+        requestInitialData()
     }
 }
 
 // MARK: - Private methods
 
 private extension HomeController {
+    // MARK: Configure NavigationBar
     func configureNavigationItem() {
         navigationItem.backButtonTitle = ""
     }
@@ -48,46 +59,146 @@ private extension HomeController {
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
     }
     
-    func configureContentController() {
-        contentController.homeController = self
-        customView.configureDataSourceAndDelegate(contentController)
+    // MARK: Snapshot methods
+    func requestInitialData() {
+        homeTodayModel.requestData()
+        homeUpdatesModel.requestData()
     }
     
-    func configureHomeView() {
-        customView.addRefreshControllTarget(self, action: #selector(handleRefreshControl))
-    }
-    
-    @objc func handleRefreshControl() {
-        guard NetworkMonitor.shared.isConnected == true else {
-            MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
-            customView.refreshControlEndRefreshing()
-            return
+    func initialSnapshot() {
+        DispatchQueue.main.async {
+            var snapshot = Snapshot()
+            snapshot.appendSections([.today, .updates])
+            snapshot.appendItems(self.todayData, toSection: .today)
+            snapshot.appendItems(self.updatesData, toSection: .updates)
+            self.dataSource.apply(snapshot, animatingDifferences: true)
         }
-        contentController.refreshData()
+    }
+        
+    func refreshSnapshot(for section: Section, data: [AnimePosterItem]) {
+        DispatchQueue.main.async {
+            var snapshot = self.dataSource.snapshot()
+            switch section {
+                case .today:
+                    snapshot.deleteItems(self.todayData)
+                    self.todayData = data
+                    snapshot.appendItems(self.todayData, toSection: .today)
+                case .updates:
+                    snapshot.deleteItems(self.updatesData)
+                    self.updatesData = data
+                    snapshot.appendItems(self.updatesData, toSection: .updates)
+            }
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
+    }
+    
+    func reconfigureSnapshot(model: AnimePosterItem) {
+        DispatchQueue.main.async {
+            var snapshot = self.dataSource.snapshot()
+            guard snapshot.indexOfItem(model) != nil else {
+                return
+            }
+            snapshot.reconfigureItems([model])
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
+    }
+    
+    func update(data: [AnimePosterItem], from section: Section) {
+        switch section {
+            case .today:
+                todayData = data
+            case .updates:
+                updatesData = data
+        }
     }
 }
 
-// MARK: - HomeControllerProtoocol
+// MARK: - UICollectionViewDelegate
 
-extension HomeController: HomeControllerInput {
-    func refreshControlEndRefreshing() {
-        customView.refreshControlEndRefreshing()
+extension HomeController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("cell \(indexPath) selected")
+    }
+}
+
+// MARK: - UICollectionViewDataSourcePrefetching
+
+extension HomeController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            switch indexPath.section {
+                case Section.today.rawValue:
+                    guard todayData[indexPath.row].image == nil else { return }
+                    homeTodayModel.requestImage(from: todayData[indexPath.row])
+                case Section.updates.rawValue:
+                    guard updatesData[indexPath.row].image == nil else { return }
+                    homeUpdatesModel.requestImage(from: updatesData[indexPath.row])
+                default:
+                    fatalError("Section is not found")
+            }
+        }
+    }
+}
+
+// MARK: - HomeModelOutput
+
+extension HomeController: HomeModelOutput {
+    func refreshData(items: [AnimePosterItem], section: HomeView.Section) {
+        refreshSnapshot(for: section, data: items)
+        DispatchQueue.main.async { [weak self] in
+            self?.customView.refreshControlEndRefreshing()
+            self?.customView.scrollToStart(section: section.rawValue)
+        }
     }
     
-    func scrollToStart(section: Int) {
-        customView.scrollToStart(section: section)
+    func updateData(items: [AnimePosterItem], section: HomeView.Section) {
+        update(data: items, from: section)
+        initialSnapshot()
+    }
+    
+    func updateImage(for item: AnimePosterItem, image: UIImage) {
+        item.image = image
+        self.reconfigureSnapshot(model: item)
+    }
+    
+    func failedRefreshData(error: Error) {
+        DispatchQueue.main.async { [weak self] in
+            self?.customView.refreshControlEndRefreshing()
+        }
     }
 }
 
 // MARK: - HomeViewOutput
 
 extension HomeController: HomeViewOutput {
-    func requestImage(for item: AnimePosterItem, indexPath: IndexPath) {
-        contentController.requestImage(for: item, indexPath: indexPath)
-    }
-    
     func todayHeaderButtonTapped() {
         navigator?.show(.schedule)
+    }
+    
+    func handleRefreshControl() {
+        guard NetworkMonitor.shared.isConnected == true else {
+            MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
+            customView.refreshControlEndRefreshing()
+            return
+        }
+        guard homeTodayModel.isDataTaskLoading == false
+                && homeUpdatesModel.isDataTaskLoading == false else {
+            customView.refreshControlEndRefreshing()
+            return
+        }
+        homeTodayModel.refreshData()
+        homeUpdatesModel.refreshData()
+    }
+    
+    func requestImage(for model: AnimePosterItem, indexPath: IndexPath) {
+        switch indexPath.section {
+            case Section.today.rawValue:
+                homeTodayModel.requestImage(from: model)
+            case Section.updates.rawValue:
+                homeUpdatesModel.requestImage(from: model)
+            default:
+                fatalError("Section is not found")
+        }
     }
 }
 
