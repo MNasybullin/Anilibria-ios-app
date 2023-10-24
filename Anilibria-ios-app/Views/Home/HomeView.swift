@@ -36,7 +36,7 @@ final class HomeView: UIView {
         configureRefreshControll()
         configureDataSourceAndDelegate(homeController)
         
-        configureConstraints()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -72,7 +72,7 @@ private extension HomeView {
         collectionView.refreshControl = refreshControl
     }
     
-    func configureConstraints() {
+    func configureLayout() {
         addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false

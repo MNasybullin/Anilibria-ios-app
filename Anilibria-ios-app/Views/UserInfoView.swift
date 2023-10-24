@@ -19,37 +19,40 @@ final class UserInfoView: UIView {
     init() {
         super.init(frame: .zero)
         
-        setupView()
-        setupImageView()
-        setupUserNameLabel()
-        
-        addSubview(imageView)
-        addSubview(userNameLabel)
-        
-        setupConstraints()
+        configureView()
+        configureImageView()
+        configureUserNameLabel()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setupView() {
+}
+
+// MARK: - Private methods
+
+private extension UserInfoView {
+    func configureView() {
         backgroundColor = .secondarySystemBackground
         layer.cornerRadius = Constants.cornerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }
     
-    private func setupImageView() {
+    func configureImageView() {
         imageView.clipsToBounds = true
     }
     
-    private func setupUserNameLabel() {
+    func configureUserNameLabel() {
         userNameLabel.font = UIFont.systemFont(ofSize: Constants.userNameLabelFontSize, weight: .regular)
         userNameLabel.textColor = .label
         userNameLabel.textAlignment = .center
     }
     
-    private func setupConstraints() {
+    func configureLayout() {
+        addSubview(imageView)
+        addSubview(userNameLabel)
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -66,6 +69,8 @@ final class UserInfoView: UIView {
         ])
     }
 }
+
+// MARK: - Internal methods
 
 extension UserInfoView {
     func set(image: UIImage) {

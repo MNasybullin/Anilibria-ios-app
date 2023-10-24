@@ -39,8 +39,12 @@ final class RootViewController: UIViewController {
         subscribeToNetworkMonitor()
         updateView()
     }
-    
-    private func configureNetworkStatusView() {
+}
+
+// MARK: - Private methods
+
+private extension RootViewController {
+    func configureNetworkStatusView() {
         view.addSubview(networkStatusView)
         
         networkStatusView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +57,7 @@ final class RootViewController: UIViewController {
         networkStatusViewIsZeroHeightConstraint.isActive = true
     }
     
-    private func configureTabBar() {
+    func configureTabBar() {
         view.addSubview(tabBar.view)
         addChild(tabBar)
         
@@ -68,7 +72,7 @@ final class RootViewController: UIViewController {
         tabBar.didMove(toParent: self)
     }
     
-    private func subscribeToNetworkMonitor() {
+    func subscribeToNetworkMonitor() {
         cancellable = NetworkMonitor.shared.isConnectedPublisher
             .receive(on: DispatchQueue.main)
             .sink { isConnected in
@@ -80,7 +84,7 @@ final class RootViewController: UIViewController {
             }
     }
     
-    private func updateView() {
+    func updateView() {
         let delay: TimeInterval = isHiddenBottomBar == true ? 3 : 0
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
@@ -91,18 +95,22 @@ final class RootViewController: UIViewController {
         }
     }
     
-    private func showNetworkActivityView() {
+    func showNetworkActivityView() {
         guard isHiddenBottomBar == true else { return }
         networkStatusView.isNetworkActive = false
         isHiddenBottomBar = false
     }
     
-    private func hideNetworkActivityView() {
+    func hideNetworkActivityView() {
         guard isHiddenBottomBar == false else { return }
         networkStatusView.isNetworkActive = true
         isHiddenBottomBar = true
     }
-    
+}
+
+// MARK: - Internal methods
+
+extension RootViewController {
     func showFlashNetworkActivityView() {
         guard NetworkMonitor.shared.isConnected == false else { return }
         showNetworkActivityView()

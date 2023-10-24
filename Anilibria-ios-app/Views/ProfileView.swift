@@ -19,16 +19,17 @@ final class ProfileView: UIView {
         
         super.init(frame: .zero)
         
-        setupUserInfoView()
-        setupSignInView()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupUserInfoView() {
+    private func configureLayout() {
         addSubview(userInfoView)
+        addSubview(signInView)
+        
         userInfoView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             userInfoView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -36,10 +37,7 @@ final class ProfileView: UIView {
             userInfoView.topAnchor.constraint(equalTo: topAnchor),
             userInfoView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.33)
         ])
-    }
-    
-    private func setupSignInView() {
-        addSubview(signInView)
+        
         signInView.translatesAutoresizingMaskIntoConstraints = false
         signInViewTopAnchor = signInView.topAnchor.constraint(equalTo: topAnchor)
         NSLayoutConstraint.activate([
@@ -50,6 +48,8 @@ final class ProfileView: UIView {
         ])
     }
 }
+
+// MARK: - Internal methods
 
 extension ProfileView {
     func hideSignInView(animated: Bool) {

@@ -40,14 +40,7 @@ final class SignInView: UIView {
         setupActivityIndicator()
         setupSignInButton()
         
-        addSubview(textFieldsVStack)
-        addSubview(signInButton)
-        
-        textFieldsVStack.addArrangedSubview(emailTextField)
-        textFieldsVStack.addArrangedSubview(passwordTextField)
-        textFieldsVStack.addArrangedSubview(activityIndicator)
-        
-        setupConstraints()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -122,7 +115,14 @@ final class SignInView: UIView {
         signInButton.isEnabled = false
     }
     
-    private func setupConstraints() {
+    private func configureLayout() {
+        addSubview(textFieldsVStack)
+        addSubview(signInButton)
+        
+        textFieldsVStack.addArrangedSubview(emailTextField)
+        textFieldsVStack.addArrangedSubview(passwordTextField)
+        textFieldsVStack.addArrangedSubview(activityIndicator)
+        
         textFieldsVStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             textFieldsVStack.centerXAnchor.constraint(equalTo: centerXAnchor),
