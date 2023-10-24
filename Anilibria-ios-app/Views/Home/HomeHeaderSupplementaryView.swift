@@ -40,10 +40,6 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
         let button = UIButton(configuration: config)
 
         button.isEnabled = false
-        
-//        titleButton.addAction(UIAction { [weak self] _ in
-//            self?.delegate?.titleButtonAction(carouselView: self!)
-//        }, for: .touchUpInside)
         return button
     }()
     
@@ -78,12 +74,20 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
 
         titleButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
-    
+}
+
+// MARK: - Internal methods
+
+extension HomeHeaderSupplementaryView {
     func configureView(titleLabelText: String?, titleButtonText: String?) {
         titleLabel.text = titleLabelText
         if titleLabelText != nil {
             titleButton.setTitle(titleButtonText, for: .normal)
             titleButton.isEnabled = true
         }
+    }
+    
+    func addButtonTarget(_ target: Any?, action: Selector) {
+        titleButton.addTarget(target, action: action, for: .touchUpInside)
     }
 }

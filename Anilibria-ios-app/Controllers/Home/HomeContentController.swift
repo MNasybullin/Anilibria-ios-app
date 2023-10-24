@@ -28,7 +28,7 @@ final class HomeContentController: NSObject {
     private lazy var todayData: [AnimePosterItem] = AnimePosterItem.getSkeletonInitialData()
     private lazy var updatesData: [AnimePosterItem] = AnimePosterItem.getSkeletonInitialData()
     
-    weak var homeController: HomeControllerProtoocol?
+    weak var homeController: HomeControllerInput?
     
     override init() {
         super.init()
@@ -175,6 +175,7 @@ extension HomeContentController: HomeModelOutput {
         refreshSnapshot(for: section, data: items)
         DispatchQueue.main.async { [weak self] in
             self?.homeController?.refreshControlEndRefreshing()
+            self?.homeController?.scrollToStart(section: section.rawValue)
         }
     }
     

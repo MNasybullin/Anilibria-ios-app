@@ -7,8 +7,9 @@
 
 import UIKit
 
-protocol HomeControllerProtoocol: AnyObject {
+protocol HomeControllerInput: AnyObject {
     func refreshControlEndRefreshing()
+    func scrollToStart(section: Int)
 }
 
 final class HomeController: UIViewController, HomeFlow, HasCustomView {
@@ -19,7 +20,7 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
     var contentController = HomeContentController()
     
     override func loadView() {
-        view = HomeView()
+        view = HomeView(delegate: self)
     }
     
     override func viewDidLoad() {
@@ -74,9 +75,21 @@ private extension HomeController {
 
 // MARK: - HomeControllerProtoocol
 
-extension HomeController: HomeControllerProtoocol {
+extension HomeController: HomeControllerInput {
     func refreshControlEndRefreshing() {
         customView.refreshControlEndRefreshing()
+    }
+    
+    func scrollToStart(section: Int) {
+        customView.scrollToStart(section: section)
+    }
+}
+
+// MARK: - HomeViewOutput
+
+extension HomeController: HomeViewOutput {
+    func todayHeaderButtonTapped() {
+        print("header tapped")
     }
 }
 

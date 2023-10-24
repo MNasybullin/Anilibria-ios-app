@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol HomeViewOutput: AnyObject {
+    func todayHeaderButtonTapped()
+}
+
 final class HomeView: UIView {
     enum Section: Int {
         case today
@@ -18,10 +22,12 @@ final class HomeView: UIView {
     }
     
     private var collectionView: UICollectionView!
+    weak var delegate: HomeViewOutput?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(delegate: HomeController) {
+        super.init(frame: .zero)
         
+        self.delegate = delegate
         configureView()
         configureCollectionView()
         configureRefreshControll()
@@ -88,6 +94,7 @@ private extension HomeView {
                     headerView.configureView(
                         titleLabelText: Strings.HomeModule.Title.today,
                         titleButtonText: Strings.HomeModule.ButtonTitle.allDays)
+                    headerView.addButtonTarget(self, action: #selector(self.todayHeaderButtonTapped))
                 case Section.updates.rawValue:
                     headerView.configureView(
                         titleLabelText: Strings.HomeModule.Title.updates,
@@ -99,6 +106,10 @@ private extension HomeView {
         }
         return supplementaryViewProvider
     }
+    
+    @objc func todayHeaderButtonTapped() {
+        delegate?.todayHeaderButtonTapped()
+    }
 }
 
 // MARK: - Internal methods
@@ -109,6 +120,10 @@ extension HomeView {
     func scrollToTop() {
         let contentOffset = CGPoint(x: 0, y: -collectionView.adjustedContentInset.top)
         collectionView.setContentOffset(contentOffset, animated: true)
+    }
+    
+    func scrollToStart(section: Int) {
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: section), at: .centeredHorizontally, animated: true)
     }
     
     func configureDataSource(cellProvider: @escaping DataSource.CellProvider) -> DataSource {
