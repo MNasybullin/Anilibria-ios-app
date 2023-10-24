@@ -22,8 +22,8 @@ final class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureCollectionView()
         configureView()
+        configureCollectionView()
         configureRefreshControll()
         
         configureConstraints()
@@ -37,117 +37,22 @@ final class HomeView: UIView {
 // MARK: - Private methods
 
 private extension HomeView {
-    func configureCollectionView() {
-        let layout = createBasicListLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(PosterCollectionViewCell.self,
-                                forCellWithReuseIdentifier: PosterCollectionViewCell.reuseIdentifier)
-        collectionView.register(HomeHeaderSupplementaryView.self, 
-                                forSupplementaryViewOfKind: ElementKind.sectionHeader,
-                                withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier)
-        collectionView.showsVerticalScrollIndicator = false
-    }
-    
-    func createBasicListLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
-            let section: NSCollectionLayoutSection
-            switch sectionIndex {
-                case Section.today.rawValue:
-                    section = self.configureTodaySection()
-                case Section.updates.rawValue:
-                    section = self.configureUpdateSection()
-                default:
-                    fatalError("Layout section is not found.")
-            }
-            return section
-        }
-        return layout
-    }
-    
-    func configureTodaySection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: 8,
-            bottom: 0,
-            trailing: 8)
-      
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.8),
-            heightDimension: .estimated(200))
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitems: [item])
-      
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: 0,
-            bottom: 16,
-            trailing: 0)
-        section.orthogonalScrollingBehavior = .groupPagingCentered
-        
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(40))
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: ElementKind.sectionHeader,
-            alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
-        sectionHeader.zIndex = 2
-        
-        section.boundarySupplementaryItems = [sectionHeader]
-        
-        return section
-    }
-    
-    func configureUpdateSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: 8,
-            bottom: 0,
-            trailing: 8)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.55),
-            heightDimension: .estimated(200))
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitems: [item])
-      
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: 0,
-            bottom: 16,
-            trailing: 0)
-        section.orthogonalScrollingBehavior = .continuous
-        
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(40))
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: ElementKind.sectionHeader,
-            alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
-        sectionHeader.zIndex = 2
-        
-        section.boundarySupplementaryItems = [sectionHeader]
-        
-        return section
-    }
     
     func configureView() {
         backgroundColor = .systemBackground
+    }
+    
+    func configureCollectionView() {
+        let layout = HomeCollectionViewLayout().createLayout()
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(
+            AnimePosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier)
+        collectionView.register(
+            HomeHeaderSupplementaryView.self,
+            forSupplementaryViewOfKind: ElementKind.sectionHeader,
+            withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier)
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     func configureRefreshControll() {
@@ -167,12 +72,39 @@ private extension HomeView {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+    
+    func configureSupplementaryViewDataSource() -> DataSource.SupplementaryViewProvider {
+        let supplementaryViewProvider: DataSource.SupplementaryViewProvider = { collectionView, kind, indexPath in
+            guard kind == ElementKind.sectionHeader else { return nil }
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier,
+                for: indexPath) as? HomeHeaderSupplementaryView else {
+                fatalError("Can`t create new header")
+            }
+            
+            switch indexPath.section {
+                case Section.today.rawValue:
+                    headerView.configureView(
+                        titleLabelText: Strings.HomeModule.Title.today,
+                        titleButtonText: Strings.HomeModule.ButtonTitle.allDays)
+                case Section.updates.rawValue:
+                    headerView.configureView(
+                        titleLabelText: Strings.HomeModule.Title.updates,
+                        titleButtonText: nil)
+                default:
+                    fatalError("Section is not found")
+            }
+            return headerView
+        }
+        return supplementaryViewProvider
+    }
 }
 
 // MARK: - Internal methods
 
 extension HomeView {
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, HomeModel>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, AnimePosterItem>
     
     func scrollToTop() {
         let contentOffset = CGPoint(x: 0, y: -collectionView.adjustedContentInset.top)
@@ -181,6 +113,7 @@ extension HomeView {
     
     func configureDataSource(cellProvider: @escaping DataSource.CellProvider) -> DataSource {
         let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
+        dataSource.supplementaryViewProvider = configureSupplementaryViewDataSource()
         return dataSource
     }
     

@@ -8,18 +8,25 @@
 import UIKit
 
 final class HomeContentController: NSObject {
-    typealias ElementKind = HomeView.ElementKind
     typealias Section = HomeView.Section
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, HomeModel>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, HomeModel>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, AnimePosterItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, AnimePosterItem>
     
-    private var homeTodayModel: HomeModelController = HomeTodayModelController()
-    private var homeUpdatesModel: HomeModelController = HomeUpdatesModelController()
+    private lazy var homeTodayModel: HomeModelInput = {
+        let model = HomeTodayModel()
+        model.output = self
+        return model
+    }()
+    private lazy var homeUpdatesModel: HomeModelInput = {
+        let model = HomeUpdatesModel()
+        model.output = self
+        return model
+    }()
     
     private var dataSource: DataSource!
     
-    private var todayData: [HomeModel] = HomeModel.getSkeletonInitialData()
-    private var updatesData: [HomeModel] = HomeModel.getSkeletonInitialData()
+    private lazy var todayData: [AnimePosterItem] = AnimePosterItem.getSkeletonInitialData()
+    private lazy var updatesData: [AnimePosterItem] = AnimePosterItem.getSkeletonInitialData()
     
     weak var homeController: HomeControllerProtoocol?
     
@@ -33,44 +40,9 @@ final class HomeContentController: NSObject {
 // MARK: - Private methods
 
 private extension HomeContentController {
-    func configureSupplementaryViewDataSource() {
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == ElementKind.sectionHeader else { return nil }
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier,
-                for: indexPath) as? HomeHeaderSupplementaryView else {
-                fatalError("Can`t create new header")
-            }
-            
-            switch indexPath.section {
-                case Section.today.rawValue:
-                    headerView.configureView(
-                        titleLabelText: Strings.HomeModule.Title.today,
-                        titleButtonText: Strings.HomeModule.ButtonTitle.allDays)
-                case Section.updates.rawValue:
-                    headerView.configureView(
-                        titleLabelText: Strings.HomeModule.Title.updates,
-                        titleButtonText: nil)
-                default:
-                    fatalError("Section is not found")
-            }
-            return headerView
-        }
-    }
-    
     func requestInitialData() {
-        let completionBlock: HomeModelController.ResultDataBlock = { [weak self] result in
-            switch result {
-                case .success((let data, let section)):
-                    self?.update(data: data, from: section)
-                    self?.initialSnapshot()
-                case .failure(let error):
-                    print(error)
-            }
-        }
-        homeTodayModel.requestData(completionHanlder: completionBlock)
-        homeUpdatesModel.requestData(completionHanlder: completionBlock)
+        homeTodayModel.requestData()
+        homeUpdatesModel.requestData()
     }
     
     func initialSnapshot() {
@@ -83,7 +55,7 @@ private extension HomeContentController {
         }
     }
         
-    func refreshSnapshot(for section: Section, data: [HomeModel]) {
+    func refreshSnapshot(for section: Section, data: [AnimePosterItem]) {
         DispatchQueue.main.async {
             var snapshot = self.dataSource.snapshot()
             switch section {
@@ -100,7 +72,7 @@ private extension HomeContentController {
         }
     }
     
-    func reconfigureSnapshot(model: HomeModel) {
+    func reconfigureSnapshot(model: AnimePosterItem) {
         DispatchQueue.main.async {
             var snapshot = self.dataSource.snapshot()
             guard snapshot.indexOfItem(model) != nil else {
@@ -111,22 +83,18 @@ private extension HomeContentController {
         }
     }
     
-    func requestImage(for model: HomeModel, indexPath: IndexPath) {
+    func requestImage(for model: AnimePosterItem, indexPath: IndexPath) {
         switch indexPath.section {
             case Section.today.rawValue:
-                homeTodayModel.getImage(for: model) {
-                    self.reconfigureSnapshot(model: $0)
-                }
+                homeTodayModel.requestImage(from: model)
             case Section.updates.rawValue:
-                homeUpdatesModel.getImage(for: model) {
-                    self.reconfigureSnapshot(model: $0)
-                }
+                homeUpdatesModel.requestImage(from: model)
             default:
                 fatalError("Section is not found")
         }
     }
     
-    func update(data: [HomeModel], from section: Section) {
+    func update(data: [AnimePosterItem], from section: Section) {
         switch section {
             case .today:
                 todayData = data
@@ -142,8 +110,8 @@ extension HomeContentController {
     func configureCellProvider() -> DataSource.CellProvider {
         let cellProvider: DataSource.CellProvider = { (collectionView, indexPath, model) in
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: PosterCollectionViewCell.reuseIdentifier,
-                for: indexPath) as? PosterCollectionViewCell else {
+                withReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier,
+                for: indexPath) as? AnimePosterCollectionViewCell else {
                 fatalError("Can`t create new cell")
             }
             if model.image == nil {
@@ -157,7 +125,6 @@ extension HomeContentController {
     
     func configureDataSource(_ dataSource: DataSource) {
         self.dataSource = dataSource
-        configureSupplementaryViewDataSource()
         initialSnapshot()
     }
     
@@ -169,19 +136,8 @@ extension HomeContentController {
             }
             return
         }
-        let completionBlock: HomeModelController.ResultDataBlock = { [weak self] result in
-            switch result {
-                case .success((let data, let section)):
-                    self?.refreshSnapshot(for: section, data: data)
-                case .failure(let error):
-                    print(error)
-            }
-            DispatchQueue.main.async {
-                self?.homeController?.refreshControlEndRefreshing()
-            }
-        }
-        homeTodayModel.requestData(completionHanlder: completionBlock)
-        homeUpdatesModel.requestData(completionHanlder: completionBlock)
+        homeTodayModel.refreshData()
+        homeUpdatesModel.refreshData()
     }
 }
 
@@ -201,17 +157,40 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
             switch indexPath.section {
                 case Section.today.rawValue:
                     guard todayData[indexPath.row].image == nil else { return }
-                    homeTodayModel.getImage(for: todayData[indexPath.row]) {
-                        self.reconfigureSnapshot(model: $0)
-                    }
+                    homeTodayModel.requestImage(from: todayData[indexPath.row])
                 case Section.updates.rawValue:
                     guard updatesData[indexPath.row].image == nil else { return }
-                    homeUpdatesModel.getImage(for: updatesData[indexPath.row]) {
-                        self.reconfigureSnapshot(model: $0)
-                    }
+                    homeUpdatesModel.requestImage(from: updatesData[indexPath.row])
                 default:
                     fatalError("Section is not found")
             }
+        }
+    }
+}
+
+// MARK: - HomeModelOutput
+
+extension HomeContentController: HomeModelOutput {
+    func refreshData(items: [AnimePosterItem], section: HomeView.Section) {
+        refreshSnapshot(for: section, data: items)
+        DispatchQueue.main.async { [weak self] in
+            self?.homeController?.refreshControlEndRefreshing()
+        }
+    }
+    
+    func updateData(items: [AnimePosterItem], section: HomeView.Section) {
+        update(data: items, from: section)
+        initialSnapshot()
+    }
+    
+    func updateImage(for item: AnimePosterItem, image: UIImage) {
+        item.image = image
+        self.reconfigureSnapshot(model: item)
+    }
+    
+    func failedRefreshData(error: Error) {
+        DispatchQueue.main.async { [weak self] in
+            self?.homeController?.refreshControlEndRefreshing()
         }
     }
 }

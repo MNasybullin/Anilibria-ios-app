@@ -1,5 +1,5 @@
 //
-//  HomeModel.swift
+//  AnimePosterItem.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 17.10.2023.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-class HomeModel {
+class AnimePosterItem {
     var id: Int
     var name: String
     var imageUrlString: String
     var image: UIImage?
-    
+        
     init(id: Int, name: String, imageUrlString: String, image: UIImage? = nil) {
         self.id = id
         self.name = name
@@ -30,13 +30,13 @@ class HomeModel {
 
 // MARK: - Hashable
 
-extension HomeModel: Hashable {
+extension AnimePosterItem: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
     // swiftlint: disable operator_whitespace
-    static func ==(lhs: HomeModel, rhs: HomeModel) -> Bool {
+    static func ==(lhs: AnimePosterItem, rhs: AnimePosterItem) -> Bool {
         return lhs.id == rhs.id
     }
     // swiftlint: enable operator_whitespace
@@ -44,11 +44,11 @@ extension HomeModel: Hashable {
 
 // MARK: - For SkeletonView
 
-extension HomeModel {
-    static func getSkeletonInitialData() -> [HomeModel] {
-        var data: [HomeModel] = []
+extension AnimePosterItem {
+    static func getSkeletonInitialData() -> [AnimePosterItem] {
+        var data: [AnimePosterItem] = []
         for number in 0..<5 {
-            let model = HomeModel(id: number, name: "", imageUrlString: "")
+            let model = AnimePosterItem(id: number, name: "", imageUrlString: "")
             data.append(model)
         }
         return data

@@ -1,5 +1,5 @@
 //
-//  PosterCollectionViewCell.swift
+//  AnimePosterCollectionViewCell.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 16.10.2023.
@@ -8,13 +8,14 @@
 import UIKit
 import SkeletonView
 
-final class PosterCollectionViewCell: UICollectionViewCell {
+final class AnimePosterCollectionViewCell: UICollectionViewCell {
     private enum Constants {
         static let stackSpacing: CGFloat = 6
         static let imageViewCornerRadius: CGFloat = 12
+        static let imageViewRatio: CGFloat =  350 / 500
         static let titleLabelFontSize: CGFloat = 16
         static let titleLabelNumberOfLines: Int = 2
-        static let imageViewRatio: CGFloat =  350 / 500
+        static let titleLabelLinesCornerRadius: Int = 5
     }
         
     private lazy var contentStackView: UIStackView = {
@@ -43,6 +44,7 @@ final class PosterCollectionViewCell: UICollectionViewCell {
         label.textColor = .systemGray
         label.textAlignment = .left
         label.isSkeletonable = true
+        label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
         return label
     }()
     
@@ -69,7 +71,7 @@ final class PosterCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Private methods
 
-private extension PosterCollectionViewCell {
+private extension AnimePosterCollectionViewCell {
     private func configureView() {
         backgroundColor = .systemBackground
         isSkeletonable = true
@@ -98,8 +100,8 @@ private extension PosterCollectionViewCell {
 
 // MARK: - Internal methods
 
-extension PosterCollectionViewCell {
-    func configureCell(model: HomeModel) {
+extension AnimePosterCollectionViewCell {
+    func configureCell(model: AnimePosterItem) {
         if model.image == nil {
             if imageView.sk.isSkeletonActive == false {
                 imageView.showAnimatedSkeleton()
