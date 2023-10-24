@@ -50,13 +50,7 @@ private extension HomeController {
     
     func configureContentController() {
         contentController.homeController = self
-        
-        let cellProvider = contentController.configureCellProvider()
-        let dataSource = customView.configureDataSource(cellProvider: cellProvider)
-        contentController.configureDataSource(dataSource)
-        
-        customView.configureCollectionViewDelegate(contentController)
-        customView.configurePrefetchDataSource(contentController)
+        customView.configureDataSourceAndDelegate(contentController)
     }
     
     func configureHomeView() {
@@ -88,8 +82,12 @@ extension HomeController: HomeControllerInput {
 // MARK: - HomeViewOutput
 
 extension HomeController: HomeViewOutput {
+    func requestImage(for item: AnimePosterItem, indexPath: IndexPath) {
+        contentController.requestImage(for: item, indexPath: indexPath)
+    }
+    
     func todayHeaderButtonTapped() {
-        print("header tapped")
+        navigator?.show(.schedule)
     }
 }
 

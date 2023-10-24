@@ -83,17 +83,6 @@ private extension HomeContentController {
         }
     }
     
-    func requestImage(for model: AnimePosterItem, indexPath: IndexPath) {
-        switch indexPath.section {
-            case Section.today.rawValue:
-                homeTodayModel.requestImage(from: model)
-            case Section.updates.rawValue:
-                homeUpdatesModel.requestImage(from: model)
-            default:
-                fatalError("Section is not found")
-        }
-    }
-    
     func update(data: [AnimePosterItem], from section: Section) {
         switch section {
             case .today:
@@ -107,22 +96,6 @@ private extension HomeContentController {
 // MARK: - Internal methods
 
 extension HomeContentController {
-    func configureCellProvider() -> DataSource.CellProvider {
-        let cellProvider: DataSource.CellProvider = { (collectionView, indexPath, model) in
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier,
-                for: indexPath) as? AnimePosterCollectionViewCell else {
-                fatalError("Can`t create new cell")
-            }
-            if model.image == nil {
-                self.requestImage(for: model, indexPath: indexPath)
-            }
-            cell.configureCell(model: model)
-            return cell
-        }
-        return cellProvider
-    }
-    
     func configureDataSource(_ dataSource: DataSource) {
         self.dataSource = dataSource
         initialSnapshot()
@@ -138,6 +111,17 @@ extension HomeContentController {
         }
         homeTodayModel.refreshData()
         homeUpdatesModel.refreshData()
+    }
+    
+    func requestImage(for model: AnimePosterItem, indexPath: IndexPath) {
+        switch indexPath.section {
+            case Section.today.rawValue:
+                homeTodayModel.requestImage(from: model)
+            case Section.updates.rawValue:
+                homeUpdatesModel.requestImage(from: model)
+            default:
+                fatalError("Section is not found")
+        }
     }
 }
 

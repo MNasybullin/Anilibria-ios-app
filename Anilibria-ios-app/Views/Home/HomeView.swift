@@ -9,6 +9,7 @@ import UIKit
 
 protocol HomeViewOutput: AnyObject {
     func todayHeaderButtonTapped()
+    func requestImage(for item: AnimePosterItem, indexPath: IndexPath)
 }
 
 final class HomeView: UIView {
@@ -110,6 +111,22 @@ private extension HomeView {
     @objc func todayHeaderButtonTapped() {
         delegate?.todayHeaderButtonTapped()
     }
+    
+    func configureCellProvider() -> DataSource.CellProvider {
+        let cellProvider: DataSource.CellProvider = { (collectionView, indexPath, model) in
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier,
+                for: indexPath) as? AnimePosterCollectionViewCell else {
+                fatalError("Can`t create new cell")
+            }
+            if model.image == nil {
+                self.delegate?.requestImage(for: model, indexPath: indexPath)
+            }
+            cell.configureCell(model: model)
+            return cell
+        }
+        return cellProvider
+    }
 }
 
 // MARK: - Internal methods
@@ -126,17 +143,14 @@ extension HomeView {
         collectionView.scrollToItem(at: IndexPath(row: 0, section: section), at: .centeredHorizontally, animated: true)
     }
     
-    func configureDataSource(cellProvider: @escaping DataSource.CellProvider) -> DataSource {
+    func configureDataSourceAndDelegate(_ contentController: HomeContentController) {
+        let cellProvider = configureCellProvider()
         let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
         dataSource.supplementaryViewProvider = configureSupplementaryViewDataSource()
-        return dataSource
-    }
-    
-    func configureCollectionViewDelegate(_ contentController: HomeContentController) {
+        
+        contentController.configureDataSource(dataSource)
+        
         collectionView.delegate = contentController
-    }
-    
-    func configurePrefetchDataSource(_ contentController: HomeContentController) {
         collectionView.prefetchDataSource = contentController
     }
     
