@@ -30,7 +30,7 @@ class HomeCollectionViewLayout {
     func configureTodaySection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
+            heightDimension: .estimated(350))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
@@ -39,8 +39,8 @@ class HomeCollectionViewLayout {
             trailing: 8)
       
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.8),
-            heightDimension: .estimated(200))
+            widthDimension: .fractionalWidth(0.7),
+            heightDimension: .estimated(350))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item])
@@ -80,7 +80,7 @@ class HomeCollectionViewLayout {
             trailing: 8)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.55),
+            widthDimension: .fractionalWidth(0.45),
             heightDimension: .estimated(200))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
