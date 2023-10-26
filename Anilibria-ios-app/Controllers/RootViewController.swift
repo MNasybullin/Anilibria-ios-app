@@ -9,15 +9,10 @@ import UIKit
 import Combine
 
 final class RootViewController: UIViewController {
+    private var stackView = UIStackView()
     private let tabBar: UITabBarController
-    
     private var networkStatusView = NetworkStatusView()
-    private var networkStatusViewIsZeroHeightConstraint: NSLayoutConstraint!
-    
-    private var isHiddenBottomBar: Bool = NetworkMonitor.shared.isConnected {
-        didSet { updateView() }
-    }
-    
+        
     private var cancellable: AnyCancellable!
     
     // MARK: LifeCycle
@@ -32,79 +27,66 @@ final class RootViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         
+        configureView()
+        configureStackView()
         configureNetworkStatusView()
-        configureTabBar()
+        configureLayout()
         subscribeToNetworkMonitor()
-        updateView()
     }
 }
 
 // MARK: - Private methods
 
 private extension RootViewController {
-    func configureNetworkStatusView() {
-        view.addSubview(networkStatusView)
-        
-        networkStatusView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            networkStatusView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            networkStatusView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            networkStatusView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        networkStatusViewIsZeroHeightConstraint = networkStatusView.heightAnchor.constraint(equalToConstant: 0)
-        networkStatusViewIsZeroHeightConstraint.isActive = true
+    func configureView() {
+        view.backgroundColor = .systemBackground
     }
     
-    func configureTabBar() {
-        view.addSubview(tabBar.view)
+    func configureStackView() {
+        stackView.axis = .vertical
+    }
+    
+    func configureNetworkStatusView() {
+        networkStatusView.isHidden = NetworkMonitor.shared.isConnected
+    }
+    
+    func configureLayout() {
+        view.addSubview(stackView)
+        
         addChild(tabBar)
-        
-        tabBar.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            tabBar.view.topAnchor.constraint(equalTo: view.topAnchor),
-            tabBar.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tabBar.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabBar.view.bottomAnchor.constraint(equalTo: networkStatusView.topAnchor)
-        ])
-        
+        stackView.addArrangedSubview(tabBar.view)
         tabBar.didMove(toParent: self)
+        
+        stackView.addArrangedSubview(networkStatusView)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     func subscribeToNetworkMonitor() {
         cancellable = NetworkMonitor.shared.isConnectedPublisher
             .receive(on: DispatchQueue.main)
             .sink { isConnected in
-                if isConnected == false {
-                    self.showNetworkActivityView()
-                } else {
-                    self.hideNetworkActivityView()
-                }
+                self.updateView(status: isConnected)
             }
     }
     
-    func updateView() {
-        let delay: TimeInterval = isHiddenBottomBar == true ? 3 : 0
+    func updateView(status isConnected: Bool) {
+        networkStatusView.isNetworkActive = isConnected
         
+        let delay: TimeInterval = isConnected == true ? 3 : 0
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             UIView.animate(withDuration: 0.3) {
-                self.networkStatusViewIsZeroHeightConstraint.isActive = self.isHiddenBottomBar
+                self.networkStatusView.isHidden = isConnected
                 self.view.layoutIfNeeded()
             }
         }
-    }
-    
-    func showNetworkActivityView() {
-        guard isHiddenBottomBar == true else { return }
-        networkStatusView.isNetworkActive = false
-        isHiddenBottomBar = false
-    }
-    
-    func hideNetworkActivityView() {
-        guard isHiddenBottomBar == false else { return }
-        networkStatusView.isNetworkActive = true
-        isHiddenBottomBar = true
     }
 }
 
@@ -112,8 +94,9 @@ private extension RootViewController {
 
 extension RootViewController {
     func showFlashNetworkActivityView() {
-        guard NetworkMonitor.shared.isConnected == false else { return }
-        showNetworkActivityView()
+        guard NetworkMonitor.shared.isConnected == false else {
+            return
+        }
         DispatchQueue.main.async {
             let color = self.networkStatusView.backgroundColor
             UIView.animate(withDuration: 0.5, animations: {

@@ -8,48 +8,44 @@
 import UIKit
 
 final class NetworkStatusView: UIView {
-    private var titleLabel = UILabel()
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.textColor = .label
+        label.textAlignment = .center
+        return label
+    }()
     
     var isNetworkActive: Bool = false {
         didSet {
-            setupView()
+            configureView()
         }
     }
     
     init() {
         super.init(frame: .zero)
         
-        setupTitleLabel()
-        setupView()
+        configureView()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupTitleLabel() {
-        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        titleLabel.textColor = .label
-        titleLabel.numberOfLines = 1
-        titleLabel.textAlignment = .center
-        
+    private func configureLayout() {
         addSubview(titleLabel)
-        titleLabelConstraints()
-    }
-    
-    private func titleLabelConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        let bottomAnchor = titleLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
-        bottomAnchor.priority = .defaultHigh
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            bottomAnchor
+            titleLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
-    private func setupView() {
+    private func configureView() {
         DispatchQueue.main.async {
             if self.isNetworkActive {
                 UIView.animate(withDuration: 1, delay: 0) {
