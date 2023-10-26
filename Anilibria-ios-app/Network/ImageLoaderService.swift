@@ -14,7 +14,9 @@ final class ImageLoaderService: NetworkQuery {
     private let mByte = 1024 * 1024
     
     private lazy var urlCache: URLCache = {
-        let urlCache = URLCache(memoryCapacity: 50 * mByte, diskCapacity: 50 * mByte, diskPath: "images")
+//        let urlCache = URLCache(memoryCapacity: 50 * mByte, diskCapacity: 50 * mByte, diskPath: "images")
+        #warning("Image Cache is disable")
+        let urlCache = URLCache(memoryCapacity: 0 * mByte, diskCapacity: 0 * mByte, diskPath: "images")
         return urlCache
     }()
     

@@ -10,7 +10,7 @@ import Foundation
 /// Возвращается в запросах:
 /// getSchedule
 struct ScheduleAPIModel: Decodable {
-    let day: DaysOfTheWeek?
+    let day: DaysOfTheWeek
     let list: [TitleAPIModel]
 }
 

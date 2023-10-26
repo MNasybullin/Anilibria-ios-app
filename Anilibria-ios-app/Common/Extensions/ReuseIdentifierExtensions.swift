@@ -18,4 +18,3 @@ extension UICollectionReusableView {
         return String(describing: self)
     }
 }
-

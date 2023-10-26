@@ -58,5 +58,21 @@ extension HomeNavigator: Navigator {
     }
     
     func show(_ destination: Destinition) {
+        let viewController = makeViewController(destination)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    private func makeViewController(_ destination: Destinition) -> UIViewController {
+        let viewController: UIViewController & HomeFlow
+        switch destination {
+            case .schedule:
+                viewController = ScheduleController()
+                viewController.title = Strings.ScreenTitles.schedule
+            case .anime:
+                fatalError("Todo show anime")
+            case .series:
+                fatalError("Todo show series")
+        }
+        return viewController
     }
 }

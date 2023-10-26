@@ -7,7 +7,14 @@
 
 import Foundation
 
-final class HomeUpdatesModel: HomeBaseModel, HomeModelInput {
+final class HomeUpdatesModel: AnimePosterModel, HomeModelInput {
+    typealias DataBlock = ([AnimePosterItem], HomeView.Section)
+    typealias ResultDataBlock = (Result<DataBlock, Error>) -> Void
+    
+    var rawData: [TitleAPIModel] = []
+    
+    weak var homeModelOutput: HomeModelOutput?
+    
     private func requestData(completionHanlder: @escaping ResultDataBlock) {
         guard isDataTaskLoading == false else { return }
         isDataTaskLoading = true
@@ -16,7 +23,7 @@ final class HomeUpdatesModel: HomeBaseModel, HomeModelInput {
             do {
                 let data = try await PublicApiService.shared.getUpdates()
                 rawData = data
-                let animeTitleModels = data.map { AnimePosterItem(from: $0) }
+                let animeTitleModels = data.map { AnimePosterItem(titleAPIModel: $0) }
                 completionHanlder(.success((animeTitleModels, .updates)))
             } catch {
                 completionHanlder(.failure(error))
@@ -28,7 +35,7 @@ final class HomeUpdatesModel: HomeBaseModel, HomeModelInput {
         requestData { [weak self] result in
             switch result {
                 case .success((let items, let section)):
-                    self?.output?.updateData(items: items, section: section)
+                    self?.homeModelOutput?.updateData(items: items, section: section)
                 case .failure(let error):
                     print(error)
             }
@@ -39,9 +46,9 @@ final class HomeUpdatesModel: HomeBaseModel, HomeModelInput {
         requestData { [weak self] result in
             switch result {
                 case .success((let items, let section)):
-                    self?.output?.refreshData(items: items, section: section)
+                    self?.homeModelOutput?.refreshData(items: items, section: section)
                 case .failure(let error):
-                    self?.output?.failedRefreshData(error: error)
+                    self?.homeModelOutput?.failedRefreshData(error: error)
             }
         }
     }

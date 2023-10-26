@@ -1,5 +1,5 @@
 //
-//  HomeBaseModel.swift
+//  AnimePosterModel.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 20.10.2023.
@@ -7,17 +7,13 @@
 
 import UIKit
 
-class HomeBaseModel {
-    typealias DataBlock = ([AnimePosterItem], HomeView.Section)
-    typealias ResultDataBlock = (Result<DataBlock, Error>) -> Void
-    
-    var rawData: [TitleAPIModel] = []
+class AnimePosterModel {
     var isDataTaskLoading = false
     var isImageTasksLoading = AsyncDictionary<String, Bool>()
     
-    weak var output: HomeModelOutput?
+    weak var output: AnimePosterModelOutput?
 
-    func requestImage(from item: AnimePosterItem) {
+    func requestImage(from item: AnimePosterItem, indexPath: IndexPath) {
         guard !item.imageUrlString.isEmpty else { return }
         let urlString = item.imageUrlString
         Task {
@@ -29,10 +25,10 @@ class HomeBaseModel {
                     throw MyImageError.failedToInitialize
                 }
                 await isImageTasksLoading.set(urlString, value: false)
-                output?.updateImage(for: item, image: image)
+                output?.updateImage(for: item, image: image, indexPath: indexPath)
             } catch {
                 await isImageTasksLoading.set(urlString, value: nil)
-                print(error)
+                output?.failedRequestImage(error: error)
             }
         }
     }

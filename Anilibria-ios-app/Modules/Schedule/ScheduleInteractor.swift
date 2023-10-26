@@ -58,7 +58,7 @@ final class ScheduleInteractor: ScheduleInteractorProtocol {
             $0.list.forEach {
                 postersListModel.append(PostersListModel(name: $0.names.ru))
             }
-            postersListViewModel.append(PostersListViewModel(headerName: $0.day?.description, postersList: postersListModel))
+            postersListViewModel.append(PostersListViewModel(headerName: $0.day.description, postersList: postersListModel))
         }
         return postersListViewModel
     }

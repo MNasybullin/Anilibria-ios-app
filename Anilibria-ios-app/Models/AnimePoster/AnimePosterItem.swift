@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AnimePosterItem {
+final class AnimePosterItem {
     var id: Int
     var name: String
     var imageUrlString: String
@@ -20,7 +20,7 @@ class AnimePosterItem {
         self.image = image
     }
     
-    convenience init(from model: TitleAPIModel) {
+    convenience init(titleAPIModel model: TitleAPIModel) {
         self.init(id: model.id,
                   name: model.names.ru,
                   imageUrlString: model.posters.original.url,

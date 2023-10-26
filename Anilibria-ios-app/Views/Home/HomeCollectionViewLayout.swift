@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeCollectionViewLayout {
+final class HomeCollectionViewLayout {
     typealias Section = HomeView.Section
     typealias ElementKind = HomeView.ElementKind
     

@@ -18,11 +18,13 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
     private lazy var homeTodayModel: HomeModelInput = {
         let model = HomeTodayModel()
         model.output = self
+        model.homeModelOutput = self
         return model
     }()
     private lazy var homeUpdatesModel: HomeModelInput = {
         let model = HomeUpdatesModel()
         model.output = self
+        model.homeModelOutput = self
         return model
     }()
     
@@ -129,10 +131,10 @@ extension HomeController: UICollectionViewDataSourcePrefetching {
             switch indexPath.section {
                 case Section.today.rawValue:
                     guard todayData[indexPath.row].image == nil else { return }
-                    homeTodayModel.requestImage(from: todayData[indexPath.row])
+                    homeTodayModel.requestImage(from: todayData[indexPath.row], indexPath: indexPath)
                 case Section.updates.rawValue:
                     guard updatesData[indexPath.row].image == nil else { return }
-                    homeUpdatesModel.requestImage(from: updatesData[indexPath.row])
+                    homeUpdatesModel.requestImage(from: updatesData[indexPath.row], indexPath: indexPath)
                 default:
                     fatalError("Section is not found")
             }
@@ -156,15 +158,23 @@ extension HomeController: HomeModelOutput {
         initialSnapshot()
     }
     
-    func updateImage(for item: AnimePosterItem, image: UIImage) {
-        item.image = image
-        self.reconfigureSnapshot(model: item)
-    }
-    
     func failedRefreshData(error: Error) {
         DispatchQueue.main.async { [weak self] in
             self?.customView.refreshControlEndRefreshing()
         }
+    }
+}
+
+// MARK: -
+
+extension HomeController: AnimePosterModelOutput {
+    func updateImage(for item: AnimePosterItem, image: UIImage, indexPath: IndexPath) {
+        item.image = image
+        self.reconfigureSnapshot(model: item)
+    }
+    
+    func failedRequestImage(error: Error) {
+        print(error)
     }
 }
 
@@ -193,9 +203,9 @@ extension HomeController: HomeViewOutput {
     func requestImage(for model: AnimePosterItem, indexPath: IndexPath) {
         switch indexPath.section {
             case Section.today.rawValue:
-                homeTodayModel.requestImage(from: model)
+                homeTodayModel.requestImage(from: model, indexPath: indexPath)
             case Section.updates.rawValue:
-                homeUpdatesModel.requestImage(from: model)
+                homeUpdatesModel.requestImage(from: model, indexPath: indexPath)
             default:
                 fatalError("Section is not found")
         }

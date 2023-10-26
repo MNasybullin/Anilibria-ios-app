@@ -45,8 +45,8 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemBackground
-        setupLayout()
+        configureView()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +59,11 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
         titleButton.configuration?.title = nil
     }
     
-    private func setupLayout() {
+    private func configureView() {
+        backgroundColor = .systemBackground
+    }
+    
+    private func configureLayout() {
         addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(titleButton)
