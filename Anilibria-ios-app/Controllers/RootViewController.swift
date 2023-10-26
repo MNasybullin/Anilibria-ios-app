@@ -8,11 +8,11 @@
 import UIKit
 import Combine
 
-final class RootViewController: UIViewController {
-    private var stackView = UIStackView()
+final class RootViewController: UIViewController, HasCustomView {
+    typealias CustomView = RootView
+    
     private let tabBar: UITabBarController
-    private var networkStatusView = NetworkStatusView()
-        
+    
     private var cancellable: AnyCancellable!
     
     // MARK: LifeCycle
@@ -25,13 +25,15 @@ final class RootViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func loadView() {
+        addChild(tabBar)
+        view = RootView(tabBarView: tabBar.view)
+        tabBar.didMove(toParent: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureView()
-        configureStackView()
-        configureNetworkStatusView()
-        configureLayout()
         subscribeToNetworkMonitor()
     }
 }
@@ -39,36 +41,6 @@ final class RootViewController: UIViewController {
 // MARK: - Private methods
 
 private extension RootViewController {
-    func configureView() {
-        view.backgroundColor = .systemBackground
-    }
-    
-    func configureStackView() {
-        stackView.axis = .vertical
-    }
-    
-    func configureNetworkStatusView() {
-        networkStatusView.isHidden = NetworkMonitor.shared.isConnected
-    }
-    
-    func configureLayout() {
-        view.addSubview(stackView)
-        
-        addChild(tabBar)
-        stackView.addArrangedSubview(tabBar.view)
-        tabBar.didMove(toParent: self)
-        
-        stackView.addArrangedSubview(networkStatusView)
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
     func subscribeToNetworkMonitor() {
         cancellable = NetworkMonitor.shared.isConnectedPublisher
             .receive(on: DispatchQueue.main)
@@ -78,15 +50,7 @@ private extension RootViewController {
     }
     
     func updateView(status isConnected: Bool) {
-        networkStatusView.isNetworkActive = isConnected
-        
-        let delay: TimeInterval = isConnected == true ? 3 : 0
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            UIView.animate(withDuration: 0.3) {
-                self.networkStatusView.isHidden = isConnected
-                self.view.layoutIfNeeded()
-            }
-        }
+        customView.updateView(status: isConnected)
     }
 }
 
@@ -98,14 +62,7 @@ extension RootViewController {
             return
         }
         DispatchQueue.main.async {
-            let color = self.networkStatusView.backgroundColor
-            UIView.animate(withDuration: 0.5, animations: {
-                self.networkStatusView.backgroundColor = .systemGray
-            }, completion: {_ in
-                UIView.animate(withDuration: 0.5) {
-                    self.networkStatusView.backgroundColor = color
-                }
-            })
+            self.customView.showFlashNetworkActivityView()
         }
     }
 }
