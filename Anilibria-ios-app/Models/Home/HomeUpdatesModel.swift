@@ -52,4 +52,8 @@ final class HomeUpdatesModel: AnimePosterModel, HomeModelInput {
             }
         }
     }
+    
+    func getRawData() -> [TitleAPIModel] {
+        return rawData
+    }
 }

@@ -1,18 +1,27 @@
 //
-//  HomeController.swift
+//  HomeContentController.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 16.10.2023.
+//  Created by Mansur Nasybullin on 27.10.2023.
 //
 
 import UIKit
 import SkeletonView
 
-final class HomeController: UIViewController, HomeFlow, HasCustomView {
-    typealias CustomView = HomeView
+protocol HomeContentControllerDelegate: AnyObject {
+    func todayHeaderButtonTapped()
+    func refreshControlEndRefreshing()
+    func hideSkeletonCollectionView()
+    func reloadData()
+    func reconfigureItems(at indexPaths: [IndexPath])
+    func reloadSection(numberOfSection: Int)
+    func didSelectItem(_ rawData: [TitleAPIModel])
+}
+
+final class HomeContentController: NSObject {
     typealias Section = HomeView.Section
     
-    weak var navigator: HomeNavigator?
+    weak var delegate: HomeContentControllerDelegate?
     
     private var data: [[AnimePosterItem]] = .init(repeating: [], count: 2)
     private lazy var models: [HomeModelInput] = {
@@ -26,25 +35,9 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         return [todayModel, updatesModel]
     }()
     
-    override func loadView() {
-        view = HomeView(collectionViewDelegate: self)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureNavigationItem()
-        
-        customView.showSkeletonCollectionView()
-        requestInitialData()
-    }
-}
-
-// MARK: - Private methods
-
-private extension HomeController {
-    // MARK: Configure NavigationBar
-    func configureNavigationItem() {
-        navigationItem.backButtonTitle = ""
+    init(delegate: HomeContentControllerDelegate?) {
+        self.delegate = delegate
+        super.init()
     }
     
     func requestInitialData() {
@@ -52,17 +45,28 @@ private extension HomeController {
             $0.requestData()
         }
     }
+    
+    func requestRefreshData() {
+        guard models[Section.today.rawValue].isDataTaskLoading == false && models[Section.updates.rawValue].isDataTaskLoading == false else {
+            delegate?.refreshControlEndRefreshing()
+            return
+        }
+        models.forEach { $0.refreshData() }
+    }
 }
 
 // MARK: - UICollectionViewDelegate
 
-extension HomeController: UICollectionViewDelegate {
-    // selected cell
+extension HomeContentController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let rawData = models[indexPath.section].getRawData()
+        delegate?.didSelectItem(rawData)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
 
-extension HomeController: UICollectionViewDataSource {
+extension HomeContentController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier, for: indexPath) as? HomeHeaderSupplementaryView else {
             fatalError("Header is not HomeHeaderSupplementaryView")
@@ -72,12 +76,11 @@ extension HomeController: UICollectionViewDataSource {
             case Section.today.rawValue:
                 header.configureView(
                     titleLabelText: Strings.HomeModule.Title.today,
-                    titleButtonText: Strings.HomeModule.ButtonTitle.allDays)
-                header.addButtonTarget(self, action: #selector(self.todayHeaderButtonTapped))
+                    titleButtonText: Strings.HomeModule.ButtonTitle.allDays) { [weak self] in
+                        self?.delegate?.todayHeaderButtonTapped()
+                    }
             case Section.updates.rawValue:
-                header.configureView(
-                    titleLabelText: Strings.HomeModule.Title.updates,
-                    titleButtonText: nil)
+                header.configureView(titleLabelText: Strings.HomeModule.Title.updates)
             default:
                 fatalError("Section is not found")
         }
@@ -124,7 +127,7 @@ extension HomeController: UICollectionViewDataSource {
 
 // MARK: - SkeletonCollectionViewDataSource
 
-extension HomeController: SkeletonCollectionViewDataSource {
+extension HomeContentController: SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
         return HomeHeaderSupplementaryView.reuseIdentifier
     }
@@ -140,12 +143,12 @@ extension HomeController: SkeletonCollectionViewDataSource {
 
 // MARK: - UICollectionViewDataSourcePrefetching
 
-extension HomeController: UICollectionViewDataSourcePrefetching {
+extension HomeContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             let section = indexPath.section
             let row = indexPath.row
-            guard data[section].isEmpty == false, 
+            guard data[section].isEmpty == false,
                     data[section][row].image == nil else { return }
             let item = data[section][row]
             models[section].requestImage(from: item, indexPath: indexPath)
@@ -155,74 +158,41 @@ extension HomeController: UICollectionViewDataSourcePrefetching {
 
 // MARK: - HomeModelOutput
 
-extension HomeController: HomeModelOutput {
+extension HomeContentController: HomeModelOutput {
     func refreshData(items: [AnimePosterItem], section: HomeView.Section) {
         data[section.rawValue] = items
         DispatchQueue.main.async {
-            self.customView.reloadSection(numberOfSection: section.rawValue)
-            self.customView.refreshControlEndRefreshing()
+            self.delegate?.reloadSection(numberOfSection: section.rawValue)
+            self.delegate?.refreshControlEndRefreshing()
         }
     }
     
     func updateData(items: [AnimePosterItem], section: HomeView.Section) {
         data[section.rawValue] = items
         DispatchQueue.main.async {
-            self.customView.hideSkeletonCollectionView()
-            self.customView.reloadData()
+            self.delegate?.hideSkeletonCollectionView()
+            self.delegate?.reloadData()
         }
     }
     
     func failedRefreshData(error: Error) {
         DispatchQueue.main.async {
-            self.customView.refreshControlEndRefreshing()
+            self.delegate?.refreshControlEndRefreshing()
         }
     }
 }
 
 // MARK: - AnimePosterModelOutput
 
-extension HomeController: AnimePosterModelOutput {
+extension HomeContentController: AnimePosterModelOutput {
     func updateImage(for item: AnimePosterItem, image: UIImage, indexPath: IndexPath) {
         data[indexPath.section][indexPath.row].image = image
         DispatchQueue.main.async {
-            self.customView.reconfigureItems(at: [indexPath])
+            self.delegate?.reconfigureItems(at: [indexPath])
         }
     }
     
     func failedRequestImage(error: Error) {
         print(error)
-    }
-}
-
-// MARK: - HomeViewOutput
-
-extension HomeController: HomeViewOutput {
-    func handleRefreshControl() {
-        guard NetworkMonitor.shared.isConnected == true else {
-            MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
-            customView.refreshControlEndRefreshing()
-            return
-        }
-        guard models[Section.today.rawValue].isDataTaskLoading == false && models[Section.updates.rawValue].isDataTaskLoading == false else {
-            customView.refreshControlEndRefreshing()
-            return
-        }
-        models.forEach { $0.refreshData() }
-    }
-}
-
-// MARK: - Target
-
-extension HomeController {
-    @objc func todayHeaderButtonTapped() {
-        navigator?.show(.schedule)
-    }
-}
-
-// MARK: - HasScrollableView
-
-extension HomeController: HasScrollableView {
-    func scrollToTop() {
-        customView.scrollToTop()
     }
 }

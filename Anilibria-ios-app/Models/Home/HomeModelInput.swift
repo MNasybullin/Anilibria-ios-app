@@ -12,4 +12,5 @@ protocol HomeModelInput: AnyObject {
     func requestImage(from item: AnimePosterItem, indexPath: IndexPath)
     func requestData()
     func refreshData()
+    func getRawData() -> [TitleAPIModel]
 }

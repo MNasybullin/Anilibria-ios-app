@@ -26,12 +26,12 @@ final class HomeView: UIView {
     
     weak var delegate: HomeViewOutput?
     
-    init(collectionViewDelegate delegate: HomeController) {
+    init(delegate: HomeController, collectionViewDelegate: HomeContentController) {
         self.delegate = delegate
         super.init(frame: .zero)
         
         configureView()
-        configureCollectionView(delegate: delegate)
+        configureCollectionView(delegate: collectionViewDelegate)
         configureRefreshControll()
         
         configureLayout()
@@ -50,7 +50,7 @@ private extension HomeView {
         backgroundColor = .systemBackground
     }
     
-    func configureCollectionView(delegate: HomeController) {
+    func configureCollectionView(delegate: HomeContentController) {
         let layout = HomeCollectionViewLayout().createLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(

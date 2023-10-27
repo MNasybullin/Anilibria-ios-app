@@ -55,4 +55,8 @@ final class HomeTodayModel: AnimePosterModel, HomeModelInput {
             }
         }
     }
+    
+    func getRawData() -> [TitleAPIModel] {
+        return rawData
+    }
 }

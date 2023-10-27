@@ -51,6 +51,7 @@
 		2744C87B29BCAEEB00105F11 /* RandomAnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C87A29BCAEEB00105F11 /* RandomAnimeView.swift */; };
 		2744C88229BCF5AE00105F11 /* RandomAnimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C88129BCF5AE00105F11 /* RandomAnimeViewModel.swift */; };
 		2748DCFA2AEAAC0500D53E9B /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 2748DCF92AEAAC0500D53E9B /* SkeletonView */; };
+		2748DCFE2AEBCF3000D53E9B /* HomeContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748DCFD2AEBCF3000D53E9B /* HomeContentController.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275287B529D5913B00D403F6 /* AnimeInfoView.swift */; };
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
@@ -183,6 +184,7 @@
 		2744C87629BC71A700105F11 /* SearchResultsTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableFooterView.swift; sourceTree = "<group>"; };
 		2744C87A29BCAEEB00105F11 /* RandomAnimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeView.swift; sourceTree = "<group>"; };
 		2744C88129BCF5AE00105F11 /* RandomAnimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeViewModel.swift; sourceTree = "<group>"; };
+		2748DCFD2AEBCF3000D53E9B /* HomeContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentController.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		275287B529D5913B00D403F6 /* AnimeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeInfoView.swift; sourceTree = "<group>"; };
@@ -403,6 +405,15 @@
 			path = RandomAnimeView;
 			sourceTree = "<group>";
 		};
+		2748DCFF2AEBD89E00D53E9B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				271072D92ADDB7CF0024530D /* HomeController.swift */,
+				2748DCFD2AEBCF3000D53E9B /* HomeContentController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		274BFB9628A260D500C3F9C9 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -486,7 +497,7 @@
 				275865BE2ADADBF400F98884 /* SignInController.swift */,
 				275865C62ADAFCBE00F98884 /* UserInfoController.swift */,
 				271A0E372AE90390005958CB /* ScheduleController.swift */,
-				271072D92ADDB7CF0024530D /* HomeController.swift */,
+				2748DCFF2AEBD89E00D53E9B /* Home */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -948,6 +959,7 @@
 				27A66E612987F28900369EAF /* PostersListViewModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
 				275865B32AD9CDB800F98884 /* SearchNavigator.swift in Sources */,
+				2748DCFE2AEBCF3000D53E9B /* HomeContentController.swift in Sources */,
 				2744762929B8CB160062F6D2 /* SearchResultsTableView.swift in Sources */,
 				27EA393129C5FBBB00D777AE /* UINavigationControllerExtension.swift in Sources */,
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,
