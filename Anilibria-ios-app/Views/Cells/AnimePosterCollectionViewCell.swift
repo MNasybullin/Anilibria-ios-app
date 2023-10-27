@@ -104,21 +104,22 @@ extension AnimePosterCollectionViewCell {
     func configureCell(model: AnimePosterItem) {
         if model.image == nil {
             if imageView.sk.isSkeletonActive == false {
-                imageView.showAnimatedSkeleton(transition: .none)
+                imageView.showAnimatedSkeleton()
             }
         } else if imageView.sk.isSkeletonActive == true {
-            imageView.hideSkeleton(reloadDataAfter: false, transition: .none)
+            imageView.hideSkeleton(reloadDataAfter: false)
         }
+        imageView.image = model.image
         
         if model.name.isEmpty {
             if titleLabel.sk.isSkeletonActive == false {
-                titleLabel.showAnimatedSkeleton(transition: .none)
+                titleLabel.showAnimatedSkeleton()
             }
+            titleLabel.text = "SkeletonView placeholder text SkeletonView placeholder text"
+            return
         } else if titleLabel.sk.isSkeletonActive == true {
-            titleLabel.hideSkeleton(reloadDataAfter: false, transition: .none)
+            titleLabel.hideSkeleton(reloadDataAfter: false)
         }
-        
-        imageView.image = model.image
         titleLabel.text = model.name
     }
 }

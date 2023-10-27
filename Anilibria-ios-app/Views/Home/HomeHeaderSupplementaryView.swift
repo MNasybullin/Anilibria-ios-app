@@ -6,18 +6,22 @@
 //
 
 import UIKit
+import SkeletonView
 
 final class HomeHeaderSupplementaryView: UICollectionReusableView {
     private enum Constants {
         static let stackViewSpacing: CGFloat = 6
         static let labelFontSize: CGFloat = 24
         static let buttonFontSize: CGFloat = 18
+        static let linesCornerRadius: Int = 5
+        static let skeletonCornerRadius: Float = 5
     }
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = Constants.stackViewSpacing
+        stackView.isSkeletonable = true
         return stackView
     }()
     
@@ -25,6 +29,8 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: Constants.labelFontSize, 
                                        weight: .semibold)
+        label.isSkeletonable = true
+        label.linesCornerRadius = Constants.linesCornerRadius
         return label
     }()
     
@@ -40,6 +46,8 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
         let button = UIButton(configuration: config)
 
         button.isEnabled = false
+        button.isSkeletonable = true
+        button.skeletonCornerRadius = Constants.skeletonCornerRadius
         return button
     }()
     
@@ -61,6 +69,7 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
     
     private func configureView() {
         backgroundColor = .systemBackground
+        isSkeletonable = true
     }
     
     private func configureLayout() {
@@ -73,7 +82,7 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
 
         titleButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)

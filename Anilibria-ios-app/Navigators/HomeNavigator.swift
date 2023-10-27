@@ -33,6 +33,13 @@ final class HomeNavigator {
         rootViewController.navigationItem.title = Strings.ScreenTitles.home
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.navigationBar.tintColor = .systemRed
+        
+        // ConfigureNavigationBarAppearance
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.shadowColor = .clear
+        navigationController.navigationBar.standardAppearance = navigationBarAppearance
+        
 //        Common/UINavigationControllerExtension file
 //        navigationController.interactivePopGestureRecognizer?.delegate = navigationController
         // проверить

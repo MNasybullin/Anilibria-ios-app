@@ -50,6 +50,7 @@
 		2744C87729BC71A700105F11 /* SearchResultsTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C87629BC71A700105F11 /* SearchResultsTableFooterView.swift */; };
 		2744C87B29BCAEEB00105F11 /* RandomAnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C87A29BCAEEB00105F11 /* RandomAnimeView.swift */; };
 		2744C88229BCF5AE00105F11 /* RandomAnimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744C88129BCF5AE00105F11 /* RandomAnimeViewModel.swift */; };
+		2748DCFA2AEAAC0500D53E9B /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 2748DCF92AEAAC0500D53E9B /* SkeletonView */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275287B529D5913B00D403F6 /* AnimeInfoView.swift */; };
 		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
@@ -83,7 +84,6 @@
 		276FCF9F293CEC010005B82E /* ScheduleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCF9E293CEC010005B82E /* ScheduleEntity.swift */; };
 		276FCFA1293CEC120005B82E /* ScheduleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276FCFA0293CEC120005B82E /* ScheduleRouter.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
-		2775F1E42938DE9000C7D079 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 2775F1E32938DE9000C7D079 /* SkeletonView */; };
 		278356AE2ABDC7DE00878B8F /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278356AD2ABDC7DE00878B8F /* UIViewControllerExtension.swift */; };
 		279E4F30289C4C70008038FF /* LoginAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginAPIModel.swift */; };
 		279E4F35289D0304008038FF /* FavoriteAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteAPIModel.swift */; };
@@ -276,7 +276,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2775F1E42938DE9000C7D079 /* SkeletonView in Frameworks */,
+				2748DCFA2AEAAC0500D53E9B /* SkeletonView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,7 +768,7 @@
 			);
 			name = "Anilibria-ios-app";
 			packageProductDependencies = (
-				2775F1E32938DE9000C7D079 /* SkeletonView */,
+				2748DCF92AEAAC0500D53E9B /* SkeletonView */,
 			);
 			productName = "Anilibria-ios-app";
 			productReference = 27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */;
@@ -804,7 +804,7 @@
 			);
 			mainGroup = 27F5E54B287C6DCA00BCF61C;
 			packageReferences = (
-				2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */,
+				2748DCF82AEAAC0500D53E9B /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = 27F5E555287C6DCA00BCF61C /* Products */;
 			projectDirPath = "";
@@ -1294,20 +1294,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+		2748DCF82AEAAC0500D53E9B /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
+			repositoryURL = "https://github.com/MNasybullin/SkeletonView.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.30.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2775F1E32938DE9000C7D079 /* SkeletonView */ = {
+		2748DCF92AEAAC0500D53E9B /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2775F1E22938DE9000C7D079 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			package = 2748DCF82AEAAC0500D53E9B /* XCRemoteSwiftPackageReference "SkeletonView" */;
 			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */

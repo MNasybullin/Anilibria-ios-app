@@ -6,11 +6,10 @@
 //
 
 import UIKit
+import SkeletonView
 
 protocol HomeViewOutput: AnyObject {
-    func todayHeaderButtonTapped()
     func handleRefreshControl()
-    func requestImage(for item: AnimePosterItem, indexPath: IndexPath)
 }
 
 final class HomeView: UIView {
@@ -27,14 +26,13 @@ final class HomeView: UIView {
     
     weak var delegate: HomeViewOutput?
     
-    init(delegate homeController: HomeController) {
+    init(collectionViewDelegate delegate: HomeController) {
+        self.delegate = delegate
         super.init(frame: .zero)
         
-        delegate = homeController
         configureView()
-        configureCollectionView()
+        configureCollectionView(delegate: delegate)
         configureRefreshControll()
-        configureDataSourceAndDelegate(homeController)
         
         configureLayout()
     }
@@ -52,7 +50,7 @@ private extension HomeView {
         backgroundColor = .systemBackground
     }
     
-    func configureCollectionView() {
+    func configureCollectionView(delegate: HomeController) {
         let layout = HomeCollectionViewLayout().createLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(
@@ -63,6 +61,12 @@ private extension HomeView {
             forSupplementaryViewOfKind: ElementKind.sectionHeader,
             withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
+        
+        collectionView.isSkeletonable = true
+        
+        collectionView.delegate = delegate
+        collectionView.dataSource = delegate
+        collectionView.prefetchDataSource = delegate
     }
     
     func configureRefreshControll() {
@@ -83,50 +87,6 @@ private extension HomeView {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
-    func configureSupplementaryViewDataSource() -> DataSource.SupplementaryViewProvider {
-        let supplementaryViewProvider: DataSource.SupplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == ElementKind.sectionHeader else { return nil }
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier,
-                for: indexPath) as? HomeHeaderSupplementaryView else {
-                fatalError("Can`t create new header")
-            }
-            
-            switch indexPath.section {
-                case Section.today.rawValue:
-                    headerView.configureView(
-                        titleLabelText: Strings.HomeModule.Title.today,
-                        titleButtonText: Strings.HomeModule.ButtonTitle.allDays)
-                    headerView.addButtonTarget(self, action: #selector(self.todayHeaderButtonTapped))
-                case Section.updates.rawValue:
-                    headerView.configureView(
-                        titleLabelText: Strings.HomeModule.Title.updates,
-                        titleButtonText: nil)
-                default:
-                    fatalError("Section is not found")
-            }
-            return headerView
-        }
-        return supplementaryViewProvider
-    }
-    
-    func configureCellProvider() -> DataSource.CellProvider {
-        let cellProvider: DataSource.CellProvider = { (collectionView, indexPath, model) in
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier,
-                for: indexPath) as? AnimePosterCollectionViewCell else {
-                fatalError("Can`t create new cell")
-            }
-            if model.image == nil {
-                self.delegate?.requestImage(for: model, indexPath: indexPath)
-            }
-            cell.configureCell(model: model)
-            return cell
-        }
-        return cellProvider
-    }
 }
 
 // MARK: - Targets
@@ -135,35 +95,14 @@ private extension HomeView {
     @objc func handleRefreshControll() {
         delegate?.handleRefreshControl()
     }
-    
-    @objc func todayHeaderButtonTapped() {
-        delegate?.todayHeaderButtonTapped()
-    }
 }
 
 // MARK: - Internal methods
 
 extension HomeView {
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, AnimePosterItem>
-    
     func scrollToTop() {
         let contentOffset = CGPoint(x: 0, y: -collectionView.adjustedContentInset.top)
         collectionView.setContentOffset(contentOffset, animated: true)
-    }
-    
-    func scrollToStart(section: Int) {
-        collectionView.scrollToItem(at: IndexPath(row: 0, section: section), at: .centeredHorizontally, animated: true)
-    }
-    
-    func configureDataSourceAndDelegate(_ homeController: HomeController) {
-        let cellProvider = configureCellProvider()
-        let dataSource = DataSource(collectionView: collectionView, cellProvider: cellProvider)
-        dataSource.supplementaryViewProvider = configureSupplementaryViewDataSource()
-        
-        homeController.dataSource = dataSource
-        
-        collectionView.delegate = homeController
-        collectionView.prefetchDataSource = homeController
     }
     
     func refreshControlEndRefreshing() {
@@ -173,5 +112,27 @@ extension HomeView {
                 self.collectionView.refreshControl?.endRefreshing()
             }
         }
+    }
+    
+    func showSkeletonCollectionView() {
+        collectionView.showAnimatedSkeleton()
+    }
+    
+    func hideSkeletonCollectionView() {
+        if collectionView.sk.isSkeletonActive == true {
+            collectionView.hideSkeleton(reloadDataAfter: false)
+        }
+    }
+    
+    func reloadData() {
+        collectionView.reloadData()
+    }
+    
+    func reloadSection(numberOfSection: Int) {
+        collectionView.reloadSections(IndexSet(integer: numberOfSection))
+    }
+    
+    func reconfigureItems(at indexPaths: [IndexPath]) {
+        collectionView.reconfigureItems(at: indexPaths)
     }
 }

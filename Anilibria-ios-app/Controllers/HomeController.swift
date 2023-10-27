@@ -6,42 +6,35 @@
 //
 
 import UIKit
+import SkeletonView
 
 final class HomeController: UIViewController, HomeFlow, HasCustomView {
     typealias CustomView = HomeView
     typealias Section = HomeView.Section
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, AnimePosterItem>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, AnimePosterItem>
     
     weak var navigator: HomeNavigator?
     
-    private lazy var homeTodayModel: HomeModelInput = {
-        let model = HomeTodayModel()
-        model.output = self
-        model.homeModelOutput = self
-        return model
+    private var data: [[AnimePosterItem]] = .init(repeating: [], count: 2)
+    private lazy var models: [HomeModelInput] = {
+        let todayModel = HomeTodayModel()
+        todayModel.output = self
+        todayModel.homeModelOutput = self
+        
+        let updatesModel = HomeUpdatesModel()
+        updatesModel.output = self
+        updatesModel.homeModelOutput = self
+        return [todayModel, updatesModel]
     }()
-    private lazy var homeUpdatesModel: HomeModelInput = {
-        let model = HomeUpdatesModel()
-        model.output = self
-        model.homeModelOutput = self
-        return model
-    }()
-    
-    var dataSource: DataSource!
-    private lazy var todayData: [AnimePosterItem] = AnimePosterItem.getSkeletonInitialData()
-    private lazy var updatesData: [AnimePosterItem] = AnimePosterItem.getSkeletonInitialData()
     
     override func loadView() {
-        view = HomeView(delegate: self)
+        view = HomeView(collectionViewDelegate: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNavigationItem()
-        configureNavigationBarAppearance()
         
+        customView.showSkeletonCollectionView()
         requestInitialData()
     }
 }
@@ -54,63 +47,9 @@ private extension HomeController {
         navigationItem.backButtonTitle = ""
     }
     
-    func configureNavigationBarAppearance() {
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.shadowColor = .clear
-        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
-    }
-    
-    // MARK: Snapshot methods
     func requestInitialData() {
-        homeTodayModel.requestData()
-        homeUpdatesModel.requestData()
-    }
-    
-    func initialSnapshot() {
-        DispatchQueue.main.async {
-            var snapshot = Snapshot()
-            snapshot.appendSections([.today, .updates])
-            snapshot.appendItems(self.todayData, toSection: .today)
-            snapshot.appendItems(self.updatesData, toSection: .updates)
-            self.dataSource.apply(snapshot, animatingDifferences: true)
-        }
-    }
-        
-    func refreshSnapshot(for section: Section, data: [AnimePosterItem]) {
-        DispatchQueue.main.async {
-            var snapshot = self.dataSource.snapshot()
-            switch section {
-                case .today:
-                    snapshot.deleteItems(self.todayData)
-                    self.todayData = data
-                    snapshot.appendItems(self.todayData, toSection: .today)
-                case .updates:
-                    snapshot.deleteItems(self.updatesData)
-                    self.updatesData = data
-                    snapshot.appendItems(self.updatesData, toSection: .updates)
-            }
-            self.dataSource.apply(snapshot, animatingDifferences: true)
-        }
-    }
-    
-    func reconfigureSnapshot(model: AnimePosterItem) {
-        DispatchQueue.main.async {
-            var snapshot = self.dataSource.snapshot()
-            guard snapshot.indexOfItem(model) != nil else {
-                return
-            }
-            snapshot.reconfigureItems([model])
-            self.dataSource.apply(snapshot, animatingDifferences: true)
-        }
-    }
-    
-    func update(data: [AnimePosterItem], from section: Section) {
-        switch section {
-            case .today:
-                todayData = data
-            case .updates:
-                updatesData = data
+        models.forEach {
+            $0.requestData()
         }
     }
 }
@@ -118,8 +57,84 @@ private extension HomeController {
 // MARK: - UICollectionViewDelegate
 
 extension HomeController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("cell \(indexPath) selected")
+    // selected cell
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension HomeController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier, for: indexPath) as? HomeHeaderSupplementaryView else {
+            fatalError("Header is not HomeHeaderSupplementaryView")
+        }
+        
+        switch indexPath.section {
+            case Section.today.rawValue:
+                header.configureView(
+                    titleLabelText: Strings.HomeModule.Title.today,
+                    titleButtonText: Strings.HomeModule.ButtonTitle.allDays)
+                header.addButtonTarget(self, action: #selector(self.todayHeaderButtonTapped))
+            case Section.updates.rawValue:
+                header.configureView(
+                    titleLabelText: Strings.HomeModule.Title.updates,
+                    titleButtonText: nil)
+            default:
+                fatalError("Section is not found")
+        }
+        return header
+    }
+    
+    // For Skeleton
+    func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+        data.count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        data.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let items: Int
+        if data[section].isEmpty {
+            items = 5
+        } else {
+            items = data[section].count
+        }
+        return items
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimePosterCollectionViewCell else {
+            fatalError("Can`t create new cell")
+        }
+        let section = indexPath.section
+        let row = indexPath.row
+        guard data[section].isEmpty == false else {
+            cell.configureCell(model: AnimePosterItem.getSkeletonInitialData())
+            return cell
+        }
+        let item = data[section][row]
+        if item.image == nil {
+            models[section].requestImage(from: item, indexPath: indexPath)
+        }
+        cell.configureCell(model: item)
+        return cell
+    }
+}
+
+// MARK: - SkeletonCollectionViewDataSource
+
+extension HomeController: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
+        return HomeHeaderSupplementaryView.reuseIdentifier
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        return AnimePosterCollectionViewCell.reuseIdentifier
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
     }
 }
 
@@ -128,16 +143,12 @@ extension HomeController: UICollectionViewDelegate {
 extension HomeController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            switch indexPath.section {
-                case Section.today.rawValue:
-                    guard todayData[indexPath.row].image == nil else { return }
-                    homeTodayModel.requestImage(from: todayData[indexPath.row], indexPath: indexPath)
-                case Section.updates.rawValue:
-                    guard updatesData[indexPath.row].image == nil else { return }
-                    homeUpdatesModel.requestImage(from: updatesData[indexPath.row], indexPath: indexPath)
-                default:
-                    fatalError("Section is not found")
-            }
+            let section = indexPath.section
+            let row = indexPath.row
+            guard data[section].isEmpty == false, 
+                    data[section][row].image == nil else { return }
+            let item = data[section][row]
+            models[section].requestImage(from: item, indexPath: indexPath)
         }
     }
 }
@@ -146,31 +157,36 @@ extension HomeController: UICollectionViewDataSourcePrefetching {
 
 extension HomeController: HomeModelOutput {
     func refreshData(items: [AnimePosterItem], section: HomeView.Section) {
-        refreshSnapshot(for: section, data: items)
-        DispatchQueue.main.async { [weak self] in
-            self?.customView.refreshControlEndRefreshing()
-            self?.customView.scrollToStart(section: section.rawValue)
+        data[section.rawValue] = items
+        DispatchQueue.main.async {
+            self.customView.reloadSection(numberOfSection: section.rawValue)
+            self.customView.refreshControlEndRefreshing()
         }
     }
     
     func updateData(items: [AnimePosterItem], section: HomeView.Section) {
-        update(data: items, from: section)
-        initialSnapshot()
+        data[section.rawValue] = items
+        DispatchQueue.main.async {
+            self.customView.hideSkeletonCollectionView()
+            self.customView.reloadData()
+        }
     }
     
     func failedRefreshData(error: Error) {
-        DispatchQueue.main.async { [weak self] in
-            self?.customView.refreshControlEndRefreshing()
+        DispatchQueue.main.async {
+            self.customView.refreshControlEndRefreshing()
         }
     }
 }
 
-// MARK: -
+// MARK: - AnimePosterModelOutput
 
 extension HomeController: AnimePosterModelOutput {
     func updateImage(for item: AnimePosterItem, image: UIImage, indexPath: IndexPath) {
-        item.image = image
-        self.reconfigureSnapshot(model: item)
+        data[indexPath.section][indexPath.row].image = image
+        DispatchQueue.main.async {
+            self.customView.reconfigureItems(at: [indexPath])
+        }
     }
     
     func failedRequestImage(error: Error) {
@@ -181,34 +197,25 @@ extension HomeController: AnimePosterModelOutput {
 // MARK: - HomeViewOutput
 
 extension HomeController: HomeViewOutput {
-    func todayHeaderButtonTapped() {
-        navigator?.show(.schedule)
-    }
-    
     func handleRefreshControl() {
         guard NetworkMonitor.shared.isConnected == true else {
             MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
             customView.refreshControlEndRefreshing()
             return
         }
-        guard homeTodayModel.isDataTaskLoading == false
-                && homeUpdatesModel.isDataTaskLoading == false else {
+        guard models[Section.today.rawValue].isDataTaskLoading == false && models[Section.updates.rawValue].isDataTaskLoading == false else {
             customView.refreshControlEndRefreshing()
             return
         }
-        homeTodayModel.refreshData()
-        homeUpdatesModel.refreshData()
+        models.forEach { $0.refreshData() }
     }
-    
-    func requestImage(for model: AnimePosterItem, indexPath: IndexPath) {
-        switch indexPath.section {
-            case Section.today.rawValue:
-                homeTodayModel.requestImage(from: model, indexPath: indexPath)
-            case Section.updates.rawValue:
-                homeUpdatesModel.requestImage(from: model, indexPath: indexPath)
-            default:
-                fatalError("Section is not found")
-        }
+}
+
+// MARK: - Target
+
+extension HomeController {
+    @objc func todayHeaderButtonTapped() {
+        navigator?.show(.schedule)
     }
 }
 
