@@ -44,12 +44,18 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
             return outgoing
         }
         let button = UIButton(configuration: config)
-
+        
+        button.addAction(UIAction(handler: { _ in
+            self.buttonDidTappedCallback?()
+        }), for: .touchUpInside)
+        
         button.isEnabled = false
         button.isSkeletonable = true
         button.skeletonCornerRadius = Constants.skeletonCornerRadius
         return button
     }()
+    
+    private var buttonDidTappedCallback: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -87,12 +93,6 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
 
         titleButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
-    
-    private func addButtonAction(callback: (() -> Void)?) {
-        titleButton.addAction(UIAction(handler: { _ in
-            callback?()
-        }), for: .touchUpInside)
-    }
 }
 
 // MARK: - Internal methods
@@ -103,7 +103,7 @@ extension HomeHeaderSupplementaryView {
         if titleLabelText != nil {
             titleButton.setTitle(titleButtonText, for: .normal)
             titleButton.isEnabled = true
-            addButtonAction(callback: buttonCallback)
+            buttonDidTappedCallback = buttonCallback
         }
     }
 }
