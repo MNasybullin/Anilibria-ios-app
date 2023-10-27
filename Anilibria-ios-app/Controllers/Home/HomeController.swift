@@ -9,10 +9,11 @@ import UIKit
 
 final class HomeController: UIViewController, HomeFlow, HasCustomView {
     typealias CustomView = HomeView
-    
     weak var navigator: HomeNavigator?
     
     private lazy var contentController = HomeContentController(delegate: self)
+    
+    private lazy var dataExpiredDate: Date = getExpiredDate()
     
     override func loadView() {
         view = HomeView(delegate: self, collectionViewDelegate: contentController)
@@ -22,6 +23,14 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         super.viewDidLoad()
         configureNavigationItem()
         requestData()
+    }
+        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard dataIsExpired() == true else {
+            return
+        }
+        customView.programaticallyBeginRefreshing()
     }
 }
 
@@ -36,6 +45,17 @@ private extension HomeController {
     func requestData() {
         customView.showSkeletonCollectionView()
         contentController.requestInitialData()
+    }
+    
+    func getExpiredDate() -> Date {
+        var date = Date()
+        let minute: Double = 60
+        date.addTimeInterval(5 * minute)
+        return date
+    }
+    
+    func dataIsExpired() -> Bool {
+        return Date().compare(dataExpiredDate) == .orderedDescending
     }
 }
 
@@ -85,6 +105,7 @@ extension HomeController: HomeContentControllerDelegate {
     
     func reloadSection(numberOfSection: Int) {
         customView.reloadSection(numberOfSection: numberOfSection)
+        dataExpiredDate = getExpiredDate()
     }
 }
 

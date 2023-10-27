@@ -114,6 +114,12 @@ extension HomeView {
         }
     }
     
+    func programaticallyBeginRefreshing() {
+        collectionView.refreshControl?.beginRefreshing()
+        scrollToTop()
+        delegate?.handleRefreshControl()
+    }
+    
     func showSkeletonCollectionView() {
         collectionView.showAnimatedSkeleton()
     }
