@@ -10,6 +10,7 @@ import Foundation
 final class ImageLoaderService: NetworkQuery {
     // MARK: - Singleton
     static let shared: ImageLoaderService = ImageLoaderService()
+    private override init() { }
     
     private let mByte = 1024 * 1024
     

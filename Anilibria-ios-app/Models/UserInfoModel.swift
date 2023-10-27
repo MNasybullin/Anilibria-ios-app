@@ -10,6 +10,8 @@ import UIKit
 final class UserInfoModel {
     typealias ResultBlock = Result<(UIImage, String), Error>
     
+    private let authorizationService = AuthorizationService()
+    
     func getUserInfo(completionHandler: @escaping (ResultBlock) -> Void) {
         Task {
             do {
@@ -24,7 +26,7 @@ final class UserInfoModel {
     
     private func requestProfileInfo() async throws -> PUser {
         do {
-            let userInfo = try await AuthorizationService.shared.profileInfo()
+            let userInfo = try await authorizationService.profileInfo()
             guard let data = userInfo.data else {
                 let error = MyNetworkError.userIsNotAuthorized
                 throw error

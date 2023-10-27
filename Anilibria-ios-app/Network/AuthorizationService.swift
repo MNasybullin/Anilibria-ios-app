@@ -7,12 +7,7 @@
 
 import Foundation
 
-final class AuthorizationService: NetworkQuery {
-    // TODO - Убрать Singleton
-    // MARK: - Singleton
-    static let shared: AuthorizationService = AuthorizationService()
-    private override init() { }
-    
+final class AuthorizationService: NetworkQuery {    
     typealias KeychainError = SecurityStorage.KeychainError
     typealias Credentials = SecurityStorage.Credentials
     
