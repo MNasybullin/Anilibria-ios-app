@@ -15,11 +15,11 @@ final class ScheduleView: UIView {
     
     private var collectionView: UICollectionView!
     
-    init(collectionViewDelegate delegate: ScheduleController) {
+    init(collectionViewDelegate: ScheduleContentController) {
         super.init(frame: .zero)
         
         configureView()
-        configureCollectionView(delegate: delegate)
+        configureCollectionView(delegate: collectionViewDelegate)
         configureLayout()
     }
     
@@ -35,7 +35,7 @@ private extension ScheduleView {
         backgroundColor = .systemBackground
     }
     
-    func configureCollectionView(delegate: ScheduleController) {
+    func configureCollectionView(delegate: ScheduleContentController) {
         let layout = ScheduleCollectionViewLayout().createLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(

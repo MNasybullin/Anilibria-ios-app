@@ -1,16 +1,21 @@
 //
-//  ScheduleController.swift
+//  ScheduleContentController.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 25.10.2023.
+//  Created by Mansur Nasybullin on 27.10.2023.
 //
 
 import UIKit
 import SkeletonView
 
-final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
-    typealias CustomView = ScheduleView
-    weak var navigator: HomeNavigator?
+protocol ScheduleContentControllerDelegate: AnyObject {
+    func hideSkeletonCollectionView()
+    func reloadData()
+    func reconfigureItems(at indexPaths: [IndexPath])
+}
+
+final class ScheduleContentController: NSObject {
+    weak var delegate: ScheduleContentControllerDelegate?
     
     private lazy var model: ScheduleModel = {
         let model = ScheduleModel()
@@ -18,29 +23,28 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
         model.scheduleModelOutput = self
         return model
     }()
+    
     private var data: [ScheduleItem]?
     
-    override func loadView() {
-        view = ScheduleView(collectionViewDelegate: self)
+    init(delegate: ScheduleContentControllerDelegate? = nil) {
+        self.delegate = delegate
+        super.init()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        customView.showSkeletonCollectionView()
+    func requestData() {
         model.requestData()
     }
 }
 
 // MARK: - UICollectionViewDelegate
 
-extension ScheduleController: UICollectionViewDelegate {
+extension ScheduleContentController: UICollectionViewDelegate {
     // selected cell
 }
 
 // MARK: - UICollectionViewDataSource
 
-extension ScheduleController: UICollectionViewDataSource {
+extension ScheduleContentController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ScheduleHeaderSupplementaryView.reuseIdentifier, for: indexPath) as? ScheduleHeaderSupplementaryView else {
             fatalError("Header is not ScheduleHeaderSupplementaryView")
@@ -79,7 +83,7 @@ extension ScheduleController: UICollectionViewDataSource {
 
 // MARK: - SkeletonCollectionViewDataSource
 
-extension ScheduleController: SkeletonCollectionViewDataSource {
+extension ScheduleContentController: SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
         return ScheduleHeaderSupplementaryView.reuseIdentifier
     }
@@ -95,7 +99,7 @@ extension ScheduleController: SkeletonCollectionViewDataSource {
 
 // MARK: - UICollectionViewDataSourcePrefetching
 
-extension ScheduleController: UICollectionViewDataSourcePrefetching {
+extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             let section = indexPath.section
@@ -111,12 +115,12 @@ extension ScheduleController: UICollectionViewDataSourcePrefetching {
 
 // MARK: - ScheduleModelOutput
 
-extension ScheduleController: ScheduleModelOutput {
+extension ScheduleContentController: ScheduleModelOutput {
     func update(data: [ScheduleItem]) {
         self.data = data
         DispatchQueue.main.async {
-            self.customView.hideSkeletonCollectionView()
-            self.customView.reloadData()
+            self.delegate?.hideSkeletonCollectionView()
+            self.delegate?.reloadData()
         }
     }
     
@@ -127,11 +131,11 @@ extension ScheduleController: ScheduleModelOutput {
 
 // MARK: - AnimePosterModelOutput
 
-extension ScheduleController: AnimePosterModelOutput {
+extension ScheduleContentController: AnimePosterModelOutput {
     func updateImage(for item: AnimePosterItem, image: UIImage, indexPath: IndexPath) {
         data?[indexPath.section].animePosterItems[indexPath.row].image = image
         DispatchQueue.main.async {
-            self.customView.reconfigureItems(at: [indexPath])
+            self.delegate?.reconfigureItems(at: [indexPath])
         }
     }
     
