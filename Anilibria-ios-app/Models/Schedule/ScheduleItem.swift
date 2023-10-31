@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class ScheduleItem {
-    var headerName: String
+struct ScheduleItem {
+    let headerName: String
     var animePosterItems: [AnimePosterItem]
     
     init(headerName: String, animePosterItems: [AnimePosterItem]) {
@@ -16,7 +16,7 @@ final class ScheduleItem {
         self.animePosterItems = animePosterItems
     }
     
-    convenience init(scheduleAPIModel model: ScheduleAPIModel) {
+    init(scheduleAPIModel model: ScheduleAPIModel) {
         let day = model.day.description
         let items = model.list.map { AnimePosterItem(titleAPIModel: $0) }
         self.init(headerName: day, animePosterItems: items)

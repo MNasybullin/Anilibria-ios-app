@@ -80,7 +80,7 @@ extension ScheduleContentController: UICollectionViewDataSource {
             return cell
         }
         if item.image == nil {
-            model.requestImage(from: item, indexPath: indexPath)
+            model.requestImage(from: item.imageUrlString, indexPath: indexPath)
         }
         cell.configureCell(model: item)
         return cell
@@ -114,7 +114,7 @@ extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
                     item.image == nil else {
                 return
             }
-            model.requestImage(from: item, indexPath: indexPath)
+            model.requestImage(from: item.imageUrlString, indexPath: indexPath)
         }
     }
 }
@@ -138,7 +138,7 @@ extension ScheduleContentController: ScheduleModelOutput {
 // MARK: - AnimePosterModelOutput
 
 extension ScheduleContentController: AnimePosterModelOutput {
-    func updateImage(for item: AnimePosterItem, image: UIImage, indexPath: IndexPath) {
+    func update(image: UIImage, indexPath: IndexPath) {
         data?[indexPath.section].animePosterItems[indexPath.row].image = image
         DispatchQueue.main.async {
             self.delegate?.reconfigureItems(at: [indexPath])

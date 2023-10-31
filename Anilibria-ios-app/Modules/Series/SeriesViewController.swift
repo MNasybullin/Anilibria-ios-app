@@ -4,7 +4,7 @@
 //
 //  Created by Mansur Nasybullin on 06/04/2023.
 //
-
+/*
 import UIKit
 
 protocol SeriesViewProtocol: AnyObject {
@@ -150,3 +150,4 @@ extension SeriesViewController: UITableViewDataSourcePrefetching {
         }
     }
 }
+*/

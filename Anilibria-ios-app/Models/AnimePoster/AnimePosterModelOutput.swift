@@ -8,6 +8,6 @@
 import UIKit
 
 protocol AnimePosterModelOutput: AnyObject {
-    func updateImage(for item: AnimePosterItem, image: UIImage, indexPath: IndexPath)
+    func update(image: UIImage, indexPath: IndexPath)
     func failedRequestImage(error: Error)
 }

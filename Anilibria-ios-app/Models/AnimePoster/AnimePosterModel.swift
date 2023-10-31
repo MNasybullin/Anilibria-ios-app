@@ -13,21 +13,20 @@ class AnimePosterModel {
     
     weak var output: AnimePosterModelOutput?
 
-    func requestImage(from item: AnimePosterItem, indexPath: IndexPath) {
-        guard !item.imageUrlString.isEmpty else { return }
-        let urlString = item.imageUrlString
+    func requestImage(from imageUrlString: String, indexPath: IndexPath) {
+        guard !imageUrlString.isEmpty else { return }
         Task {
-            guard await isImageTasksLoading.get(urlString) != true else { return }
-            await isImageTasksLoading.set(urlString, value: true)
+            guard await isImageTasksLoading.get(imageUrlString) != true else { return }
+            await isImageTasksLoading.set(imageUrlString, value: true)
             do {
-                let imageData = try await ImageLoaderService.shared.getImageData(from: urlString)
+                let imageData = try await ImageLoaderService.shared.getImageData(from: imageUrlString)
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
                 }
-                await isImageTasksLoading.set(urlString, value: false)
-                output?.updateImage(for: item, image: image, indexPath: indexPath)
+                await isImageTasksLoading.set(imageUrlString, value: false)
+                output?.update(image: image, indexPath: indexPath)
             } catch {
-                await isImageTasksLoading.set(urlString, value: nil)
+                await isImageTasksLoading.set(imageUrlString, value: nil)
                 output?.failedRequestImage(error: error)
             }
         }

@@ -9,13 +9,13 @@ import UIKit
 
 struct AnimeItem {
     var image: UIImage?
-    var ruName: String
-    var engName: String?
-    var seasonAndType: String
-    var genres: String?
-    var description: String?
-    var series: GTSeries?
-    var playlist: [Playlist]
+    let ruName: String
+    let engName: String?
+    let seasonAndType: String
+    let genres: String?
+    let description: String?
+    let series: GTSeries?
+    let playlist: [Playlist]
 }
 
 struct Playlist {
@@ -25,7 +25,6 @@ struct Playlist {
     let createdDateString: String
     let preview: String?
     var image: UIImage?
-    var imageIsLoading: Bool = false
     let skips: GTSkips?
     let hls: GTHls?
 }

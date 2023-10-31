@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+/*
 protocol SeriesPresenterProtocol: AnyObject {
     var view: SeriesViewProtocol! { get set }
     var interactor: SeriesInteractorProtocol! { get set }
@@ -62,3 +62,4 @@ final class SeriesPresenter: SeriesPresenterProtocol {
         }
     }
 }
+*/

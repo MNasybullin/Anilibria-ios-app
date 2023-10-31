@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class AnimePosterItem {
-    var name: String
-    var imageUrlString: String
+struct AnimePosterItem {
+    let name: String
+    let imageUrlString: String
     var image: UIImage?
         
     init(name: String, imageUrlString: String, image: UIImage? = nil) {
@@ -18,7 +18,7 @@ final class AnimePosterItem {
         self.image = image
     }
     
-    convenience init(titleAPIModel model: TitleAPIModel) {
+    init(titleAPIModel model: TitleAPIModel) {
         self.init(name: model.names.ru,
                   imageUrlString: model.posters.original.url,
                   image: nil)

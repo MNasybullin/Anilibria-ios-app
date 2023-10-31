@@ -120,7 +120,7 @@ extension HomeContentController: UICollectionViewDataSource {
         }
         let item = data[section][row]
         if item.image == nil {
-            models[section].requestImage(from: item, indexPath: indexPath)
+            models[section].requestImage(from: item.imageUrlString, indexPath: indexPath)
         }
         cell.configureCell(model: item)
         return cell
@@ -153,7 +153,7 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
             guard data[section].isEmpty == false,
                     data[section][row].image == nil else { return }
             let item = data[section][row]
-            models[section].requestImage(from: item, indexPath: indexPath)
+            models[section].requestImage(from: item.imageUrlString, indexPath: indexPath)
         }
     }
 }
@@ -187,7 +187,7 @@ extension HomeContentController: HomeModelOutput {
 // MARK: - AnimePosterModelOutput
 
 extension HomeContentController: AnimePosterModelOutput {
-    func updateImage(for item: AnimePosterItem, image: UIImage, indexPath: IndexPath) {
+    func update(image: UIImage, indexPath: IndexPath) {
         data[indexPath.section][indexPath.row].image = image
         DispatchQueue.main.async {
             self.delegate?.reconfigureItems(at: [indexPath])

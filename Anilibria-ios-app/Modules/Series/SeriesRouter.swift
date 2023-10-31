@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+/*
 protocol SeriesRouterProtocol: AnyObject {
     typealias EntryPoint = SeriesViewProtocol & UIViewController
     var entry: EntryPoint! { get }
@@ -52,3 +52,4 @@ extension SeriesRouter {
         }
     }
 }
+*/

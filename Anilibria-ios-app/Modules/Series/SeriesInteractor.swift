@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+/*
 protocol SeriesInteractorProtocol: AnyObject {
 	var presenter: SeriesPresenterProtocol! { get set }
     
@@ -55,3 +55,4 @@ final class SeriesInteractor: SeriesInteractorProtocol {
         }
     }
 }
+*/

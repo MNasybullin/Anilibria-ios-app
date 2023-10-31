@@ -9,7 +9,7 @@ import Foundation
 
 protocol HomeModelInput: AnyObject {
     var isDataTaskLoading: Bool { get }
-    func requestImage(from item: AnimePosterItem, indexPath: IndexPath)
+    func requestImage(from imageUrlString: String, indexPath: IndexPath)
     func requestData()
     func refreshData()
     func getRawData(row: Int) -> TitleAPIModel?
