@@ -10,7 +10,7 @@ import UIKit
 protocol SeriesInteractorProtocol: AnyObject {
 	var presenter: SeriesPresenterProtocol! { get set }
     
-    func getData() -> AnimeModel
+    func getData() -> AnimeItem
     func requestImage(forIndex index: Int) async throws -> UIImage
     func requestCachingNodes() async throws -> String
 }
@@ -18,13 +18,13 @@ protocol SeriesInteractorProtocol: AnyObject {
 final class SeriesInteractor: SeriesInteractorProtocol {
     weak var presenter: SeriesPresenterProtocol!
     
-    private var data: AnimeModel
+    private var data: AnimeItem
     
-    init(data: AnimeModel) {
+    init(data: AnimeItem) {
         self.data = data
     }
     
-    func getData() -> AnimeModel {
+    func getData() -> AnimeItem {
         return data
     }
     

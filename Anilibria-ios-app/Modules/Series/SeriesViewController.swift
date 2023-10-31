@@ -18,7 +18,7 @@ final class SeriesViewController: UIViewController, SeriesViewProtocol {
     
     private var tableView: UITableView!
     private let cellIdentifier = "SeriesTableViewCell"
-    private var data: AnimeModel!
+    private var data: AnimeItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()

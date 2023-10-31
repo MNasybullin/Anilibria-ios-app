@@ -11,7 +11,7 @@ final class HomeTodayModel: AnimePosterModel, HomeModelInput {
     typealias DataBlock = ([AnimePosterItem], HomeView.Section)
     typealias ResultDataBlock = (Result<DataBlock, Error>) -> Void
     
-    var rawData: [TitleAPIModel] = []
+    private var rawData: [TitleAPIModel] = []
     
     weak var homeModelOutput: HomeModelOutput?
     
@@ -40,7 +40,7 @@ final class HomeTodayModel: AnimePosterModel, HomeModelInput {
                 case .success((let items, let section)):
                     self?.homeModelOutput?.updateData(items: items, section: section)
                 case .failure(let error):
-                    print(error)
+                    print(#function, error)
             }
         }
     }
@@ -56,7 +56,8 @@ final class HomeTodayModel: AnimePosterModel, HomeModelInput {
         }
     }
     
-    func getRawData() -> [TitleAPIModel] {
-        return rawData
+    func getRawData(row: Int) -> TitleAPIModel? {
+        guard rawData.isEmpty == false else { return nil }
+        return rawData[row]
     }
 }

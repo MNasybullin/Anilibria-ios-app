@@ -32,17 +32,15 @@ final class HomeNavigator {
                                                 tag: TabBarItemTags.home.rawValue)
         rootViewController.navigationItem.title = Strings.ScreenTitles.home
         let navigationController = UINavigationController(rootViewController: rootViewController)
+        
+        // Configure navigationBar
+        navigationController.navigationBar.isTranslucent = false
+        navigationController.navigationBar.shadowImage = UIImage()
         navigationController.navigationBar.tintColor = .systemRed
         
-        // ConfigureNavigationBarAppearance
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.shadowColor = .clear
-        navigationController.navigationBar.standardAppearance = navigationBarAppearance
+        // Common/UINavigationControllerExtension file
+        navigationController.interactivePopGestureRecognizer?.delegate = navigationController
         
-//        Common/UINavigationControllerExtension file
-//        navigationController.interactivePopGestureRecognizer?.delegate = navigationController
-        // проверить
         return navigationController
     }
 }
@@ -60,8 +58,7 @@ extension HomeNavigator: BasicNavigator {
 extension HomeNavigator: Navigator {
     enum Destinition {
         case schedule
-        case anime
-        case series
+        case anime(TitleAPIModel)
     }
     
     func show(_ destination: Destinition) {
@@ -70,15 +67,16 @@ extension HomeNavigator: Navigator {
     }
     
     private func makeViewController(_ destination: Destinition) -> UIViewController {
-        let viewController: UIViewController & HomeFlow
+        let viewController: UIViewController
         switch destination {
             case .schedule:
-                viewController = ScheduleController()
-                viewController.title = Strings.ScreenTitles.schedule
-            case .anime:
-                fatalError("Todo show anime")
-            case .series:
-                fatalError("Todo show series")
+                let scheduleController = ScheduleController()
+                scheduleController.title = Strings.ScreenTitles.schedule
+                scheduleController.navigator = self
+                viewController = scheduleController
+            case .anime(let rawData):
+                let animeNavigator = AnimeNavigator(navigationController: navigationController, rawData: rawData)
+                viewController = animeNavigator.rootViewController
         }
         return viewController
     }

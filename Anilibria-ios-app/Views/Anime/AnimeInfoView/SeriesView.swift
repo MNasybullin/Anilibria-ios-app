@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SeriesViewDelegate: AnyObject {
-    func viewClicked()
+    func seriesViewClicked()
 }
 
 final class SeriesView: UIView {
@@ -74,7 +74,7 @@ final class SeriesView: UIView {
     }
     
     @objc private func viewTapped() {
-        delegate?.viewClicked()
+        delegate?.seriesViewClicked()
     }
     
     private func setupConstraints() {

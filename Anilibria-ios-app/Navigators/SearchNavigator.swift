@@ -28,7 +28,6 @@ extension SearchNavigator: BasicNavigator {
 extension SearchNavigator: Navigator {
     enum Destinition {
         case anime
-        case series
     }
     
     func show(_ destination: Destinition) {

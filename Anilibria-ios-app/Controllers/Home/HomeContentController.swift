@@ -15,7 +15,7 @@ protocol HomeContentControllerDelegate: AnyObject {
     func reloadData()
     func reconfigureItems(at indexPaths: [IndexPath])
     func reloadSection(numberOfSection: Int)
-    func didSelectItem(_ rawData: [TitleAPIModel])
+    func didSelectItem(_ rawData: TitleAPIModel)
 }
 
 final class HomeContentController: NSObject {
@@ -59,7 +59,9 @@ final class HomeContentController: NSObject {
 
 extension HomeContentController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let rawData = models[indexPath.section].getRawData()
+        guard let rawData = models[indexPath.section].getRawData(row: indexPath.row) else {
+            return
+        }
         delegate?.didSelectItem(rawData)
     }
 }
@@ -193,6 +195,6 @@ extension HomeContentController: AnimePosterModelOutput {
     }
     
     func failedRequestImage(error: Error) {
-        print(error)
+        print(#function, error)
     }
 }

@@ -24,6 +24,11 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         configureNavigationItem()
         requestData()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -75,12 +80,8 @@ extension HomeController: HomeViewOutput {
 // MARK: - HomeContentControllerDelegate
 
 extension HomeController: HomeContentControllerDelegate {
-    func didSelectItem(_ rawData: [TitleAPIModel]) {
-        guard rawData.isEmpty == false else {
-            return
-        }
-//        print(rawData)
-//        navigator?.show(.anime)
+    func didSelectItem(_ rawData: TitleAPIModel) {
+        navigator?.show(.anime(rawData))
     }
     
     func todayHeaderButtonTapped() {

@@ -12,7 +12,7 @@ protocol SeriesPresenterProtocol: AnyObject {
     var interactor: SeriesInteractorProtocol! { get set }
     var router: SeriesRouterProtocol! { get set }
     
-    func getData() -> AnimeModel
+    func getData() -> AnimeItem
     func getImage(forIndexPath indexPath: IndexPath)
     func cellClicked(at indexPath: IndexPath)
 }
@@ -22,7 +22,7 @@ final class SeriesPresenter: SeriesPresenterProtocol {
     var interactor: SeriesInteractorProtocol!
     var router: SeriesRouterProtocol!
 
-    func getData() -> AnimeModel {
+    func getData() -> AnimeItem {
         return interactor.getData()
     }
     
@@ -56,7 +56,7 @@ final class SeriesPresenter: SeriesPresenterProtocol {
                 router.showPlayer(url: url)
             } catch {
                 ErrorProcessing.shared.handle(error: error) { message in
-                    print(message)
+                    print(#function, message)
                 }
             }
         }

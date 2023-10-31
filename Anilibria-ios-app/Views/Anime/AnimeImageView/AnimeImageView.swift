@@ -12,14 +12,12 @@ final class AnimeImageView: UIView {
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(asset: Asset.Assets.blankImage)
-        imageView.backgroundColor = .red
         return imageView
     }()
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(asset: Asset.Assets.blankImage)
-        imageView.backgroundColor = .yellow
         return imageView
     }()
     
@@ -58,7 +56,6 @@ final class AnimeImageView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             imageView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: topSafeAreaHeight),
             imageView.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -bottomHeightAfterImageView),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 350 / 500)

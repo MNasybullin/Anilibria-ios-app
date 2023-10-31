@@ -59,7 +59,7 @@ final class SearchRouter: SearchRouterProtocol {
 // MARK: - Show Other Views
 extension SearchRouter {
     func showAnimeView(with data: TitleAPIModel) {
-        let animeView = AnimeRouter.start(withNavigationController: navigationController, withTitleModel: data)
-        navigationController.pushViewController(animeView.entry, animated: true)
+//        let animeView = AnimeRouter.start(withNavigationController: navigationController, withTitleModel: data)
+//        navigationController.pushViewController(animeView.entry, animated: true)
     }
 }

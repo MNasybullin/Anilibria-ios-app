@@ -12,6 +12,7 @@ protocol ScheduleContentControllerDelegate: AnyObject {
     func hideSkeletonCollectionView()
     func reloadData()
     func reconfigureItems(at indexPaths: [IndexPath])
+    func didSelectItem(_ rawData: TitleAPIModel)
 }
 
 final class ScheduleContentController: NSObject {
@@ -39,7 +40,12 @@ final class ScheduleContentController: NSObject {
 // MARK: - UICollectionViewDelegate
 
 extension ScheduleContentController: UICollectionViewDelegate {
-    // selected cell
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let rawData = model.getRawData(indexPath: indexPath) else {
+            return
+        }
+        delegate?.didSelectItem(rawData)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -125,7 +131,7 @@ extension ScheduleContentController: ScheduleModelOutput {
     }
     
     func failedRequestData(error: Error) {
-        print(error)
+        print(#function, error)
     }
 }
 
@@ -140,6 +146,6 @@ extension ScheduleContentController: AnimePosterModelOutput {
     }
     
     func failedRequestImage(error: Error) {
-        print(error)
+        print(#function, error)
     }
 }

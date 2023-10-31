@@ -23,6 +23,11 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
         requestData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     private func requestData() {
         customView.showSkeletonCollectionView()
         contentController.requestData()
@@ -32,6 +37,10 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
 // MARK: - ScheduleContentControllerDelegate
 
 extension ScheduleController: ScheduleContentControllerDelegate {
+    func didSelectItem(_ rawData: TitleAPIModel) {
+        navigator?.show(.anime(rawData))
+    }
+    
     func hideSkeletonCollectionView() {
         customView.hideSkeletonCollectionView()
     }
