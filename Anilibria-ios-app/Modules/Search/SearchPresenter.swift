@@ -15,10 +15,8 @@ protocol SearchPresenterProtocol: AnyObject {
     func cancellTasks()
     func getImage(forIndexPath indexPath: IndexPath)
     func getSearchResults(searchText: String, after value: Int)
-    func getRandomAnimeData()
     func deleteSearchResultsData()
     func cellClicked(at indexPath: IndexPath)
-    func randomAnimeViewTapped()
 }
 
 final class SearchPresenter: SearchPresenterProtocol {
@@ -80,19 +78,6 @@ final class SearchPresenter: SearchPresenterProtocol {
             }
         }
         imageTasks.append(task)
-    }
-    
-    func getRandomAnimeData() {
-        Task {
-            do {
-                let data = try await interactor.requestRandomAnimeData()
-                view.updateRandomAnimeView(withData: data)
-            } catch {
-                ErrorProcessing.shared.handle(error: error) { [weak view] message in
-                    view?.showErrorAlert(with: Strings.AlertController.Title.error, message: message)
-                }
-            }
-        }
     }
     
     func cellClicked(at indexPath: IndexPath) {

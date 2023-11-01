@@ -84,8 +84,6 @@
 "HomeModule.buttonTitle.all" = "Все";
 
 // MARK: - Search Module
-"SearchModule.title.randomAnime" = "Случайное аниме";
-"SearchModule.image.refresh" = "arrow.clockwise";
 "SearchModule.searchBar.placeholder" = "Поиск";
 "SearchModule.HeaderView.notFound" = "Ничего не нашлось";
 "SearchModule.ErrorFooterView.refreshButton" = "Обновить";
@@ -110,3 +108,7 @@
 
 // MARK: - Series Module
 "SeriesModule.series" = "серий";
+
+// MARK: - RandomAnime Module
+"RandomAnimeModule.title.randomAnime" = "Случайное аниме";
+"RandomAnimeModule.image.refresh" = "arrow.clockwise";

@@ -10,12 +10,9 @@ import Foundation
 struct ScheduleItem {
     let headerName: String
     var animePosterItems: [AnimePosterItem]
-    
-    init(headerName: String, animePosterItems: [AnimePosterItem]) {
-        self.headerName = headerName
-        self.animePosterItems = animePosterItems
-    }
-    
+}
+
+extension ScheduleItem {
     init(scheduleAPIModel model: ScheduleAPIModel) {
         let day = model.day.description
         let items = model.list.map { AnimePosterItem(titleAPIModel: $0) }

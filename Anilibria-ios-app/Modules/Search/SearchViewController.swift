@@ -17,7 +17,6 @@ protocol SearchViewProtocol: AnyObject {
     func updateSearchResultsTableView(data: [SearchResultsModel])
     func addMoreSearchResultsTableView(data: [SearchResultsModel], needLoadMoreData: Bool)
     func updateSearchResultsTableView(image: UIImage?, for indexPath: IndexPath)
-    func updateRandomAnimeView(withData data: RandomAnimeViewModel)
 }
 
 final class SearchViewController: UIViewController {
@@ -48,15 +47,15 @@ final class SearchViewController: UIViewController {
     }
     
     private func subscribeToNetworkMonitor() {
-        cancellable = NetworkMonitor.shared.isConnectedPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { isConnected in
-                if isConnected == true {
-                    if self.randomAnimeView.sk.isSkeletonActive == true {
-                        self.getRandomAnimeData()
-                    }
-                }
-            }
+//        cancellable = NetworkMonitor.shared.isConnectedPublisher
+//            .receive(on: DispatchQueue.main)
+//            .sink { isConnected in
+//                if isConnected == true {
+//                    if self.randomAnimeView.sk.isSkeletonActive == true {
+//                        self.getRandomAnimeData()
+//                    }
+//                }
+//            }
     }
     
     private func configureSearchBar() {
@@ -69,8 +68,8 @@ final class SearchViewController: UIViewController {
     
     private func configureRandomAnimeView() {
         randomAnimeView = RandomAnimeView(frame: .zero)
-        randomAnimeView.delegate = self
-        getRandomAnimeData()
+//        randomAnimeView.delegate = self
+//        getRandomAnimeData()
         randomAnimeView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(randomAnimeView)
 
@@ -197,16 +196,6 @@ extension SearchViewController: SearchResultsTableViewDelegate {
     }
 }
 
-extension SearchViewController: RandomAnimeViewDelegate {
-    func viewTapped() {
-        presenter.randomAnimeViewTapped()
-    }
-    
-    func getRandomAnimeData() {
-        presenter.getRandomAnimeData()
-    }
-}
-
 // MARK: - SearchViewProtocol
 extension SearchViewController: SearchViewProtocol {
     func showErrorAlert(with title: String, message: String) {
@@ -227,10 +216,6 @@ extension SearchViewController: SearchViewProtocol {
     
     func showSearchResultsErrorFooterView(with message: String) {
         searchResultsTableView.showErrorFooterView(with: message)
-    }
-    
-    func updateRandomAnimeView(withData data: RandomAnimeViewModel) {
-        randomAnimeView.update(data: data)
     }
 }
 

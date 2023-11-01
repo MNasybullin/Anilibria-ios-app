@@ -16,7 +16,6 @@ protocol SearchInteractorProtocol: AnyObject {
     func deleteSearchResultsData()
     func requestImage(forIndexPath indexPath: IndexPath) async throws -> UIImage
     func searchTitles(searchText: String, after value: Int) async throws -> ([SearchResultsModel], Bool)
-    func requestRandomAnimeData() async throws -> RandomAnimeViewModel
 }
 
 final class SearchInteractor: SearchInteractorProtocol {
@@ -61,24 +60,6 @@ final class SearchInteractor: SearchInteractorProtocol {
                 throw MyImageError.failedToInitialize
             }
             return image
-        } catch {
-            throw error
-        }
-    }
-    
-    func requestRandomAnimeData() async throws -> RandomAnimeViewModel {
-        do {
-            let titleModel = try await PublicApiService.shared.getRandomTitle()
-            randomAnime = titleModel
-            var image: UIImage?
-            let imageURL = titleModel.posters.original.url
-            let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
-            image = UIImage(data: imageData)
-            return RandomAnimeViewModel(ruName: titleModel.names.ru,
-                                        engName: titleModel.names.en,
-                                        description: titleModel.description,
-                                        image: image,
-                                        imageIsLoading: false)
         } catch {
             throw error
         }
