@@ -1,5 +1,5 @@
 //
-//  SeriesView.swift
+//  AnimeSeriesView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 06.04.2023.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol SeriesViewDelegate: AnyObject {
+protocol AnimeSeriesViewDelegate: AnyObject {
     func seriesViewClicked()
 }
 
-final class SeriesView: UIView {
-    weak var delegate: SeriesViewDelegate?
+final class AnimeSeriesView: UIView {
+    weak var delegate: AnimeSeriesViewDelegate?
     
     lazy var hStack: UIStackView = {
         let stack = UIStackView()

@@ -34,8 +34,8 @@ final class HomeNavigator {
         let navigationController = UINavigationController(rootViewController: rootViewController)
         
         // Configure navigationBar
-        navigationController.navigationBar.isTranslucent = false
-        navigationController.navigationBar.shadowImage = UIImage()
+        navigationController.navigationBar.standardAppearance.configureWithOpaqueBackground()
+        navigationController.navigationBar.standardAppearance.shadowColor = .clear
         navigationController.navigationBar.tintColor = .systemRed
         
         // Common/UINavigationControllerExtension file
@@ -75,8 +75,9 @@ extension HomeNavigator: Navigator {
                 scheduleController.navigator = self
                 viewController = scheduleController
             case .anime(let rawData):
-                let animeNavigator = AnimeNavigator(navigationController: navigationController, rawData: rawData)
-                viewController = animeNavigator.rootViewController
+                let animeController = AnimeController(rawData: rawData)
+                animeController.navigator = AnimeNavigator(navigationController: navigationController)
+                viewController = animeController
         }
         return viewController
     }

@@ -8,61 +8,84 @@
 import UIKit
 
 class SeriesTableViewCell: UITableViewCell {
+    private enum Constants {
+        static let mainStackSpacing: CGFloat = 8
+        static let secondaryStackSpacing: CGFloat = 6
+        static let titleLabelFontSize: CGFloat = 16
+        static let subtitleLabelFontSize: CGFloat = 14
+    }
     
-    lazy var hStack: UIStackView = {
+    private lazy var hStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 8
+        stack.spacing = Constants.mainStackSpacing
         stack.alignment = .top
         return stack
     }()
     
-    lazy var seriesImageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
-    }()
+    private lazy var seriesImageView = UIImageView()
     
-    lazy var labelsVStack: UIStackView = {
+    private lazy var labelsVStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 6
+        stack.spacing = Constants.secondaryStackSpacing
         stack.alignment = .top
         return stack
     }()
     
-    lazy var indicatorAndTitleHStack: UIStackView = {
+    private lazy var indicatorAndTitleHStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 6
+        stack.spacing = Constants.secondaryStackSpacing
         stack.alignment = .center
         return stack
     }()
     
-    lazy var indicatorImageView: UIImageView = {
+    private lazy var indicatorImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "circle.fill")
         imageView.tintColor = .systemRed
         return imageView
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize, 
+                                       weight: .medium)
         label.textColor = .label
-        label.numberOfLines = 1
         return label
     }()
     
-    lazy var subtitleLabel: UILabel = {
+    private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: Constants.subtitleLabelFontSize,
+                                       weight: .regular)
         label.textColor = .secondaryLabel
-        label.numberOfLines = 1
         return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        configureView()
+        configureLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        seriesImageView.image = nil
+        titleLabel.text = nil
+        subtitleLabel.text = nil
+    }
+    
+    private func configureView() {
+        backgroundColor = .systemBackground
+    }
+    
+    private func configureLayout() {
         contentView.addSubview(hStack)
         
         hStack.addArrangedSubview(seriesImageView)
@@ -74,14 +97,6 @@ class SeriesTableViewCell: UITableViewCell {
         indicatorAndTitleHStack.addArrangedSubview(indicatorImageView)
         indicatorAndTitleHStack.addArrangedSubview(titleLabel)
         
-        setupConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupConstraints() {
         hStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             hStack.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
@@ -104,18 +119,14 @@ class SeriesTableViewCell: UITableViewCell {
         
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
-}
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct SeriesTableViewCellView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPreview {
-            SeriesTableViewCell()
+    
+    func configureCell(data: Playlist) {
+        if let image = data.image {
+            seriesImageView.image = image
+        } else {
+            seriesImageView.image = UIImage(asset: Asset.Assets.blankImage)
         }
+        titleLabel.text = data.serieString
+        subtitleLabel.text = data.createdDateString
     }
 }
-
-#endif

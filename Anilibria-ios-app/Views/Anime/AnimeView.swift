@@ -12,7 +12,6 @@ protocol AnimeViewOutput: AnyObject {
 }
 
 final class AnimeView: UIView {
-    
     private lazy var navigationBar = UINavigationBar()
     private lazy var navBarItem = UINavigationItem()
     private lazy var scrollView = UIScrollView()
@@ -102,7 +101,7 @@ private extension AnimeView {
     }
     
     func configureAnimeInfoView(item: AnimeItem, delegate: AnimeController) {
-        animeInfoView.seriesView.delegate = delegate
+        animeInfoView.animeSeriesView.delegate = delegate
         animeInfoView.watchAndDownloadButtonsView.delegate = delegate
         animeInfoView.favoriteAndShareButtonsView.delegate = delegate
         
@@ -111,7 +110,7 @@ private extension AnimeView {
         animeInfoView.seasonAndTypeLabel.text = item.seasonAndType
         animeInfoView.genresLabel.text = item.genres
         animeInfoView.descriptionLabel.text = item.description
-        animeInfoView.seriesView.subtitleLabel.text = (item.series?.string ?? "") + " " + "серий" //  localizable
+        animeInfoView.animeSeriesView.subtitleLabel.text = (item.series?.string ?? "") + " " + "серий" //  localizable
     }
     
     func configureLayout() {

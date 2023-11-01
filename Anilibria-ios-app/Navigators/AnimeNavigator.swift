@@ -14,14 +14,9 @@ protocol AnimeFlow: AnyObject {
 
 final class AnimeNavigator {
     private let navigationController: UINavigationController
-    let rootViewController: UIViewController
     
-    init(navigationController: UINavigationController, rawData: TitleAPIModel) {
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        
-        let animeController = AnimeController(rawData: rawData)
-        rootViewController = animeController
-        animeController.navigator = self
     }
 }
 
@@ -37,7 +32,7 @@ extension AnimeNavigator: BasicNavigator {
 
 extension AnimeNavigator: Navigator {
     enum Destinition {
-        case series
+        case series(AnimeItem)
     }
     
     func show(_ destination: Destinition) {
@@ -46,12 +41,13 @@ extension AnimeNavigator: Navigator {
     }
     
     private func makeViewController(_ destination: Destinition) -> UIViewController {
-//        let viewController: UIViewController & AnimeFlow
-//        switch destination {
-//            case .series:
-//                fatalError("Todo show series")
-//        }
-//        return viewController
-        return UIViewController()
+        let viewController: UIViewController & AnimeFlow
+        switch destination {
+            case .series(let data):
+                viewController = SeriesController(data: data)
+                viewController.title = data.ruName
+        }
+        viewController.navigator = self
+        return viewController
     }
 }

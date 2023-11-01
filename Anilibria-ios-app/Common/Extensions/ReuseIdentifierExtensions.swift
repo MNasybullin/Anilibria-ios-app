@@ -13,6 +13,12 @@ extension UITableViewCell {
     }
 }
 
+extension UITableViewHeaderFooterView {
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
+}
+
 extension UICollectionReusableView {
     static var reuseIdentifier: String {
         return String(describing: self)

@@ -9,7 +9,7 @@ import UIKit
 
 final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     typealias CustomView = AnimeView
-    weak var navigator: AnimeNavigator?
+    var navigator: AnimeNavigator?
     
     private let model: AnimeModel
     
@@ -29,13 +29,23 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
         view = AnimeView(delegate: self, item: item)
     }
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//    }
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureNavigationItem()
+    }
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    private func configureNavigationItem() {
+        navigationItem.backButtonTitle = ""
     }
 }
 
@@ -57,11 +67,12 @@ extension AnimeController: AnimeModelOutput {
     }
 }
 
-// MARK: - SeriesViewDelegate
+// MARK: - AnimeSeriesViewDelegate
 
-extension AnimeController: SeriesViewDelegate {
+extension AnimeController: AnimeSeriesViewDelegate {
     func seriesViewClicked() {
-        print(#function)
+        let data = model.getAnimeItem()
+        navigator?.show(.series(data))
     }
 }
 

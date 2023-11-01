@@ -71,7 +71,7 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    lazy var seriesView = SeriesView()
+    lazy var animeSeriesView = AnimeSeriesView()
     
     init() {
         super.init(frame: .zero)
@@ -83,7 +83,7 @@ final class AnimeInfoView: UIView {
         contentVStack.addArrangedSubview(genresLabel)
         contentVStack.addArrangedSubview(favoriteAndShareButtonsView)
         contentVStack.addArrangedSubview(descriptionLabel)
-        contentVStack.addArrangedSubview(seriesView)
+        contentVStack.addArrangedSubview(animeSeriesView)
         
         engNameAndSeasonAndTypeVStack.addArrangedSubview(engNameLabel)
         engNameAndSeasonAndTypeVStack.addArrangedSubview(seasonAndTypeLabel)

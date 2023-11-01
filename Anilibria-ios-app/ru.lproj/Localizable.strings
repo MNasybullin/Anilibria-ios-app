@@ -108,3 +108,5 @@
 "SignInView.imageName.eye" = "eye";
 "SignInView.imageName.eyeSlash" = "eye.slash";
 
+// MARK: - Series Module
+"SeriesModule.series" = "серий";
