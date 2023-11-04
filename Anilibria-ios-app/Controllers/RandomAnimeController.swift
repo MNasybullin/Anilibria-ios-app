@@ -42,7 +42,8 @@ extension RandomAnimeController: RandomAnimeViewDelegate {
     }
     
     func viewTapped() {
-        guard let rawData = model.getRawData() else {
+        guard let rawData = model.getRawData(),
+                model.isDataTaskLoading == false else {
             return
         }
         delegate?.randomAnimeViewDidTapped(data: rawData)

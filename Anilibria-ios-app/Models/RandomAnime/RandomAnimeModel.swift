@@ -14,7 +14,7 @@ protocol RandomAnimeModelDelegate: AnyObject {
 
 final class RandomAnimeModel {
     typealias ResultDataBlock = (Result<RandomAnimeItem, Error>) -> Void
-    private var isDataTaskLoading = false
+    private (set) var isDataTaskLoading = false
     private var rawData: TitleAPIModel?
     
     weak var delegate: RandomAnimeModelDelegate?
@@ -26,13 +26,12 @@ final class RandomAnimeModel {
             defer { isDataTaskLoading = false }
             do {
                 let titleModel = try await PublicApiService.shared.getRandomTitle()
-                rawData = titleModel
-                
                 let imageURL = titleModel.posters.original.url
                 let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
                 }
+                rawData = titleModel
                 let randomAnimeItem = RandomAnimeItem(from: titleModel, image: image)
                 completionHandler(.success(randomAnimeItem))
             } catch {
