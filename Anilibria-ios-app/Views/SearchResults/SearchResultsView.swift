@@ -81,9 +81,15 @@ private extension SearchResultsView {
     }
     
     func updateTableView(header: UIView?) {
-        tableView.beginUpdates()
-        tableView.tableHeaderView = header
-        tableView.endUpdates()
+        if tableView.tableHeaderView != header {
+            tableView.tableHeaderView = header
+        }
+    }
+    
+    func updateTableView(footer: UIView?) {
+        if tableView.tableFooterView != footer {
+            tableView.tableFooterView = footer
+        }
     }
 }
 
@@ -98,12 +104,6 @@ extension SearchResultsView {
         if tableView.sk.isSkeletonActive == true {
             tableView.hideSkeleton(reloadDataAfter: false)
         }
-    }
-        
-    func updateTableView(footer: UIView?) {
-        tableView.beginUpdates()
-        tableView.tableFooterView = footer
-        tableView.endUpdates()
     }
     
     func reloadData() {
