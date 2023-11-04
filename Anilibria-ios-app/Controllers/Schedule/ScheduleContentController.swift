@@ -25,7 +25,7 @@ final class ScheduleContentController: NSObject {
         return model
     }()
     
-    private var data: [ScheduleItem]?
+    private var data: [ScheduleItem] = []
     
     init(delegate: ScheduleContentControllerDelegate? = nil) {
         self.delegate = delegate
@@ -56,18 +56,17 @@ extension ScheduleContentController: UICollectionViewDataSource {
             fatalError("Header is not ScheduleHeaderSupplementaryView")
         }
         let section = indexPath.section
-        if let item = data?[section] {
-            header.configureView(titleLabelText: item.headerName)
-        }
+        let item = data[section]
+        header.configureView(titleLabelText: item.headerName)
         return header
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        data?.count ?? 1
+        return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        data?[section].animePosterItems.count ?? 6
+        return data[section].animePosterItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -76,9 +75,7 @@ extension ScheduleContentController: UICollectionViewDataSource {
         }
         let section = indexPath.section
         let row = indexPath.row
-        guard let item = data?[section].animePosterItems[row] else {
-            return cell
-        }
+        let item = data[section].animePosterItems[row]
         if item.image == nil {
             model.requestImage(from: item.imageUrlString, indexPath: indexPath)
         }
@@ -110,8 +107,8 @@ extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
         indexPaths.forEach { indexPath in
             let section = indexPath.section
             let row = indexPath.row
-            guard let item = data?[section].animePosterItems[row],
-                    item.image == nil else {
+            let item = data[section].animePosterItems[row]
+            guard item.image == nil else {
                 return
             }
             model.requestImage(from: item.imageUrlString, indexPath: indexPath)
@@ -139,7 +136,7 @@ extension ScheduleContentController: ScheduleModelOutput {
 
 extension ScheduleContentController: AnimePosterModelOutput {
     func update(image: UIImage, indexPath: IndexPath) {
-        data?[indexPath.section].animePosterItems[indexPath.row].image = image
+        data[indexPath.section].animePosterItems[indexPath.row].image = image
         DispatchQueue.main.async {
             self.delegate?.reconfigureItems(at: [indexPath])
         }
