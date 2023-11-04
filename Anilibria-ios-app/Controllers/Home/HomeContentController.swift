@@ -51,7 +51,7 @@ final class HomeContentController: NSObject {
             delegate?.refreshControlEndRefreshing()
             return
         }
-        models.forEach { $0.refreshData() }
+        models.forEach { $0.requestData() }
     }
 }
 
@@ -161,23 +161,16 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
 // MARK: - HomeModelOutput
 
 extension HomeContentController: HomeModelOutput {
-    func refreshData(items: [AnimePosterItem], section: HomeView.Section) {
-        data[section.rawValue] = items
+    func updateData(items: [AnimePosterItem], section: HomeView.Section) {
         DispatchQueue.main.async {
+            self.data[section.rawValue] = items
+            self.delegate?.hideSkeletonCollectionView()
             self.delegate?.reloadSection(numberOfSection: section.rawValue)
             self.delegate?.refreshControlEndRefreshing()
         }
     }
     
-    func updateData(items: [AnimePosterItem], section: HomeView.Section) {
-        data[section.rawValue] = items
-        DispatchQueue.main.async {
-            self.delegate?.hideSkeletonCollectionView()
-            self.delegate?.reloadData()
-        }
-    }
-    
-    func failedRefreshData(error: Error) {
+    func failedRequestData(error: Error) {
         DispatchQueue.main.async {
             self.delegate?.refreshControlEndRefreshing()
         }
@@ -188,8 +181,8 @@ extension HomeContentController: HomeModelOutput {
 
 extension HomeContentController: AnimePosterModelOutput {
     func update(image: UIImage, indexPath: IndexPath) {
-        data[indexPath.section][indexPath.row].image = image
         DispatchQueue.main.async {
+            self.data[indexPath.section][indexPath.row].image = image
             self.delegate?.reconfigureItems(at: [indexPath])
         }
     }

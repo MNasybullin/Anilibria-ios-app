@@ -43,8 +43,8 @@ extension TabBarController: UITabBarControllerDelegate {
             switch navigationController.viewControllers.first {
                 case let scrollableViewProtocol as HasScrollableView:
                     scrollableViewProtocol.scrollToTop()
-                case let searchViewController as SearchViewController:
-                    searchViewController.searchBar.becomeFirstResponder()
+                case let searchBarProtocol as HasSearchBar:
+                    searchBarProtocol.searchBarBecomeFirstResponder()
                 default:
                     break
             }

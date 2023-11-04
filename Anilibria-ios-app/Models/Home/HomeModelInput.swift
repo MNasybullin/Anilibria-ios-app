@@ -11,6 +11,5 @@ protocol HomeModelInput: AnyObject {
     var isDataTaskLoading: Bool { get }
     func requestImage(from imageUrlString: String, indexPath: IndexPath)
     func requestData()
-    func refreshData()
     func getRawData(row: Int) -> TitleAPIModel?
 }

@@ -84,9 +84,9 @@ final class RandomAnimeView: UIView {
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         label.textColor = .label
         label.numberOfLines = 2
-        label.textAlignment = .left
         label.isSkeletonable = true
-        label.skeletonLineSpacing = 4
+        label.skeletonLineSpacing = 6
+        label.lastLineFillPercent = 100
         return label
     }()
     
@@ -94,7 +94,6 @@ final class RandomAnimeView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .systemGray
-        label.textAlignment = .left
         label.isSkeletonable = true
         return label
     }()
@@ -104,9 +103,8 @@ final class RandomAnimeView: UIView {
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .systemGray2
         label.numberOfLines = 0
-        label.textAlignment = .left
         label.isSkeletonable = true
-        label.skeletonLineSpacing = 4
+        label.skeletonLineSpacing = 6
         return label
     }()
     
@@ -116,6 +114,7 @@ final class RandomAnimeView: UIView {
         super.init(frame: frame)
         
         configureView()
+        configureLabelsForSkeleton()
         configureLayout()
         configureTapGR()
     }
@@ -131,6 +130,14 @@ private extension RandomAnimeView {
     func configureView() {
         backgroundColor = .systemBackground
         isSkeletonable = true
+    }
+    
+    func configureLabelsForSkeleton() {
+        let text = "For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View"
+        ruNameLabel.text = text
+        engNameLabel.text = text
+        descriptionLabel.text = text + text
+        vStack.layoutIfNeeded()
     }
     
     func configureLayout() {
@@ -168,13 +175,7 @@ private extension RandomAnimeView {
             animeImageView.widthAnchor.constraint(equalTo: animeImageView.heightAnchor, multiplier: 350 / 500)
         ])
         
-        descriptionLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        
-        // Для skeletonView
-        ruNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: ruNameLabel.font.lineHeight).isActive = true
-        engNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: engNameLabel.font.lineHeight).isActive = true
-        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: descriptionLabel.font.lineHeight * 3).isActive = true
     }
     
     func configureTapGR() {
@@ -183,9 +184,7 @@ private extension RandomAnimeView {
     }
     
     @objc func animeStackTapped(sender: UITapGestureRecognizer) {
-//        if sender.state == .ended && data != nil {
-            delegate?.viewTapped()
-//        }
+        delegate?.viewTapped()
     }
 }
 
@@ -200,6 +199,7 @@ extension RandomAnimeView {
     }
     
     func showSkeleton() {
+        configureLabelsForSkeleton()
         showAnimatedSkeleton()
     }
     
@@ -207,7 +207,7 @@ extension RandomAnimeView {
         hideSkeleton(reloadDataAfter: false)
     }
     
-    func configureRefreshButton(isEnabled status: Bool) {
+    func refreshButton(isEnabled status: Bool) {
         refreshButton.isEnabled = status
     }
 }

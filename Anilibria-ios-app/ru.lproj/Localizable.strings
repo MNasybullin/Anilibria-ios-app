@@ -86,6 +86,7 @@
 // MARK: - Search Module
 "SearchModule.searchBar.placeholder" = "Поиск";
 "SearchModule.HeaderView.notFound" = "Ничего не нашлось";
+"SearchModule.ErrorFooterView.titleLabel" = "Ошибка загрузки";
 "SearchModule.ErrorFooterView.refreshButton" = "Обновить";
 
 // MARK: - Screen Titles

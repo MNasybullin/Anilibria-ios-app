@@ -8,7 +8,6 @@
 import UIKit
 
 protocol HomeModelOutput: AnyObject {
-    func refreshData(items: [AnimePosterItem], section: HomeView.Section)
     func updateData(items: [AnimePosterItem], section: HomeView.Section)
-    func failedRefreshData(error: Error)
+    func failedRequestData(error: Error)
 }

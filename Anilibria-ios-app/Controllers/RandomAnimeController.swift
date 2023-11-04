@@ -36,7 +36,7 @@ final class RandomAnimeController: UIViewController, HasCustomView {
 
 extension RandomAnimeController: RandomAnimeViewDelegate {
     func refreshButtonDidTapped() {
-        customView.configureRefreshButton(isEnabled: false)
+        customView.refreshButton(isEnabled: false)
         customView.showSkeleton()
         model.requestData()
     }
@@ -54,15 +54,15 @@ extension RandomAnimeController: RandomAnimeViewDelegate {
 extension RandomAnimeController: RandomAnimeModelDelegate {
     func update(data: RandomAnimeItem) {
         DispatchQueue.main.async {
-            self.customView.updateView(data: data)
             self.customView.hideSkeleton()
-            self.customView.configureRefreshButton(isEnabled: true)
+            self.customView.updateView(data: data)
+            self.customView.refreshButton(isEnabled: true)
         }
     }
     
     func failedRequestData(error: Error) {
         DispatchQueue.main.async {
-            self.customView.configureRefreshButton(isEnabled: true)
+            self.customView.refreshButton(isEnabled: true)
         }
         print(#function)
     }

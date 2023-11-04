@@ -17,4 +17,8 @@ actor AsyncDictionary<A, B> where A: Hashable {
     func set(_ key: A, value: B?) {
         dictionary[key] = value
     }
+    
+    func removeAll() {
+        dictionary.removeAll()
+    }
 }
