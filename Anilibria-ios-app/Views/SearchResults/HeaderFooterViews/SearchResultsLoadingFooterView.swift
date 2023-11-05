@@ -34,8 +34,8 @@ private extension SearchResultsLoadingFooterView {
         
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            activityIndicatorView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            activityIndicatorView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            activityIndicatorView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            activityIndicatorView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             activityIndicatorView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }

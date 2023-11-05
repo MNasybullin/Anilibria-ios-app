@@ -10,11 +10,11 @@ import UIKit
 protocol SearchResultsModelDelegate: AnyObject {
     func update(newData: [SearchResultsItem], afterValue: Int)
     func failedRequestData(error: Error, afterValue: Int)
-    func update(image: UIImage, indexPath: IndexPath)
     func failedRequestImage(error: Error)
 }
 
 final class SearchResultsModel {
+    typealias ImageTask = Task<UIImage, Error>
     private enum Constants {
         static let limitResults: Int = 15
     }
@@ -23,14 +23,13 @@ final class SearchResultsModel {
     private var loadingDataTask: Task<(), Never>?
     private (set) var needLoadMoreData: Bool = true
     
-    private var isImageTasksLoading = AsyncDictionary<String, Bool>()
-    private var loadingImageTasks: [Task<(), Never>] = []
+    private var imageTasks: [String: ImageTask] = [:]
     
     weak var delegate: SearchResultsModelDelegate?
     
     func searchTitles(searchText: String, after value: Int) {
         loadingDataTask?.cancel()
-        loadingDataTask = Task {
+        loadingDataTask = Task(priority: .userInitiated) {
             defer {
                 loadingDataTask = nil
             }
@@ -57,41 +56,51 @@ final class SearchResultsModel {
         }
     }
     
-    func requestImage(from urlString: String, indexPath: IndexPath) {
-        guard !urlString.isEmpty else { return }
-        let task = Task {
-            guard await isImageTasksLoading.get(urlString) != true else { return }
-            await isImageTasksLoading.set(urlString, value: true)
-            do {
-                let imageData = try await ImageLoaderService.shared.getImageData(from: urlString)
-                guard let image = UIImage(data: imageData) else {
-                    throw MyImageError.failedToInitialize
-                }
-                await isImageTasksLoading.set(urlString, value: false)
-                if Task.isCancelled == true {
-                    return
-                }
-                delegate?.update(image: image, indexPath: indexPath)
-            } catch {
-                await isImageTasksLoading.set(urlString, value: nil)
-                if Task.isCancelled == true {
-                    return
-                }
-                delegate?.failedRequestImage(error: error)
+    func requestImage(from urlString: String, successCompletion: @escaping (UIImage) -> Void) {
+        guard imageTasks[urlString] == nil else {
+            existingTask(imageTasks[urlString]!, successCompletion: successCompletion)
+            return
+        }
+        let task = ImageTask(priority: .medium) {
+            let imageData = try await ImageLoaderService.shared.getImageData(from: urlString)
+            guard let image = UIImage(data: imageData) else {
+                throw MyImageError.failedToInitialize
+            }
+            return image
+        }
+        imageTasks[urlString] = task
+        existingTask(task, successCompletion: successCompletion)
+    }
+    
+    private func existingTask(_ task: ImageTask, successCompletion: @escaping (UIImage) -> Void) {
+        guard task.isCancelled == false else {
+            return
+        }
+        Task {
+            let result = await task.result
+            guard task.isCancelled == false else {
+                return
+            }
+            switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        successCompletion(image)
+                    }
+                case .failure(let error):
+                    delegate?.failedRequestImage(error: error)
             }
         }
-        loadingImageTasks.append(task)
     }
     
     func cancelTasks() {
-        loadingImageTasks.forEach { $0.cancel() }
-        loadingImageTasks.removeAll()
-        Task {
-            await isImageTasksLoading.removeAll()
-        }
+        imageTasks.values.forEach { $0.cancel() }
+        imageTasks.removeAll()
         
         loadingDataTask?.cancel()
         loadingDataTask = nil
+    }
+    
+    func deleteData() {
         needLoadMoreData = true
         rawData.removeAll()
     }

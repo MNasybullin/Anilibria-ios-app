@@ -17,7 +17,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
         static let descriptionLabelFontSize: CGFloat = 16
     }
     
-    var hStack: UIStackView = {
+    private var hStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = Constants.hStackSpacing
@@ -26,7 +26,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
         return stack
     }()
     
-    var animeImageView: UIImageView = {
+    private var animeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -34,7 +34,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    var vStack: UIStackView = {
+    private var vStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = Constants.vStackSpacing
@@ -42,7 +42,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
         return stack
     }()
     
-    var ruNameLabel: UILabel = {
+    private var ruNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(
             ofSize: Constants.ruNameLabelFontSize,
@@ -52,7 +52,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
         return label
     }()
     
-    var engNameLabel: UILabel = {
+    private var engNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(
             ofSize: Constants.engNameLabelFontSize,
@@ -62,7 +62,7 @@ final class SearchResultsTableViewCell: UITableViewCell {
         return label
     }()
     
-    var descriptionLabel: UILabel = {
+    private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(
             ofSize: Constants.descriptionLabelFontSize,
@@ -75,6 +75,8 @@ final class SearchResultsTableViewCell: UITableViewCell {
         return label
     }()
     
+    private var imageUrlString = ""
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -85,18 +87,6 @@ final class SearchResultsTableViewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        if animeImageView.sk.isSkeletonActive == false {
-            animeImageView.showAnimatedSkeleton(transition: .none)
-        }
-        animeImageView.image = nil
-        configureLabelsForSkeleton()
-//        ruNameLabel.text = nil
-//        engNameLabel.text = nil
-//        descriptionLabel.text = nil
     }
 }
 
@@ -141,19 +131,6 @@ private extension SearchResultsTableViewCell {
         ])
         
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        
-//        // Для skeletonView
-//        let ruNameLabelHeight = ruNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: ruNameLabel.font.lineHeight)
-//        let engNameLabelHeight = engNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: engNameLabel.font.lineHeight)
-//        let descriptionLabelHeight = descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: descriptionLabel.font.lineHeight * 3)
-//        ruNameLabelHeight.priority = .defaultHigh
-//        engNameLabelHeight.priority = .defaultHigh
-//        descriptionLabelHeight.priority = .defaultHigh
-//        NSLayoutConstraint.activate([
-//            ruNameLabelHeight,
-//            engNameLabelHeight,
-//            descriptionLabelHeight
-//        ])
     }
 }
 
@@ -162,15 +139,20 @@ private extension SearchResultsTableViewCell {
 extension SearchResultsTableViewCell {
     func configureCell(item: SearchResultsItem) {
         if item.image == nil {
-            if animeImageView.sk.isSkeletonActive == false {
-                animeImageView.showAnimatedSkeleton()
-            }
-        } else if animeImageView.sk.isSkeletonActive == true {
-            animeImageView.hideSkeleton(reloadDataAfter: false)
+            animeImageView.image = nil
+            animeImageView.showAnimatedSkeleton(transition: .none)
         }
         animeImageView.image = item.image
         ruNameLabel.text = item.ruName
         engNameLabel.text = item.engName
         descriptionLabel.text = item.description
+        imageUrlString = item.imageUrlString
+    }
+    
+    func setImage(_ image: UIImage, urlString: String) {
+        if urlString == imageUrlString {
+            animeImageView.hideSkeleton(reloadDataAfter: false)
+            animeImageView.image = image
+        }
     }
 }

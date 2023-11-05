@@ -78,8 +78,10 @@ extension SearchResultsController {
         searchText = nil
         data.removeAll()
         status = .normal
+        customView.hideTableViewSkeleton()
         customView.reloadData()
         model.cancelTasks()
+        model.deleteData()
     }
 }
 
@@ -91,6 +93,7 @@ extension SearchResultsController: UITableViewDelegate {
         guard let item = model.getRawData(row: indexPath.row) else {
             return
         }
+        model.cancelTasks()
         delegate?.didSelectedItem(item: item)
     }
     
@@ -115,7 +118,10 @@ extension SearchResultsController: UITableViewDataSource {
             loadMoreData()
         }
         if item.image == nil {
-            model.requestImage(from: item.imageUrlString, indexPath: indexPath)
+            model.requestImage(from: item.imageUrlString) { image in
+                self.data[indexPath.row].image = image
+                cell.setImage(image, urlString: item.imageUrlString)
+            }
         }
         cell.configureCell(item: item)
         return cell
@@ -143,7 +149,9 @@ extension SearchResultsController: UITableViewDataSourcePrefetching {
             guard item.image == nil else {
                 return
             }
-            model.requestImage(from: item.imageUrlString, indexPath: indexPath)
+            model.requestImage(from: item.imageUrlString) { image in
+                self.data[indexPath.row].image = image
+            }
         }
     }
 }
@@ -161,6 +169,7 @@ extension SearchResultsController: SearchResultsModelDelegate {
                     self.data = newData
                     self.status = .normal
                     self.customView.reloadData()
+                    self.customView.scrollToTop()
                 }
             } else {
                 let count = self.data.count
@@ -181,13 +190,6 @@ extension SearchResultsController: SearchResultsModelDelegate {
             } else {
                 print(#function)
             }
-        }
-    }
-    
-    func update(image: UIImage, indexPath: IndexPath) {
-        DispatchQueue.main.async {
-            self.data[indexPath.row].image = image
-            self.customView.reconfigureRows(at: [indexPath])
         }
     }
     

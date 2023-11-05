@@ -110,6 +110,10 @@ extension SearchResultsView {
         tableView.reloadData()
     }
     
+    func scrollToTop() {
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+    }
+    
     func insertRows(indexPaths: [IndexPath]) {
         tableView.beginUpdates()
         tableView.insertRows(at: indexPaths, with: .top)
@@ -139,7 +143,6 @@ extension SearchResultsView {
             case .normal:
                 updateTableView(header: nil)
                 updateTableView(footer: nil)
-                hideTableViewSkeleton()
         }
     }
 }
