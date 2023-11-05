@@ -37,11 +37,6 @@ final class ScheduleHeaderSupplementaryView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        titleLabel.text = nil
-    }
-    
     private func configureView() {
         isSkeletonable = true
         backgroundColor = .systemBackground

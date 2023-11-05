@@ -8,7 +8,6 @@
 import UIKit
 
 protocol SeriesContentControllerDelegate: AnyObject {
-    func reconfigureRows(at indexPaths: [IndexPath])
 }
 
 final class SeriesContentController: NSObject {
@@ -22,7 +21,7 @@ final class SeriesContentController: NSObject {
         super.init()
         
         self.data = model.getData()
-        model.output = self
+        model.imageModelDelegate = self
     }
 }
 
@@ -55,10 +54,14 @@ extension SeriesContentController: UITableViewDataSource {
             fatalError("Can`t create new cell")
         }
         let row = indexPath.row
+        let item = data[row]
         if data[row].image == nil {
-            model.requestImage(from: data[row].preview ?? "", indexPath: indexPath)
+            model.requestImage(from: item.preview) { [weak self] image in
+                self?.data[row].image = image
+                cell.setImage(image, urlString: item.preview)
+            }
         }
-        cell.configureCell(data: data[row])
+        cell.configureCell(item: item)
         return cell
     }
 }
@@ -72,19 +75,14 @@ extension SeriesContentController: UITableViewDataSourcePrefetching {
             guard data[row].image == nil else {
                 return
             }
-            model.requestImage(from: data[row].preview ?? "", indexPath: indexPath)
+            model.requestImage(from: data[row].preview) { [weak self] image in
+                self?.data[row].image = image
+            }
         }
     }
 }
 
-extension SeriesContentController: AnimePosterModelOutput {
-    func update(image: UIImage, indexPath: IndexPath) {
-        data[indexPath.row].image = image
-        DispatchQueue.main.async {
-            self.delegate?.reconfigureRows(at: [indexPath])
-        }
-    }
-    
+extension SeriesContentController: ImageModelDelegate {
     func failedRequestImage(error: Error) {
         print(#function, error)
     }

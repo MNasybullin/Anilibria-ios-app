@@ -137,8 +137,4 @@ extension HomeView {
     func reloadSection(numberOfSection: Int) {
         collectionView.reloadSections(IndexSet(integer: numberOfSection))
     }
-    
-    func reconfigureItems(at indexPaths: [IndexPath]) {
-        collectionView.reconfigureItems(at: indexPaths)
-    }
 }

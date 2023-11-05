@@ -13,6 +13,7 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     private let model: AnimeModel
     
+    // MARK: LifeCycle
     init(rawData: TitleAPIModel) {
         self.model = AnimeModel(rawData: rawData)
         super.init(nibName: nil, bundle: nil)

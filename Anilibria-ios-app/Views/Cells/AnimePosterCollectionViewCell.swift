@@ -48,6 +48,8 @@ final class AnimePosterCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private var imageUrlString = ""
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -57,15 +59,6 @@ final class AnimePosterCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        if imageView.sk.isSkeletonActive == false {
-            imageView.showAnimatedSkeleton(transition: .none)
-        }
-        imageView.image = nil
-        titleLabel.text = nil
     }
 }
 
@@ -101,25 +94,26 @@ private extension AnimePosterCollectionViewCell {
 // MARK: - Internal methods
 
 extension AnimePosterCollectionViewCell {
-    func configureCell(model: AnimePosterItem) {
-        if model.image == nil {
-            if imageView.sk.isSkeletonActive == false {
-                imageView.showAnimatedSkeleton()
-            }
-        } else if imageView.sk.isSkeletonActive == true {
-            imageView.hideSkeleton(reloadDataAfter: false)
+    func configureCell(item: AnimePosterItem) {
+        imageView.image = item.image
+        if item.image == nil {
+            imageView.showAnimatedSkeleton(transition: .none)
         }
-        imageView.image = model.image
         
-        if model.name.isEmpty {
-            if titleLabel.sk.isSkeletonActive == false {
-                titleLabel.showAnimatedSkeleton()
-            }
-            titleLabel.text = "SkeletonView placeholder text SkeletonView placeholder text"
-            return
-        } else if titleLabel.sk.isSkeletonActive == true {
-            titleLabel.hideSkeleton(reloadDataAfter: false)
+        titleLabel.text = item.name
+        imageUrlString = item.imageUrlString
+    }
+    
+    func configureSkeletonCell() {
+        imageView.image = nil
+        titleLabel.text = "SkeletonView placeholder text SkeletonView placeholder text"
+        showAnimatedSkeleton(transition: .none)
+    }
+    
+    func setImage(_ image: UIImage, urlString: String) {
+        if urlString == imageUrlString {
+            imageView.hideSkeleton(reloadDataAfter: false)
+            imageView.image = image
         }
-        titleLabel.text = model.name
     }
 }

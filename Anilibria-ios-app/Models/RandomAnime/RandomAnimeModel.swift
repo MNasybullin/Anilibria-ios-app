@@ -22,7 +22,7 @@ final class RandomAnimeModel {
     private func requestData(completionHandler: @escaping ResultDataBlock) {
         guard isDataTaskLoading == false else { return }
         isDataTaskLoading = true
-        Task {
+        Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
                 let titleModel = try await PublicApiService.shared.getRandomTitle()

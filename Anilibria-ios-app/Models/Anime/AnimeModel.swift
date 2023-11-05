@@ -44,14 +44,13 @@ private extension AnimeModel {
     }
     
     func getPlaylist() -> [Playlist] {
-        var array: [Playlist]?
-        array = rawData.player?.playlist?.map {
+        let array = rawData.player?.playlist?.map {
             Playlist(
                 serie: $0.serie,
                 serieString: getSerieString(from: $0.serie),
                 createdTimestamp: $0.createdTimestamp,
                 createdDateString: getCreatedDateString(from: $0.createdTimestamp),
-                preview: $0.preview,
+                preview: $0.preview ?? "",
                 skips: $0.skips,
                 hls: $0.hls)
         }
@@ -76,11 +75,7 @@ private extension AnimeModel {
         }
         return createdDateString
     }
-}
-
-// MARK: - Internal methods
-
-extension AnimeModel {
+    
     func requestImage() {
         Task {
             do {
@@ -95,7 +90,11 @@ extension AnimeModel {
             }
         }
     }
-    
+}
+
+// MARK: - Internal methods
+
+extension AnimeModel {
     func getAnimeItem() -> AnimeItem {
         requestImage()
         let animeItem = AnimeItem(

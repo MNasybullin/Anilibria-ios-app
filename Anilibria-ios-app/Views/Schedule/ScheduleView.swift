@@ -80,8 +80,4 @@ extension ScheduleView {
     func reloadData() {
         collectionView.reloadData()
     }
-    
-    func reconfigureItems(at indexPaths: [IndexPath]) {
-        collectionView.reconfigureItems(at: indexPaths)
-    }
 }

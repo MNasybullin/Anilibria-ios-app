@@ -37,7 +37,5 @@ final class SeriesController: UIViewController, AnimeFlow, HasCustomView {
 // MARK: - SeriesContentControllerDelegate
 
 extension SeriesController: SeriesContentControllerDelegate {
-    func reconfigureRows(at indexPaths: [IndexPath]) {
-        customView.reconfigureRows(at: indexPaths)
-    }
+    
 }

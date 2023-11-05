@@ -13,7 +13,6 @@ protocol HomeContentControllerDelegate: AnyObject {
     func refreshControlEndRefreshing()
     func hideSkeletonCollectionView()
     func reloadData()
-    func reconfigureItems(at indexPaths: [IndexPath])
     func reloadSection(numberOfSection: Int)
     func didSelectItem(_ rawData: TitleAPIModel)
 }
@@ -26,11 +25,11 @@ final class HomeContentController: NSObject {
     private var data: [[AnimePosterItem]] = .init(repeating: [], count: 2)
     private lazy var models: [HomeModelInput] = {
         let todayModel = HomeTodayModel()
-        todayModel.output = self
+        todayModel.imageModelDelegate = self
         todayModel.homeModelOutput = self
         
         let updatesModel = HomeUpdatesModel()
-        updatesModel.output = self
+        updatesModel.imageModelDelegate = self
         updatesModel.homeModelOutput = self
         return [todayModel, updatesModel]
     }()
@@ -115,14 +114,17 @@ extension HomeContentController: UICollectionViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         guard data[section].isEmpty == false else {
-            cell.configureCell(model: AnimePosterItem.getSkeletonInitialData())
+            cell.configureSkeletonCell()
             return cell
         }
         let item = data[section][row]
         if item.image == nil {
-            models[section].requestImage(from: item.imageUrlString, indexPath: indexPath)
+            models[section].requestImage(from: item.imageUrlString) { [weak self] image in
+                self?.data[section][row].image = image
+                cell.setImage(image, urlString: item.imageUrlString)
+            }
         }
-        cell.configureCell(model: item)
+        cell.configureCell(item: item)
         return cell
     }
 }
@@ -153,7 +155,9 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
             guard data[section].isEmpty == false,
                     data[section][row].image == nil else { return }
             let item = data[section][row]
-            models[section].requestImage(from: item.imageUrlString, indexPath: indexPath)
+            models[section].requestImage(from: item.imageUrlString) { [weak self] image in
+                self?.data[section][row].image = image
+            }
         }
     }
 }
@@ -179,14 +183,7 @@ extension HomeContentController: HomeModelOutput {
 
 // MARK: - AnimePosterModelOutput
 
-extension HomeContentController: AnimePosterModelOutput {
-    func update(image: UIImage, indexPath: IndexPath) {
-        DispatchQueue.main.async {
-            self.data[indexPath.section][indexPath.row].image = image
-            self.delegate?.reconfigureItems(at: [indexPath])
-        }
-    }
-    
+extension HomeContentController: ImageModelDelegate {
     func failedRequestImage(error: Error) {
         print(#function, error)
     }

@@ -30,7 +30,6 @@
 		271A0E382AE90390005958CB /* ScheduleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E372AE90390005958CB /* ScheduleController.swift */; };
 		271A0E3A2AE903F8005958CB /* ScheduleCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E392AE903F8005958CB /* ScheduleCollectionViewLayout.swift */; };
 		271A0E3C2AE97F10005958CB /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E3B2AE97F10005958CB /* ScheduleModel.swift */; };
-		271A0E422AE98216005958CB /* AnimePosterModelOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E412AE98216005958CB /* AnimePosterModelOutput.swift */; };
 		271A0E452AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E442AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift */; };
 		271A0E472AEA6F66005958CB /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E462AEA6F66005958CB /* RootView.swift */; };
 		272D6532288AEF3800FA4F60 /* NetworkQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6531288AEF3800FA4F60 /* NetworkQuery.swift */; };
@@ -108,7 +107,7 @@
 		27B7071E2AF3B2B700DD8DC6 /* SearchResultsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B7071D2AF3B2B700DD8DC6 /* SearchResultsItem.swift */; };
 		27B707222AF3E33300DD8DC6 /* SearchResultsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707212AF3E33300DD8DC6 /* SearchResultsModel.swift */; };
 		27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707242AF5599100DD8DC6 /* HasSearchBar.swift */; };
-		27C6B4CA2AE2E6DC00BC0184 /* AnimePosterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6B4C92AE2E6DC00BC0184 /* AnimePosterModel.swift */; };
+		27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */; };
 		27C6B4CE2AE3015100BC0184 /* AsyncDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6B4CD2AE3015100BC0184 /* AsyncDictionary.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
@@ -161,7 +160,6 @@
 		271A0E372AE90390005958CB /* ScheduleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleController.swift; sourceTree = "<group>"; };
 		271A0E392AE903F8005958CB /* ScheduleCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCollectionViewLayout.swift; sourceTree = "<group>"; };
 		271A0E3B2AE97F10005958CB /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
-		271A0E412AE98216005958CB /* AnimePosterModelOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimePosterModelOutput.swift; sourceTree = "<group>"; };
 		271A0E442AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleHeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		271A0E462AEA6F66005958CB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		272D6531288AEF3800FA4F60 /* NetworkQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkQuery.swift; sourceTree = "<group>"; };
@@ -239,7 +237,7 @@
 		27B7071D2AF3B2B700DD8DC6 /* SearchResultsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsItem.swift; sourceTree = "<group>"; };
 		27B707212AF3E33300DD8DC6 /* SearchResultsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsModel.swift; sourceTree = "<group>"; };
 		27B707242AF5599100DD8DC6 /* HasSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasSearchBar.swift; sourceTree = "<group>"; };
-		27C6B4C92AE2E6DC00BC0184 /* AnimePosterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimePosterModel.swift; sourceTree = "<group>"; };
+		27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		27C6B4CD2AE3015100BC0184 /* AsyncDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncDictionary.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
@@ -319,16 +317,6 @@
 				271A0E252AE7F32C005958CB /* HomeModelOutput.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		271A0E3F2AE981D9005958CB /* AnimePoster */ = {
-			isa = PBXGroup;
-			children = (
-				271072E82ADDDE310024530D /* AnimePosterItem.swift */,
-				27C6B4C92AE2E6DC00BC0184 /* AnimePosterModel.swift */,
-				271A0E412AE98216005958CB /* AnimePosterModelOutput.swift */,
-			);
-			path = AnimePoster;
 			sourceTree = "<group>";
 		};
 		271A0E402AE981E3005958CB /* Schedule */ = {
@@ -517,10 +505,11 @@
 				275865C82ADAFDDF00F98884 /* SignInModel.swift */,
 				275865CA2ADAFDE900F98884 /* UserInfoModel.swift */,
 				27B707052AF253DC00DD8DC6 /* SeriesModel.swift */,
+				271072E82ADDDE310024530D /* AnimePosterItem.swift */,
+				27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */,
 				27B707232AF3E33900DD8DC6 /* SearchResults */,
 				27B707122AF2A7E400DD8DC6 /* RandomAnime */,
 				2748DD0E2AEFAA3200D53E9B /* Anime */,
-				271A0E3F2AE981D9005958CB /* AnimePoster */,
 				271A0E402AE981E3005958CB /* Schedule */,
 				271A0E222AE7EC1A005958CB /* Home */,
 			);
@@ -956,7 +945,6 @@
 				275865C32ADAEB2800F98884 /* HasCustomView.swift in Sources */,
 				271072E32ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift in Sources */,
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
-				271A0E422AE98216005958CB /* AnimePosterModelOutput.swift in Sources */,
 				275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */,
 				2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */,
 				271072E92ADDDE310024530D /* AnimePosterItem.swift in Sources */,
@@ -988,7 +976,7 @@
 				271A0E242AE7F322005958CB /* HomeModelInput.swift in Sources */,
 				C92CC8F171A011A8F6282AAC /* SeriesInteractor.swift in Sources */,
 				27B707082AF2571900DD8DC6 /* SeriesContentController.swift in Sources */,
-				27C6B4CA2AE2E6DC00BC0184 /* AnimePosterModel.swift in Sources */,
+				27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */,
 				27B707162AF2ABAB00DD8DC6 /* SearchController.swift in Sources */,
 				BB381D24A0FBC49F8FDFAE15 /* SeriesPresenter.swift in Sources */,
 				058BB6E07DB9C1B7E768A179 /* SeriesRouter.swift in Sources */,

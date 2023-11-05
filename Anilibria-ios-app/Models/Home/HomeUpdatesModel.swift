@@ -7,15 +7,16 @@
 
 import Foundation
 
-final class HomeUpdatesModel: AnimePosterModel, HomeModelInput {
-    private var rawData: [TitleAPIModel] = []
-    
+final class HomeUpdatesModel: ImageModel, HomeModelInput {
     weak var homeModelOutput: HomeModelOutput?
+    
+    private var rawData: [TitleAPIModel] = []
+    var isDataTaskLoading = false
     
     func requestData() {
         guard isDataTaskLoading == false else { return }
         isDataTaskLoading = true
-        Task {
+        Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
                 let data = try await PublicApiService.shared.getUpdates()

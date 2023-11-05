@@ -11,7 +11,6 @@ import SkeletonView
 protocol ScheduleContentControllerDelegate: AnyObject {
     func hideSkeletonCollectionView()
     func reloadData()
-    func reconfigureItems(at indexPaths: [IndexPath])
     func didSelectItem(_ rawData: TitleAPIModel)
 }
 
@@ -20,7 +19,7 @@ final class ScheduleContentController: NSObject {
     
     private lazy var model: ScheduleModel = {
         let model = ScheduleModel()
-        model.output = self
+        model.imageModelDelegate = self
         model.scheduleModelOutput = self
         return model
     }()
@@ -77,9 +76,12 @@ extension ScheduleContentController: UICollectionViewDataSource {
         let row = indexPath.row
         let item = data[section].animePosterItems[row]
         if item.image == nil {
-            model.requestImage(from: item.imageUrlString, indexPath: indexPath)
+            model.requestImage(from: item.imageUrlString) { [weak self] image in
+                self?.data[section].animePosterItems[row].image = image
+                cell.setImage(image, urlString: item.imageUrlString)
+            }
         }
-        cell.configureCell(model: item)
+        cell.configureCell(item: item)
         return cell
     }
 }
@@ -111,7 +113,9 @@ extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
             guard item.image == nil else {
                 return
             }
-            model.requestImage(from: item.imageUrlString, indexPath: indexPath)
+            model.requestImage(from: item.imageUrlString) { [weak self] image in
+                self?.data[section].animePosterItems[row].image = image
+            }
         }
     }
 }
@@ -134,14 +138,7 @@ extension ScheduleContentController: ScheduleModelOutput {
 
 // MARK: - AnimePosterModelOutput
 
-extension ScheduleContentController: AnimePosterModelOutput {
-    func update(image: UIImage, indexPath: IndexPath) {
-        data[indexPath.section].animePosterItems[indexPath.row].image = image
-        DispatchQueue.main.async {
-            self.delegate?.reconfigureItems(at: [indexPath])
-        }
-    }
-    
+extension ScheduleContentController: ImageModelDelegate {
     func failedRequestImage(error: Error) {
         print(#function, error)
     }

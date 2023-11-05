@@ -23,7 +23,7 @@ struct Playlist {
     let serieString: String
     let createdTimestamp: Int?
     let createdDateString: String
-    let preview: String?
+    let preview: String
     var image: UIImage?
     let skips: GTSkips?
     let hls: GTHls?

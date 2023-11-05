@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class SeriesModel: AnimePosterModel {
+final class SeriesModel: ImageModel {
     private var animeItem: AnimeItem
     
     init(animeItem: AnimeItem) {

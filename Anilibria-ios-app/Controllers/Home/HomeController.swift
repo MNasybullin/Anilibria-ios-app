@@ -94,10 +94,6 @@ extension HomeController: HomeContentControllerDelegate {
         customView.reloadData()
     }
     
-    func reconfigureItems(at indexPaths: [IndexPath]) {
-        customView.reconfigureItems(at: indexPaths)
-    }
-    
     func reloadSection(numberOfSection: Int) {
         customView.reloadSection(numberOfSection: numberOfSection)
         dataExpiredDate = getExpiredDate()

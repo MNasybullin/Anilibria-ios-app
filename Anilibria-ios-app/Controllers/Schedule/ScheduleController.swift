@@ -43,8 +43,4 @@ extension ScheduleController: ScheduleContentControllerDelegate {
     func reloadData() {
         customView.reloadData()
     }
-    
-    func reconfigureItems(at indexPaths: [IndexPath]) {
-        customView.reconfigureItems(at: indexPaths)
-    }
 }

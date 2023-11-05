@@ -14,7 +14,7 @@ final class SignInModel {
     
     func authorization(email: String, password: String,
                        completionHandler: @escaping (ResultBlock) -> Void) {
-        Task {
+        Task(priority: .userInitiated) {
             do {
                 let user = try await authorizationService.login(email: email, password: password)
                 

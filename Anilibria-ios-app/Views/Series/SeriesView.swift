@@ -53,11 +53,3 @@ private extension SeriesView {
         ])
     }
 }
-
-// MARK: - Internal methods
-
-extension SeriesView {
-    func reconfigureRows(at indexPaths: [IndexPath]) {
-        tableView.reconfigureRows(at: indexPaths)
-    }
-}

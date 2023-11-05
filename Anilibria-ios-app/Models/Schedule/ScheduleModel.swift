@@ -12,13 +12,13 @@ protocol ScheduleModelOutput: AnyObject {
     func failedRequestData(error: Error)
 }
 
-final class ScheduleModel: AnimePosterModel {
+final class ScheduleModel: ImageModel {
     weak var scheduleModelOutput: ScheduleModelOutput?
     
     private var rawData: [ScheduleAPIModel] = []
     
     func requestData() {
-        Task {
+        Task(priority: .userInitiated) {
             do {
                 let data = try await PublicApiService.shared.getSchedule(with: DaysOfTheWeek.allCases)
                 rawData = data

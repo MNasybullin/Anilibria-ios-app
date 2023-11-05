@@ -64,6 +64,8 @@ class SeriesTableViewCell: UITableViewCell {
         return label
     }()
     
+    private var imageUrlString = ""
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -74,13 +76,7 @@ class SeriesTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func prepareForReuse() {
-        seriesImageView.image = nil
-        titleLabel.text = nil
-        subtitleLabel.text = nil
-    }
-    
+        
     private func configureView() {
         backgroundColor = .systemBackground
     }
@@ -120,13 +116,20 @@ class SeriesTableViewCell: UITableViewCell {
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
-    func configureCell(data: Playlist) {
-        if let image = data.image {
+    func configureCell(item: Playlist) {
+        if let image = item.image {
             seriesImageView.image = image
         } else {
             seriesImageView.image = UIImage(asset: Asset.Assets.blankImage)
         }
-        titleLabel.text = data.serieString
-        subtitleLabel.text = data.createdDateString
+        titleLabel.text = item.serieString
+        subtitleLabel.text = item.createdDateString
+        imageUrlString = item.preview
+    }
+    
+    func setImage(_ image: UIImage, urlString: String) {
+        if urlString == imageUrlString {
+            seriesImageView.image = image
+        }
     }
 }

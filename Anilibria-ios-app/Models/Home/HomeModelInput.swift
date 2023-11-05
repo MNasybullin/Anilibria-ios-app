@@ -7,9 +7,8 @@
 
 import Foundation
 
-protocol HomeModelInput: AnyObject {
+protocol HomeModelInput: ImageModel {
     var isDataTaskLoading: Bool { get }
-    func requestImage(from imageUrlString: String, indexPath: IndexPath)
     func requestData()
     func getRawData(row: Int) -> TitleAPIModel?
 }

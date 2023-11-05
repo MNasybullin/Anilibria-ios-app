@@ -13,7 +13,7 @@ final class UserInfoModel {
     private let authorizationService = AuthorizationService()
     
     func getUserInfo(completionHandler: @escaping (ResultBlock) -> Void) {
-        Task {
+        Task(priority: .userInitiated) {
             do {
                 let user = try await requestProfileInfo()
                 let userImage = try await requestImage(forURL: user.avatar)
