@@ -95,6 +95,9 @@ private extension AnimePosterCollectionViewCell {
 
 extension AnimePosterCollectionViewCell {
     func configureCell(item: AnimePosterItem) {
+        if sk.isSkeletonActive == true {
+            hideSkeleton(reloadDataAfter: false)
+        }
         imageView.image = item.image
         if item.image == nil {
             imageView.showAnimatedSkeleton(transition: .none)
@@ -106,7 +109,7 @@ extension AnimePosterCollectionViewCell {
     
     func configureSkeletonCell() {
         imageView.image = nil
-        titleLabel.text = "SkeletonView placeholder text SkeletonView placeholder text"
+        titleLabel.text = Strings.skeletonTextPlaceholder
         showAnimatedSkeleton(transition: .none)
     }
     

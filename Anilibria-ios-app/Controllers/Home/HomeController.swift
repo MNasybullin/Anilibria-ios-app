@@ -90,10 +90,6 @@ extension HomeController: HomeContentControllerDelegate {
         customView.hideSkeletonCollectionView()
     }
     
-    func reloadData() {
-        customView.reloadData()
-    }
-    
     func reloadSection(numberOfSection: Int) {
         customView.reloadSection(numberOfSection: numberOfSection)
         dataExpiredDate = getExpiredDate()

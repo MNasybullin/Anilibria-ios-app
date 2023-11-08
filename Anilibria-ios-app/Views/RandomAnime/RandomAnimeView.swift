@@ -30,7 +30,7 @@ final class RandomAnimeView: UIView {
         return stack
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private lazy var headerLabel: UILabel = {
         let label = UILabel()
         label.text = Strings.RandomAnimeModule.Title.randomAnime
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
@@ -40,7 +40,7 @@ final class RandomAnimeView: UIView {
     }()
     
     private lazy var refreshButton: UIButton = {
-        let button = UIButton()
+        let button = RandomAnimeRefreshButton()
         button.tintColor = .systemRed
         button.setImage(
             UIImage(systemName: Strings.RandomAnimeModule.Image.refresh),
@@ -49,7 +49,6 @@ final class RandomAnimeView: UIView {
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.refreshButtonDidTapped()
         }, for: .touchUpInside)
-        
         button.isEnabled = false
         return button
     }()
@@ -132,22 +131,14 @@ private extension RandomAnimeView {
         isSkeletonable = true
     }
     
-    func configureLabelsForSkeleton() {
-        let text = "For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View For Skeleton View"
-        ruNameLabel.text = text
-        engNameLabel.text = text
-        descriptionLabel.text = text + text
-        vStack.layoutIfNeeded()
-    }
-    
     func configureLayout() {
         addSubview(mainVStack)
+        addSubview(refreshButton)
         
         mainVStack.addArrangedSubview(headerHStack)
         mainVStack.addArrangedSubview(animeHStack)
         
-        headerHStack.addArrangedSubview(titleLabel)
-        headerHStack.addArrangedSubview(refreshButton)
+        headerHStack.addArrangedSubview(headerLabel)
         
         animeHStack.addArrangedSubview(animeImageView)
         animeHStack.addArrangedSubview(vStack)
@@ -165,9 +156,15 @@ private extension RandomAnimeView {
         ])
         
         headerHStack.translatesAutoresizingMaskIntoConstraints = false
-        headerHStack.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight).isActive = true
+        headerHStack.heightAnchor.constraint(equalToConstant: headerLabel.font.lineHeight).isActive = true
         
-        refreshButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        refreshButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            refreshButton.heightAnchor.constraint(equalTo: headerHStack.heightAnchor),
+            refreshButton.centerYAnchor.constraint(equalTo: headerHStack.centerYAnchor),
+            refreshButton.trailingAnchor.constraint(equalTo: headerHStack.trailingAnchor),
+            refreshButton.widthAnchor.constraint(equalTo: refreshButton.heightAnchor)
+        ])
         
         animeImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -198,12 +195,18 @@ extension RandomAnimeView {
         descriptionLabel.text = data.description
     }
     
-    func showSkeleton() {
-        configureLabelsForSkeleton()
+    func configureLabelsForSkeleton() {
+        let text = Strings.skeletonTextPlaceholder
+        ruNameLabel.text = text
+        engNameLabel.text = text
+        descriptionLabel.text = text + text
+    }
+    
+    func showSkeletonView() {
         showAnimatedSkeleton()
     }
     
-    func hideSkeleton() {
+    func hideSkeletonView() {
         hideSkeleton(reloadDataAfter: false)
     }
     

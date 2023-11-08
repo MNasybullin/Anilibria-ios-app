@@ -10,7 +10,7 @@ import SkeletonView
 
 final class SearchResultsTableViewCell: UITableViewCell {
     private enum Constants {
-        static let vStackSpacing: CGFloat = 3
+        static let vStackSpacing: CGFloat = 2
         static let hStackSpacing: CGFloat = 6
         static let ruNameLabelFontSize: CGFloat = 17
         static let engNameLabelFontSize: CGFloat = 16
@@ -100,7 +100,7 @@ private extension SearchResultsTableViewCell {
     }
     
     func configureLabelsForSkeleton() {
-        let text = "For SkeletonView For SkeletonView For SkeletonView For SkeletonView For SkeletonView For SkeletonView For SkeletonView v For SkeletonView For SkeletonView For SkeletonView For SkeletonView For SkeletonView"
+        let text = Strings.skeletonTextPlaceholder
         ruNameLabel.text = text
         engNameLabel.text = text
         descriptionLabel.text = text
@@ -138,11 +138,11 @@ private extension SearchResultsTableViewCell {
 
 extension SearchResultsTableViewCell {
     func configureCell(item: SearchResultsItem) {
+        animeImageView.image = item.image
         if item.image == nil {
-            animeImageView.image = nil
             animeImageView.showAnimatedSkeleton(transition: .none)
         }
-        animeImageView.image = item.image
+        
         ruNameLabel.text = item.ruName
         engNameLabel.text = item.engName
         descriptionLabel.text = item.description

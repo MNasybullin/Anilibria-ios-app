@@ -10,7 +10,7 @@ import UIKit
 final class SearchView: UIView {
     enum Status {
         case result
-        case search
+        case history
         case normal
     }
     
@@ -18,11 +18,12 @@ final class SearchView: UIView {
     
     private let randomAnimeView: UIView
     private let resultsView: UIView
-    private lazy var searchView: UIView = {
-        let view = UIView()
-        view.isHidden = true
-        view.backgroundColor = .systemBackground
-        return view
+    private lazy var historyView: UITableView = {
+        let tableView = UITableView()
+        tableView.isHidden = true
+        tableView.keyboardDismissMode = .onDrag
+        tableView.backgroundColor = .systemBackground
+        return tableView
     }()
     
     init(delegate: SearchController, randomAnimeView: UIView, resultsView: UIView, navigationItem: UINavigationItem) {
@@ -50,7 +51,6 @@ private extension SearchView {
     
     func configureSearchBar(delegate: SearchController, navigationItem: UINavigationItem) {
         searchBar.placeholder = Strings.SearchModule.SearchBar.placeholder
-//        searchBar.isTranslucent = false
         searchBar.delegate = delegate
         navigationItem.titleView = searchBar
     }
@@ -61,7 +61,7 @@ private extension SearchView {
     
     func configureLayout() {
         addSubview(randomAnimeView)
-        addSubview(searchView)
+        addSubview(historyView)
         addSubview(resultsView)
         
         randomAnimeView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,12 +72,12 @@ private extension SearchView {
             randomAnimeView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
         ])
         
-        searchView.translatesAutoresizingMaskIntoConstraints = false
+        historyView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            searchView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            searchView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            searchView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            searchView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            historyView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            historyView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            historyView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            historyView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
         
         resultsView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,23 +94,25 @@ private extension SearchView {
 
 extension SearchView {
     func updateView(status: Status) {
+        print(status)
         switch status {
             case .normal:
-                randomAnimeView.isHidden = false
-                searchView.isHidden = true
+                historyView.isHidden = true
                 resultsView.isHidden = true
-            case .search:
-                randomAnimeView.isHidden = true
-                searchView.isHidden = false
+            case .history:
+                historyView.isHidden = false
                 resultsView.isHidden = true
             case .result:
-                randomAnimeView.isHidden = true
-                searchView.isHidden = true
+                historyView.isHidden = true
                 resultsView.isHidden = false
         }
     }
     
     func searchBarBecomeFirstResponder() {
         searchBar.becomeFirstResponder()
+    }
+    
+    func hideKeyboard() {
+        searchBar.endEditing(true)
     }
 }

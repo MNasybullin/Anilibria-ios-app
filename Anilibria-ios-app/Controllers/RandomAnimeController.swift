@@ -27,7 +27,7 @@ final class RandomAnimeController: UIViewController, HasCustomView {
         
         customView.delegate = self
         model.delegate = self
-        customView.showSkeleton()
+        customView.showSkeletonView()
         model.requestData()
     }
 }
@@ -37,7 +37,9 @@ final class RandomAnimeController: UIViewController, HasCustomView {
 extension RandomAnimeController: RandomAnimeViewDelegate {
     func refreshButtonDidTapped() {
         customView.refreshButton(isEnabled: false)
-        customView.showSkeleton()
+        customView.configureLabelsForSkeleton()
+        customView.layoutIfNeeded() // for skeleton
+        customView.showSkeletonView()
         model.requestData()
     }
     
@@ -55,7 +57,7 @@ extension RandomAnimeController: RandomAnimeViewDelegate {
 extension RandomAnimeController: RandomAnimeModelDelegate {
     func update(data: RandomAnimeItem) {
         DispatchQueue.main.async {
-            self.customView.hideSkeleton()
+            self.customView.hideSkeletonView()
             self.customView.updateView(data: data)
             self.customView.refreshButton(isEnabled: true)
         }

@@ -52,6 +52,7 @@ private extension SearchController {
     func search(searchText: String) {
         lastSearchText = searchText
         resultsController.searchTitle(searchText: searchText)
+        status = .result
     }
 }
 
@@ -86,6 +87,7 @@ extension SearchController: UISearchBarDelegate {
         textEditingTimer?.invalidate()
         if searchText.isEmpty {
             resultsController.cancelTasks()
+            status = .history
             return
         }
         textEditingTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
@@ -96,7 +98,11 @@ extension SearchController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
-        status = .result
+        if let searchText = searchBar.text, searchText.isEmpty == false {
+            status = .result
+        } else {
+            status = .history
+        }
     }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
@@ -130,6 +136,7 @@ extension SearchController: RandomAnimeControllerDelegate {
 
 extension SearchController: SearchResultsControllerDelegate {
     func didSelectedItem(item: TitleAPIModel) {
+        customView.hideKeyboard()
         navigator?.show(.anime(item))
     }
 }

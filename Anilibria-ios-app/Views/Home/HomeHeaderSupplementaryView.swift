@@ -49,7 +49,6 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
             self.buttonDidTappedCallback?()
         }), for: .touchUpInside)
         
-        button.isEnabled = false
         button.isSkeletonable = true
         button.skeletonCornerRadius = Constants.skeletonCornerRadius
         return button
@@ -94,10 +93,12 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
 extension HomeHeaderSupplementaryView {
     func configureView(titleLabelText: String?, titleButtonText: String? = nil, buttonCallback: (() -> Void)? = nil) {
         titleLabel.text = titleLabelText
-        if titleLabelText != nil {
+        if titleButtonText != nil {
+            titleButton.isHidden = false
             titleButton.setTitle(titleButtonText, for: .normal)
-            titleButton.isEnabled = true
             buttonDidTappedCallback = buttonCallback
+        } else {
+            titleButton.isHidden = true
         }
     }
 }

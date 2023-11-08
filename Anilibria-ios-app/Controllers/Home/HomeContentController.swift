@@ -12,7 +12,6 @@ protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
     func refreshControlEndRefreshing()
     func hideSkeletonCollectionView()
-    func reloadData()
     func reloadSection(numberOfSection: Int)
     func didSelectItem(_ rawData: TitleAPIModel)
 }
@@ -33,6 +32,8 @@ final class HomeContentController: NSObject {
         updatesModel.homeModelOutput = self
         return [todayModel, updatesModel]
     }()
+    
+    private var isSkeletonView = true
     
     init(delegate: HomeContentControllerDelegate?) {
         self.delegate = delegate
@@ -90,11 +91,11 @@ extension HomeContentController: UICollectionViewDataSource {
     
     // For Skeleton
     func numSections(in collectionSkeletonView: UICollectionView) -> Int {
-        data.count
+        return data.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        data.count
+        return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -166,11 +167,14 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
 
 extension HomeContentController: HomeModelOutput {
     func updateData(items: [AnimePosterItem], section: HomeView.Section) {
-        DispatchQueue.main.async {
-            self.data[section.rawValue] = items
-            self.delegate?.hideSkeletonCollectionView()
-            self.delegate?.reloadSection(numberOfSection: section.rawValue)
-            self.delegate?.refreshControlEndRefreshing()
+        DispatchQueue.main.async { [self] in
+            data[section.rawValue] = items
+            if isSkeletonView {
+                delegate?.hideSkeletonCollectionView()
+                isSkeletonView = false
+            }
+            delegate?.reloadSection(numberOfSection: section.rawValue)
+            delegate?.refreshControlEndRefreshing()
         }
     }
     

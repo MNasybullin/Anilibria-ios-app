@@ -106,11 +106,11 @@ extension HomeView {
     }
     
     func refreshControlEndRefreshing() {
-        DispatchQueue.main.async {
-            guard self.collectionView.refreshControl?.isRefreshing == true else { return }
-            UIView.animate(withDuration: 1) {
-                self.collectionView.refreshControl?.endRefreshing()
-            }
+        guard self.collectionView.refreshControl?.isRefreshing == true else {
+            return
+        }
+        UIView.animate(withDuration: 1) {
+            self.collectionView.refreshControl?.endRefreshing()
         }
     }
     
@@ -125,13 +125,7 @@ extension HomeView {
     }
     
     func hideSkeletonCollectionView() {
-        if collectionView.sk.isSkeletonActive == true {
-            collectionView.hideSkeleton(reloadDataAfter: false)
-        }
-    }
-    
-    func reloadData() {
-        collectionView.reloadData()
+        collectionView.hideSkeleton(reloadDataAfter: false)
     }
     
     func reloadSection(numberOfSection: Int) {
