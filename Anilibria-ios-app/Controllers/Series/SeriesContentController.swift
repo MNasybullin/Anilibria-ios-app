@@ -8,6 +8,7 @@
 import UIKit
 
 protocol SeriesContentControllerDelegate: AnyObject {
+    func didSelectItem(playlists: [Playlist], currentPlaylist: Int)
 }
 
 final class SeriesContentController: NSObject {
@@ -29,7 +30,8 @@ final class SeriesContentController: NSObject {
 
 extension SeriesContentController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("cell selected ", indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        delegate?.didSelectItem(playlists: data, currentPlaylist: indexPath.row)
     }
 }
 

@@ -75,12 +75,12 @@
 		275865C92ADAFDDF00F98884 /* SignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865C82ADAFDDF00F98884 /* SignInModel.swift */; };
 		275865CB2ADAFDE900F98884 /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865CA2ADAFDE900F98884 /* UserInfoModel.swift */; };
 		275865CD2ADB13BF00F98884 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865CC2ADB13BF00F98884 /* ProfileView.swift */; };
-		275865CF2ADC117700F98884 /* UserDefaultsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865CE2ADC117700F98884 /* UserDefaultsExtension.swift */; };
+		275865CF2ADC117700F98884 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865CE2ADC117700F98884 /* UserDefaults+Extension.swift */; };
 		275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */; };
 		275B1AF229DECF50006A00EA /* AnimeSeriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AF129DECF50006A00EA /* AnimeSeriesView.swift */; };
 		275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
-		278356AE2ABDC7DE00878B8F /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278356AD2ABDC7DE00878B8F /* UIViewControllerExtension.swift */; };
+		278356AE2ABDC7DE00878B8F /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */; };
 		2784BA1F2AF97841004E9B54 /* RandomAnimeRefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784BA1E2AF97841004E9B54 /* RandomAnimeRefreshButton.swift */; };
 		279E4F30289C4C70008038FF /* LoginAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginAPIModel.swift */; };
 		279E4F35289D0304008038FF /* FavoriteAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteAPIModel.swift */; };
@@ -112,7 +112,15 @@
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */; };
-		27EA393129C5FBBB00D777AE /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */; };
+		27EA393129C5FBBB00D777AE /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */; };
+		27EA50842AFBD54700A1B987 /* VideoPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */; };
+		27EA50862AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50852AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift */; };
+		27EA50892AFE321A00A1B987 /* TopOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50882AFE321A00A1B987 /* TopOverlayView.swift */; };
+		27EA508B2AFE327800A1B987 /* MiddleOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA508A2AFE327800A1B987 /* MiddleOverlayView.swift */; };
+		27EA508D2B00140F00A1B987 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA508C2B00140F00A1B987 /* UIImage+Extension.swift */; };
+		27EA508F2B00E63C00A1B987 /* BottomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA508E2B00E63C00A1B987 /* BottomOverlayView.swift */; };
+		27EA50912B01402600A1B987 /* VideoPlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50902B01402600A1B987 /* VideoPlayerModel.swift */; };
+		27EA50932B014E4600A1B987 /* MiddleOverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50922B014E4600A1B987 /* MiddleOverlayButton.swift */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
 		27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */; };
 		27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E560287C6DCB00BCF61C /* Assets.xcassets */; };
@@ -205,12 +213,12 @@
 		275865C82ADAFDDF00F98884 /* SignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModel.swift; sourceTree = "<group>"; };
 		275865CA2ADAFDE900F98884 /* UserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		275865CC2ADB13BF00F98884 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		275865CE2ADC117700F98884 /* UserDefaultsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtension.swift; sourceTree = "<group>"; };
+		275865CE2ADC117700F98884 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAndShareButtonsView.swift; sourceTree = "<group>"; };
 		275B1AF129DECF50006A00EA /* AnimeSeriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeSeriesView.swift; sourceTree = "<group>"; };
 		275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAndDownloadButtonsView.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
-		278356AD2ABDC7DE00878B8F /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		2784BA1E2AF97841004E9B54 /* RandomAnimeRefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeRefreshButton.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIModel.swift; sourceTree = "<group>"; };
 		279E4F34289D0304008038FF /* FavoriteAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAPIModel.swift; sourceTree = "<group>"; };
@@ -242,7 +250,15 @@
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsErrorFooterView.swift; sourceTree = "<group>"; };
-		27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
+		27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
+		27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerController.swift; sourceTree = "<group>"; };
+		27EA50852AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerOverlayView.swift; sourceTree = "<group>"; };
+		27EA50882AFE321A00A1B987 /* TopOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopOverlayView.swift; sourceTree = "<group>"; };
+		27EA508A2AFE327800A1B987 /* MiddleOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleOverlayView.swift; sourceTree = "<group>"; };
+		27EA508C2B00140F00A1B987 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		27EA508E2B00E63C00A1B987 /* BottomOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomOverlayView.swift; sourceTree = "<group>"; };
+		27EA50902B01402600A1B987 /* VideoPlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerModel.swift; sourceTree = "<group>"; };
+		27EA50922B014E4600A1B987 /* MiddleOverlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleOverlayButton.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -469,6 +485,7 @@
 				271A0E462AEA6F66005958CB /* RootView.swift */,
 				275865C42ADAFB8E00F98884 /* UserInfoView.swift */,
 				275865CC2ADB13BF00F98884 /* ProfileView.swift */,
+				27EA50872AFE2DFF00A1B987 /* VideoPlayer */,
 				2784BA202AF97845004E9B54 /* RandomAnime */,
 				27B707172AF2ACBC00DD8DC6 /* SearchView.swift */,
 				27B7071F2AF3CF0C00DD8DC6 /* SearchResults */,
@@ -492,6 +509,7 @@
 				27B7070A2AF290A900DD8DC6 /* RandomAnimeController.swift */,
 				27B707192AF3A56800DD8DC6 /* SearchResultsController.swift */,
 				27B707152AF2ABAB00DD8DC6 /* SearchController.swift */,
+				27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */,
 				27B707092AF2572A00DD8DC6 /* Series */,
 				2748DD022AEBFD6900D53E9B /* Schedule */,
 				2748DCFF2AEBD89E00D53E9B /* Home */,
@@ -507,6 +525,7 @@
 				27B707052AF253DC00DD8DC6 /* SeriesModel.swift */,
 				271072E82ADDDE310024530D /* AnimePosterItem.swift */,
 				27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */,
+				27EA50902B01402600A1B987 /* VideoPlayerModel.swift */,
 				27B707232AF3E33900DD8DC6 /* SearchResults */,
 				27B707122AF2A7E400DD8DC6 /* RandomAnime */,
 				2748DD0E2AEFAA3200D53E9B /* Anime */,
@@ -519,10 +538,11 @@
 		278356AF2ABF3A5600878B8F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				27EA393029C5FBBB00D777AE /* UINavigationControllerExtension.swift */,
-				278356AD2ABDC7DE00878B8F /* UIViewControllerExtension.swift */,
-				275865CE2ADC117700F98884 /* UserDefaultsExtension.swift */,
+				27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */,
+				278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */,
+				275865CE2ADC117700F98884 /* UserDefaults+Extension.swift */,
 				2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */,
+				27EA508C2B00140F00A1B987 /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -659,6 +679,18 @@
 				27EA392929C4565400D777AE /* AnimeImageView.swift */,
 			);
 			path = AnimeImageView;
+			sourceTree = "<group>";
+		};
+		27EA50872AFE2DFF00A1B987 /* VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				27EA50852AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift */,
+				27EA50882AFE321A00A1B987 /* TopOverlayView.swift */,
+				27EA508A2AFE327800A1B987 /* MiddleOverlayView.swift */,
+				27EA50922B014E4600A1B987 /* MiddleOverlayButton.swift */,
+				27EA508E2B00E63C00A1B987 /* BottomOverlayView.swift */,
+			);
+			path = VideoPlayer;
 			sourceTree = "<group>";
 		};
 		27F5E54B287C6DCA00BCF61C = {
@@ -901,8 +933,9 @@
 				271A0E1F2AE7EBA4005958CB /* HomeTodayModel.swift in Sources */,
 				2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
-				275865CF2ADC117700F98884 /* UserDefaultsExtension.swift in Sources */,
+				275865CF2ADC117700F98884 /* UserDefaults+Extension.swift in Sources */,
 				2748DD062AEC2ACA00D53E9B /* AnimeView.swift in Sources */,
+				27EA50932B014E4600A1B987 /* MiddleOverlayButton.swift in Sources */,
 				27A66E6F298BCFC600369EAF /* TeamAPIModel.swift in Sources */,
 				279E4F30289C4C70008038FF /* LoginAPIModel.swift in Sources */,
 				27A66E5229771D4500369EAF /* Alert.swift in Sources */,
@@ -931,12 +964,14 @@
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
 				275865B32AD9CDB800F98884 /* SearchNavigator.swift in Sources */,
 				2748DCFE2AEBCF3000D53E9B /* HomeContentController.swift in Sources */,
+				27EA508D2B00140F00A1B987 /* UIImage+Extension.swift in Sources */,
 				2748DD012AEBFD6500D53E9B /* ScheduleContentController.swift in Sources */,
-				27EA393129C5FBBB00D777AE /* UINavigationControllerExtension.swift in Sources */,
+				27EA393129C5FBBB00D777AE /* UINavigationController+Extension.swift in Sources */,
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,
 				272D6547288ED42B00FA4F60 /* TitleAPIModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
-				278356AE2ABDC7DE00878B8F /* UIViewControllerExtension.swift in Sources */,
+				27EA508B2AFE327800A1B987 /* MiddleOverlayView.swift in Sources */,
+				278356AE2ABDC7DE00878B8F /* UIViewController+Extension.swift in Sources */,
 				275865AB2AD9BAC200F98884 /* MainNavigator.swift in Sources */,
 				27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */,
 				271A0E3C2AE97F10005958CB /* ScheduleModel.swift in Sources */,
@@ -952,11 +987,13 @@
 				275865C32ADAEB2800F98884 /* HasCustomView.swift in Sources */,
 				2784BA1F2AF97841004E9B54 /* RandomAnimeRefreshButton.swift in Sources */,
 				271072E32ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift in Sources */,
+				27EA50862AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift in Sources */,
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
 				275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */,
 				2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */,
 				271072E92ADDDE310024530D /* AnimePosterItem.swift in Sources */,
 				27A66E792990EF9200369EAF /* HasScrollableView.swift in Sources */,
+				27EA50892AFE321A00A1B987 /* TopOverlayView.swift in Sources */,
 				274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */,
 				2744762B29B8CCF70062F6D2 /* SearchResultsTableViewCell.swift in Sources */,
 				2710E9A129B5146500B66C62 /* PublicApiService.swift in Sources */,
@@ -970,6 +1007,7 @@
 				2754F63128A94525003485E6 /* ViewPreview.swift in Sources */,
 				27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */,
 				272D6541288EC4EC00FA4F60 /* IB-Scenes+Generated.swift in Sources */,
+				27EA50842AFBD54700A1B987 /* VideoPlayerController.swift in Sources */,
 				271A0E362AE90341005958CB /* ScheduleView.swift in Sources */,
 				271A0E262AE7F32C005958CB /* HomeModelOutput.swift in Sources */,
 				271A0E452AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift in Sources */,
@@ -979,6 +1017,7 @@
 				27B7071C2AF3A5B600DD8DC6 /* SearchResultsView.swift in Sources */,
 				27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */,
 				2758657A2ACEB2D700F98884 /* SecurityStorage.swift in Sources */,
+				27EA50912B01402600A1B987 /* VideoPlayerModel.swift in Sources */,
 				275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */,
 				AC005AACFC88C19706DBD9B1 /* SeriesViewController.swift in Sources */,
 				271A0E242AE7F322005958CB /* HomeModelInput.swift in Sources */,
@@ -987,6 +1026,7 @@
 				27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */,
 				27B707162AF2ABAB00DD8DC6 /* SearchController.swift in Sources */,
 				BB381D24A0FBC49F8FDFAE15 /* SeriesPresenter.swift in Sources */,
+				27EA508F2B00E63C00A1B987 /* BottomOverlayView.swift in Sources */,
 				058BB6E07DB9C1B7E768A179 /* SeriesRouter.swift in Sources */,
 				275865C72ADAFCBE00F98884 /* UserInfoController.swift in Sources */,
 				27B707112AF2965C00DD8DC6 /* RandomAnimeItem.swift in Sources */,
@@ -1186,7 +1226,7 @@
 				DEVELOPMENT_TEAM = ZQ774W5T35;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Anilibria-ios-app/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "AniLibria Debug";
 				"INFOPLIST_KEY_CFBundleDisplayName[sdk=iphoneos*]" = "AniLibria Debug";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1205,6 +1245,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_REFLECTION_METADATA_LEVEL = all;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1221,7 +1262,7 @@
 				DEVELOPMENT_TEAM = ZQ774W5T35;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Anilibria-ios-app/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_CFBundleDisplayName = AniLibria;
 				"INFOPLIST_KEY_CFBundleDisplayName[sdk=iphoneos*]" = AniLibria;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1240,6 +1281,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_REFLECTION_METADATA_LEVEL = all;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

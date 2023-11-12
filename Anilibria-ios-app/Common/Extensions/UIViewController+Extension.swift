@@ -1,5 +1,5 @@
 //
-//  UIViewControllerExtension.swift
+//  UIViewController+Extension.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 22.09.2023.

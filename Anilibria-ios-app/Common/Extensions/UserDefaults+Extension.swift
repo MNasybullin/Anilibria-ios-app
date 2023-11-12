@@ -1,5 +1,5 @@
 //
-//  UserDefaultsExtension.swift
+//  UserDefaults+Extension.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 15.10.2023.

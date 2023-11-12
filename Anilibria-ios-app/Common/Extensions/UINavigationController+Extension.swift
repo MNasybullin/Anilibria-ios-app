@@ -1,5 +1,5 @@
 //
-//  UINavigationControllerExtension.swift
+//  UINavigationController+Extension.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 18.03.2023.
