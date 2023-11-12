@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		058BB6E07DB9C1B7E768A179 /* SeriesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F381B81937D6BF9C971B8DD9 /* SeriesRouter.swift */; };
 		2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */; };
 		270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */; };
 		271072DA2ADDB7CF0024530D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072D92ADDB7CF0024530D /* HomeController.swift */; };
@@ -93,7 +92,6 @@
 		27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E7A2990F0ED00369EAF /* NetworkStatusView.swift */; };
 		27A66E7D299298B200369EAF /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E7C299298B200369EAF /* NetworkMonitor.swift */; };
 		27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */; };
-		27AAC70C29E2C2250079F4DD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AAC70B29E2C2250079F4DD /* Player.swift */; };
 		27B707032AF181FE00DD8DC6 /* SeriesHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707022AF181FE00DD8DC6 /* SeriesHeaderSupplementaryView.swift */; };
 		27B707062AF253DC00DD8DC6 /* SeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707052AF253DC00DD8DC6 /* SeriesModel.swift */; };
 		27B707082AF2571900DD8DC6 /* SeriesContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707072AF2571900DD8DC6 /* SeriesContentController.swift */; };
@@ -130,9 +128,6 @@
 		27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A5287EAC8100BCF61C /* SwiftGen */; };
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 		27F8D8E529C2245900D8F4D1 /* SearchResultsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */; };
-		AC005AACFC88C19706DBD9B1 /* SeriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70434A4C195B54BBB6A03E23 /* SeriesViewController.swift */; };
-		BB381D24A0FBC49F8FDFAE15 /* SeriesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F7559E4DB0F874840D57A2 /* SeriesPresenter.swift */; };
-		C92CC8F171A011A8F6282AAC /* SeriesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51D4FB4C42F0009531F681D /* SeriesInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -231,7 +226,6 @@
 		27A66E7A2990F0ED00369EAF /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
 		27A66E7C299298B200369EAF /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesTableViewCell.swift; sourceTree = "<group>"; };
-		27AAC70B29E2C2250079F4DD /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		27B707022AF181FE00DD8DC6 /* SeriesHeaderSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesHeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		27B707052AF253DC00DD8DC6 /* SeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesModel.swift; sourceTree = "<group>"; };
 		27B707072AF2571900DD8DC6 /* SeriesContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesContentController.swift; sourceTree = "<group>"; };
@@ -270,10 +264,6 @@
 		27F5E5A5287EAC8100BCF61C /* SwiftGen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftGen; sourceTree = "<group>"; };
 		27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsHeaderView.swift; sourceTree = "<group>"; };
-		70434A4C195B54BBB6A03E23 /* SeriesViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeriesViewController.swift; sourceTree = "<group>"; };
-		A0F7559E4DB0F874840D57A2 /* SeriesPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeriesPresenter.swift; sourceTree = "<group>"; };
-		A51D4FB4C42F0009531F681D /* SeriesInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeriesInteractor.swift; sourceTree = "<group>"; };
-		F381B81937D6BF9C971B8DD9 /* SeriesRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeriesRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -578,14 +568,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		27AAC70A29E2C2160079F4DD /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				27AAC70B29E2C2250079F4DD /* Player.swift */,
-			);
-			path = Player;
-			sourceTree = "<group>";
-		};
 		27B707042AF1820200DD8DC6 /* Series */ = {
 			isa = PBXGroup;
 			children = (
@@ -649,15 +631,6 @@
 				2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		27CB080628855A79009E2583 /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-				27AAC70A29E2C2160079F4DD /* Player */,
-				4FB36A2C3101B0A821719FAD /* Series */,
-			);
-			path = Modules;
 			sourceTree = "<group>";
 		};
 		27DEEBCA2886F44E0014055F /* Network */ = {
@@ -728,7 +701,6 @@
 				275865BD2ADAC34B00F98884 /* Models */,
 				275865B92ADAC27B00F98884 /* Views */,
 				275865BC2ADAC29500F98884 /* Controllers */,
-				27CB080628855A79009E2583 /* Modules */,
 				27F5E560287C6DCB00BCF61C /* Assets.xcassets */,
 				27F5E59C287EA83400BCF61C /* Colors.xcassets */,
 				27F5E5A2287EAA5D00BCF61C /* Localizable.strings */,
@@ -736,17 +708,6 @@
 				27F5E565287C6DCB00BCF61C /* Info.plist */,
 			);
 			path = "Anilibria-ios-app";
-			sourceTree = "<group>";
-		};
-		4FB36A2C3101B0A821719FAD /* Series */ = {
-			isa = PBXGroup;
-			children = (
-				70434A4C195B54BBB6A03E23 /* SeriesViewController.swift */,
-				A51D4FB4C42F0009531F681D /* SeriesInteractor.swift */,
-				A0F7559E4DB0F874840D57A2 /* SeriesPresenter.swift */,
-				F381B81937D6BF9C971B8DD9 /* SeriesRouter.swift */,
-			);
-			path = Series;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -951,7 +912,6 @@
 				27A66E7D299298B200369EAF /* NetworkMonitor.swift in Sources */,
 				271A0E342AE90291005958CB /* ScheduleItem.swift in Sources */,
 				275B1AF229DECF50006A00EA /* AnimeSeriesView.swift in Sources */,
-				27AAC70C29E2C2250079F4DD /* Player.swift in Sources */,
 				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
 				2744C87729BC71A700105F11 /* SearchResultsLoadingFooterView.swift in Sources */,
 				27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */,
@@ -1019,15 +979,11 @@
 				2758657A2ACEB2D700F98884 /* SecurityStorage.swift in Sources */,
 				27EA50912B01402600A1B987 /* VideoPlayerModel.swift in Sources */,
 				275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */,
-				AC005AACFC88C19706DBD9B1 /* SeriesViewController.swift in Sources */,
 				271A0E242AE7F322005958CB /* HomeModelInput.swift in Sources */,
-				C92CC8F171A011A8F6282AAC /* SeriesInteractor.swift in Sources */,
 				27B707082AF2571900DD8DC6 /* SeriesContentController.swift in Sources */,
 				27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */,
 				27B707162AF2ABAB00DD8DC6 /* SearchController.swift in Sources */,
-				BB381D24A0FBC49F8FDFAE15 /* SeriesPresenter.swift in Sources */,
 				27EA508F2B00E63C00A1B987 /* BottomOverlayView.swift in Sources */,
-				058BB6E07DB9C1B7E768A179 /* SeriesRouter.swift in Sources */,
 				275865C72ADAFCBE00F98884 /* UserInfoController.swift in Sources */,
 				27B707112AF2965C00DD8DC6 /* RandomAnimeItem.swift in Sources */,
 			);
