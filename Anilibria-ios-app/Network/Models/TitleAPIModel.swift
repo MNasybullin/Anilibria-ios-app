@@ -5,8 +5,6 @@
 //  Created by Mansur Nasybullin on 25.07.2022.
 //
 
-// swiftlint:disable identifier_name
-
 import Foundation
 
 /// Возвращается в запросах:
@@ -99,8 +97,8 @@ struct GTPlaylist: Decodable {
     let serie: Double?
     let createdTimestamp: Int?
     let preview: String?
-    let skips: GTSkips?
-    let hls: GTHls?
+    let skips: GTSkips
+    let hls: GTHls
 }
 
 struct GTHls: Decodable {
@@ -110,8 +108,8 @@ struct GTHls: Decodable {
 }
 
 struct GTSkips: Decodable {
-    let opening: [Double?]
-    let ending: [Double?]
+    let opening: [Double]
+    let ending: [Double]
 }
 
 /*

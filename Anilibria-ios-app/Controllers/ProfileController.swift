@@ -61,7 +61,6 @@ extension ProfileController: SignInControllerDelegate {
     }
     
     func authorizationIsFailure(error: Error) {
-        // TODO
         print(#file, #function, error)
     }
 }
@@ -70,7 +69,6 @@ extension ProfileController: SignInControllerDelegate {
 
 extension ProfileController: UserInfoControllerDelegate {
     func getUserInfoIsFailure(error: Error) {
-        // TODO
         print(#file, #function, error)
     }
 }
