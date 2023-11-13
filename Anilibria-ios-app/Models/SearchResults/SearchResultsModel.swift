@@ -18,6 +18,8 @@ final class SearchResultsModel: ImageModel {
         static let limitResults: Int = 15
     }
     
+    private let publicApiService = PublicApiService()
+    
     private var rawData: [TitleAPIModel] = []
     private var loadingDataTask: Task<(), Never>?
     private (set) var needLoadMoreData: Bool = true
@@ -31,7 +33,7 @@ final class SearchResultsModel: ImageModel {
                 loadingDataTask = nil
             }
             do {
-                let titleModels = try await PublicApiService.shared.searchTitles(
+                let titleModels = try await publicApiService.searchTitles(
                     withSearchText: searchText,
                     withLimit: Constants.limitResults,
                     after: value)

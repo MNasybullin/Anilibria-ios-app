@@ -8,10 +8,6 @@
 import Foundation
 
 final class PublicApiService: NetworkQuery {
-    // TODO - Убрать Singleton
-    
-    // MARK: - Singleton
-    static let shared: PublicApiService = PublicApiService()
     
     /// Получить информацию о тайтле по id
     /// - Parameters:

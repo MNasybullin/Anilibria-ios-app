@@ -10,6 +10,8 @@ import Foundation
 final class HomeUpdatesModel: ImageModel, HomeModelInput {
     weak var homeModelOutput: HomeModelOutput?
     
+    private let publicApiService = PublicApiService()
+    
     private var rawData: [TitleAPIModel] = []
     var isDataTaskLoading = false
     
@@ -19,7 +21,7 @@ final class HomeUpdatesModel: ImageModel, HomeModelInput {
         Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
-                let data = try await PublicApiService.shared.getUpdates()
+                let data = try await publicApiService.getUpdates()
                 rawData = data
                 let animeTitleModels = data.map { AnimePosterItem(titleAPIModel: $0) }
                 homeModelOutput?.updateData(items: animeTitleModels, section: .updates)

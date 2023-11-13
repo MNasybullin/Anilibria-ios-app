@@ -10,6 +10,8 @@ import Foundation
 final class HomeTodayModel: ImageModel, HomeModelInput {
     weak var homeModelOutput: HomeModelOutput?
     
+    private let publicApiService = PublicApiService()
+    
     private var rawData: [TitleAPIModel] = []
     var isDataTaskLoading = false
     
@@ -19,7 +21,7 @@ final class HomeTodayModel: ImageModel, HomeModelInput {
         Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
-                let data = try await PublicApiService.shared.getSchedule(with: [.currentDayOfTheWeek()])
+                let data = try await publicApiService.getSchedule(with: [.currentDayOfTheWeek()])
                 guard let todayTitleModels = data.first?.list else {
                     throw MyInternalError.failedToFetchData
                 }

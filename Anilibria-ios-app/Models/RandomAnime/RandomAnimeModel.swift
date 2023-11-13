@@ -14,10 +14,12 @@ protocol RandomAnimeModelDelegate: AnyObject {
 
 final class RandomAnimeModel {
     typealias ResultDataBlock = (Result<RandomAnimeItem, Error>) -> Void
+    weak var delegate: RandomAnimeModelDelegate?
+    
+    private let publicApiService = PublicApiService()
+    
     private (set) var isDataTaskLoading = false
     private var rawData: TitleAPIModel?
-    
-    weak var delegate: RandomAnimeModelDelegate?
     
     private func requestData(completionHandler: @escaping ResultDataBlock) {
         guard isDataTaskLoading == false else { return }
@@ -25,7 +27,7 @@ final class RandomAnimeModel {
         Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
-                let titleModel = try await PublicApiService.shared.getRandomTitle()
+                let titleModel = try await publicApiService.getRandomTitle()
                 let imageURL = titleModel.posters.original.url
                 let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
                 guard let image = UIImage(data: imageData) else {

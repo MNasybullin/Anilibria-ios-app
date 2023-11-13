@@ -15,12 +15,14 @@ protocol ScheduleModelOutput: AnyObject {
 final class ScheduleModel: ImageModel {
     weak var scheduleModelOutput: ScheduleModelOutput?
     
+    private let publicApiService = PublicApiService()
+    
     private var rawData: [ScheduleAPIModel] = []
     
     func requestData() {
         Task(priority: .userInitiated) {
             do {
-                let data = try await PublicApiService.shared.getSchedule(with: DaysOfTheWeek.allCases)
+                let data = try await publicApiService.getSchedule(with: DaysOfTheWeek.allCases)
                 rawData = data
                 let scheduleItem = data.map { ScheduleItem(scheduleAPIModel: $0) }
                 scheduleModelOutput?.update(data: scheduleItem)
