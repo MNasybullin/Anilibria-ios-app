@@ -19,16 +19,16 @@ struct AnimeItem {
 }
 
 extension AnimeItem {
-    init (fromTitleApiModel model: TitleAPIModel) {
-        let playlist = model.player?.playlist?.map { Playlist(fromGTPlaylist: $0) }
+    init (fromTitleApiModel item: TitleAPIModel) {
+        let playlist = item.player?.playlist?.map { Playlist(fromGTPlaylist: $0) }
         
         self.init(
-            ruName: model.names.ru,
-            engName: model.names.en,
-            seasonAndType: AnimeItem.getSeasonAndTypeText(model),
-            genres: AnimeItem.getgenresText(model),
-            description: AnimeItem.getDescriptionText(model),
-            series: model.player?.series,
+            ruName: item.names.ru,
+            engName: item.names.en,
+            seasonAndType: AnimeItem.getSeasonAndTypeText(item),
+            genres: AnimeItem.getgenresText(item),
+            description: AnimeItem.getDescriptionText(item),
+            series: item.player?.series,
             playlist: playlist ?? [Playlist]())
     }
     

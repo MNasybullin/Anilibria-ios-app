@@ -15,9 +15,15 @@ final class SeriesModel: ImageModel {
     }
 }
 
+// MARK: - Internal methods
+
 extension SeriesModel {
-    func getData() -> [Playlist] {
+    func getPlaylists() -> [Playlist] {
         return animeItem.playlist
+    }
+    
+    func getAnimeItem() -> AnimeItem {
+        return animeItem
     }
     
     func getSeriesDescription() -> String? {

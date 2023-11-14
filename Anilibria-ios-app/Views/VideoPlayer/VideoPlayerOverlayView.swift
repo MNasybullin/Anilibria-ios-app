@@ -15,9 +15,17 @@ final class VideoPlayerOverlayView: UIView {
     enum Orientation {
         case portrait, landscape
     }
+    
     private lazy var topView = TopOverlayView()
     private lazy var middleView = MiddleOverlayView()
     private lazy var bottomView = BottomOverlayView()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .systemRed
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
     
     private var showConstraints: [NSLayoutConstraint]!
     private var hideConstraints: [NSLayoutConstraint]!
@@ -56,6 +64,11 @@ final class VideoPlayerOverlayView: UIView {
 private extension VideoPlayerOverlayView {
     func configureView() {
         backgroundColor = .black.withAlphaComponent(0.45)
+        
+        topView.isHidden = false
+        middleView.isHidden = true
+        bottomView.isHidden = true
+        showActivityIndicator()
     }
     
     func configureTapGR() {
@@ -68,7 +81,7 @@ private extension VideoPlayerOverlayView {
     }
     
     func configureLayout() {
-        [topView, middleView, bottomView].forEach {
+        [topView, middleView, bottomView, activityIndicator].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -91,7 +104,10 @@ private extension VideoPlayerOverlayView {
             middleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             bottomView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bottomView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            bottomView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
         NSLayoutConstraint.activate(showConstraints)
     }
@@ -105,6 +121,7 @@ extension VideoPlayerOverlayView {
     }
     
     func showOverlay() {
+        topView.enableButtons()
         UIView.animate(withDuration: 0.35) { [self] in
             [topView, middleView, bottomView].forEach {
                 $0.isHidden = false
@@ -136,5 +153,16 @@ extension VideoPlayerOverlayView {
                 $0.isHidden = false
             }
         }
+    }
+    
+    func showActivityIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        middleView.hidePlayPauseButton()
+    }
+    
+    func hideActivityIndicator() {
+        activityIndicator.stopAnimating()
+        middleView.showPlayPauseButton()
     }
 }

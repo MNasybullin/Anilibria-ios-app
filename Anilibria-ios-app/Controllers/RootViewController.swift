@@ -44,8 +44,8 @@ private extension RootViewController {
     func subscribeToNetworkMonitor() {
         cancellable = NetworkMonitor.shared.isConnectedPublisher
             .receive(on: DispatchQueue.main)
-            .sink { isConnected in
-                self.updateView(status: isConnected)
+            .sink { [weak self] isConnected in
+                self?.updateView(status: isConnected)
             }
     }
     

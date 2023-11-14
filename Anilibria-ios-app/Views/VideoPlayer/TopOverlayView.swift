@@ -49,6 +49,7 @@ final class TopOverlayView: UIView {
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.pipButtonDidTapped()
         }, for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -89,6 +90,7 @@ final class TopOverlayView: UIView {
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.airPlayButtonDidTapped()
         }, for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -99,6 +101,7 @@ final class TopOverlayView: UIView {
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.settingsButtonDidTapped()
         }, for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -191,5 +194,11 @@ extension TopOverlayView {
     
     func setSubtitle(_ subtitle: String?) {
         subtitleLabel.text = subtitle
+    }
+    
+    func enableButtons() {
+        [pipButton, airPlayButton, settingsButton].forEach {
+            $0.isEnabled = true
+        }
     }
 }

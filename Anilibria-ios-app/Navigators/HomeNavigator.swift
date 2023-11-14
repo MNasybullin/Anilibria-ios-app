@@ -58,7 +58,7 @@ extension HomeNavigator: BasicNavigator {
 extension HomeNavigator: Navigator {
     enum Destinition {
         case schedule
-        case anime(TitleAPIModel)
+        case anime(data: TitleAPIModel)
     }
     
     func show(_ destination: Destinition) {

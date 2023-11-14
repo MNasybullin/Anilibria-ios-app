@@ -120,7 +120,7 @@
 		27EA50912B01402600A1B987 /* VideoPlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50902B01402600A1B987 /* VideoPlayerModel.swift */; };
 		27EA50932B014E4600A1B987 /* MiddleOverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50922B014E4600A1B987 /* MiddleOverlayButton.swift */; };
 		27EA50952B022F0100A1B987 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50942B022F0100A1B987 /* Playlist.swift */; };
-		27EA50972B022F1E00A1B987 /* HLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50962B022F1E00A1B987 /* HLS.swift */; };
+		27EA50992B03CDCD00A1B987 /* VideoPlayerNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50982B03CDCD00A1B987 /* VideoPlayerNavigator.swift */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
 		27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */; };
 		27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E560287C6DCB00BCF61C /* Assets.xcassets */; };
@@ -256,7 +256,7 @@
 		27EA50902B01402600A1B987 /* VideoPlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerModel.swift; sourceTree = "<group>"; };
 		27EA50922B014E4600A1B987 /* MiddleOverlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleOverlayButton.swift; sourceTree = "<group>"; };
 		27EA50942B022F0100A1B987 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
-		27EA50962B022F1E00A1B987 /* HLS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HLS.swift; sourceTree = "<group>"; };
+		27EA50982B03CDCD00A1B987 /* VideoPlayerNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerNavigator.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -407,7 +407,6 @@
 				2748DD092AEE5D1A00D53E9B /* AnimeModel.swift */,
 				2748DD0B2AEE5D7E00D53E9B /* AnimeItem.swift */,
 				27EA50942B022F0100A1B987 /* Playlist.swift */,
-				27EA50962B022F1E00A1B987 /* HLS.swift */,
 			);
 			path = Anime;
 			sourceTree = "<group>";
@@ -468,6 +467,7 @@
 				275865B22AD9CDB800F98884 /* SearchNavigator.swift */,
 				275865AC2AD9C7EC00F98884 /* ProfileNavigator.swift */,
 				2748DD072AEE4EBC00D53E9B /* AnimeNavigator.swift */,
+				27EA50982B03CDCD00A1B987 /* VideoPlayerNavigator.swift */,
 			);
 			path = Navigators;
 			sourceTree = "<group>";
@@ -890,7 +890,6 @@
 				27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */,
 				275865AF2AD9C97700F98884 /* TabBarController.swift in Sources */,
 				27B7071A2AF3A56800DD8DC6 /* SearchResultsController.swift in Sources */,
-				27EA50972B022F1E00A1B987 /* HLS.swift in Sources */,
 				27B707032AF181FE00DD8DC6 /* SeriesHeaderSupplementaryView.swift in Sources */,
 				275865CD2ADB13BF00F98884 /* ProfileView.swift in Sources */,
 				275865B12AD9CD8900F98884 /* HomeNavigator.swift in Sources */,
@@ -907,6 +906,7 @@
 				27EA50932B014E4600A1B987 /* MiddleOverlayButton.swift in Sources */,
 				27A66E6F298BCFC600369EAF /* TeamAPIModel.swift in Sources */,
 				279E4F30289C4C70008038FF /* LoginAPIModel.swift in Sources */,
+				27EA50992B03CDCD00A1B987 /* VideoPlayerNavigator.swift in Sources */,
 				27A66E5229771D4500369EAF /* Alert.swift in Sources */,
 				27A66E502976ACEE00369EAF /* ErrorProcessing.swift in Sources */,
 				271A0E472AEA6F66005958CB /* RootView.swift in Sources */,

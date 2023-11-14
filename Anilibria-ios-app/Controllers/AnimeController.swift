@@ -73,7 +73,7 @@ extension AnimeController: AnimeModelOutput {
 extension AnimeController: AnimeSeriesViewDelegate {
     func seriesViewClicked() {
         let data = model.getAnimeItem()
-        navigator?.show(.series(data))
+        navigator?.show(.series(data: data))
     }
 }
 

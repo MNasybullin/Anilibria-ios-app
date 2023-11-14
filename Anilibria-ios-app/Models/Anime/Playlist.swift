@@ -15,19 +15,19 @@ struct Playlist {
     let preview: String
     var image: UIImage?
     let skips: GTSkips
-    let hls: [HLS]
+    let hls: GTHls
 }
 
 extension Playlist {
-    init(fromGTPlaylist gtPlaylist: GTPlaylist) {
+    init(fromGTPlaylist item: GTPlaylist) {
         self.init(
-            serie: gtPlaylist.serie,
-            serieString: Playlist.getSerieString(from: gtPlaylist.serie),
-            createdTimestamp: gtPlaylist.createdTimestamp,
-            createdDateString: Playlist.getCreatedDateString(from: gtPlaylist.createdTimestamp),
-            preview: gtPlaylist.preview ?? "",
-            skips: gtPlaylist.skips,
-            hls: Playlist.getHLS(from: gtPlaylist.hls)
+            serie: item.serie,
+            serieString: Playlist.getSerieString(from: item.serie),
+            createdTimestamp: item.createdTimestamp,
+            createdDateString: Playlist.getCreatedDateString(from: item.createdTimestamp),
+            preview: item.preview ?? "",
+            skips: item.skips,
+            hls: item.hls
         )
     }
     
@@ -48,19 +48,5 @@ extension Playlist {
             createdDateString = date.formatted(date: .long, time: .omitted)
         }
         return createdDateString
-    }
-    
-    private static func getHLS(from gtHLS: GTHls) -> [HLS] {
-        var hls = [HLS]()
-        if let fullhd = gtHLS.fhd {
-            hls.append(.fullHD(fullhd))
-        }
-        if let hd = gtHLS.hd {
-            hls.append(.hd(hd))
-        }
-        if let sd = gtHLS.sd {
-            hls.append(.sd(sd))
-        }
-        return hls
     }
 }

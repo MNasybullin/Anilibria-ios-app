@@ -8,20 +8,20 @@
 import UIKit
 
 protocol SeriesContentControllerDelegate: AnyObject {
-    func didSelectItem(playlists: [Playlist], currentPlaylist: Int)
+    func didSelectItem(animeItem: AnimeItem, currentPlaylist: Int)
 }
 
 final class SeriesContentController: NSObject {
     weak var delegate: SeriesContentControllerDelegate?
     
     let model: SeriesModel
-    var data: [Playlist] = []
+    var playlists: [Playlist] = []
     
     init(data: AnimeItem) {
         self.model = SeriesModel(animeItem: data)
         super.init()
         
-        self.data = model.getData()
+        self.playlists = model.getPlaylists()
         model.imageModelDelegate = self
     }
 }
@@ -31,7 +31,8 @@ final class SeriesContentController: NSObject {
 extension SeriesContentController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.didSelectItem(playlists: data, currentPlaylist: indexPath.row)
+        let animeItem = model.getAnimeItem()
+        delegate?.didSelectItem(animeItem: animeItem, currentPlaylist: indexPath.row)
     }
 }
 
@@ -48,7 +49,7 @@ extension SeriesContentController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        data.count
+        playlists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -56,14 +57,14 @@ extension SeriesContentController: UITableViewDataSource {
             fatalError("Can`t create new cell")
         }
         let row = indexPath.row
-        let item = data[row]
-        if data[row].image == nil {
+        let item = playlists[row]
+        if item.image == nil {
             model.requestImage(from: item.preview) { [weak self] image in
-                self?.data[row].image = image
+                self?.playlists[row].image = image
                 cell.setImage(image, urlString: item.preview)
             }
         }
-        cell.configureCell(item: item)
+        cell.configureCell(item: playlists[row])
         return cell
     }
 }
@@ -74,11 +75,11 @@ extension SeriesContentController: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             let row = indexPath.row
-            guard data[row].image == nil else {
+            guard playlists[row].image == nil else {
                 return
             }
-            model.requestImage(from: data[row].preview) { [weak self] image in
-                self?.data[row].image = image
+            model.requestImage(from: playlists[row].preview) { [weak self] image in
+                self?.playlists[row].image = image
             }
         }
     }

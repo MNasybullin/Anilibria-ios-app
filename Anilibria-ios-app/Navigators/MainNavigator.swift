@@ -21,16 +21,16 @@ final class MainNavigator {
     static let shared = MainNavigator()
     
     let rootViewController: RootViewController
-    private var navigators: [BasicNavigator]
+    private var tabBarNavigators: [BasicNavigator]
     
     private init() {
-        navigators = [
+        tabBarNavigators = [
             HomeNavigator(),
             SearchNavigator(),
             ProfileNavigator()
         ]
         
-        let controllers = navigators.map { $0.initialViewController() }
+        let controllers = tabBarNavigators.map { $0.initialViewController() }
         
         let tabBarController = TabBarController()
         tabBarController.viewControllers = controllers

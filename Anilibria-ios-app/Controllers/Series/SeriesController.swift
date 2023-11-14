@@ -37,9 +37,7 @@ final class SeriesController: UIViewController, AnimeFlow, HasCustomView {
 // MARK: - SeriesContentControllerDelegate
 
 extension SeriesController: SeriesContentControllerDelegate {
-    func didSelectItem(playlists: [Playlist], currentPlaylist: Int) {
-        let player = VideoPlayerController.shared
-        player.configure(playlist: playlists, currentPlaylist: currentPlaylist)
-        present(player, animated: true)
+    func didSelectItem(animeItem: AnimeItem, currentPlaylist: Int) {
+        navigator?.show(.videoPlayer(data: animeItem, currentPlaylist: currentPlaylist))
     }
 }

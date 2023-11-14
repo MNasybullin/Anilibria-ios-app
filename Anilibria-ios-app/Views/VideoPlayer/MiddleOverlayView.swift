@@ -100,3 +100,15 @@ private extension MiddleOverlayView {
         ])
     }
 }
+
+// MARK: - Internal methods
+
+extension MiddleOverlayView {
+    func showPlayPauseButton() {
+        playPauseButton.alpha = 1
+    }
+    
+    func hidePlayPauseButton() {
+        playPauseButton.alpha = 0
+    }
+}

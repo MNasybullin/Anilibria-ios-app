@@ -6,21 +6,32 @@
 //
 
 import AVKit
+import Combine
 
-final class VideoPlayerController: AVPlayerViewController {
-    static let shared = VideoPlayerController()
+final class VideoPlayerController: AVPlayerViewController, VideoPlayerFlow {
+    weak var navigator: VideoPlayerNavigator?
     
-    private var playlist: [Playlist]!
-    private var currentPlaylist: Int!
     private let overlayView = VideoPlayerOverlayView()
-    private let model = VideoPlayerModel()
-        
+    private let model: VideoPlayerModel
+    
+    private var subscriptions = Set<AnyCancellable>()
+    
+    init(animeItem: AnimeItem, currentPlaylist: Int) {
+        model = VideoPlayerModel(animeItem: animeItem, currentPlaylist: currentPlaylist)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         delegate = self
         model.delegate = self
         configureOverlay()
+        configureVideoPlayer()
         model.requestCachingNodes()
     }
     
@@ -57,24 +68,27 @@ private extension VideoPlayerController {
         overlayView.middleViewDelegate = self
         overlayView.bottomViewDelegate = self
     }
+    
+    func configureVideoPlayer() {
+        player = AVPlayer()
+    }
+    
+    func playVideo() {
+        overlayView.showOverlay()
+        overlayView.hideActivityIndicator()
+        player?.play()
+    }
 }
 
 // MARK: - Internal methods
 
 extension VideoPlayerController {
-    func configure(playlist: [Playlist], currentPlaylist: Int) {
-        self.playlist = playlist
-        self.currentPlaylist = currentPlaylist
-    }
+    
 }
 
 // MARK: - AVPlayerViewControllerDelegate
 
 extension VideoPlayerController: AVPlayerViewControllerDelegate {
-    func playerViewControllerDidStopPictureInPicture(_ playerViewController: AVPlayerViewController) {
-        print(#function)
-    }
-    
     func playerViewController(_ playerViewController: AVPlayerViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
         MainNavigator.shared.rootViewController.present(playerViewController, animated: false) {
             completionHandler(true)
@@ -85,11 +99,31 @@ extension VideoPlayerController: AVPlayerViewControllerDelegate {
 // MARK: - VideoPlayerModelDelegate
 
 extension VideoPlayerController: VideoPlayerModelDelegate {
-    func configurePlayer(serverUrl: String) {
-        let hlsQuality = playlist[currentPlaylist].hls?.fhd!
-        let url = URL(string: serverUrl + hlsQuality!)
-        player = AVPlayer(url: url!)
-        player?.play()
+    func configurePlayerItem(url: URL) {
+        let asset = AVAsset(url: url)
+        let playerItem = AVPlayerItem(
+            asset: asset,
+            automaticallyLoadedAssetKeys: [.tracks, .duration, .commonMetadata]
+        )
+        
+        playerItem.publisher(for: \.status)
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] status in
+                guard let self else { return }
+                switch status {
+                    case .readyToPlay:
+                        print("STATUS = readyToPly")
+                        playVideo()
+                    case .failed:
+                        print("STATUS = failed")
+                    default:
+                        print("STATUS = default = ", status)
+                }
+            }
+            .store(in: &subscriptions)
+        
+        player?.replaceCurrentItem(with: playerItem)
     }
 }
 
@@ -105,7 +139,7 @@ extension VideoPlayerController: VideoPlayerOverlayViewDelegate {
 
 extension VideoPlayerController: TopOverlayViewDelegate {
     func closeButtonDidTapped() {
-        print(#function)
+        dismiss(animated: true)
     }
     
     func pipButtonDidTapped() {

@@ -56,7 +56,7 @@ extension SearchNavigator: BasicNavigator {
 
 extension SearchNavigator: Navigator {
     enum Destinition {
-        case anime(TitleAPIModel)
+        case anime(data: TitleAPIModel)
     }
     
     func show(_ destination: Destinition) {
