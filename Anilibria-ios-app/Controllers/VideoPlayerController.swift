@@ -15,6 +15,7 @@ final class VideoPlayerController: AVPlayerViewController, VideoPlayerFlow {
     private let model: VideoPlayerModel
     
     private var subscriptions = Set<AnyCancellable>()
+    private var timeObserverToken: Any?
     
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         model = VideoPlayerModel(animeItem: animeItem, currentPlaylist: currentPlaylist)
@@ -57,6 +58,14 @@ private extension VideoPlayerController {
         contentOverlayView.addSubview(overlayView)
         overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
+//        overlayView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            overlayView.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
+//            overlayView.leadingAnchor.constraint(equalTo: contentOverlayView.leadingAnchor),
+//            overlayView.trailingAnchor.constraint(equalTo: contentOverlayView.trailingAnchor),
+//            overlayView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor)
+//        ])
+        
         showsPlaybackControls = false
         
         overlayView.delegate = self
@@ -74,12 +83,53 @@ private extension VideoPlayerController {
         if #available(iOS 16.0, *) {
             allowsVideoFrameAnalysis = false
         }
+        addPeriodicTimeObserver()
+    }
+    
+    func addPeriodicTimeObserver() {
+        let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        timeObserverToken = player!.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let self,
+                  let currentItem = player?.currentItem,
+                  currentItem.status == .readyToPlay else {
+                return
+            }
+            
+            overlayView.setPlaybackSlider(value: Float(time.seconds))
+            let leftTime = self.stringFromTimeInterval(interval: time.seconds)
+            overlayView.setLeftTime(text: leftTime)
+            let durationFloat = Float64(CMTimeGetSeconds(currentItem.duration))
+            let rightTime = self.stringFromTimeInterval(interval: durationFloat - time.seconds)
+            overlayView.setRightTime(text: "-" + rightTime)
+            
+            if currentItem.isPlaybackLikelyToKeepUp == false {
+                overlayView.showActivityIndicator()
+            } else {
+                overlayView.hideActivityIndicator()
+            }
+        }
+    }
+    
+    func stringFromTimeInterval(interval: TimeInterval) -> String {
+        let interval = Int(interval)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        let hours = (interval / 3600)
+        if hours == 0 {
+            return String(format: "%02d:%02d", minutes, seconds)
+        } else {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        }
     }
     
     func playVideo() {
         overlayView.showOverlay()
         overlayView.hideActivityIndicator()
         player?.play()
+    }
+    
+    @objc func finishedPlaying( _ myNotification: NSNotification) {
+        print(#function)
     }
 }
 
@@ -116,17 +166,26 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
                 guard let self else { return }
                 switch status {
                     case .readyToPlay:
-                        print("STATUS = readyToPlay")
+                        let duration = Float(CMTimeGetSeconds(playerItem.duration))
+                        overlayView.setPlaybackSlider(duration: duration)
+                        
                         playVideo()
                     case .failed:
                         print("STATUS = failed")
                     default:
-                        print("STATUS = default = ", status)
+                        break
                 }
             }
             .store(in: &subscriptions)
         
         player?.replaceCurrentItem(with: playerItem)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.finishedPlaying(_:)),
+            name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+            object: playerItem
+        )
     }
 }
 
@@ -190,6 +249,25 @@ extension VideoPlayerController: MiddleOverlayViewDelegate {
 // MARK: - BottomOverlayViewDelegate
 
 extension VideoPlayerController: BottomOverlayViewDelegate {
+    func playbackSliderDidChanged(_ slider: UISlider, event: UIEvent) {
+        let leftTime = stringFromTimeInterval(interval: TimeInterval(slider.value))
+        overlayView.setLeftTime(text: leftTime)
+        
+        let seconds = Int64(slider.value)
+        let targetTime = CMTimeMake(value: seconds, timescale: 1)
+        
+        if let touchEvent = event.allTouches?.first {
+            switch touchEvent.phase {
+                case .moved:
+                    player!.seek(to: targetTime)
+                case .ended:
+                    player!.seek(to: targetTime, toleranceBefore: .zero, toleranceAfter: .zero)
+                default:
+                    break
+            }
+        }
+    }
+    
     func seriesButtonDidTapped() {
         let data = model.getData()
         navigator?.show(.series(data: data))

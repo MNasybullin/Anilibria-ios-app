@@ -97,6 +97,7 @@ private extension VideoPlayerOverlayView {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        
         showConstraints = [
             topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             bottomView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
@@ -109,14 +110,14 @@ private extension VideoPlayerOverlayView {
         
         // Common constraints
         NSLayoutConstraint.activate([
-            topView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            topView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            topView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            topView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             
             middleView.centerXAnchor.constraint(equalTo: centerXAnchor),
             middleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            bottomView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            bottomView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            bottomView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            bottomView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
@@ -186,5 +187,21 @@ extension VideoPlayerOverlayView {
     
     func setSubtitle(_ text: String) {
         topView.setSubtitle(text)
+    }
+    
+    func setPlaybackSlider(duration: Float) {
+        bottomView.setSlider(duration: duration)
+    }
+    
+    func setPlaybackSlider(value: Float) {
+        bottomView.setSlider(value: value)
+    }
+    
+    func setLeftTime(text: String) {
+        bottomView.setLeftTimeTitle(text)
+    }
+    
+    func setRightTime(text: String) {
+        bottomView.setRightTimeTitle(text)
     }
 }

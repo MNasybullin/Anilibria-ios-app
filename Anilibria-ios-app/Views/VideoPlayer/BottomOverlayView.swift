@@ -9,6 +9,7 @@ import UIKit
 
 protocol BottomOverlayViewDelegate: AnyObject {
     func seriesButtonDidTapped()
+    func playbackSliderDidChanged(_ slider: UISlider, event: UIEvent)
 }
 
 final class BottomOverlayView: UIView {
@@ -40,11 +41,13 @@ final class BottomOverlayView: UIView {
     private lazy var slider: UISlider = {
         let slider = UISlider()
         slider.minimumTrackTintColor = .systemRed
+        slider.minimumValue = 0
         
         let image = UIImage(systemName: "circle.fill")?
             .resized(to: Constants.thumbImageSize)?
             .withTintColor(.systemRed, renderingMode: .alwaysOriginal)
         slider.setThumbImage(image, for: .normal)
+        slider.addTarget(self, action: #selector(sliderDidChanged), for: .valueChanged)
         return slider
     }()
     
@@ -104,6 +107,10 @@ private extension BottomOverlayView {
             rightTimeLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+    
+    @objc func sliderDidChanged(_ slider: UISlider, event: UIEvent) {
+        delegate?.playbackSliderDidChanged(slider, event: event)
+    }
 }
 
 // MARK: - Internal methods
@@ -115,5 +122,13 @@ extension BottomOverlayView {
     
     func setRightTimeTitle(_ title: String) {
         rightTimeLabel.text = title
+    }
+    
+    func setSlider(duration: Float) {
+        slider.maximumValue = duration
+    }
+    
+    func setSlider(value: Float) {
+        slider.value = value
     }
 }
