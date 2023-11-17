@@ -9,7 +9,7 @@ import UIKit
 
 protocol MiddleOverlayViewDelegate: AnyObject {
     func backwardButtonDidTapped()
-    func playPauseButtonDidTapped()
+    func playPauseButtonDidTapped(_ button: UIButton)
     func forwardButtonDidTapped()
 }
 
@@ -20,7 +20,9 @@ final class MiddleOverlayView: UIView {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .center
-        stack.spacing = 62
+        stack.spacing = 70
+        stack.layoutMargins = .init(top: 20, left: 20, bottom: 20, right: 20)
+        stack.isLayoutMarginsRelativeArrangement = true
         return stack
     }()
     
@@ -43,13 +45,14 @@ final class MiddleOverlayView: UIView {
     private lazy var pauseImage = UIImage(systemName: "pause.fill")?.resized(to: mainImageSize)?.withRenderingMode(.alwaysTemplate)
     
     private lazy var playPauseButton: UIButton = {
-        
         let button = MiddleOverlayButton()
         button.tintColor = .white
         button.setImage(playImage, for: .normal)
+        button.setImage(pauseImage, for: .selected)
         button.addAction(UIAction { [weak self] _ in
-            self?.delegate?.playPauseButtonDidTapped()
+            self?.delegate?.playPauseButtonDidTapped(button)
         }, for: .touchUpInside)
+        button.isSelected = true
         return button
     }()
     

@@ -33,7 +33,7 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
 
 extension ScheduleController: ScheduleContentControllerDelegate {
     func didSelectItem(_ rawData: TitleAPIModel) {
-        navigator?.show(.anime(rawData))
+        navigator?.show(.anime(data: rawData))
     }
     
     func hideSkeletonCollectionView() {

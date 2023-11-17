@@ -26,7 +26,16 @@ final class VideoPlayerModel {
         let hls = animeItem.playlist[currentPlaylist].hls
         self.currentHLS = hls.fhd ?? hls.hd ?? hls.sd
     }
-    
+}
+
+// MARK: - Private methods
+
+private extension VideoPlayerModel {
+}
+
+// MARK: - Internal methods
+
+extension VideoPlayerModel {
     func requestCachingNodes() {
         Task(priority: .userInitiated) {
             do {
@@ -45,9 +54,16 @@ final class VideoPlayerModel {
             }
         }
     }
-}
-
-// MARK: - Private methods
-
-private extension VideoPlayerModel {
+    
+    func getData() -> AnimeItem {
+        return animeItem
+    }
+    
+    func getTitle() -> String {
+        return animeItem.ruName
+    }
+    
+    func getSubtitle() -> String {
+        return animeItem.playlist[currentPlaylist].serieString
+    }
 }

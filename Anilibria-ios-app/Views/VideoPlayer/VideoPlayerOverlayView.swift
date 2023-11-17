@@ -6,19 +6,24 @@
 //
 
 import UIKit
+import AVKit
 
 protocol VideoPlayerOverlayViewDelegate: AnyObject {
     func didTapGesture()
 }
 
 final class VideoPlayerOverlayView: UIView {
+    private enum Constants {
+        static let backgroundColor = UIColor.black.withAlphaComponent(0.65)
+    }
+    
     enum Orientation {
         case portrait, landscape
     }
     
-    private lazy var topView = TopOverlayView()
-    private lazy var middleView = MiddleOverlayView()
-    private lazy var bottomView = BottomOverlayView()
+    let topView = TopOverlayView()
+    let middleView = MiddleOverlayView()
+    let bottomView = BottomOverlayView()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
@@ -29,6 +34,8 @@ final class VideoPlayerOverlayView: UIView {
     
     private var showConstraints: [NSLayoutConstraint]!
     private var hideConstraints: [NSLayoutConstraint]!
+    
+    private (set) var isOverlaysHidden = false
     
     weak var delegate: VideoPlayerOverlayViewDelegate?
     
@@ -47,6 +54,11 @@ final class VideoPlayerOverlayView: UIView {
         set { bottomView.delegate = newValue }
     }
     
+    var routePickerViewDelegate: AVRoutePickerViewDelegate? {
+        get { topView.routePickerViewDelegate }
+        set { topView.routePickerViewDelegate = newValue }
+    }
+    
     init() {
         super.init(frame: .zero)
         configureView()
@@ -63,7 +75,7 @@ final class VideoPlayerOverlayView: UIView {
 
 private extension VideoPlayerOverlayView {
     func configureView() {
-        backgroundColor = .black.withAlphaComponent(0.45)
+        backgroundColor = Constants.backgroundColor
         
         topView.isHidden = false
         middleView.isHidden = true
@@ -86,8 +98,8 @@ private extension VideoPlayerOverlayView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         showConstraints = [
-            topView.topAnchor.constraint(equalTo: topAnchor),
-            bottomView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            bottomView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ]
         
         hideConstraints = [
@@ -97,14 +109,14 @@ private extension VideoPlayerOverlayView {
         
         // Common constraints
         NSLayoutConstraint.activate([
-            topView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            topView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            topView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            topView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             
             middleView.centerXAnchor.constraint(equalTo: centerXAnchor),
             middleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            bottomView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bottomView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            bottomView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
@@ -121,14 +133,15 @@ extension VideoPlayerOverlayView {
     }
     
     func showOverlay() {
-        topView.enableButtons()
+        topView.showPipButton()
+        isOverlaysHidden = false
         UIView.animate(withDuration: 0.35) { [self] in
             [topView, middleView, bottomView].forEach {
                 $0.isHidden = false
                 $0.alpha = 1
             }
             
-            backgroundColor = .black.withAlphaComponent(0.45)
+            backgroundColor = Constants.backgroundColor
             
             NSLayoutConstraint.deactivate(hideConstraints)
             NSLayoutConstraint.activate(showConstraints)
@@ -137,6 +150,7 @@ extension VideoPlayerOverlayView {
     }
     
     func hideOverlay() {
+        isOverlaysHidden = true
         UIView.animate(withDuration: 0.35) { [self] in
             backgroundColor = .clear
             
@@ -164,5 +178,13 @@ extension VideoPlayerOverlayView {
     func hideActivityIndicator() {
         activityIndicator.stopAnimating()
         middleView.showPlayPauseButton()
+    }
+    
+    func setTitle(_ text: String) {
+        topView.setTitle(text)
+    }
+    
+    func setSubtitle(_ text: String) {
+        topView.setSubtitle(text)
     }
 }

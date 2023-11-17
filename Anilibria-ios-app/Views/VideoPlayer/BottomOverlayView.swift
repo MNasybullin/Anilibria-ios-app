@@ -89,19 +89,19 @@ private extension BottomOverlayView {
         }
         
         NSLayoutConstraint.activate([
-            seriesButton.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            seriesButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            seriesButton.topAnchor.constraint(equalTo: topAnchor),
+            seriesButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             slider.topAnchor.constraint(equalTo: seriesButton.bottomAnchor, constant: Constants.topConstant),
-            slider.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            slider.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            slider.leadingAnchor.constraint(equalTo: leadingAnchor),
+            slider.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             leftTimeLabel.topAnchor.constraint(equalTo: slider.bottomAnchor, constant: Constants.topConstant),
-            leftTimeLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            leftTimeLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             
             rightTimeLabel.topAnchor.constraint(equalTo: slider.bottomAnchor, constant: Constants.topConstant),
-            rightTimeLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            rightTimeLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            rightTimeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            rightTimeLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

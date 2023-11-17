@@ -36,6 +36,7 @@ final class VideoPlayerController: AVPlayerViewController, VideoPlayerFlow {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate { _ in
             if size.width > size.height {
                 self.overlayView.updateConstraints(orientation: .landscape)
@@ -54,23 +55,25 @@ private extension VideoPlayerController {
             fatalError("contentOverlayView in Video Player not found")
         }
         contentOverlayView.addSubview(overlayView)
-        overlayView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            overlayView.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
-            overlayView.leadingAnchor.constraint(equalTo: contentOverlayView.leadingAnchor),
-            overlayView.trailingAnchor.constraint(equalTo: contentOverlayView.trailingAnchor),
-            overlayView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor)
-        ])
+        overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
         showsPlaybackControls = false
         
         overlayView.delegate = self
         overlayView.topViewDelegate = self
         overlayView.middleViewDelegate = self
         overlayView.bottomViewDelegate = self
+        overlayView.routePickerViewDelegate = self
+        
+        overlayView.setTitle(model.getTitle())
+        overlayView.setSubtitle(model.getSubtitle())
     }
     
     func configureVideoPlayer() {
         player = AVPlayer()
+        if #available(iOS 16.0, *) {
+            allowsVideoFrameAnalysis = false
+        }
     }
     
     func playVideo() {
@@ -113,7 +116,7 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
                 guard let self else { return }
                 switch status {
                     case .readyToPlay:
-                        print("STATUS = readyToPly")
+                        print("STATUS = readyToPlay")
                         playVideo()
                     case .failed:
                         print("STATUS = failed")
@@ -131,7 +134,11 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
 
 extension VideoPlayerController: VideoPlayerOverlayViewDelegate {
     func didTapGesture() {
-        print(#function)
+        if overlayView.isOverlaysHidden {
+            overlayView.showOverlay()
+        } else {
+            overlayView.hideOverlay()
+        }
     }
 }
 
@@ -159,15 +166,24 @@ extension VideoPlayerController: TopOverlayViewDelegate {
 
 extension VideoPlayerController: MiddleOverlayViewDelegate {
     func backwardButtonDidTapped() {
-        print(#function)
+        guard let duration = player?.currentItem?.duration else { return }
+        let targetTime = max(.zero, player!.currentTime() - CMTime(seconds: 10, preferredTimescale: duration.timescale))
+        player?.seek(to: targetTime)
     }
     
-    func playPauseButtonDidTapped() {
-        print(#function)
+    func playPauseButtonDidTapped(_ button: UIButton) {
+        button.isSelected = !button.isSelected
+        if button.isSelected {
+            player?.play()
+        } else {
+            player?.pause()
+        }
     }
     
     func forwardButtonDidTapped() {
-        print(#function)
+        guard let duration = player?.currentItem?.duration else { return }
+        let targetTime = min(duration, player!.currentTime() + CMTime(seconds: 10, preferredTimescale: duration.timescale))
+        player?.seek(to: targetTime)
     }
 }
 
@@ -175,6 +191,16 @@ extension VideoPlayerController: MiddleOverlayViewDelegate {
 
 extension VideoPlayerController: BottomOverlayViewDelegate {
     func seriesButtonDidTapped() {
-        print(#function)
+        let data = model.getData()
+        navigator?.show(.series(data: data))
     }
+}
+
+extension VideoPlayerController: AVRoutePickerViewDelegate {
+    func routePickerViewWillBeginPresentingRoutes(_ routePickerView: AVRoutePickerView) {
+    }
+    
+//    func routePickerViewDidEndPresentingRoutes(_ routePickerView: AVRoutePickerView) {
+//        <#code#>
+//    }
 }

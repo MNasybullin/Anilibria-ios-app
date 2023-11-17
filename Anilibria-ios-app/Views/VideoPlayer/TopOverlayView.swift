@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 protocol TopOverlayViewDelegate: AnyObject {
     func closeButtonDidTapped()
@@ -49,7 +50,7 @@ final class TopOverlayView: UIView {
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.pipButtonDidTapped()
         }, for: .touchUpInside)
-        button.isEnabled = false
+        button.isHidden = true
         return button
     }()
     
@@ -82,17 +83,20 @@ final class TopOverlayView: UIView {
         stack.spacing = Constants.leftRightStackSpacing
         return stack
     }()
-    
-    private lazy var airPlayButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.tintColor = .white
-        button.setImage(UIImage(systemName: "airplayvideo"), for: .normal)
-        button.addAction(UIAction { [weak self] _ in
-            self?.delegate?.airPlayButtonDidTapped()
-        }, for: .touchUpInside)
-        button.isEnabled = false
-        return button
+        
+    private lazy var routePickerView: AVRoutePickerView = {
+        let routePickerView = AVRoutePickerView()
+        routePickerView.backgroundColor = .clear
+        routePickerView.tintColor = .white
+        routePickerView.activeTintColor = .systemRed
+        routePickerView.prioritizesVideoDevices = true
+        return routePickerView
     }()
+    
+    var routePickerViewDelegate: AVRoutePickerViewDelegate? {
+        get { routePickerView.delegate }
+        set { routePickerView.delegate = newValue }
+    }
     
     private lazy var settingsButton: UIButton = {
         let button = UIButton(type: .system)
@@ -101,7 +105,6 @@ final class TopOverlayView: UIView {
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.settingsButtonDidTapped()
         }, for: .touchUpInside)
-        button.isEnabled = false
         return button
     }()
     
@@ -135,7 +138,7 @@ private extension TopOverlayView {
         }
         [closeButton, pipButton].forEach { leftStack.addArrangedSubview($0) }
         [titleLabel, subtitleLabel].forEach { middleStack.addArrangedSubview($0) }
-        [airPlayButton, settingsButton].forEach { rightStack.addArrangedSubview($0) }
+        [routePickerView, settingsButton].forEach { rightStack.addArrangedSubview($0) }
         
         [leftStack, rightStack].flatMap { $0.arrangedSubviews }.forEach {
             $0.setContentHuggingPriority(.required, for: .horizontal)
@@ -144,19 +147,20 @@ private extension TopOverlayView {
         
         // Common Constraints
         NSLayoutConstraint.activate([
-            leftStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, 
+            leftStack.topAnchor.constraint(equalTo: topAnchor,
                                            constant: Constants.top),
-            leftStack.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            leftStack.leadingAnchor.constraint(equalTo: leadingAnchor),
             
-            rightStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+            rightStack.topAnchor.constraint(equalTo: topAnchor,
                                                 constant: Constants.top),
-            rightStack.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
+            rightStack.trailingAnchor.constraint(equalTo: trailingAnchor)
+            
         ])
         
         landscapeConstraints = [
-            middleStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+            middleStack.topAnchor.constraint(equalTo: topAnchor,
                                              constant: Constants.top),
-            middleStack.centerXAnchor.constraint(equalTo: layoutMarginsGuide.centerXAnchor),
+            middleStack.centerXAnchor.constraint(equalTo: centerXAnchor),
             middleStack.leadingAnchor.constraint(greaterThanOrEqualTo: leftStack.trailingAnchor, constant: Constants.leftRightMiddleStackConstraints),
             middleStack.trailingAnchor.constraint(lessThanOrEqualTo: rightStack.leadingAnchor, constant: -Constants.leftRightMiddleStackConstraints),
             middleStack.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -165,8 +169,8 @@ private extension TopOverlayView {
         portraitConstraints = [
             middleStack.topAnchor.constraint(equalTo: leftStack.bottomAnchor,
                                              constant: Constants.top),
-            middleStack.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            middleStack.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            middleStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            middleStack.trailingAnchor.constraint(equalTo: trailingAnchor),
             middleStack.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
         NSLayoutConstraint.activate(portraitConstraints)
@@ -188,17 +192,15 @@ extension TopOverlayView {
         layoutIfNeeded()
     }
     
-    func setTitle(_ title: String?) {
-        titleLabel.text = title
+    func setTitle(_ text: String?) {
+        titleLabel.text = text
     }
     
-    func setSubtitle(_ subtitle: String?) {
-        subtitleLabel.text = subtitle
+    func setSubtitle(_ text: String?) {
+        subtitleLabel.text = text
     }
     
-    func enableButtons() {
-        [pipButton, airPlayButton, settingsButton].forEach {
-            $0.isEnabled = true
-        }
+    func showPipButton() {
+        pipButton.isHidden = false
     }
 }

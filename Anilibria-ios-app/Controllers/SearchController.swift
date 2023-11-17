@@ -128,7 +128,7 @@ extension SearchController: UISearchBarDelegate {
 
 extension SearchController: RandomAnimeControllerDelegate {
     func randomAnimeViewDidTapped(data: TitleAPIModel) {
-        navigator?.show(.anime(data))
+        navigator?.show(.anime(data: data))
     }
 }
 
@@ -137,7 +137,7 @@ extension SearchController: RandomAnimeControllerDelegate {
 extension SearchController: SearchResultsControllerDelegate {
     func didSelectedItem(item: TitleAPIModel) {
         customView.hideKeyboard()
-        navigator?.show(.anime(item))
+        navigator?.show(.anime(data: item))
     }
 }
 
