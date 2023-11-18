@@ -19,7 +19,6 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow {
     
     private var subscriptions = Set<AnyCancellable>()
     private var timeObserverToken: Any?
-    private var pipPossibleObservation: NSKeyValueObservation?
     
     // MARK: LifeCycle
     init(animeItem: AnimeItem, currentPlaylist: Int) {
@@ -76,14 +75,6 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow {
             }
         }
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-            object: player.currentItem
-        )
-    }
 }
 
 // MARK: - Private methods
@@ -127,10 +118,13 @@ private extension VideoPlayerController {
         }
         pipController.delegate = self
         
-        pipPossibleObservation = pipController.observe(\AVPictureInPictureController.isPictureInPicturePossible, options: [.initial, .new]) { [weak self] _, change in
-            let status = change.newValue ?? false
-            self?.overlayView.setPIPButton(isHidden: !status)
-        }
+        pipController.publisher(for: \.isPictureInPicturePossible)
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isPictureInPicturePossible in
+                self?.overlayView.setPIPButton(isHidden: !isPictureInPicturePossible)
+            }
+            .store(in: &subscriptions)
     }
     
     func addPeriodicTimeObserver() {
@@ -148,12 +142,6 @@ private extension VideoPlayerController {
             let durationFloat = Float64(CMTimeGetSeconds(currentItem.duration))
             let rightTime = self.stringFromTimeInterval(interval: durationFloat - time.seconds)
             overlayView.setRightTime(text: "-" + rightTime)
-            
-            if currentItem.isPlaybackLikelyToKeepUp == false {
-                overlayView.showActivityIndicator()
-            } else {
-                overlayView.hideActivityIndicator()
-            }
         }
     }
     
@@ -173,10 +161,6 @@ private extension VideoPlayerController {
         overlayView.showOverlay()
         overlayView.hideActivityIndicator()
         player.play()
-    }
-    
-    @objc func finishedPlaying( _ myNotification: NSNotification) {
-        print(#function)
     }
 }
 
@@ -214,14 +198,19 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
             }
             .store(in: &subscriptions)
         
-        player.replaceCurrentItem(with: playerItem)
+        playerItem.publisher(for: \.isPlaybackLikelyToKeepUp)
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isPlaybackLikelyToKeepUp in
+                if isPlaybackLikelyToKeepUp == false {
+                    self?.overlayView.showActivityIndicator()
+                } else {
+                    self?.overlayView.hideActivityIndicator()
+                }
+            }
+            .store(in: &subscriptions)
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.finishedPlaying(_:)),
-            name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-            object: playerItem
-        )
+        player.replaceCurrentItem(with: playerItem)
     }
 }
 
