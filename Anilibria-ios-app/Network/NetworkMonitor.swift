@@ -22,8 +22,6 @@ final class NetworkMonitor {
     
     private let isConnectedSubject = PassthroughSubject<Bool, Never>()
     
-    private let notificationCenter = NotificationCenter.default
-    
     private(set) var isConnected: Bool = false {
         didSet {
             if oldValue != isConnected {
