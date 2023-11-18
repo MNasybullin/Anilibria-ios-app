@@ -46,11 +46,11 @@ final class TopOverlayView: UIView {
     private lazy var pipButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
-        button.setImage(UIImage(systemName: "pip.enter"), for: .normal)
+        let startImage = AVPictureInPictureController.pictureInPictureButtonStartImage
+        button.setImage(startImage, for: .normal)
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.pipButtonDidTapped()
         }, for: .touchUpInside)
-        button.isHidden = true
         return button
     }()
     
@@ -200,7 +200,7 @@ extension TopOverlayView {
         subtitleLabel.text = text
     }
     
-    func showPipButton() {
-        pipButton.isHidden = false
+    func setPIPButton(isHidden: Bool) {
+        pipButton.isHidden = isHidden
     }
 }

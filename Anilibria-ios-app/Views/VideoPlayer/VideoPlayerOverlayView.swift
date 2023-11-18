@@ -35,6 +35,9 @@ final class VideoPlayerOverlayView: UIView {
     private var showConstraints: [NSLayoutConstraint]!
     private var hideConstraints: [NSLayoutConstraint]!
     
+    private var landscapeConstraints: [NSLayoutConstraint]!
+    private var portraitConstraints: [NSLayoutConstraint]!
+    
     private (set) var isOverlaysHidden = false
     
     weak var delegate: VideoPlayerOverlayViewDelegate?
@@ -110,19 +113,29 @@ private extension VideoPlayerOverlayView {
         
         // Common constraints
         NSLayoutConstraint.activate([
-            topView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            topView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
-            
             middleView.centerXAnchor.constraint(equalTo: centerXAnchor),
             middleView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            bottomView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            bottomView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+        
+        landscapeConstraints = [
+            topView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            topView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            bottomView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            bottomView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+        ]
+        
+        portraitConstraints = [
+            topView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            topView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            bottomView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            bottomView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24)
+        ]
+        
         NSLayoutConstraint.activate(showConstraints)
+        NSLayoutConstraint.activate(portraitConstraints)
     }
 }
 
@@ -130,11 +143,19 @@ private extension VideoPlayerOverlayView {
 
 extension VideoPlayerOverlayView {
     func updateConstraints(orientation: Orientation) {
+        switch orientation {
+            case .portrait:
+                NSLayoutConstraint.deactivate(landscapeConstraints)
+                NSLayoutConstraint.activate(portraitConstraints)
+            case .landscape:
+                NSLayoutConstraint.deactivate(portraitConstraints)
+                NSLayoutConstraint.activate(landscapeConstraints)
+        }
+        layoutIfNeeded()
         topView.updateConstraints(orientation: orientation)
     }
     
     func showOverlay() {
-        topView.showPipButton()
         isOverlaysHidden = false
         UIView.animate(withDuration: 0.35) { [self] in
             [topView, middleView, bottomView].forEach {
@@ -203,5 +224,9 @@ extension VideoPlayerOverlayView {
     
     func setRightTime(text: String) {
         bottomView.setRightTimeTitle(text)
+    }
+    
+    func setPIPButton(isHidden: Bool) {
+        topView.setPIPButton(isHidden: isHidden)
     }
 }

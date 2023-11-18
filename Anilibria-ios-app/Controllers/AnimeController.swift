@@ -15,6 +15,7 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     // MARK: LifeCycle
     init(rawData: TitleAPIModel) {
+        // TODO надо еще передавать изображение
         self.model = AnimeModel(rawData: rawData)
         super.init(nibName: nil, bundle: nil)
         

@@ -14,12 +14,10 @@ protocol VideoPlayerFlow: AnyObject {
 
 final class VideoPlayerNavigator {
     static let shared = VideoPlayerNavigator()
-    
-    private weak var playerController: VideoPlayerController?
+        
+    var playerController: VideoPlayerController?
     
     private func dissmisPlayerController() {
-        playerController?.player?.pause()
-        playerController?.player = nil
         playerController?.dismiss(animated: true)
         playerController = nil
     }
@@ -45,6 +43,8 @@ extension VideoPlayerNavigator: Navigator {
                 )
                 player.navigator = self
                 playerController = player
+                player.modalPresentationStyle = .overFullScreen
+                player.isModalInPresentation = true
                 presentatingController.present(player, animated: true)
             case .series(let data):
                 let series = SeriesController(data: data)

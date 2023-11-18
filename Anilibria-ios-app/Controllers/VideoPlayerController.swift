@@ -8,15 +8,20 @@
 import AVKit
 import Combine
 
-final class VideoPlayerController: AVPlayerViewController, VideoPlayerFlow {
+final class VideoPlayerController: UIViewController, VideoPlayerFlow {
     weak var navigator: VideoPlayerNavigator?
     
-    private let overlayView = VideoPlayerOverlayView()
+    private lazy var player = AVPlayer()
+    private lazy var playerLayer = AVPlayerLayer(player: player)
+    private var pipController: AVPictureInPictureController?
+    private lazy var overlayView = VideoPlayerOverlayView()
     private let model: VideoPlayerModel
     
     private var subscriptions = Set<AnyCancellable>()
     private var timeObserverToken: Any?
+    private var pipPossibleObservation: NSKeyValueObservation?
     
+    // MARK: LifeCycle
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         model = VideoPlayerModel(animeItem: animeItem, currentPlaylist: currentPlaylist)
         super.init(nibName: nil, bundle: nil)
@@ -29,11 +34,36 @@ final class VideoPlayerController: AVPlayerViewController, VideoPlayerFlow {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        delegate = self
+        setupView()
+        setupPictureInPicture()
+        addPeriodicTimeObserver()
         model.delegate = self
-        configureOverlay()
-        configureVideoPlayer()
         model.requestCachingNodes()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+        appDelegate?.currentOrientationMode = .allButUpsideDown
+        if #available(iOS 16.0, *) {
+            setNeedsUpdateOfSupportedInterfaceOrientations()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+        appDelegate?.currentOrientationMode = .portrait
+        if #available(iOS 16.0, *) {
+            UIView.performWithoutAnimation {
+                setNeedsUpdateOfSupportedInterfaceOrientations()
+            }
+        }
+    }
+    
+    override public func viewDidLayoutSubviews() {
+      super.viewDidLayoutSubviews()
+        playerLayer.frame = view.bounds
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -46,28 +76,26 @@ final class VideoPlayerController: AVPlayerViewController, VideoPlayerFlow {
             }
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem
+        )
+    }
 }
 
 // MARK: - Private methods
 
 private extension VideoPlayerController {
-    func configureOverlay() {
-        guard let contentOverlayView else {
-            fatalError("contentOverlayView in Video Player not found")
-        }
-        contentOverlayView.addSubview(overlayView)
-        overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-//        overlayView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            overlayView.topAnchor.constraint(equalTo: contentOverlayView.topAnchor),
-//            overlayView.leadingAnchor.constraint(equalTo: contentOverlayView.leadingAnchor),
-//            overlayView.trailingAnchor.constraint(equalTo: contentOverlayView.trailingAnchor),
-//            overlayView.bottomAnchor.constraint(equalTo: contentOverlayView.bottomAnchor)
-//        ])
-        
-        showsPlaybackControls = false
-        
+    func setupView() {
+        view.backgroundColor = .black
+        view.layer.addSublayer(playerLayer)
+        setupOverlayView()
+    }
+    
+    func setupOverlayView() {
         overlayView.delegate = self
         overlayView.topViewDelegate = self
         overlayView.middleViewDelegate = self
@@ -76,21 +104,40 @@ private extension VideoPlayerController {
         
         overlayView.setTitle(model.getTitle())
         overlayView.setSubtitle(model.getSubtitle())
+        
+        view.addSubview(overlayView)
+        overlayView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            overlayView.topAnchor.constraint(equalTo: view.topAnchor),
+            overlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            overlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
-    func configureVideoPlayer() {
-        player = AVPlayer()
-        if #available(iOS 16.0, *) {
-            allowsVideoFrameAnalysis = false
+    func setupPictureInPicture() {
+        guard AVPictureInPictureController.isPictureInPictureSupported() else {
+            overlayView.setPIPButton(isHidden: true)
+            return
         }
-        addPeriodicTimeObserver()
+        
+        pipController = AVPictureInPictureController(playerLayer: playerLayer)
+        guard let pipController else {
+            return
+        }
+        pipController.delegate = self
+        
+        pipPossibleObservation = pipController.observe(\AVPictureInPictureController.isPictureInPicturePossible, options: [.initial, .new]) { [weak self] _, change in
+            let status = change.newValue ?? false
+            self?.overlayView.setPIPButton(isHidden: !status)
+        }
     }
     
     func addPeriodicTimeObserver() {
         let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        timeObserverToken = player!.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+        timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self,
-                  let currentItem = player?.currentItem,
+                  let currentItem = player.currentItem,
                   currentItem.status == .readyToPlay else {
                 return
             }
@@ -125,7 +172,7 @@ private extension VideoPlayerController {
     func playVideo() {
         overlayView.showOverlay()
         overlayView.hideActivityIndicator()
-        player?.play()
+        player.play()
     }
     
     @objc func finishedPlaying( _ myNotification: NSNotification) {
@@ -136,17 +183,6 @@ private extension VideoPlayerController {
 // MARK: - Internal methods
 
 extension VideoPlayerController {
-    
-}
-
-// MARK: - AVPlayerViewControllerDelegate
-
-extension VideoPlayerController: AVPlayerViewControllerDelegate {
-    func playerViewController(_ playerViewController: AVPlayerViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
-        MainNavigator.shared.rootViewController.present(playerViewController, animated: false) {
-            completionHandler(true)
-        }
-    }
 }
 
 // MARK: - VideoPlayerModelDelegate
@@ -178,7 +214,7 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
             }
             .store(in: &subscriptions)
         
-        player?.replaceCurrentItem(with: playerItem)
+        player.replaceCurrentItem(with: playerItem)
         
         NotificationCenter.default.addObserver(
             self,
@@ -205,11 +241,12 @@ extension VideoPlayerController: VideoPlayerOverlayViewDelegate {
 
 extension VideoPlayerController: TopOverlayViewDelegate {
     func closeButtonDidTapped() {
+        navigator?.playerController = nil
         dismiss(animated: true)
     }
     
     func pipButtonDidTapped() {
-        print(#function)
+        pipController?.startPictureInPicture()
     }
     
     func airPlayButtonDidTapped() {
@@ -225,24 +262,24 @@ extension VideoPlayerController: TopOverlayViewDelegate {
 
 extension VideoPlayerController: MiddleOverlayViewDelegate {
     func backwardButtonDidTapped() {
-        guard let duration = player?.currentItem?.duration else { return }
-        let targetTime = max(.zero, player!.currentTime() - CMTime(seconds: 10, preferredTimescale: duration.timescale))
-        player?.seek(to: targetTime)
+        guard let duration = player.currentItem?.duration else { return }
+        let targetTime = max(.zero, player.currentTime() - CMTime(seconds: 10, preferredTimescale: duration.timescale))
+        player.seek(to: targetTime)
     }
     
     func playPauseButtonDidTapped(_ button: UIButton) {
         button.isSelected = !button.isSelected
         if button.isSelected {
-            player?.play()
+            player.play()
         } else {
-            player?.pause()
+            player.pause()
         }
     }
     
     func forwardButtonDidTapped() {
-        guard let duration = player?.currentItem?.duration else { return }
-        let targetTime = min(duration, player!.currentTime() + CMTime(seconds: 10, preferredTimescale: duration.timescale))
-        player?.seek(to: targetTime)
+        guard let duration = player.currentItem?.duration else { return }
+        let targetTime = min(duration, player.currentTime() + CMTime(seconds: 10, preferredTimescale: duration.timescale))
+        player.seek(to: targetTime)
     }
 }
 
@@ -253,15 +290,21 @@ extension VideoPlayerController: BottomOverlayViewDelegate {
         let leftTime = stringFromTimeInterval(interval: TimeInterval(slider.value))
         overlayView.setLeftTime(text: leftTime)
         
+        if let duration = player.currentItem?.duration {
+            let interval = duration.seconds - Double(slider.value)
+            let rightTime = stringFromTimeInterval(interval: interval)
+            overlayView.setRightTime(text: "-" + rightTime)
+        }
+        
         let seconds = Int64(slider.value)
         let targetTime = CMTimeMake(value: seconds, timescale: 1)
         
         if let touchEvent = event.allTouches?.first {
             switch touchEvent.phase {
                 case .moved:
-                    player!.seek(to: targetTime)
+                    player.seek(to: targetTime)
                 case .ended:
-                    player!.seek(to: targetTime, toleranceBefore: .zero, toleranceAfter: .zero)
+                    player.seek(to: targetTime, toleranceBefore: .zero, toleranceAfter: .zero)
                 default:
                     break
             }
@@ -275,10 +318,42 @@ extension VideoPlayerController: BottomOverlayViewDelegate {
 }
 
 extension VideoPlayerController: AVRoutePickerViewDelegate {
-    func routePickerViewWillBeginPresentingRoutes(_ routePickerView: AVRoutePickerView) {
-    }
+//    func routePickerViewWillBeginPresentingRoutes(_ routePickerView: AVRoutePickerView) {
+//
+//    }
     
 //    func routePickerViewDidEndPresentingRoutes(_ routePickerView: AVRoutePickerView) {
-//        <#code#>
+//
 //    }
+}
+
+// MARK: - AVPictureInPictureControllerDelegate
+
+extension VideoPlayerController: AVPictureInPictureControllerDelegate {
+    func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        overlayView.hideOverlay()
+        navigator?.playerController = self
+    }
+    
+    func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        dismiss(animated: true)
+    }
+    
+    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
+        navigator?.playerController = nil
+    }
+    
+    func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        navigator?.playerController = nil
+    }
+    
+    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+        guard let viewController = navigator?.playerController else {
+            completionHandler(false)
+            return
+        }
+        MainNavigator.shared.rootViewController.present(viewController, animated: false) {
+            completionHandler(true)
+        }
+    }
 }
