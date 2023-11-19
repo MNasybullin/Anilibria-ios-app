@@ -37,7 +37,7 @@ class ErrorProcessing {
         switch nsError.code {
             case -1020:
                 // No Connected To Internet
-                RootViewController.shared.showFlashNetworkActivityView()
+                MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
                 return nil
             default:
                 return nsError.localizedDescription + " Code = \(nsError.code)."

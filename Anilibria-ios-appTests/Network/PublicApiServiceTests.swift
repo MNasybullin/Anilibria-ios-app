@@ -10,10 +10,12 @@ import XCTest
 
 class PublicApiServiceTests: XCTestCase {
     
+    let publicApiService = PublicApiService()
+    
     func testGetTitle() async throws {
         let id = "8500"
         do {
-            _ = try await PublicApiService.shared.getTitle(with: id)
+            _ = try await publicApiService.getTitle(with: id)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -24,7 +26,7 @@ class PublicApiServiceTests: XCTestCase {
     func testGetTitles() async throws {
         let ids = "8500, 8800"
         do {
-            _ = try await PublicApiService.shared.getTitles(with: ids)
+            _ = try await publicApiService.getTitles(with: ids)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -36,7 +38,7 @@ class PublicApiServiceTests: XCTestCase {
         let limit = 10
         let after = 1
         do {
-            _ = try await PublicApiService.shared.getUpdates(withLimit: limit, after: after)
+            _ = try await publicApiService.getUpdates(withLimit: limit, after: after)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -47,7 +49,7 @@ class PublicApiServiceTests: XCTestCase {
     func testGetChanges() async throws {
         let limit = 10
         do {
-            _ = try await PublicApiService.shared.getChanges(with: limit)
+            _ = try await publicApiService.getChanges(with: limit)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -57,7 +59,7 @@ class PublicApiServiceTests: XCTestCase {
     
     func testGetSchedule() async throws {
         do {
-            _ = try await PublicApiService.shared.getSchedule(with: DaysOfTheWeek.allCases)
+            _ = try await publicApiService.getSchedule(with: DaysOfTheWeek.allCases)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -67,7 +69,7 @@ class PublicApiServiceTests: XCTestCase {
     
     func testGetRandomTitle() async throws {
         do {
-            _ = try await PublicApiService.shared.getRandomTitle()
+            _ = try await publicApiService.getRandomTitle()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -79,7 +81,7 @@ class PublicApiServiceTests: XCTestCase {
         let limit = 10
         let after = 1
         do {
-            _ = try await PublicApiService.shared.getYouTube(withLimit: limit, after: after)
+            _ = try await publicApiService.getYouTube(withLimit: limit, after: after)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -89,7 +91,7 @@ class PublicApiServiceTests: XCTestCase {
     
     func testGetYears() async throws {
         do {
-            _ = try await PublicApiService.shared.getYears()
+            _ = try await publicApiService.getYears()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -99,7 +101,7 @@ class PublicApiServiceTests: XCTestCase {
     
     func testGetGenres() async throws {
         do {
-            _ = try await PublicApiService.shared.getGenres()
+            _ = try await publicApiService.getGenres()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -109,7 +111,7 @@ class PublicApiServiceTests: XCTestCase {
     
     func testGetTeam() async throws {
         do {
-            _ = try await PublicApiService.shared.getTeam()
+            _ = try await publicApiService.getTeam()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -119,7 +121,7 @@ class PublicApiServiceTests: XCTestCase {
     
     func testGetCachingNodes() async throws {
         do {
-            _ = try await PublicApiService.shared.getCachingNodes()
+            _ = try await publicApiService.getCachingNodes()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -129,7 +131,7 @@ class PublicApiServiceTests: XCTestCase {
     
     func testSearchTitles() async throws {
         do {
-            _ = try await PublicApiService.shared.searchTitles(withSearchText: "Песнь")
+            _ = try await publicApiService.searchTitles(withSearchText: "Песнь")
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)

@@ -7,14 +7,17 @@
 
 import Foundation
 
-final class ImageLoaderService {
+final class ImageLoaderService: NetworkQuery {
     // MARK: - Singleton
     static let shared: ImageLoaderService = ImageLoaderService()
+    private override init() { }
     
     private let mByte = 1024 * 1024
-        
+    
     private lazy var urlCache: URLCache = {
         let urlCache = URLCache(memoryCapacity: 50 * mByte, diskCapacity: 50 * mByte, diskPath: "images")
+//        #warning("Image Cache is disable")
+//        let urlCache = URLCache(memoryCapacity: 0 * mByte, diskCapacity: 0 * mByte, diskPath: "images")
         return urlCache
     }()
     
@@ -32,17 +35,14 @@ final class ImageLoaderService {
         return data
     }
     
-}
-
-extension ImageLoaderService: QueryProtocol {
-    func dataRequest(with urlComponents: URLComponents?, httpMethod: HTTPMethods) async throws -> Data {
+    override func dataRequest(with urlComponents: URLComponents?, httpMethod: HTTPMethods) async throws -> Data {
         guard let url = urlComponents?.url else {
             throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
         urlRequest.cachePolicy = .useProtocolCachePolicy
-
+        
         let (data, response) = try await session.data(for: urlRequest)
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 /* OK */ else {
@@ -50,4 +50,5 @@ extension ImageLoaderService: QueryProtocol {
         }
         return data
     }
+    
 }

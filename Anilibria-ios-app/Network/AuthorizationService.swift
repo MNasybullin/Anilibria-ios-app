@@ -7,12 +7,14 @@
 
 import Foundation
 
-final class AuthorizationService: QueryProtocol {
-    // MARK: - Singleton
-    static let shared: AuthorizationService = AuthorizationService()
+final class AuthorizationService: NetworkQuery {    
+    typealias KeychainError = SecurityStorage.KeychainError
+    typealias Credentials = SecurityStorage.Credentials
+    
+    private let securityStorage = SecurityStorage()
     
     /// Авторизация
-    func login(email: String, password: String) async throws -> LoginModel {
+    func login(email: String, password: String) async throws -> LoginAPIModel {
         guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.login) else {
             throw MyNetworkError.invalidURLComponents
         }
@@ -30,48 +32,85 @@ final class AuthorizationService: QueryProtocol {
               httpResponse.statusCode == 200 /* OK */ else {
             throw errorHandling(for: response)
         }
-        let decoded = try JSONDecoder().decode(LoginModel.self, from: data)
-        if decoded.key == KeyLogin.success.rawValue {
-            UserDefaults.standard.setSessionId(decoded.sessionId)
+        
+        let decoded = try jsonDecoder.decode(LoginAPIModel.self, from: data)
+        if decoded.key == KeyLoginAPI.success.rawValue,
+            let sessionId = decoded.sessionId {
+            try securityStorage.addOrUpdateSession(sessionId)
+            
+            let credentials = Credentials(login: email, password: password)
+            try securityStorage.addOrUpdateCredentials(credentials)
+            
+            UserDefaults.standard.isUserAuthorized = true
         }
         return decoded
+    }
+    
+    // Тихая авторизация
+    func relogin() async throws -> LoginAPIModel {
+        let credentials: Credentials
+        
+        do {
+            credentials = try securityStorage.getCredentials()
+        } catch KeychainError.itemNotFound {
+            throw MyNetworkError.userIsNotAuthorized
+        }
+        
+        return try await login(email: credentials.login, password: credentials.password)
     }
     
     /// Выход
     func logout() async throws {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.logout)
         _ = try await dataRequest(with: urlComponents, httpMethod: .post)
+        
+        try securityStorage.deleteSession()
+        try securityStorage.deleteCredentials()
+        
+        UserDefaults.standard.isUserAuthorized = false
     }
-
+    
     /// Получить список избранных тайтлов пользователя
-    func getFavorites() async throws -> [GetTitleModel] {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
-        guard let sessionId = UserDefaults.standard.getSessionId() else {
+    func getFavorites() async throws -> [TitleAPIModel] {
+        let sessionId: String
+        
+        do {
+            sessionId = try securityStorage.getSession()
+        } catch KeychainError.itemNotFound {
             throw MyNetworkError.userIsNotAuthorized
         }
+        
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
+        
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([TitleAPIModel].self, from: data)
         return decoded
     }
     
     /// Добавить тайтл в список избранных
     func addFavorite(from titleId: Int) async throws {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
-        guard let sessionId = UserDefaults.standard.getSessionId() else {
+        let sessionId: String
+        
+        do {
+            sessionId = try securityStorage.getSession()
+        } catch KeychainError.itemNotFound {
             throw MyNetworkError.userIsNotAuthorized
         }
+        
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
+        
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
             URLQueryItem(name: "title_id", value: String(titleId))
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .put)
-        let decoded = try JSONDecoder().decode(FavoriteModel.self, from: data)
+        let decoded = try jsonDecoder.decode(FavoriteAPIModel.self, from: data)
         guard let error = decoded.error else {
             return
         }
@@ -80,17 +119,23 @@ final class AuthorizationService: QueryProtocol {
     
     /// Удалить тайтл из списка избранных
     func delFavorite(from titleId: Int) async throws {
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
-        guard let sessionId = UserDefaults.standard.getSessionId() else {
+        let sessionId: String
+        
+        do {
+            sessionId = try securityStorage.getSession()
+        } catch KeychainError.itemNotFound {
             throw MyNetworkError.userIsNotAuthorized
         }
+        
+        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
+        
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
             URLQueryItem(name: "title_id", value: String(titleId))
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .del)
-        let decoded = try JSONDecoder().decode(FavoriteModel.self, from: data)
+        let decoded = try jsonDecoder.decode(FavoriteAPIModel.self, from: data)
         guard let error = decoded.error else {
             return
         }
@@ -98,7 +143,7 @@ final class AuthorizationService: QueryProtocol {
     }
     
     /// Получить информацию о пользователе
-    func profileInfo() async throws -> ProfileModel {
+    func profileInfo() async throws -> ProfileAPIModel {
         guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.profile) else {
             throw MyNetworkError.invalidURLComponents
         }
@@ -115,7 +160,7 @@ final class AuthorizationService: QueryProtocol {
               httpResponse.statusCode == 200 /* OK */ else {
             throw errorHandling(for: response)
         }
-        let decoded = try JSONDecoder().decode(ProfileModel.self, from: data)
+        let decoded = try jsonDecoder.decode(ProfileAPIModel.self, from: data)
         guard let error = decoded.error else {
             return decoded
         }

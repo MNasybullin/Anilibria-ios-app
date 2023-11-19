@@ -2,9 +2,17 @@ disabled_rules:
 - line_length
 - trailing_whitespace
 - switch_case_alignment
+- blanket_disable_command
 
 opt_in_rules:
 
+identifier_name:
+    min_length:
+            warning: 2
+            error: 1
+    max_length:
+            warning: 40
+            error: 60
 
 function_parameter_count:
     warning: 10
