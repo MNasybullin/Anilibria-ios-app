@@ -23,6 +23,8 @@ final class VideoPlayerNavigator {
     }
 }
 
+// MARK: - Navigator
+
 extension VideoPlayerNavigator: Navigator {
     enum Destinition {
         case player(
@@ -36,19 +38,36 @@ extension VideoPlayerNavigator: Navigator {
     func show(_ destination: Destinition) {
         switch destination {
             case .player(let item, let currentPlaylist, let presentatingController):
-                dissmisPlayerController()
-                let player = VideoPlayerController(
-                    animeItem: item,
-                    currentPlaylist: currentPlaylist
+                setupAndShowPlayer(
+                    item: item,
+                    currentPlaylist: currentPlaylist,
+                    presentatingController: presentatingController
                 )
-                player.navigator = self
-                playerController = player
-                player.modalPresentationStyle = .overFullScreen
-                player.isModalInPresentation = true
-                presentatingController.present(player, animated: true)
             case .series(let data):
-                let series = SeriesController(data: data)
-                playerController?.present(series, animated: true)
+                setupAndShowSeries(data: data)
         }
+    }
+    
+    private func setupAndShowPlayer(item: AnimeItem, currentPlaylist: Int, presentatingController: UIViewController) {
+        dissmisPlayerController()
+        let player = VideoPlayerController(
+            animeItem: item,
+            currentPlaylist: currentPlaylist
+        )
+        player.navigator = self
+        playerController = player
+        player.modalPresentationStyle = .overFullScreen
+        presentatingController.present(player, animated: true)
+    }
+    
+    private func setupAndShowSeries(data: AnimeItem) {
+        let series = SeriesController(data: data)
+        if let sheetController = series.sheetPresentationController {
+            sheetController.detents = [.large()]
+            sheetController.prefersGrabberVisible = true
+            sheetController.prefersEdgeAttachedInCompactHeight = true
+            sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+        }
+        playerController?.present(series, animated: true)
     }
 }
