@@ -22,32 +22,20 @@ final class NetworkMonitor {
     
     private let isConnectedSubject = PassthroughSubject<Bool, Never>()
     
-    public private(set) var isConnected: Bool = false {
+    private(set) var isConnected: Bool = false {
         didSet {
             if oldValue != isConnected {
                 isConnectedSubject.send(isConnected)
             }
         }
     }
-    public private(set) var connectionType: ConnectionType = .unknown
+    private(set) var connectionType: ConnectionType = .unknown
     
     enum ConnectionType {
         case wifi
         case cellular
         case ethernet
         case unknown
-    }
-        
-    public func startMonitoring() {
-        monitor.start(queue: queue)
-        monitor.pathUpdateHandler = { [weak self] path in
-            self?.isConnected = path.status == .satisfied
-            self?.getConnectionType(path)
-        }
-    }
-    
-    public func stopMonitoring() {
-        monitor.cancel()
     }
     
     private func getConnectionType(_ path: NWPath) {
@@ -60,5 +48,21 @@ final class NetworkMonitor {
         } else {
             connectionType = .unknown
         }
+    }
+}
+
+// MARK: - Internal methods
+
+extension NetworkMonitor {
+    func startMonitoring() {
+        monitor.start(queue: queue)
+        monitor.pathUpdateHandler = { [weak self] path in
+            self?.isConnected = path.status == .satisfied
+            self?.getConnectionType(path)
+        }
+    }
+    
+    func stopMonitoring() {
+        monitor.cancel()
     }
 }

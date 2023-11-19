@@ -7,14 +7,12 @@
 
 import Foundation
 
-final class PublicApiService: QueryProtocol {
-    // MARK: - Singleton
-    static let shared: PublicApiService = PublicApiService()
+final class PublicApiService: NetworkQuery {
     
     /// Получить информацию о тайтле по id
     /// - Parameters:
     ///     - with id: ID тайтла
-    func getTitle(with id: String) async throws -> GetTitleModel {
+    func getTitle(with id: String) async throws -> TitleAPIModel {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTitle)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id", value: id),
@@ -22,14 +20,14 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
+        let decoded = try jsonDecoder.decode(TitleAPIModel.self, from: data)
         return decoded
     }
     
     /// Получить информацию о нескольких тайтлах сразу по id
     /// - Parameters:
     ///     - with ids: IDs тайтлов через запятую. Пример ("8500,8644")
-    func getTitles(with ids: String) async throws -> [GetTitleModel] {
+    func getTitles(with ids: String) async throws -> [TitleAPIModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTitles)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id_list", value: ids),
@@ -37,7 +35,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([TitleAPIModel].self, from: data)
         return decoded
     }
     
@@ -46,7 +44,7 @@ final class PublicApiService: QueryProtocol {
     ///     - withlimit: Количество запрашиваемых объектов (По умолчанию 14)
     ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
     func getUpdates(withLimit limit: Int = 14,
-                    after: Int = 0) async throws -> [GetTitleModel] {
+                    after: Int = 0) async throws -> [TitleAPIModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getUpdates)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
@@ -55,14 +53,14 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([TitleAPIModel].self, from: data)
         return decoded
     }
     
     /// Получить список тайтлов отсортированный по времени изменения
     /// - Parameters:
     ///     - withlimit: Количество запрашиваемых объектов
-    func getChanges(with limit: Int = 5) async throws -> [GetTitleModel] {
+    func getChanges(with limit: Int = 5) async throws -> [TitleAPIModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getChanges)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
@@ -70,14 +68,14 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([TitleAPIModel].self, from: data)
         return decoded
     }
     
     /// Получить  расписание выхода тайтлов, отсортированное по дням недели
     /// - Parameters:
     ///     - withdays: Список дней недели на которые нужно расписание
-    func getSchedule(with days: [DaysOfTheWeek]) async throws -> [GetScheduleModel] {
+    func getSchedule(with days: [DaysOfTheWeek]) async throws -> [ScheduleAPIModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getSchedule)
         let daysString = days.reduce("", {$0 + String($1.rawValue) + ","})
         urlComponents?.queryItems = [
@@ -86,19 +84,19 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetScheduleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([ScheduleAPIModel].self, from: data)
         return decoded
     }
     
     /// Получить случайный тайтл из базы
-    func getRandomTitle() async throws -> GetTitleModel {
+    func getRandomTitle() async throws -> TitleAPIModel {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getRandomTitle)
         urlComponents?.queryItems = [
             URLQueryItem(name: "playlist_type", value: "array")
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode(GetTitleModel.self, from: data)
+        let decoded = try jsonDecoder.decode(TitleAPIModel.self, from: data)
         return decoded
     }
     
@@ -107,7 +105,7 @@ final class PublicApiService: QueryProtocol {
     ///     - withlimit: Количество роликов запрашиваемые у сервера. (По умолчанию 5)
     ///     - after: Удаляет первые n записей из выдачи (По умолчанию 0)
     func getYouTube(withLimit limit: Int = 5,
-                    after: Int = 0) async throws -> [GetYouTubeModel] {
+                    after: Int = 0) async throws -> [YouTubeAPIModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYouTube)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
@@ -115,7 +113,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetYouTubeModel].self, from: data)
+        let decoded = try jsonDecoder.decode([YouTubeAPIModel].self, from: data)
         return decoded
     }
     
@@ -124,7 +122,7 @@ final class PublicApiService: QueryProtocol {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getYears)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([Int].self, from: data)
+        let decoded = try jsonDecoder.decode([Int].self, from: data)
         return decoded
     }
     
@@ -140,16 +138,16 @@ final class PublicApiService: QueryProtocol {
             URLQueryItem(name: "sorting_type", value: String(sortingType))
         ]
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([String].self, from: data)
+        let decoded = try jsonDecoder.decode([String].self, from: data)
         return decoded
     }
     
     /// Возвращает список участников команды когда-либо существовавших на проекте.
-    func getTeam() async throws -> GetTeamModel {
+    func getTeam() async throws -> TeamAPIModel {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getTeam)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode(GetTeamModel.self, from: data)
+        let decoded = try jsonDecoder.decode(TeamAPIModel.self, from: data)
         return decoded
     }
     
@@ -158,7 +156,7 @@ final class PublicApiService: QueryProtocol {
         let urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getCachingNodes)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([String].self, from: data)
+        let decoded = try jsonDecoder.decode([String].self, from: data)
         return decoded
     }
     
@@ -175,7 +173,7 @@ final class PublicApiService: QueryProtocol {
                       seasonCode: String = "",
                       genres: String = "",
                       withLimit limit: Int = 10,
-                      after: Int = 0) async throws -> [GetTitleModel] {
+                      after: Int = 0) async throws -> [TitleAPIModel] {
         var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.searchTitles)
         urlComponents?.queryItems = [
             URLQueryItem(name: "search", value: search),
@@ -188,7 +186,7 @@ final class PublicApiService: QueryProtocol {
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try JSONDecoder().decode([GetTitleModel].self, from: data)
+        let decoded = try jsonDecoder.decode([TitleAPIModel].self, from: data)
         return decoded
     }
 }
