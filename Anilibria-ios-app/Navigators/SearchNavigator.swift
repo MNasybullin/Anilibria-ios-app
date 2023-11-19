@@ -56,7 +56,7 @@ extension SearchNavigator: BasicNavigator {
 
 extension SearchNavigator: Navigator {
     enum Destinition {
-        case anime(data: TitleAPIModel)
+        case anime(data: TitleAPIModel, image: UIImage?)
     }
     
     func show(_ destination: Destinition) {
@@ -67,8 +67,8 @@ extension SearchNavigator: Navigator {
     private func makeViewController(_ destination: Destinition) -> UIViewController {
         let viewController: UIViewController
         switch destination {
-            case .anime(let rawData):
-                let animeController = AnimeController(rawData: rawData)
+            case .anime(let rawData, let image):
+                let animeController = AnimeController(rawData: rawData, image: image)
                 animeController.navigator = AnimeNavigator(navigationController: navigationController)
                 viewController = animeController
         }

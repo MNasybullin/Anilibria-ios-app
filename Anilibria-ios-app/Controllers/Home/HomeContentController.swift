@@ -13,7 +13,7 @@ protocol HomeContentControllerDelegate: AnyObject {
     func refreshControlEndRefreshing()
     func hideSkeletonCollectionView()
     func reloadSection(numberOfSection: Int)
-    func didSelectItem(_ rawData: TitleAPIModel)
+    func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?)
 }
 
 final class HomeContentController: NSObject {
@@ -59,10 +59,13 @@ final class HomeContentController: NSObject {
 
 extension HomeContentController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let rawData = models[indexPath.section].getRawData(row: indexPath.row) else {
+        let section = indexPath.section
+        let row = indexPath.row
+        guard let rawData = models[section].getRawData(row: row) else {
             return
         }
-        delegate?.didSelectItem(rawData)
+        let image = data[section][row].image
+        delegate?.didSelectItem(rawData, image: image)
     }
 }
 

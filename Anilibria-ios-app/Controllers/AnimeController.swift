@@ -14,9 +14,8 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     private let model: AnimeModel
     
     // MARK: LifeCycle
-    init(rawData: TitleAPIModel) {
-        // TODO надо еще передавать изображение
-        self.model = AnimeModel(rawData: rawData)
+    init(rawData: TitleAPIModel, image: UIImage?) {
+        self.model = AnimeModel(rawData: rawData, image: image)
         super.init(nibName: nil, bundle: nil)
         
         model.delegate = self

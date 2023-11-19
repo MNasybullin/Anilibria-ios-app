@@ -11,7 +11,7 @@ import SkeletonView
 protocol ScheduleContentControllerDelegate: AnyObject {
     func hideSkeletonCollectionView()
     func reloadData()
-    func didSelectItem(_ rawData: TitleAPIModel)
+    func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?)
 }
 
 final class ScheduleContentController: NSObject {
@@ -43,7 +43,8 @@ extension ScheduleContentController: UICollectionViewDelegate {
         guard let rawData = model.getRawData(indexPath: indexPath) else {
             return
         }
-        delegate?.didSelectItem(rawData)
+        let image = data[indexPath.section].animePosterItems[indexPath.row].image
+        delegate?.didSelectItem(rawData, image: image)
     }
 }
 

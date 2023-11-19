@@ -74,8 +74,8 @@ extension HomeController: HomeViewOutput {
 // MARK: - HomeContentControllerDelegate
 
 extension HomeController: HomeContentControllerDelegate {
-    func didSelectItem(_ rawData: TitleAPIModel) {
-        navigator?.show(.anime(data: rawData))
+    func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?) {
+        navigator?.show(.anime(data: rawData, image: image))
     }
     
     func todayHeaderButtonTapped() {

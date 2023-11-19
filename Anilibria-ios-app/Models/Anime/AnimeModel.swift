@@ -13,11 +13,13 @@ protocol AnimeModelOutput: AnyObject {
 
 final class AnimeModel {
     private let rawData: TitleAPIModel
+    private var image: UIImage?
     
     weak var delegate: AnimeModelOutput?
     
-    init(rawData: TitleAPIModel) {
+    init(rawData: TitleAPIModel, image: UIImage?) {
         self.rawData = rawData
+        self.image = image
     }
 }
 
@@ -32,6 +34,7 @@ private extension AnimeModel {
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
                 }
+                self.image = image
                 delegate?.update(image: image)
             } catch {
                 print(#function, error)
@@ -44,7 +47,9 @@ private extension AnimeModel {
 
 extension AnimeModel {
     func getAnimeItem() -> AnimeItem {
-        requestImage()
-        return AnimeItem(fromTitleApiModel: rawData)
+        if image == nil {
+            requestImage()
+        }
+        return AnimeItem(fromTitleApiModel: rawData, image: image)
     }
 }

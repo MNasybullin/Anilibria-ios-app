@@ -58,7 +58,7 @@ extension HomeNavigator: BasicNavigator {
 extension HomeNavigator: Navigator {
     enum Destinition {
         case schedule
-        case anime(data: TitleAPIModel)
+        case anime(data: TitleAPIModel, image: UIImage?)
     }
     
     func show(_ destination: Destinition) {
@@ -74,8 +74,8 @@ extension HomeNavigator: Navigator {
                 scheduleController.title = Strings.ScreenTitles.schedule
                 scheduleController.navigator = self
                 viewController = scheduleController
-            case .anime(let rawData):
-                let animeController = AnimeController(rawData: rawData)
+            case .anime(let rawData, let image):
+                let animeController = AnimeController(rawData: rawData, image: image)
                 animeController.navigator = AnimeNavigator(navigationController: navigationController)
                 viewController = animeController
         }

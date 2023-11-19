@@ -19,10 +19,11 @@ struct AnimeItem {
 }
 
 extension AnimeItem {
-    init (fromTitleApiModel item: TitleAPIModel) {
+    init (fromTitleApiModel item: TitleAPIModel, image: UIImage?) {
         let playlist = item.player?.playlist?.map { Playlist(fromGTPlaylist: $0) }
         
         self.init(
+            image: image,
             ruName: item.names.ru,
             engName: item.names.en,
             seasonAndType: AnimeItem.getSeasonAndTypeText(item),

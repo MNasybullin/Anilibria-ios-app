@@ -32,8 +32,8 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
 // MARK: - ScheduleContentControllerDelegate
 
 extension ScheduleController: ScheduleContentControllerDelegate {
-    func didSelectItem(_ rawData: TitleAPIModel) {
-        navigator?.show(.anime(data: rawData))
+    func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?) {
+        navigator?.show(.anime(data: rawData, image: image))
     }
     
     func hideSkeletonCollectionView() {

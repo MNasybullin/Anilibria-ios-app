@@ -20,6 +20,7 @@ final class RandomAnimeModel {
     
     private (set) var isDataTaskLoading = false
     private var rawData: TitleAPIModel?
+    private var image: UIImage?
     
     private func requestData(completionHandler: @escaping ResultDataBlock) {
         guard isDataTaskLoading == false else { return }
@@ -33,6 +34,7 @@ final class RandomAnimeModel {
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
                 }
+                self.image = image
                 rawData = titleModel
                 let randomAnimeItem = RandomAnimeItem(from: titleModel, image: image)
                 completionHandler(.success(randomAnimeItem))
@@ -53,7 +55,8 @@ final class RandomAnimeModel {
         }
     }
     
-    func getRawData() -> TitleAPIModel? {
-        return rawData
+    func getRawData() -> (TitleAPIModel?, UIImage?) {
+        return (rawData, image)
     }
+    
 }
