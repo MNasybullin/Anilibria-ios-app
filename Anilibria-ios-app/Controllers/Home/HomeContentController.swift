@@ -11,6 +11,7 @@ import SkeletonView
 protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
     func refreshControlEndRefreshing()
+    func showSkeletonCollectionView()
     func hideSkeletonCollectionView()
     func reloadSection(numberOfSection: Int)
     func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?)
@@ -33,14 +34,17 @@ final class HomeContentController: NSObject {
         return [todayModel, updatesModel]
     }()
     
-    private var isSkeletonView = true
+    private var isSkeletonView: Bool
     
     init(delegate: HomeContentControllerDelegate?) {
         self.delegate = delegate
+        isSkeletonView = true
         super.init()
     }
     
     func requestInitialData() {
+        isSkeletonView = true
+        delegate?.showSkeletonCollectionView()
         models.forEach {
             $0.requestData()
         }

@@ -42,7 +42,6 @@ private extension HomeController {
     }
     
     func requestData() {
-        customView.showSkeletonCollectionView()
         contentController.requestInitialData()
     }
     
@@ -84,6 +83,10 @@ extension HomeController: HomeContentControllerDelegate {
     
     func refreshControlEndRefreshing() {
         customView.refreshControlEndRefreshing()
+    }
+    
+    func showSkeletonCollectionView() {
+        customView.showSkeletonCollectionView()
     }
     
     func hideSkeletonCollectionView() {
