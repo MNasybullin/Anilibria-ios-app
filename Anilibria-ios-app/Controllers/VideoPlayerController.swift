@@ -75,12 +75,16 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
         }
     }
     
+    private func willDismiss() {
+        AppOrientation.updateOrientation(to: self, .portrait, animated: false)
+    }
+    
     deinit {
         nowPlayingInfoCenter.nowPlayingInfo = nil
     }
 }
 
-// MARK: - Private methods
+// MARK: - Setup methods
 
 private extension VideoPlayerController {
     func setupView() {
@@ -89,16 +93,12 @@ private extension VideoPlayerController {
         customView.setTitle(model.getTitle())
         customView.setSubtitle(model.getSubtitle())
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoPlayerDidTapped))
-        customView.addGestureRecognizer(tapGesture)
+        setupGestures()
     }
     
-    @objc func videoPlayerDidTapped() {
-        if customView.isOverlaysHidden {
-            customView.showOverlay()
-        } else {
-            customView.hideOverlay()
-        }
+    func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoPlayerDidTapped))
+        customView.addGestureRecognizer(tapGesture)
     }
     
     func setupPictureInPicture() {
@@ -143,7 +143,61 @@ private extension VideoPlayerController {
         
         nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
     }
+}
+
+// MARK: VideoPlayer methods
+
+extension VideoPlayerController {
+    @objc func videoPlayerDidTapped() {
+        if customView.isOverlaysHidden {
+            customView.showOverlay()
+        } else {
+            customView.hideOverlay()
+        }
+    }
     
+    func configurePlayerTime(time: Float) {
+        configureLeftRightTime(time: time)
+        customView.setPlaybackSlider(value: time)
+        
+        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = Double(time)
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0
+        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
+    }
+    
+    private func configureLeftRightTime(time: Float) {
+        let leftTime = stringFromTimeInterval(interval: TimeInterval(time))
+        customView.setLeftTime(text: leftTime)
+        
+        if let duration = player.currentItem?.duration {
+            let interval = duration.seconds - Double(time)
+            let rightTime = stringFromTimeInterval(interval: interval)
+            customView.setRightTime(text: "-" + rightTime)
+        }
+    }
+    
+    private func stringFromTimeInterval(interval: TimeInterval) -> String {
+        let interval = Int(interval)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        let hours = (interval / 3600)
+        if hours == 0 {
+            return String(format: "%2d:%02d", minutes, seconds)
+        } else {
+            return String(format: "%2d:%02d:%02d", hours, minutes, seconds)
+        }
+    }
+    
+    private func playVideo() {
+        customView.showOverlay()
+        customView.hideActivityIndicator()
+        player.play()
+    }
+}
+
+// MARK: - Observers And Subscriptions methods
+
+private extension VideoPlayerController {
     func addPeriodicTimeObserver() {
         let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
@@ -158,39 +212,7 @@ private extension VideoPlayerController {
         }
     }
     
-    func stringFromTimeInterval(interval: TimeInterval) -> String {
-        let interval = Int(interval)
-        let seconds = interval % 60
-        let minutes = (interval / 60) % 60
-        let hours = (interval / 3600)
-        if hours == 0 {
-            return String(format: "%02d:%02d", minutes, seconds)
-        } else {
-            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-        }
-    }
-    
-    func playVideo() {
-        customView.showOverlay()
-        customView.hideActivityIndicator()
-        player.play()
-    }
-    
-    func willDismiss() {
-        AppOrientation.updateOrientation(to: self, .portrait, animated: false)
-    }
-}
-
-// MARK: - VideoPlayerModelDelegate
-
-extension VideoPlayerController: VideoPlayerModelDelegate {
-    func configurePlayerItem(url: URL) {
-        let asset = AVAsset(url: url)
-        let playerItem = AVPlayerItem(
-            asset: asset,
-            automaticallyLoadedAssetKeys: [.tracks, .duration, .commonMetadata]
-        )
-        
+    func playerItemSubscriptions(playerItem: AVPlayerItem) {
         playerItem.publisher(for: \.status)
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
@@ -204,8 +226,8 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
                         playVideo()
                     case .failed:
                         print("STATUS = failed")
-                        print(playerItem.errorLog())
-                        print(playerItem.error)
+                        print(playerItem.errorLog() ?? "")
+                        print(playerItem.error ?? "")
                     default:
                         break
                 }
@@ -223,9 +245,9 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
                 }
             }
             .store(in: &subscriptions)
-        
-        player.replaceCurrentItem(with: playerItem)
-        
+    }
+    
+    func playerSubscriptions() {
         player.publisher(for: \.timeControlStatus)
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
@@ -244,6 +266,22 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
                 nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
             }
             .store(in: &subscriptions)
+    }
+}
+
+// MARK: - VideoPlayerModelDelegate
+
+extension VideoPlayerController: VideoPlayerModelDelegate {
+    func configurePlayerItem(url: URL) {
+        let asset = AVAsset(url: url)
+        let playerItem = AVPlayerItem(
+            asset: asset,
+            automaticallyLoadedAssetKeys: [.tracks, .duration, .commonMetadata]
+        )
+        player.replaceCurrentItem(with: playerItem)
+        
+        playerSubscriptions()
+        playerItemSubscriptions(playerItem: playerItem)
     }
 }
 
@@ -306,26 +344,6 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
                 default:
                     break
             }
-        }
-    }
-    
-    func configurePlayerTime(time: Float) {
-        configureLeftRightTime(time: time)
-        customView.setPlaybackSlider(value: time)
-        
-        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = Double(time)
-        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0
-        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
-    }
-    
-    private func configureLeftRightTime(time: Float) {
-        let leftTime = stringFromTimeInterval(interval: TimeInterval(time))
-        customView.setLeftTime(text: leftTime)
-        
-        if let duration = player.currentItem?.duration {
-            let interval = duration.seconds - Double(time)
-            let rightTime = stringFromTimeInterval(interval: interval)
-            customView.setRightTime(text: "-" + rightTime)
         }
     }
     
