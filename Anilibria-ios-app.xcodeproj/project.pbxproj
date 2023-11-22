@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */; };
 		270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */; };
+		2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */; };
 		271072DA2ADDB7CF0024530D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072D92ADDB7CF0024530D /* HomeController.swift */; };
 		271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072DB2ADDBA3E0024530D /* HomeView.swift */; };
 		271072E32ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072E22ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift */; };
@@ -108,11 +109,12 @@
 		27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707242AF5599100DD8DC6 /* HasSearchBar.swift */; };
 		27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
+		27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */; };
 		27EA393129C5FBBB00D777AE /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */; };
 		27EA50842AFBD54700A1B987 /* VideoPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */; };
-		27EA50862AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50852AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift */; };
+		27EA50862AFE2DDB00A1B987 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50852AFE2DDB00A1B987 /* VideoPlayerView.swift */; };
 		27EA50892AFE321A00A1B987 /* TopOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50882AFE321A00A1B987 /* TopOverlayView.swift */; };
 		27EA508B2AFE327800A1B987 /* MiddleOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA508A2AFE327800A1B987 /* MiddleOverlayView.swift */; };
 		27EA508D2B00140F00A1B987 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA508C2B00140F00A1B987 /* UIImage+Extension.swift */; };
@@ -145,6 +147,7 @@
 /* Begin PBXFileReference section */
 		2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifierExtensions.swift; sourceTree = "<group>"; };
+		2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerRemoteCommandCenterController.swift; sourceTree = "<group>"; };
 		271072D92ADDB7CF0024530D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		271072DB2ADDBA3E0024530D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		271072E22ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimePosterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -244,11 +247,12 @@
 		27B707242AF5599100DD8DC6 /* HasSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasSearchBar.swift; sourceTree = "<group>"; };
 		27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOrientation.swift; sourceTree = "<group>"; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsErrorFooterView.swift; sourceTree = "<group>"; };
 		27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerController.swift; sourceTree = "<group>"; };
-		27EA50852AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerOverlayView.swift; sourceTree = "<group>"; };
+		27EA50852AFE2DDB00A1B987 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		27EA50882AFE321A00A1B987 /* TopOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopOverlayView.swift; sourceTree = "<group>"; };
 		27EA508A2AFE327800A1B987 /* MiddleOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleOverlayView.swift; sourceTree = "<group>"; };
 		27EA508C2B00140F00A1B987 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -506,6 +510,7 @@
 				27B707192AF3A56800DD8DC6 /* SearchResultsController.swift */,
 				27B707152AF2ABAB00DD8DC6 /* SearchController.swift */,
 				27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */,
+				2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */,
 				27B707092AF2572A00DD8DC6 /* Series */,
 				2748DD022AEBFD6900D53E9B /* Schedule */,
 				2748DCFF2AEBD89E00D53E9B /* Home */,
@@ -560,6 +565,7 @@
 				278356AF2ABF3A5600878B8F /* Extensions */,
 				2758657D2ACF006D00F98884 /* Keychain */,
 				27A66E5129771D4500369EAF /* Alert.swift */,
+				27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -663,7 +669,7 @@
 		27EA50872AFE2DFF00A1B987 /* VideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				27EA50852AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift */,
+				27EA50852AFE2DDB00A1B987 /* VideoPlayerView.swift */,
 				27EA50882AFE321A00A1B987 /* TopOverlayView.swift */,
 				27EA508A2AFE327800A1B987 /* MiddleOverlayView.swift */,
 				27EA50922B014E4600A1B987 /* MiddleOverlayButton.swift */,
@@ -886,6 +892,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */,
+				2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */,
 				2748DD0C2AEE5D7E00D53E9B /* AnimeItem.swift in Sources */,
 				27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */,
 				275865AF2AD9C97700F98884 /* TabBarController.swift in Sources */,
@@ -945,6 +952,7 @@
 				271A0E3C2AE97F10005958CB /* ScheduleModel.swift in Sources */,
 				270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */,
 				27F8D8E529C2245900D8F4D1 /* SearchResultsHeaderView.swift in Sources */,
+				27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */,
 				279E4F35289D0304008038FF /* FavoriteAPIModel.swift in Sources */,
 				27B7070B2AF290A900DD8DC6 /* RandomAnimeController.swift in Sources */,
 				275865C12ADADC3B00F98884 /* SignInView.swift in Sources */,
@@ -955,7 +963,7 @@
 				275865C32ADAEB2800F98884 /* HasCustomView.swift in Sources */,
 				2784BA1F2AF97841004E9B54 /* RandomAnimeRefreshButton.swift in Sources */,
 				271072E32ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift in Sources */,
-				27EA50862AFE2DDB00A1B987 /* VideoPlayerOverlayView.swift in Sources */,
+				27EA50862AFE2DDB00A1B987 /* VideoPlayerView.swift in Sources */,
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
 				275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */,
 				2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */,

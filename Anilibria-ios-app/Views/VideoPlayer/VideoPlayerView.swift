@@ -1,5 +1,5 @@
 //
-//  VideoPlayerOverlayView.swift
+//  VideoPlayerView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 10.11.2023.
@@ -8,11 +8,11 @@
 import UIKit
 import AVKit
 
-protocol VideoPlayerOverlayViewDelegate: AnyObject {
-    func didTapGesture()
+protocol VideoPlayerViewDelegate: AnyObject, TopOverlayViewDelegate, MiddleOverlayViewDelegate, BottomOverlayViewDelegate, AVRoutePickerViewDelegate {
+    
 }
 
-final class VideoPlayerOverlayView: UIView {
+final class VideoPlayerView: UIView {
     private enum Constants {
         static let backgroundColor = UIColor.black.withAlphaComponent(0.65)
     }
@@ -21,9 +21,11 @@ final class VideoPlayerOverlayView: UIView {
         case portrait, landscape
     }
     
-    let topView = TopOverlayView()
-    let middleView = MiddleOverlayView()
-    let bottomView = BottomOverlayView()
+    private let playerLayer: AVPlayerLayer
+    private let backgroundLayer = CALayer()
+    private let topView = TopOverlayView()
+    private let middleView = MiddleOverlayView()
+    private let bottomView = BottomOverlayView()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
@@ -40,59 +42,49 @@ final class VideoPlayerOverlayView: UIView {
     
     private (set) var isOverlaysHidden = false
     
-    weak var delegate: VideoPlayerOverlayViewDelegate?
-    
-    var topViewDelegate: TopOverlayViewDelegate? {
-        get { topView.delegate }
-        set { topView.delegate = newValue }
+    weak var delegate: VideoPlayerViewDelegate? {
+        didSet {
+            topView.delegate = delegate
+            topView.routePickerViewDelegate = delegate
+            middleView.delegate = delegate
+            bottomView.delegate = delegate
+        }
     }
     
-    var middleViewDelegate: MiddleOverlayViewDelegate? {
-        get { middleView.delegate }
-        set { middleView.delegate = newValue }
-    }
-    
-    var bottomViewDelegate: BottomOverlayViewDelegate? {
-        get { bottomView.delegate }
-        set { bottomView.delegate = newValue }
-    }
-    
-    var routePickerViewDelegate: AVRoutePickerViewDelegate? {
-        get { topView.routePickerViewDelegate }
-        set { topView.routePickerViewDelegate = newValue }
-    }
-    
-    init() {
+    init(playerLayer: AVPlayerLayer) {
+        self.playerLayer = playerLayer
         super.init(frame: .zero)
+        
         configureView()
-        configureTapGR()
         configureLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer.frame = bounds
+        backgroundLayer.frame = bounds
+    }
 }
 
 // MARK: - Private methods
 
-private extension VideoPlayerOverlayView {
+private extension VideoPlayerView {
     func configureView() {
-        backgroundColor = Constants.backgroundColor
+        layer.addSublayer(playerLayer)
+        layer.addSublayer(backgroundLayer)
+        
+        backgroundColor = .black
+        backgroundLayer.backgroundColor = Constants.backgroundColor.cgColor
         
         topView.isHidden = false
         middleView.isHidden = true
         bottomView.isHidden = true
+        
         showActivityIndicator()
-    }
-    
-    func configureTapGR() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
-        addGestureRecognizer(tapGesture)
-    }
-    
-    @objc func tapGesture() {
-        delegate?.didTapGesture()
     }
     
     func configureLayout() {
@@ -141,7 +133,7 @@ private extension VideoPlayerOverlayView {
 
 // MARK: - Inrernal methods
 
-extension VideoPlayerOverlayView {
+extension VideoPlayerView {
     func updateConstraints(orientation: Orientation) {
         switch orientation {
             case .portrait:
@@ -163,7 +155,7 @@ extension VideoPlayerOverlayView {
                 $0.alpha = 1
             }
             
-            backgroundColor = Constants.backgroundColor
+            backgroundLayer.backgroundColor = Constants.backgroundColor.cgColor
             
             NSLayoutConstraint.deactivate(hideConstraints)
             NSLayoutConstraint.activate(showConstraints)
@@ -174,7 +166,7 @@ extension VideoPlayerOverlayView {
     func hideOverlay() {
         isOverlaysHidden = true
         UIView.animate(withDuration: 0.35) { [self] in
-            backgroundColor = .clear
+            backgroundLayer.backgroundColor = UIColor.clear.cgColor
             
             [topView, middleView, bottomView].forEach {
                 $0.alpha = 0
@@ -228,5 +220,9 @@ extension VideoPlayerOverlayView {
     
     func setPIPButton(isHidden: Bool) {
         topView.setPIPButton(isHidden: isHidden)
+    }
+    
+    func playPauseButton(isSelected: Bool) {
+        middleView.playPauseButton(isSelected: isSelected)
     }
 }

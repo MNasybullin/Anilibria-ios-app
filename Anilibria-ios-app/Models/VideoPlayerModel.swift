@@ -5,7 +5,7 @@
 //  Created by Mansur Nasybullin on 12.11.2023.
 //
 
-import Foundation
+import UIKit
 
 protocol VideoPlayerModelDelegate: AnyObject {
     func configurePlayerItem(url: URL)
@@ -65,5 +65,9 @@ extension VideoPlayerModel {
     
     func getSubtitle() -> String {
         return animeItem.playlist[currentPlaylist].serieString
+    }
+    
+    func getAnimeImage() -> UIImage? {
+        return animeItem.image
     }
 }

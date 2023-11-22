@@ -7,27 +7,44 @@
 
 import AVKit
 import Combine
+import MediaPlayer
 
-final class VideoPlayerController: UIViewController, VideoPlayerFlow {
+final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomView {
+    typealias CustomView = VideoPlayerView
+    
     weak var navigator: VideoPlayerNavigator?
     
     private lazy var player = AVPlayer()
     private lazy var playerLayer = AVPlayerLayer(player: player)
     private var pipController: AVPictureInPictureController?
-    private lazy var overlayView = VideoPlayerOverlayView()
     private let model: VideoPlayerModel
+    private let remoteCommandCenterController = VideoPlayerRemoteCommandCenterController()
+    private let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
     
     private var subscriptions = Set<AnyCancellable>()
     private var timeObserverToken: Any?
     
+    private var nowPlayingInfo = [String: Any]()
+    
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+    
     // MARK: LifeCycle
     init(animeItem: AnimeItem, currentPlaylist: Int) {
-        model = VideoPlayerModel(animeItem: animeItem, currentPlaylist: currentPlaylist)
+        model = VideoPlayerModel(
+            animeItem: animeItem,
+            currentPlaylist: currentPlaylist
+        )
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        view = VideoPlayerView(playerLayer: playerLayer)
     }
     
     override func viewDidLoad() {
@@ -38,42 +55,28 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow {
         addPeriodicTimeObserver()
         model.delegate = self
         model.requestCachingNodes()
+        setNeedsUpdateOfHomeIndicatorAutoHidden()
+        setupRemoteCommandCenterController()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
-        appDelegate?.currentOrientationMode = .allButUpsideDown
-        if #available(iOS 16.0, *) {
-            setNeedsUpdateOfSupportedInterfaceOrientations()
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
-        appDelegate?.currentOrientationMode = .portrait
-        if #available(iOS 16.0, *) {
-            UIView.performWithoutAnimation {
-                setNeedsUpdateOfSupportedInterfaceOrientations()
-            }
-        }
-    }
-    
-    override public func viewDidLayoutSubviews() {
-      super.viewDidLayoutSubviews()
-        playerLayer.frame = view.bounds
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AppOrientation.updateOrientation(to: self, .allButUpsideDown, animated: true)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate { _ in
             if size.width > size.height {
-                self.overlayView.updateConstraints(orientation: .landscape)
+                self.customView.updateConstraints(orientation: .landscape)
             } else {
-                self.overlayView.updateConstraints(orientation: .portrait)
+                self.customView.updateConstraints(orientation: .portrait)
             }
         }
+    }
+    
+    deinit {
+        nowPlayingInfoCenter.nowPlayingInfo = nil
     }
 }
 
@@ -81,34 +84,26 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow {
 
 private extension VideoPlayerController {
     func setupView() {
-        view.backgroundColor = .black
-        view.layer.addSublayer(playerLayer)
-        setupOverlayView()
+        customView.delegate = self
+        
+        customView.setTitle(model.getTitle())
+        customView.setSubtitle(model.getSubtitle())
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoPlayerDidTapped))
+        customView.addGestureRecognizer(tapGesture)
     }
     
-    func setupOverlayView() {
-        overlayView.delegate = self
-        overlayView.topViewDelegate = self
-        overlayView.middleViewDelegate = self
-        overlayView.bottomViewDelegate = self
-        overlayView.routePickerViewDelegate = self
-        
-        overlayView.setTitle(model.getTitle())
-        overlayView.setSubtitle(model.getSubtitle())
-        
-        view.addSubview(overlayView)
-        overlayView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            overlayView.topAnchor.constraint(equalTo: view.topAnchor),
-            overlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            overlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+    @objc func videoPlayerDidTapped() {
+        if customView.isOverlaysHidden {
+            customView.showOverlay()
+        } else {
+            customView.hideOverlay()
+        }
     }
     
     func setupPictureInPicture() {
         guard AVPictureInPictureController.isPictureInPictureSupported() else {
-            overlayView.setPIPButton(isHidden: true)
+            customView.setPIPButton(isHidden: true)
             return
         }
         
@@ -122,9 +117,31 @@ private extension VideoPlayerController {
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isPictureInPicturePossible in
-                self?.overlayView.setPIPButton(isHidden: !isPictureInPicturePossible)
+                self?.customView.setPIPButton(isHidden: !isPictureInPicturePossible)
             }
             .store(in: &subscriptions)
+    }
+    
+    func setupRemoteCommandCenterController() {
+        remoteCommandCenterController.setup(with: self, player: player)
+    }
+    
+    func setupInfoCenter(duration: Float) {
+        nowPlayingInfo = [
+            MPMediaItemPropertyTitle: model.getTitle(),
+            MPMediaItemPropertyArtist: model.getSubtitle(),
+            MPMediaItemPropertyPlaybackDuration: duration,
+            MPNowPlayingInfoPropertyPlaybackQueueCount: 1 as AnyObject,
+            MPNowPlayingInfoPropertyPlaybackQueueIndex: 0 as AnyObject,
+            MPMediaItemPropertyMediaType: MPMediaType.movie.rawValue as AnyObject
+        ]
+        if let image = model.getAnimeImage() {
+            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { _ in
+                return image
+            })
+        }
+        
+        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
     }
     
     func addPeriodicTimeObserver() {
@@ -135,13 +152,9 @@ private extension VideoPlayerController {
                   currentItem.status == .readyToPlay else {
                 return
             }
-            
-            overlayView.setPlaybackSlider(value: Float(time.seconds))
-            let leftTime = self.stringFromTimeInterval(interval: time.seconds)
-            overlayView.setLeftTime(text: leftTime)
-            let durationFloat = Float64(CMTimeGetSeconds(currentItem.duration))
-            let rightTime = self.stringFromTimeInterval(interval: durationFloat - time.seconds)
-            overlayView.setRightTime(text: "-" + rightTime)
+            let floatTime = Float(time.seconds)
+            customView.setPlaybackSlider(value: floatTime)
+            configureLeftRightTime(time: floatTime)
         }
     }
     
@@ -158,15 +171,14 @@ private extension VideoPlayerController {
     }
     
     func playVideo() {
-        overlayView.showOverlay()
-        overlayView.hideActivityIndicator()
+        customView.showOverlay()
+        customView.hideActivityIndicator()
         player.play()
     }
-}
-
-// MARK: - Internal methods
-
-extension VideoPlayerController {
+    
+    func willDismiss() {
+        AppOrientation.updateOrientation(to: self, .portrait, animated: false)
+    }
 }
 
 // MARK: - VideoPlayerModelDelegate
@@ -186,12 +198,14 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
                 guard let self else { return }
                 switch status {
                     case .readyToPlay:
-                        let duration = Float(CMTimeGetSeconds(playerItem.duration))
-                        overlayView.setPlaybackSlider(duration: duration)
-                        
+                        let duration = Float(playerItem.duration.seconds)
+                        customView.setPlaybackSlider(duration: duration)
+                        setupInfoCenter(duration: duration)
                         playVideo()
                     case .failed:
                         print("STATUS = failed")
+                        print(playerItem.errorLog())
+                        print(playerItem.error)
                     default:
                         break
                 }
@@ -203,34 +217,42 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isPlaybackLikelyToKeepUp in
                 if isPlaybackLikelyToKeepUp == false {
-                    self?.overlayView.showActivityIndicator()
+                    self?.customView.showActivityIndicator()
                 } else {
-                    self?.overlayView.hideActivityIndicator()
+                    self?.customView.hideActivityIndicator()
                 }
             }
             .store(in: &subscriptions)
         
         player.replaceCurrentItem(with: playerItem)
+        
+        player.publisher(for: \.timeControlStatus)
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] timeControlStatus in
+                guard let self else { return }
+                let currentTime = player.currentTime().seconds
+                switch timeControlStatus {
+                    case .playing:
+                        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1
+                    case .waitingToPlayAtSpecifiedRate, .paused:
+                        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0
+                    @unknown default:
+                        return
+                }
+                nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = currentTime
+                nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
+            }
+            .store(in: &subscriptions)
     }
 }
 
-// MARK: - VideoPlayerOverlayViewDelegate
+// MARK: - VideoPlayerViewDelegate
 
-extension VideoPlayerController: VideoPlayerOverlayViewDelegate {
-    func didTapGesture() {
-        if overlayView.isOverlaysHidden {
-            overlayView.showOverlay()
-        } else {
-            overlayView.hideOverlay()
-        }
-    }
-}
-
-// MARK: - TopOverlayViewDelegate
-
-extension VideoPlayerController: TopOverlayViewDelegate {
+extension VideoPlayerController: VideoPlayerViewDelegate {
+    // MARK: TopView
     func closeButtonDidTapped() {
-        navigator?.playerController = nil
+        willDismiss()
         dismiss(animated: true)
     }
     
@@ -245,11 +267,8 @@ extension VideoPlayerController: TopOverlayViewDelegate {
     func settingsButtonDidTapped() {
         print(#function)
     }
-}
-
-// MARK: - MiddleOverlayViewDelegate
-
-extension VideoPlayerController: MiddleOverlayViewDelegate {
+    
+    // MARK: MiddleView
     func backwardButtonDidTapped() {
         guard let duration = player.currentItem?.duration else { return }
         let targetTime = max(.zero, player.currentTime() - CMTime(seconds: 10, preferredTimescale: duration.timescale))
@@ -270,20 +289,10 @@ extension VideoPlayerController: MiddleOverlayViewDelegate {
         let targetTime = min(duration, player.currentTime() + CMTime(seconds: 10, preferredTimescale: duration.timescale))
         player.seek(to: targetTime)
     }
-}
-
-// MARK: - BottomOverlayViewDelegate
-
-extension VideoPlayerController: BottomOverlayViewDelegate {
-    func playbackSliderDidChanged(_ slider: UISlider, event: UIEvent) {
-        let leftTime = stringFromTimeInterval(interval: TimeInterval(slider.value))
-        overlayView.setLeftTime(text: leftTime)
-        
-        if let duration = player.currentItem?.duration {
-            let interval = duration.seconds - Double(slider.value)
-            let rightTime = stringFromTimeInterval(interval: interval)
-            overlayView.setRightTime(text: "-" + rightTime)
-        }
+    
+    // MARK: BottomView
+    @objc func playbackSliderDidChanged(_ slider: UISlider, event: UIEvent) {
+        configurePlayerTime(time: slider.value)
         
         let seconds = Int64(slider.value)
         let targetTime = CMTimeMake(value: seconds, timescale: 1)
@@ -300,31 +309,42 @@ extension VideoPlayerController: BottomOverlayViewDelegate {
         }
     }
     
+    func configurePlayerTime(time: Float) {
+        configureLeftRightTime(time: time)
+        customView.setPlaybackSlider(value: time)
+        
+        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = Double(time)
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0
+        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
+    }
+    
+    private func configureLeftRightTime(time: Float) {
+        let leftTime = stringFromTimeInterval(interval: TimeInterval(time))
+        customView.setLeftTime(text: leftTime)
+        
+        if let duration = player.currentItem?.duration {
+            let interval = duration.seconds - Double(time)
+            let rightTime = stringFromTimeInterval(interval: interval)
+            customView.setRightTime(text: "-" + rightTime)
+        }
+    }
+    
     func seriesButtonDidTapped() {
         let data = model.getData()
-        navigator?.show(.series(data: data))
+        navigator?.show(.series(data: data, presentatingController: self))
     }
-}
-
-extension VideoPlayerController: AVRoutePickerViewDelegate {
-//    func routePickerViewWillBeginPresentingRoutes(_ routePickerView: AVRoutePickerView) {
-//
-//    }
-    
-//    func routePickerViewDidEndPresentingRoutes(_ routePickerView: AVRoutePickerView) {
-//
-//    }
 }
 
 // MARK: - AVPictureInPictureControllerDelegate
 
 extension VideoPlayerController: AVPictureInPictureControllerDelegate {
     func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        overlayView.hideOverlay()
+        customView.hideOverlay()
         navigator?.playerController = self
     }
     
     func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        willDismiss()
         dismiss(animated: true)
     }
     

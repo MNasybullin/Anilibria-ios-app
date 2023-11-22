@@ -16,7 +16,7 @@ protocol TopOverlayViewDelegate: AnyObject {
 }
 
 final class TopOverlayView: UIView {
-    typealias Orientation = VideoPlayerOverlayView.Orientation
+    typealias Orientation = VideoPlayerView.Orientation
     
     weak var delegate: TopOverlayViewDelegate?
     

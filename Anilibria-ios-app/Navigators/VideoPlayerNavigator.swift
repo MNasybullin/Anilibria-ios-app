@@ -14,9 +14,11 @@ protocol VideoPlayerFlow: AnyObject {
 
 final class VideoPlayerNavigator {
     static let shared = VideoPlayerNavigator()
-        
+    
+    /// For PIP
     var playerController: VideoPlayerController?
     
+    /// When PIP is active
     private func dissmisPlayerController() {
         playerController?.dismiss(animated: true)
         playerController = nil
@@ -32,7 +34,7 @@ extension VideoPlayerNavigator: Navigator {
             currentPlaylist: Int,
             presentatingController: UIViewController
         )
-        case series(data: AnimeItem)
+        case series(data: AnimeItem, presentatingController: UIViewController)
     }
     
     func show(_ destination: Destinition) {
@@ -43,8 +45,11 @@ extension VideoPlayerNavigator: Navigator {
                     currentPlaylist: currentPlaylist,
                     presentatingController: presentatingController
                 )
-            case .series(let data):
-                setupAndShowSeries(data: data)
+            case .series(let data, let presentatingController):
+                setupAndShowSeries(
+                    data: data,
+                    presentatingController: presentatingController
+                )
         }
     }
     
@@ -55,12 +60,11 @@ extension VideoPlayerNavigator: Navigator {
             currentPlaylist: currentPlaylist
         )
         player.navigator = self
-        playerController = player
         player.modalPresentationStyle = .overFullScreen
         presentatingController.present(player, animated: true)
     }
     
-    private func setupAndShowSeries(data: AnimeItem) {
+    private func setupAndShowSeries(data: AnimeItem, presentatingController: UIViewController) {
         let series = SeriesController(data: data)
         if let sheetController = series.sheetPresentationController {
             sheetController.detents = [.large()]
@@ -68,6 +72,6 @@ extension VideoPlayerNavigator: Navigator {
             sheetController.prefersEdgeAttachedInCompactHeight = true
             sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true
         }
-        playerController?.present(series, animated: true)
+        presentatingController.present(series, animated: true)
     }
 }
