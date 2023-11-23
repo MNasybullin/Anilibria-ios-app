@@ -11,6 +11,7 @@
 		270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */; };
 		2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */; };
 		2704E42E2B0E86010082507F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704E42D2B0E86010082507F /* PlayerView.swift */; };
+		2704E4302B0F9AFB0082507F /* VideoPlayerPiPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704E42F2B0F9AFB0082507F /* VideoPlayerPiPController.swift */; };
 		271072DA2ADDB7CF0024530D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072D92ADDB7CF0024530D /* HomeController.swift */; };
 		271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072DB2ADDBA3E0024530D /* HomeView.swift */; };
 		271072E32ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072E22ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift */; };
@@ -150,6 +151,7 @@
 		2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifierExtensions.swift; sourceTree = "<group>"; };
 		2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerRemoteCommandCenterController.swift; sourceTree = "<group>"; };
 		2704E42D2B0E86010082507F /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		2704E42F2B0F9AFB0082507F /* VideoPlayerPiPController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerPiPController.swift; sourceTree = "<group>"; };
 		271072D92ADDB7CF0024530D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		271072DB2ADDBA3E0024530D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		271072E22ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimePosterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 			children = (
 				27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */,
 				2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */,
+				2704E42F2B0F9AFB0082507F /* VideoPlayerPiPController.swift */,
 			);
 			path = VideoPlayer;
 			sourceTree = "<group>";
@@ -995,6 +998,7 @@
 				2754F63128A94525003485E6 /* ViewPreview.swift in Sources */,
 				27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */,
 				272D6541288EC4EC00FA4F60 /* IB-Scenes+Generated.swift in Sources */,
+				2704E4302B0F9AFB0082507F /* VideoPlayerPiPController.swift in Sources */,
 				27EA50842AFBD54700A1B987 /* VideoPlayerController.swift in Sources */,
 				271A0E362AE90341005958CB /* ScheduleView.swift in Sources */,
 				271A0E262AE7F32C005958CB /* HomeModelOutput.swift in Sources */,

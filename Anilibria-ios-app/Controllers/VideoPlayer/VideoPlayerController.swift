@@ -15,7 +15,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     weak var navigator: VideoPlayerNavigator?
     
     private lazy var player = AVPlayer()
-    private var pipController: AVPictureInPictureController?
+    private var pipController: VideoPlayerPiPController?
     private let model: VideoPlayerModel
     private let remoteCommandCenterController = VideoPlayerRemoteCommandCenterController()
     private let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
@@ -52,7 +52,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
         super.viewDidLoad()
         
         setupView()
-        setupPictureInPicture()
+        setupPiPController()
         addPeriodicTimeObserver()
         model.delegate = self
         model.requestCachingNodes()
@@ -76,7 +76,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
         }
     }
     
-    private func willDismiss() {
+    func willDismiss() {
         AppOrientation.updateOrientation(to: self, .portrait, animated: false)
     }
     
@@ -98,29 +98,15 @@ private extension VideoPlayerController {
     }
     
     func setupGestures() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoPlayerDidTapped))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTappedGesture))
         customView.addGestureRecognizer(tapGesture)
+        
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(didPinchedGesture))
+        customView.addGestureRecognizer(pinchGesture)
     }
     
-    func setupPictureInPicture() {
-        guard AVPictureInPictureController.isPictureInPictureSupported() else {
-            customView.setPIPButton(isHidden: true)
-            return
-        }
-        
-        pipController = AVPictureInPictureController(playerLayer: customView.playerView.playerLayer)
-        guard let pipController else {
-            return
-        }
-        pipController.delegate = self
-        
-        pipController.publisher(for: \.isPictureInPicturePossible)
-            .removeDuplicates()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isPictureInPicturePossible in
-                self?.customView.setPIPButton(isHidden: !isPictureInPicturePossible)
-            }
-            .store(in: &subscriptions)
+    func setupPiPController() {
+        pipController = VideoPlayerPiPController(videoPlayerController: self)
     }
     
     func setupRemoteCommandCenterController() {
@@ -149,11 +135,23 @@ private extension VideoPlayerController {
 // MARK: VideoPlayer methods
 
 extension VideoPlayerController {
-    @objc func videoPlayerDidTapped() {
+    @objc func didTappedGesture() {
         if customView.isOverlaysHidden {
             customView.showOverlay()
         } else {
             customView.hideOverlay()
+        }
+    }
+    
+    @objc func didPinchedGesture(_ gesture: UIPinchGestureRecognizer) {
+        guard gesture.state == .changed else {
+            return
+        }
+        
+        if gesture.scale < 1.0 {
+            customView.playerView.playerLayer.videoGravity = .resizeAspect
+        } else {
+            customView.playerView.playerLayer.videoGravity = .resizeAspectFill
         }
     }
     
@@ -351,37 +349,5 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     func seriesButtonDidTapped() {
         let data = model.getData()
         navigator?.show(.series(data: data, presentatingController: self))
-    }
-}
-
-// MARK: - AVPictureInPictureControllerDelegate
-
-extension VideoPlayerController: AVPictureInPictureControllerDelegate {
-    func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        customView.hideOverlay()
-        navigator?.playerController = self
-    }
-    
-    func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        willDismiss()
-        dismiss(animated: true)
-    }
-    
-    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
-        navigator?.playerController = nil
-    }
-    
-    func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        navigator?.playerController = nil
-    }
-    
-    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
-        guard let viewController = navigator?.playerController else {
-            completionHandler(false)
-            return
-        }
-        MainNavigator.shared.rootViewController.present(viewController, animated: false) {
-            completionHandler(true)
-        }
     }
 }
