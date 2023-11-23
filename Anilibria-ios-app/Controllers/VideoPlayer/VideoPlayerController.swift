@@ -15,7 +15,6 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     weak var navigator: VideoPlayerNavigator?
     
     private lazy var player = AVPlayer()
-    private lazy var playerLayer = AVPlayerLayer(player: player)
     private var pipController: AVPictureInPictureController?
     private let model: VideoPlayerModel
     private let remoteCommandCenterController = VideoPlayerRemoteCommandCenterController()
@@ -44,7 +43,9 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     }
     
     override func loadView() {
-        view = VideoPlayerView(playerLayer: playerLayer)
+        let videoPlayerView = VideoPlayerView()
+        videoPlayerView.playerView.player = player
+        view = videoPlayerView
     }
     
     override func viewDidLoad() {
@@ -107,7 +108,7 @@ private extension VideoPlayerController {
             return
         }
         
-        pipController = AVPictureInPictureController(playerLayer: playerLayer)
+        pipController = AVPictureInPictureController(playerLayer: customView.playerView.playerLayer)
         guard let pipController else {
             return
         }
@@ -123,7 +124,7 @@ private extension VideoPlayerController {
     }
     
     func setupRemoteCommandCenterController() {
-        remoteCommandCenterController.setup(with: self, player: player)
+        remoteCommandCenterController.setup(with: self)
     }
     
     func setupInfoCenter(duration: Float) {

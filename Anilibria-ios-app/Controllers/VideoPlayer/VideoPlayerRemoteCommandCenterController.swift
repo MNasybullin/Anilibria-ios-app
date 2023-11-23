@@ -10,11 +10,9 @@ import MediaPlayer
 
 final class VideoPlayerRemoteCommandCenterController: NSObject {
     private weak var videoPlayerController: VideoPlayerController?
-    private weak var player: AVPlayer?
     
-    func setup(with videoPlayerController: VideoPlayerController, player: AVPlayer) {
+    func setup(with videoPlayerController: VideoPlayerController) {
         self.videoPlayerController = videoPlayerController
-        self.player = player
         
         let commandCenter = MPRemoteCommandCenter.shared()
         commandCenter.playCommand.addTarget(self, action: #selector(playCommand(_:)))
@@ -36,12 +34,14 @@ final class VideoPlayerRemoteCommandCenterController: NSObject {
 private extension VideoPlayerRemoteCommandCenterController {
     @objc func playCommand(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         videoPlayerController?.customView.playPauseButton(isSelected: true)
+        let player = videoPlayerController?.customView.playerView.player
         player?.play()
         return .success
     }
     
     @objc func pauseCommand(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
         videoPlayerController?.customView.playPauseButton(isSelected: false)
+        let player = videoPlayerController?.customView.playerView.player
         player?.pause()
         return .success
     }
@@ -59,6 +59,7 @@ private extension VideoPlayerRemoteCommandCenterController {
     @objc func changePlaybackPositionCommand(_ event: MPChangePlaybackPositionCommandEvent) -> MPRemoteCommandHandlerStatus {
         videoPlayerController?.configurePlayerTime(time: Float(event.positionTime))
         let time = CMTimeMake(value: Int64(event.positionTime), timescale: 1)
+        let player = videoPlayerController?.customView.playerView.player
         player?.seek(to: time, toleranceBefore: .zero, toleranceAfter: .zero)
         return .success
     }

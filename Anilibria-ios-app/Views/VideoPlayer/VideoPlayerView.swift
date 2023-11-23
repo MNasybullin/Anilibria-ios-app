@@ -21,8 +21,8 @@ final class VideoPlayerView: UIView {
         case portrait, landscape
     }
     
-    private let playerLayer: AVPlayerLayer
-    private let backgroundLayer = CALayer()
+    let playerView = PlayerView()
+    private let backgroundView = UIView()
     private let topView = TopOverlayView()
     private let middleView = MiddleOverlayView()
     private let bottomView = BottomOverlayView()
@@ -51,8 +51,7 @@ final class VideoPlayerView: UIView {
         }
     }
     
-    init(playerLayer: AVPlayerLayer) {
-        self.playerLayer = playerLayer
+    init() {
         super.init(frame: .zero)
         
         configureView()
@@ -62,23 +61,14 @@ final class VideoPlayerView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        playerLayer.frame = bounds
-        backgroundLayer.frame = bounds
-    }
 }
 
 // MARK: - Private methods
 
 private extension VideoPlayerView {
     func configureView() {
-        layer.addSublayer(playerLayer)
-        layer.addSublayer(backgroundLayer)
-        
         backgroundColor = .black
-        backgroundLayer.backgroundColor = Constants.backgroundColor.cgColor
+        backgroundView.backgroundColor = Constants.backgroundColor
         
         topView.isHidden = false
         middleView.isHidden = true
@@ -88,23 +78,35 @@ private extension VideoPlayerView {
     }
     
     func configureLayout() {
-        [topView, middleView, bottomView, activityIndicator].forEach {
+        [playerView, backgroundView, topView, middleView, bottomView, activityIndicator].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        // MARK: Show Constraints
         showConstraints = [
             topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             bottomView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ]
         
+        // MARK: Hide Constraints
         hideConstraints = [
             topView.bottomAnchor.constraint(equalTo: topAnchor),
             bottomView.topAnchor.constraint(equalTo: bottomAnchor)
         ]
         
-        // Common constraints
+        // MARK: Common constraints
         NSLayoutConstraint.activate([
+            playerView.topAnchor.constraint(equalTo: topAnchor),
+            playerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            playerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            playerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            backgroundView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             middleView.centerXAnchor.constraint(equalTo: centerXAnchor),
             middleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
@@ -112,6 +114,7 @@ private extension VideoPlayerView {
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
         
+        // MARK: Landscape Constraints
         landscapeConstraints = [
             topView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             topView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
@@ -119,6 +122,7 @@ private extension VideoPlayerView {
             bottomView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ]
         
+        // MARK: Portrait Constraints
         portraitConstraints = [
             topView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             topView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
@@ -155,7 +159,7 @@ extension VideoPlayerView {
                 $0.alpha = 1
             }
             
-            backgroundLayer.backgroundColor = Constants.backgroundColor.cgColor
+            backgroundView.backgroundColor = Constants.backgroundColor
             
             NSLayoutConstraint.deactivate(hideConstraints)
             NSLayoutConstraint.activate(showConstraints)
@@ -166,7 +170,7 @@ extension VideoPlayerView {
     func hideOverlay() {
         isOverlaysHidden = true
         UIView.animate(withDuration: 0.35) { [self] in
-            backgroundLayer.backgroundColor = UIColor.clear.cgColor
+            backgroundView.backgroundColor = UIColor.clear
             
             [topView, middleView, bottomView].forEach {
                 $0.alpha = 0

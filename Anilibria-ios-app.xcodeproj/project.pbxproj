@@ -10,6 +10,7 @@
 		2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */; };
 		270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */; };
 		2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */; };
+		2704E42E2B0E86010082507F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704E42D2B0E86010082507F /* PlayerView.swift */; };
 		271072DA2ADDB7CF0024530D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072D92ADDB7CF0024530D /* HomeController.swift */; };
 		271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072DB2ADDBA3E0024530D /* HomeView.swift */; };
 		271072E32ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271072E22ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift */; };
@@ -148,6 +149,7 @@
 		2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifierExtensions.swift; sourceTree = "<group>"; };
 		2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerRemoteCommandCenterController.swift; sourceTree = "<group>"; };
+		2704E42D2B0E86010082507F /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		271072D92ADDB7CF0024530D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		271072DB2ADDBA3E0024530D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		271072E22ADDD7AC0024530D /* AnimePosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimePosterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -293,6 +295,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2704E42C2B0E74610082507F /* VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */,
+				2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */,
+			);
+			path = VideoPlayer;
+			sourceTree = "<group>";
+		};
 		271072E12ADDD77C0024530D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,8 +520,7 @@
 				27B7070A2AF290A900DD8DC6 /* RandomAnimeController.swift */,
 				27B707192AF3A56800DD8DC6 /* SearchResultsController.swift */,
 				27B707152AF2ABAB00DD8DC6 /* SearchController.swift */,
-				27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */,
-				2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */,
+				2704E42C2B0E74610082507F /* VideoPlayer */,
 				27B707092AF2572A00DD8DC6 /* Series */,
 				2748DD022AEBFD6900D53E9B /* Schedule */,
 				2748DCFF2AEBD89E00D53E9B /* Home */,
@@ -670,6 +680,7 @@
 			isa = PBXGroup;
 			children = (
 				27EA50852AFE2DDB00A1B987 /* VideoPlayerView.swift */,
+				2704E42D2B0E86010082507F /* PlayerView.swift */,
 				27EA50882AFE321A00A1B987 /* TopOverlayView.swift */,
 				27EA508A2AFE327800A1B987 /* MiddleOverlayView.swift */,
 				27EA50922B014E4600A1B987 /* MiddleOverlayButton.swift */,
@@ -942,6 +953,7 @@
 				27EA508D2B00140F00A1B987 /* UIImage+Extension.swift in Sources */,
 				2748DD012AEBFD6500D53E9B /* ScheduleContentController.swift in Sources */,
 				27EA393129C5FBBB00D777AE /* UINavigationController+Extension.swift in Sources */,
+				2704E42E2B0E86010082507F /* PlayerView.swift in Sources */,
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,
 				272D6547288ED42B00FA4F60 /* TitleAPIModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
