@@ -27,7 +27,7 @@ final class AnimeModel {
 
 private extension AnimeModel {
     func requestImage() {
-        Task {
+        Task(priority: .userInitiated) {
             do {
                 let url = rawData.posters.original.url
                 let imageData = try await ImageLoaderService.shared.getImageData(from: url)
