@@ -73,7 +73,7 @@ private extension UserInfoView {
 // MARK: - Internal methods
 
 extension UserInfoView {
-    func set(image: UIImage) {
+    func set(image: UIImage?) {
         self.imageView.image = image
         self.imageView.layer.cornerRadius = self.imageView.bounds.width / 2
     }

@@ -13,8 +13,10 @@ protocol UserInfoControllerDelegate: AnyObject {
 
 final class UserInfoController: UIViewController, HasCustomView {
     typealias CustomView = UserInfoView
-    let model = UserInfoModel()
+    
     weak var delegate: UserInfoControllerDelegate?
+    
+    private let model = UserInfoModel()
     
     override func loadView() {
         let userInfoView = UserInfoView()
@@ -24,10 +26,10 @@ final class UserInfoController: UIViewController, HasCustomView {
     func configureView(successClosure: @escaping () -> Void) {
         model.getUserInfo { [weak self] result in
             switch result {
-                case .success((let image, let userName)):
+                case .success(let user):
                     DispatchQueue.main.async {
-                        self?.customView.set(image: image)
-                        self?.customView.set(userName: userName)
+                        self?.customView.set(image: user.image)
+                        self?.customView.set(userName: user.name)
                         successClosure()
                     }
                 case .failure(let error):

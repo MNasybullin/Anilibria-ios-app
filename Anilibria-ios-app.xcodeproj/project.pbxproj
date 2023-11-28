@@ -81,6 +81,10 @@
 		275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */; };
 		275B1AF229DECF50006A00EA /* AnimeSeriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AF129DECF50006A00EA /* AnimeSeriesView.swift */; };
 		275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */; };
+		275EFF092B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF072B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld */; };
+		275EFF102B137CF800C281B1 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF0F2B137CF800C281B1 /* CoreDataService.swift */; };
+		275EFF392B14BB1400C281B1 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF382B14BB1400C281B1 /* UserEntity.swift */; };
+		275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF3B2B14F7DC00C281B1 /* UserItem.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
 		278356AE2ABDC7DE00878B8F /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */; };
 		2784BA1F2AF97841004E9B54 /* RandomAnimeRefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784BA1E2AF97841004E9B54 /* RandomAnimeRefreshButton.swift */; };
@@ -221,6 +225,10 @@
 		275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAndShareButtonsView.swift; sourceTree = "<group>"; };
 		275B1AF129DECF50006A00EA /* AnimeSeriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeSeriesView.swift; sourceTree = "<group>"; };
 		275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAndDownloadButtonsView.swift; sourceTree = "<group>"; };
+		275EFF082B134B8300C281B1 /* Anilibria-ios-app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Anilibria-ios-app.xcdatamodel"; sourceTree = "<group>"; };
+		275EFF0F2B137CF800C281B1 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		275EFF382B14BB1400C281B1 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
+		275EFF3B2B14F7DC00C281B1 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
 		278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		2784BA1E2AF97841004E9B54 /* RandomAnimeRefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeRefreshButton.swift; sourceTree = "<group>"; };
@@ -536,6 +544,7 @@
 			children = (
 				275865C82ADAFDDF00F98884 /* SignInModel.swift */,
 				275865CA2ADAFDE900F98884 /* UserInfoModel.swift */,
+				275EFF3B2B14F7DC00C281B1 /* UserItem.swift */,
 				27B707052AF253DC00DD8DC6 /* SeriesModel.swift */,
 				271072E82ADDDE310024530D /* AnimePosterItem.swift */,
 				27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */,
@@ -547,6 +556,24 @@
 				271A0E222AE7EC1A005958CB /* Home */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		275EFF0E2B134CE300C281B1 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				275EFF072B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld */,
+				275EFF0F2B137CF800C281B1 /* CoreDataService.swift */,
+				275EFF3A2B14F13D00C281B1 /* Entities */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		275EFF3A2B14F13D00C281B1 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				275EFF382B14BB1400C281B1 /* UserEntity.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		278356AF2ABF3A5600878B8F /* Extensions */ = {
@@ -722,6 +749,7 @@
 				2752C4CB28A938D600B17073 /* LivePreviewInUIKit */,
 				272D6539288EC4EC00FA4F60 /* Generated */,
 				279E4F31289C7044008038FF /* Common */,
+				275EFF0E2B134CE300C281B1 /* CoreData */,
 				27DEEBCA2886F44E0014055F /* Network */,
 				275865B42AD9D0C300F98884 /* Navigators */,
 				275865BD2ADAC34B00F98884 /* Models */,
@@ -906,6 +934,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */,
+				275EFF092B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld in Sources */,
 				2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */,
 				2748DD0C2AEE5D7E00D53E9B /* AnimeItem.swift in Sources */,
 				27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */,
@@ -915,6 +944,7 @@
 				275865CD2ADB13BF00F98884 /* ProfileView.swift in Sources */,
 				275865B12AD9CD8900F98884 /* HomeNavigator.swift in Sources */,
 				275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */,
+				275EFF392B14BB1400C281B1 /* UserEntity.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
 				2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */,
 				27EA50952B022F0100A1B987 /* Playlist.swift in Sources */,
@@ -971,6 +1001,7 @@
 				279E4F35289D0304008038FF /* FavoriteAPIModel.swift in Sources */,
 				27B7070B2AF290A900DD8DC6 /* RandomAnimeController.swift in Sources */,
 				275865C12ADADC3B00F98884 /* SignInView.swift in Sources */,
+				275EFF102B137CF800C281B1 /* CoreDataService.swift in Sources */,
 				275865AD2AD9C7EC00F98884 /* ProfileNavigator.swift in Sources */,
 				271A0E3A2AE903F8005958CB /* ScheduleCollectionViewLayout.swift in Sources */,
 				271A0E212AE7EBBE005958CB /* HomeUpdatesModel.swift in Sources */,
@@ -1012,6 +1043,7 @@
 				27EA50912B01402600A1B987 /* VideoPlayerModel.swift in Sources */,
 				275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */,
 				271A0E242AE7F322005958CB /* HomeModelInput.swift in Sources */,
+				275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */,
 				27B707082AF2571900DD8DC6 /* SeriesContentController.swift in Sources */,
 				27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */,
 				27B707162AF2ABAB00DD8DC6 /* SearchController.swift in Sources */,
@@ -1323,6 +1355,19 @@
 			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		275EFF072B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				275EFF082B134B8300C281B1 /* Anilibria-ios-app.xcdatamodel */,
+			);
+			currentVersion = 275EFF082B134B8300C281B1 /* Anilibria-ios-app.xcdatamodel */;
+			path = "Anilibria-ios-app.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 27F5E54C287C6DCA00BCF61C /* Project object */;
 }
