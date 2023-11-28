@@ -107,6 +107,9 @@
 "SignInView.imageName.eye" = "eye";
 "SignInView.imageName.eyeSlash" = "eye.slash";
 
+// MARK: - User Info View
+"UserInfoView.logoutButton" = "Выйти";
+
 // MARK: - Series Module
 "SeriesModule.series" = "серий";
 

@@ -14,7 +14,6 @@ protocol SignInViewDelegate: AnyObject {
 final class SignInView: UIView {
     private enum Constants {
         static let cornerRadius: CGFloat = 25
-        static let borderWidth: CGFloat = 2
         static let textFieldsVStackSpacing: CGFloat = 16
     }
     
@@ -51,8 +50,6 @@ final class SignInView: UIView {
         backgroundColor = .systemBackground
         layer.cornerRadius = Constants.cornerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        layer.borderWidth = Constants.borderWidth
-        layer.borderColor = UIColor.secondarySystemBackground.cgColor
     }
     
     private func setupTextFieldsVStack() {
@@ -79,8 +76,11 @@ final class SignInView: UIView {
         passwordTextField.isSecureTextEntry = true
         let tapGestureRecognizer = UITapGestureRecognizer(
             target: self,
-            action: #selector(passwordTextFieldRightViewTapped(sender:)))
+            action: #selector(passwordTextFieldRightViewTapped(sender:))
+        )
         
+//        let rightView = UIImageView(image: eyeImageView)
+//        rightView.image
         passwordTextField.rightView = UIImageView(image: eyeImageView)
         passwordTextField.rightView?.addGestureRecognizer(tapGestureRecognizer)
         passwordTextField.rightView?.isUserInteractionEnabled = true
@@ -107,6 +107,8 @@ final class SignInView: UIView {
         signInButton.configuration = config
         
         signInButton.addAction(UIAction { [weak self] _ in
+            self?.emailTextField.endEditing(true)
+            self?.passwordTextField.endEditing(true)
             self?.delegate?.signInButtonTapped(
                 email: self?.emailTextField.text ?? "",
                 password: self?.passwordTextField.text ?? "")
@@ -138,19 +140,30 @@ final class SignInView: UIView {
     }
 }
 
+// MARK: - Internal methods
+
 extension SignInView {
     func signInButton(isEnabled status: Bool) {
         signInButton.isEnabled = status
     }
-        
+    
     func activityIndicator(animation: Bool) {
         UIView.animate(withDuration: 0.5) {
             if animation == true {
+                self.signInButton.isEnabled = false
+                self.emailTextField.isUserInteractionEnabled = false
                 self.activityIndicator.startAnimating()
             } else {
+                self.signInButton.isEnabled = true
+                self.emailTextField.isUserInteractionEnabled = true
                 self.activityIndicator.stopAnimating()
             }
         }
+    }
+    
+    func clearTextFields() {
+        emailTextField.text = ""
+        passwordTextField.text = ""
     }
 }
 
