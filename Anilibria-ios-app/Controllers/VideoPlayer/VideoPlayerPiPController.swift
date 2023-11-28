@@ -38,8 +38,8 @@ private extension VideoPlayerPiPController {
         pipController.publisher(for: \.isPictureInPicturePossible)
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
-            .sink { isPictureInPicturePossible in
-                videoPlayerController.customView.setPIPButton(isHidden: !isPictureInPicturePossible)
+            .sink { [weak videoPlayerController] isPictureInPicturePossible in
+                videoPlayerController?.customView.setPIPButton(isHidden: !isPictureInPicturePossible)
             }
             .store(in: &subscriptions)
     }
