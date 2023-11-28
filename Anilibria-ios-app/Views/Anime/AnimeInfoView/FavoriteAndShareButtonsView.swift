@@ -42,7 +42,7 @@ final class FavoriteAndShareButtonsView: UIView {
         config.imagePadding = imagePadding
         config.imagePlacement = .top
         
-        config.title = "Избранное"
+        config.title = Strings.AnimeView.favoriteButton
         let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in
@@ -61,7 +61,7 @@ final class FavoriteAndShareButtonsView: UIView {
         config.imagePadding = imagePadding
         config.imagePlacement = .top
         
-        config.title = "Поделиться"
+        config.title = Strings.AnimeView.shareButton
         let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in

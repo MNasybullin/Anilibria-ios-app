@@ -30,7 +30,7 @@ final class AnimeSeriesView: UIView {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Серии" //  localizable
+        label.text = Strings.AnimeSeriesView.seriesTitle
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.textColor = .label
         return label
@@ -45,7 +45,7 @@ final class AnimeSeriesView: UIView {
     
     lazy var allButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.title = "Все" //  localizable
+        config.title = Strings.AnimeSeriesView.allButton
         config.baseForegroundColor = .systemRed
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming

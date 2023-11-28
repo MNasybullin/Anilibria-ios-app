@@ -81,7 +81,8 @@ extension AnimeController: AnimeSeriesViewDelegate {
 
 extension AnimeController: WatchAndDownloadButtonsViewDelegate {
     func watchButtonClicked() {
-        print(#function)
+        let data = model.getAnimeItem()
+        navigator?.show(.series(data: data))
     }
     
     func downloadButtonClicked() {

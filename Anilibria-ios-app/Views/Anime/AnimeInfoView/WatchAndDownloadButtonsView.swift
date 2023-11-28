@@ -40,14 +40,12 @@ final class WatchAndDownloadButtonsView: UIView {
         config.imagePadding = 10
         config.imagePlacement = .leading
         
-        config.title = "Смотреть"
+        config.title = Strings.AnimeView.watchButton
         let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.watchButtonClicked()
         }, for: .touchUpInside)
-        
-        button.isEnabled = false
         
         return button
     }()

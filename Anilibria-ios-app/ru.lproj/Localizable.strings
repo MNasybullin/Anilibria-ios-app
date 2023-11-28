@@ -110,6 +110,15 @@
 // MARK: - User Info View
 "UserInfoView.logoutButton" = "Выйти";
 
+// MARK: Anime View
+"AnimeView.watchButton" = "Смотреть";
+"AnimeView.favoriteButton" = "Избранное";
+"AnimeView.shareButton" = "Поделиться";
+
+// MARK: Anime Series View
+"AnimeSeriesView.seriesTitle" = "Серии";
+"AnimeSeriesView.allButton" = "Все";
+
 // MARK: - Series Module
 "SeriesModule.series" = "серий";
 
