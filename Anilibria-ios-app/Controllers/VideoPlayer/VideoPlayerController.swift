@@ -12,9 +12,13 @@ import MediaPlayer
 final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomView {
     typealias CustomView = VideoPlayerView
     
+    private enum Constants {
+        static let hideOverlayAfterSeconds: Double = 3.0
+    }
+    
     weak var navigator: VideoPlayerNavigator?
     
-    private lazy var player = AVPlayer()
+    private let player = AVPlayer()
     private var pipController: VideoPlayerPiPController?
     private let model: VideoPlayerModel
     private let remoteCommandCenterController = VideoPlayerRemoteCommandCenterController()
@@ -24,6 +28,8 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     private var timeObserverToken: Any?
     
     private var nowPlayingInfo = [String: Any]()
+    
+    private var hideOverlayTimer: Timer?
     
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
@@ -137,8 +143,10 @@ private extension VideoPlayerController {
 extension VideoPlayerController {
     @objc func didTappedGesture() {
         if customView.isOverlaysHidden {
+            setHideOverlayTimer()
             customView.showOverlay()
         } else {
+            hideOverlayTimer?.invalidate()
             customView.hideOverlay()
         }
     }
@@ -191,6 +199,17 @@ extension VideoPlayerController {
         customView.showOverlay()
         customView.hideActivityIndicator()
         player.play()
+    }
+    
+    private func setHideOverlayTimer() {
+        hideOverlayTimer?.invalidate()
+        hideOverlayTimer = Timer.scheduledTimer(withTimeInterval: Constants.hideOverlayAfterSeconds, repeats: false) { [weak self] _ in
+            guard self?.customView.isOverlaysHidden == false,
+                  self?.player.timeControlStatus == .playing else {
+                return
+            }
+            self?.customView.hideOverlay()
+        }
     }
 }
 
@@ -255,8 +274,12 @@ private extension VideoPlayerController {
                 let currentTime = player.currentTime().seconds
                 switch timeControlStatus {
                     case .playing:
+                        if customView.isOverlaysHidden == false {
+                            setHideOverlayTimer()
+                        }
                         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1
                     case .waitingToPlayAtSpecifiedRate, .paused:
+                        hideOverlayTimer?.invalidate()
                         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0
                     @unknown default:
                         return
@@ -317,6 +340,7 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
         if button.isSelected {
             player.play()
         } else {
+            hideOverlayTimer?.invalidate()
             player.pause()
         }
     }
