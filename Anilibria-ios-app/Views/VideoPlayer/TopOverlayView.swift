@@ -11,7 +11,6 @@ import AVKit
 protocol TopOverlayViewDelegate: AnyObject {
     func closeButtonDidTapped()
     func pipButtonDidTapped()
-    func airPlayButtonDidTapped()
     func settingsButtonDidTapped()
 }
 

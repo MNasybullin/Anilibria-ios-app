@@ -35,6 +35,16 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
         return true
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return isStatusBarHidden
+    }
+    
+    private var isStatusBarHidden = false {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+    
     // MARK: LifeCycle
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         model = VideoPlayerModel(
@@ -310,6 +320,10 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
 // MARK: - VideoPlayerViewDelegate
 
 extension VideoPlayerController: VideoPlayerViewDelegate {
+    func statusBarAppearanceUpdate(isHidden: Bool) {
+        isStatusBarHidden = isHidden
+    }
+    
     // MARK: TopView
     func closeButtonDidTapped() {
         willDismiss()
@@ -318,10 +332,6 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     
     func pipButtonDidTapped() {
         pipController?.startPictureInPicture()
-    }
-    
-    func airPlayButtonDidTapped() {
-        print(#function)
     }
     
     func settingsButtonDidTapped() {

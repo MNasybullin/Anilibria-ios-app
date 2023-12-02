@@ -61,6 +61,7 @@ extension VideoPlayerNavigator: Navigator {
         )
         player.navigator = self
         player.modalPresentationStyle = .overFullScreen
+        player.modalPresentationCapturesStatusBarAppearance = true
         presentatingController.present(player, animated: true)
     }
     
