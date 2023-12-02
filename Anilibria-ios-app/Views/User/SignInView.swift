@@ -164,6 +164,7 @@ extension SignInView {
     func clearTextFields() {
         emailTextField.text = ""
         passwordTextField.text = ""
+        textFieldsChanged()
     }
 }
 
