@@ -153,7 +153,6 @@ extension VideoPlayerView {
     
     func showOverlay() {
         isOverlaysHidden = false
-        delegate?.statusBarAppearanceUpdate(isHidden: isOverlaysHidden)
         UIView.animate(withDuration: 0.35) { [self] in
             [topView, middleView, bottomView].forEach {
                 $0.isHidden = false
@@ -165,12 +164,12 @@ extension VideoPlayerView {
             NSLayoutConstraint.deactivate(hideConstraints)
             NSLayoutConstraint.activate(showConstraints)
             layoutIfNeeded()
+            delegate?.statusBarAppearanceUpdate(isHidden: isOverlaysHidden)
         }
     }
     
     func hideOverlay() {
         isOverlaysHidden = true
-        delegate?.statusBarAppearanceUpdate(isHidden: isOverlaysHidden)
         UIView.animate(withDuration: 0.35) { [self] in
             backgroundView.backgroundColor = UIColor.clear
             
@@ -181,6 +180,7 @@ extension VideoPlayerView {
             NSLayoutConstraint.deactivate(showConstraints)
             NSLayoutConstraint.activate(hideConstraints)
             layoutIfNeeded()
+            delegate?.statusBarAppearanceUpdate(isHidden: isOverlaysHidden)
         } completion: { [self] isAnimationEnded in
             guard isAnimationEnded == true else { return }
             [topView, middleView, bottomView].forEach {
