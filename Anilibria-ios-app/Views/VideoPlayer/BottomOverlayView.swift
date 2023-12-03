@@ -27,7 +27,7 @@ final class BottomOverlayView: UIView {
         var config = UIButton.Configuration.plain()
         config.image = UIImage(systemName: "rectangle.fill.on.rectangle.fill")
         config.baseForegroundColor = .white
-        config.title = "Серии"
+        config.title = Strings.SeriesModule.seriesTitle
         config.buttonSize = .medium
         config.imagePadding = Constants.seriesImagePadding
         

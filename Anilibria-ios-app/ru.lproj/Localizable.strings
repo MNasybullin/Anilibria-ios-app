@@ -120,7 +120,7 @@
 "AnimeSeriesView.allButton" = "Все";
 
 // MARK: - Series Module
-"SeriesModule.seriesNavigationControllerTitle" = "Серии";
+"SeriesModule.seriesTitle" = "Серии";
 "SeriesModule.series" = "серий";
 
 // MARK: - RandomAnime Module

@@ -47,7 +47,7 @@ final class VideoPlayerSeriesController: UIViewController, HasCustomView {
 
 private extension VideoPlayerSeriesController {
     func setupNavigationItem() {
-        navigationItem.title = Strings.SeriesModule.seriesNavigationControllerTitle
+        navigationItem.title = Strings.SeriesModule.seriesTitle
         let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonDidTapped))
         navigationItem.rightBarButtonItem = closeButton
     }

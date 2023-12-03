@@ -345,6 +345,7 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     func backwardButtonDidTapped() {
         guard let duration = player.currentItem?.duration else { return }
         let targetTime = max(.zero, player.currentTime() - CMTime(seconds: 10, preferredTimescale: duration.timescale))
+        configurePlayerTime(time: Float(targetTime.seconds))
         player.seek(to: targetTime)
     }
     
@@ -361,6 +362,7 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     func forwardButtonDidTapped() {
         guard let duration = player.currentItem?.duration else { return }
         let targetTime = min(duration, player.currentTime() + CMTime(seconds: 10, preferredTimescale: duration.timescale))
+        configurePlayerTime(time: Float(targetTime.seconds))
         player.seek(to: targetTime)
     }
     

@@ -28,6 +28,7 @@ final class TopOverlayView: UIView {
     private lazy var leftStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
+        stack.alignment = .center
         stack.spacing = Constants.leftRightStackSpacing
         return stack
     }()
@@ -79,6 +80,7 @@ final class TopOverlayView: UIView {
     private lazy var rightStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
+        stack.alignment = .center
         stack.spacing = Constants.leftRightStackSpacing
         return stack
     }()
@@ -146,12 +148,10 @@ private extension TopOverlayView {
         
         // Common Constraints
         NSLayoutConstraint.activate([
-            leftStack.topAnchor.constraint(equalTo: topAnchor,
-                                           constant: Constants.top),
+            leftStack.topAnchor.constraint(equalTo: topAnchor, constant: Constants.top),
             leftStack.leadingAnchor.constraint(equalTo: leadingAnchor),
             
-            rightStack.topAnchor.constraint(equalTo: topAnchor,
-                                                constant: Constants.top),
+            rightStack.centerYAnchor.constraint(equalTo: leftStack.centerYAnchor),
             rightStack.trailingAnchor.constraint(equalTo: trailingAnchor)
             
         ])
