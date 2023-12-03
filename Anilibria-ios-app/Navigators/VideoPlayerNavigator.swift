@@ -34,7 +34,12 @@ extension VideoPlayerNavigator: Navigator {
             currentPlaylist: Int,
             presentatingController: UIViewController
         )
-        case series(data: AnimeItem, presentatingController: UIViewController)
+        case series(
+            data: AnimeItem,
+            currentPlaylistNumber: Int,
+            completionBlock: (Int) -> Void,
+            presentatingController: UIViewController
+        )
     }
     
     func show(_ destination: Destinition) {
@@ -45,15 +50,21 @@ extension VideoPlayerNavigator: Navigator {
                     currentPlaylist: currentPlaylist,
                     presentatingController: presentatingController
                 )
-            case .series(let data, let presentatingController):
+            case .series(let data, let currentPlaylistNumber, let completionBlock, let presentatingController):
                 setupAndShowSeries(
                     data: data,
+                    currentPlaylistNumber: currentPlaylistNumber,
+                    completionBlock: completionBlock,
                     presentatingController: presentatingController
                 )
         }
     }
-    
-    private func setupAndShowPlayer(item: AnimeItem, currentPlaylist: Int, presentatingController: UIViewController) {
+}
+
+// MARK: - Private methods
+
+private extension VideoPlayerNavigator {
+    func setupAndShowPlayer(item: AnimeItem, currentPlaylist: Int, presentatingController: UIViewController) {
         dissmisPlayerController()
         let player = VideoPlayerController(
             animeItem: item,
@@ -65,14 +76,19 @@ extension VideoPlayerNavigator: Navigator {
         presentatingController.present(player, animated: true)
     }
     
-    private func setupAndShowSeries(data: AnimeItem, presentatingController: UIViewController) {
-        let series = SeriesController(data: data)
-        if let sheetController = series.sheetPresentationController {
+    func setupAndShowSeries(data: AnimeItem, currentPlaylistNumber: Int, completionBlock: @escaping (Int) -> Void, presentatingController: UIViewController) {
+        let series = VideoPlayerSeriesController(
+            data: data,
+            currentPlaylistNumber: currentPlaylistNumber,
+            completionBlock: completionBlock
+        )
+        let navigationController = UINavigationController(rootViewController: series)
+        if let sheetController = navigationController.sheetPresentationController {
             sheetController.detents = [.large()]
             sheetController.prefersGrabberVisible = true
             sheetController.prefersEdgeAttachedInCompactHeight = true
             sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true
         }
-        presentatingController.present(series, animated: true)
+        presentatingController.present(navigationController, animated: true)
     }
 }

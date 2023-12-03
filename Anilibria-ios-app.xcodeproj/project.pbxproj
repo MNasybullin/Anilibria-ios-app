@@ -85,6 +85,7 @@
 		275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF3B2B14F7DC00C281B1 /* UserItem.swift */; };
 		275EFF3E2B15C38000C281B1 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF3D2B15C38000C281B1 /* UserView.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
+		277841D72B1CB93A00E64B48 /* VideoPlayerSeriesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277841D62B1CB93A00E64B48 /* VideoPlayerSeriesController.swift */; };
 		278356AE2ABDC7DE00878B8F /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */; };
 		2784BA1F2AF97841004E9B54 /* RandomAnimeRefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784BA1E2AF97841004E9B54 /* RandomAnimeRefreshButton.swift */; };
 		279E4F30289C4C70008038FF /* LoginAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginAPIModel.swift */; };
@@ -228,6 +229,7 @@
 		275EFF3B2B14F7DC00C281B1 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
 		275EFF3D2B15C38000C281B1 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
+		277841D62B1CB93A00E64B48 /* VideoPlayerSeriesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerSeriesController.swift; sourceTree = "<group>"; };
 		278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		2784BA1E2AF97841004E9B54 /* RandomAnimeRefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeRefreshButton.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIModel.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				27EA50832AFBD54700A1B987 /* VideoPlayerController.swift */,
 				2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */,
 				2704E42F2B0F9AFB0082507F /* VideoPlayerPiPController.swift */,
+				277841D62B1CB93A00E64B48 /* VideoPlayerSeriesController.swift */,
 			);
 			path = VideoPlayer;
 			sourceTree = "<group>";
@@ -1038,6 +1041,7 @@
 				271A0E362AE90341005958CB /* ScheduleView.swift in Sources */,
 				271A0E262AE7F32C005958CB /* HomeModelOutput.swift in Sources */,
 				271A0E452AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift in Sources */,
+				277841D72B1CB93A00E64B48 /* VideoPlayerSeriesController.swift in Sources */,
 				2748DD042AEC2ABA00D53E9B /* AnimeController.swift in Sources */,
 				2748DD122AF1789E00D53E9B /* SeriesView.swift in Sources */,
 				27B7071E2AF3B2B700DD8DC6 /* SearchResultsItem.swift in Sources */,

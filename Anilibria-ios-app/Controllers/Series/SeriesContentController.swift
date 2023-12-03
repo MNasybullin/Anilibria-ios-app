@@ -21,8 +21,8 @@ final class SeriesContentController: NSObject {
         self.model = SeriesModel(animeItem: data)
         super.init()
         
-        self.playlists = model.getPlaylists()
         model.imageModelDelegate = self
+        self.playlists = model.getPlaylists()
     }
 }
 

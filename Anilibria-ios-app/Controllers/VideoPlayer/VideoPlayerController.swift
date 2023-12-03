@@ -208,6 +208,7 @@ extension VideoPlayerController {
     private func playVideo() {
         customView.showOverlay()
         customView.hideActivityIndicator()
+        customView.playPauseButton(isSelected: true)
         player.play()
     }
     
@@ -305,6 +306,8 @@ private extension VideoPlayerController {
 
 extension VideoPlayerController: VideoPlayerModelDelegate {
     func configurePlayerItem(url: URL) {
+        subscriptions.removeAll()
+        
         let asset = AVAsset(url: url)
         let playerItem = AVPlayerItem(
             asset: asset,
@@ -382,6 +385,13 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     
     func seriesButtonDidTapped() {
         let data = model.getData()
-        navigator?.show(.series(data: data, presentatingController: self))
+        let currentPlaylistNumber = model.getCurrentPlaylistNumber()
+        let completionBlock: (Int) -> Void = { [weak self] newPlaylistNumber in
+            guard let self else { return }
+            self.model.replaceCurrentPlaylist(newPlaylistNumber: newPlaylistNumber)
+            self.customView.setTitle(self.model.getTitle())
+            self.customView.setSubtitle(self.model.getSubtitle())
+        }
+        navigator?.show(.series(data: data, currentPlaylistNumber: currentPlaylistNumber, completionBlock: completionBlock, presentatingController: self))
     }
 }

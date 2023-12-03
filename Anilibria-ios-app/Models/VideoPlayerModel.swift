@@ -24,13 +24,17 @@ final class VideoPlayerModel {
         self.animeItem = animeItem
         self.currentPlaylist = currentPlaylist
         let hls = animeItem.playlist[currentPlaylist].hls
-        self.currentHLS = hls.fhd ?? hls.hd ?? hls.sd
+        setCurrentHLS(hls: hls)
     }
 }
 
 // MARK: - Private methods
 
 private extension VideoPlayerModel {
+    func setCurrentHLS(hls: GTHls) {
+//        self.currentHLS = hls.fhd ?? hls.hd ?? hls.sd
+        self.currentHLS = hls.sd ?? hls.hd ?? hls.fhd
+    }
 }
 
 // MARK: - Internal methods
@@ -55,6 +59,15 @@ extension VideoPlayerModel {
         }
     }
     
+    func replaceCurrentPlaylist(newPlaylistNumber: Int) {
+        currentPlaylist = newPlaylistNumber
+        let hls = animeItem.playlist[currentPlaylist].hls
+        if [hls.fhd, hls.hd, hls.sd].filter({ $0 == currentHLS }).isEmpty {
+            setCurrentHLS(hls: hls)
+        }
+        requestCachingNodes()
+    }
+    
     func getData() -> AnimeItem {
         return animeItem
     }
@@ -69,5 +82,9 @@ extension VideoPlayerModel {
     
     func getAnimeImage() -> UIImage? {
         return animeItem.image
+    }
+    
+    func getCurrentPlaylistNumber() -> Int {
+        return currentPlaylist
     }
 }
