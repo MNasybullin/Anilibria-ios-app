@@ -19,12 +19,14 @@ final class VideoPlayerModel {
     private var animeItem: AnimeItem
     private var currentPlaylist: Int
     private var currentHLS: String?
+    private var skips: [(Double, Double)] = []
     
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         self.animeItem = animeItem
         self.currentPlaylist = currentPlaylist
         let hls = animeItem.playlist[currentPlaylist].hls
         setCurrentHLS(hls: hls)
+        configureSkips()
     }
 }
 
@@ -32,8 +34,25 @@ final class VideoPlayerModel {
 
 private extension VideoPlayerModel {
     func setCurrentHLS(hls: GTHls) {
-//        self.currentHLS = hls.fhd ?? hls.hd ?? hls.sd
-        self.currentHLS = hls.sd ?? hls.hd ?? hls.fhd
+        self.currentHLS = hls.fhd ?? hls.hd ?? hls.sd
+//        self.currentHLS = hls.sd ?? hls.hd ?? hls.fhd
+    }
+    
+    func pairFromArray(array: [Double]) -> [(Double, Double)] {
+        var result: [(Double, Double)] = []
+        let stride = stride(from: 0, to: array.count, by: 2)
+        for index in stride where index + 1 < array.count {
+            let pair = (array[index], array[index + 1])
+            result.append(pair)
+        }
+        return result
+    }
+    
+    func configureSkips() {
+        let skips = animeItem.playlist[currentPlaylist].skips
+        let opening = pairFromArray(array: skips.opening)
+        let ending = pairFromArray(array: skips.ending)
+        self.skips = opening + ending
     }
 }
 
@@ -66,6 +85,7 @@ extension VideoPlayerModel {
             setCurrentHLS(hls: hls)
         }
         requestCachingNodes()
+        configureSkips()
     }
     
     func getData() -> AnimeItem {
@@ -86,5 +106,9 @@ extension VideoPlayerModel {
     
     func getCurrentPlaylistNumber() -> Int {
         return currentPlaylist
+    }
+    
+    func getSkips() -> [(Double, Double)] {
+        return skips
     }
 }

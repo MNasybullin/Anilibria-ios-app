@@ -30,6 +30,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     private var nowPlayingInfo = [String: Any]()
     
     private var hideOverlayTimer: Timer?
+    private var forwardBackwardTargetSeconds: Double = 0
     
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
@@ -222,6 +223,18 @@ extension VideoPlayerController {
             self?.customView.hideOverlay()
         }
     }
+    
+    private func checkSkips(time: Double) {
+        let skips = model.getSkips()
+        let isContains = skips.contains { (start, finish) in
+            if time >= start && time < finish {
+                return true
+            } else {
+                return false
+            }
+        }
+        customView.skipButton(isHidden: !isContains)
+    }
 }
 
 // MARK: - Observers And Subscriptions methods
@@ -238,6 +251,7 @@ private extension VideoPlayerController {
             let floatTime = Float(time.seconds)
             customView.setPlaybackSlider(value: floatTime)
             configureLeftRightTime(time: floatTime)
+            checkSkips(time: time.seconds)
         }
     }
     
@@ -323,6 +337,25 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
 // MARK: - VideoPlayerViewDelegate
 
 extension VideoPlayerController: VideoPlayerViewDelegate {
+    func skipButtonDidTapped() {
+        let skips = model.getSkips()
+        let time = player.currentTime().seconds
+        let filtered = skips.filter { (start, finish) in
+            if time >= start && time < finish {
+                return true
+            } else {
+                return false
+            }
+        }
+        guard let (_, finish) = filtered.first else { return }
+        guard let duration = player.currentItem?.duration else { return }
+        let finishTime = CMTime(seconds: finish, preferredTimescale: duration.timescale)
+        let targetTime = min(duration, finishTime)
+        player.seek(to: targetTime, toleranceBefore: .zero, toleranceAfter: .zero)
+        configurePlayerTime(time: Float(targetTime.seconds))
+        customView.skipButton(isHidden: true)
+    }
+    
     func statusBarAppearanceUpdate(isHidden: Bool) {
         isStatusBarHidden = isHidden
     }
@@ -344,9 +377,13 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     // MARK: MiddleView
     func backwardButtonDidTapped() {
         guard let duration = player.currentItem?.duration else { return }
-        let targetTime = max(.zero, player.currentTime() - CMTime(seconds: 10, preferredTimescale: duration.timescale))
+        forwardBackwardTargetSeconds -= 10
+        let targetTime = max(.zero, player.currentTime() + CMTime(seconds: forwardBackwardTargetSeconds, preferredTimescale: duration.timescale))
         configurePlayerTime(time: Float(targetTime.seconds))
-        player.seek(to: targetTime)
+        player.seek(to: targetTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] isFinished in
+            guard isFinished else { return }
+            self?.forwardBackwardTargetSeconds = 0
+        }
     }
     
     func playPauseButtonDidTapped(_ button: UIButton) {
@@ -361,9 +398,13 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     
     func forwardButtonDidTapped() {
         guard let duration = player.currentItem?.duration else { return }
-        let targetTime = min(duration, player.currentTime() + CMTime(seconds: 10, preferredTimescale: duration.timescale))
+        forwardBackwardTargetSeconds += 10
+        let targetTime = min(duration, player.currentTime() + CMTime(seconds: forwardBackwardTargetSeconds, preferredTimescale: duration.timescale))
         configurePlayerTime(time: Float(targetTime.seconds))
-        player.seek(to: targetTime)
+        player.seek(to: targetTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] isFinished in
+            guard isFinished else { return }
+            self?.forwardBackwardTargetSeconds = 0
+        }
     }
     
     // MARK: BottomView

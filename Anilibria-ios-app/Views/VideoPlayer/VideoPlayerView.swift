@@ -10,6 +10,7 @@ import AVKit
 
 protocol VideoPlayerViewDelegate: AnyObject, TopOverlayViewDelegate, MiddleOverlayViewDelegate, BottomOverlayViewDelegate, AVRoutePickerViewDelegate {
     func statusBarAppearanceUpdate(isHidden: Bool)
+    func skipButtonDidTapped()
 }
 
 final class VideoPlayerView: UIView {
@@ -26,6 +27,23 @@ final class VideoPlayerView: UIView {
     private let topView = TopOverlayView()
     private let middleView = MiddleOverlayView()
     private let bottomView = BottomOverlayView()
+    private lazy var skipButton: UIButton = {
+        var config = UIButton.Configuration.filled()
+        config.cornerStyle = .capsule
+        config.buttonSize = .large
+        config.baseForegroundColor = .white
+        config.baseBackgroundColor = .systemRed
+        config.title = Strings.VideoPlayerView.skipButton
+
+        let button = UIButton(configuration: config)
+        button.addAction(UIAction { [weak self] _ in
+            self?.delegate?.skipButtonDidTapped()
+        }, for: .touchUpInside)
+        
+        button.isHidden = true
+        button.alpha = 0
+        return button
+    }()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
@@ -78,7 +96,7 @@ private extension VideoPlayerView {
     }
     
     func configureLayout() {
-        [playerView, backgroundView, topView, middleView, bottomView, activityIndicator].forEach {
+        [playerView, backgroundView, topView, middleView, bottomView, activityIndicator, skipButton].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -111,7 +129,9 @@ private extension VideoPlayerView {
             middleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            skipButton.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -24)
         ])
         
         // MARK: Landscape Constraints
@@ -119,7 +139,8 @@ private extension VideoPlayerView {
             topView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             topView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             bottomView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            bottomView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+            bottomView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            skipButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ]
         
         // MARK: Portrait Constraints
@@ -127,7 +148,8 @@ private extension VideoPlayerView {
             topView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             topView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             bottomView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            bottomView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24)
+            bottomView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            skipButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24)
         ]
         
         NSLayoutConstraint.activate(showConstraints)
@@ -230,5 +252,21 @@ extension VideoPlayerView {
     
     func playPauseButton(isSelected: Bool) {
         middleView.playPauseButton(isSelected: isSelected)
+    }
+    
+    func skipButton(isHidden: Bool) {
+        guard skipButton.isHidden != isHidden else { return }
+        if isHidden {
+            UIView.animate(withDuration: 0.35) { [self] in
+                skipButton.alpha = isHidden ? 0 : 1
+            } completion: { [self] _ in
+                skipButton.isHidden = isHidden
+            }
+        } else {
+            skipButton.isHidden = isHidden
+            UIView.animate(withDuration: 0.35) { [self] in
+                skipButton.alpha = isHidden ? 0 : 1
+            }
+        }
     }
 }

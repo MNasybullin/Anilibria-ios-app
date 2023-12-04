@@ -119,6 +119,9 @@
 "AnimeSeriesView.seriesTitle" = "Серии";
 "AnimeSeriesView.allButton" = "Все";
 
+// MARK: Video Player
+"VideoPlayerView.skipButton" = "Пропустить";
+
 // MARK: - Series Module
 "SeriesModule.seriesTitle" = "Серии";
 "SeriesModule.series" = "серий";
