@@ -83,6 +83,7 @@ private extension VideoPlayerNavigator {
             completionBlock: completionBlock
         )
         let navigationController = UINavigationController(rootViewController: series)
+        navigationController.navigationBar.standardAppearance.configureWithOpaqueBackground()
         if let sheetController = navigationController.sheetPresentationController {
             sheetController.detents = [.large()]
             sheetController.prefersGrabberVisible = true

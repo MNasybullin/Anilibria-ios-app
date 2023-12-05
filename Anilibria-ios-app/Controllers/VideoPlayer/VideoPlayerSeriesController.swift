@@ -37,8 +37,8 @@ final class VideoPlayerSeriesController: UIViewController, HasCustomView {
         setupNavigationItem()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
         configureTableView()
     }
 }
