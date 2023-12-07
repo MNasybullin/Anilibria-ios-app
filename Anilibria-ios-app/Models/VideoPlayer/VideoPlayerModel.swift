@@ -17,13 +17,14 @@ final class VideoPlayerModel {
     private let publicApiService = PublicApiService()
     
     private var animeItem: AnimeItem
-    private var currentPlaylist: Int
-    private var currentHLS: String?
-    private var skips: [(Double, Double)] = []
+    private (set) var currentPlaylistNumber: Int
+    private (set) var currentHLS: HLS?
+    private (set) var skips: [(Double, Double)] = []
+    private (set) var currentRate: Float = 1.0
     
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         self.animeItem = animeItem
-        self.currentPlaylist = currentPlaylist
+        self.currentPlaylistNumber = currentPlaylist
         let hls = animeItem.playlist[currentPlaylist].hls
         setCurrentHLS(hls: hls)
         configureSkips()
@@ -33,9 +34,9 @@ final class VideoPlayerModel {
 // MARK: - Private methods
 
 private extension VideoPlayerModel {
-    func setCurrentHLS(hls: GTHls) {
-        self.currentHLS = hls.fhd ?? hls.hd ?? hls.sd
-//        self.currentHLS = hls.sd ?? hls.hd ?? hls.fhd
+    func setCurrentHLS(hls: [HLS]) {
+        currentHLS = hls.first
+//        return hls.sd ?? hls.hd ?? hls.fhd!
     }
     
     func pairFromArray(array: [Double]) -> [(Double, Double)] {
@@ -49,7 +50,7 @@ private extension VideoPlayerModel {
     }
     
     func configureSkips() {
-        let skips = animeItem.playlist[currentPlaylist].skips
+        let skips = animeItem.playlist[currentPlaylistNumber].skips
         let opening = pairFromArray(array: skips.opening)
         let ending = pairFromArray(array: skips.ending)
         self.skips = opening + ending
@@ -66,7 +67,7 @@ extension VideoPlayerModel {
                 guard let cachingNode = cachingNodes.first, let currentHLS else {
                     throw MyInternalError.failedToFetchData
                 }
-                guard let url = URL(string: "https://" + cachingNode + currentHLS) else {
+                guard let url = URL(string: "https://" + cachingNode + currentHLS.url) else {
                     throw MyInternalError.failedToFetchURLFromData
                 }
                 DispatchQueue.main.async {
@@ -79,10 +80,13 @@ extension VideoPlayerModel {
     }
     
     func replaceCurrentPlaylist(newPlaylistNumber: Int) {
-        currentPlaylist = newPlaylistNumber
-        let hls = animeItem.playlist[currentPlaylist].hls
-        if [hls.fhd, hls.hd, hls.sd].filter({ $0 == currentHLS }).isEmpty {
+        currentPlaylistNumber = newPlaylistNumber
+        let hls = animeItem.playlist[currentPlaylistNumber].hls
+        let hlsFiltered = hls.filter { $0.description == currentHLS?.description }
+        if hlsFiltered.isEmpty {
             setCurrentHLS(hls: hls)
+        } else {
+            currentHLS = hls.first
         }
         requestCachingNodes()
         configureSkips()
@@ -97,18 +101,18 @@ extension VideoPlayerModel {
     }
     
     func getSubtitle() -> String {
-        return animeItem.playlist[currentPlaylist].serieString
+        return animeItem.playlist[currentPlaylistNumber].serieString
     }
     
     func getAnimeImage() -> UIImage? {
         return animeItem.image
     }
     
-    func getCurrentPlaylistNumber() -> Int {
-        return currentPlaylist
+    func setCurrentRate(_ rate: Float) {
+        self.currentRate = rate
     }
     
-    func getSkips() -> [(Double, Double)] {
-        return skips
+    func getHLS() -> [HLS] {
+        return animeItem.playlist[currentPlaylistNumber].hls
     }
 }

@@ -40,6 +40,12 @@ extension VideoPlayerNavigator: Navigator {
             completionBlock: (Int) -> Void,
             presentatingController: UIViewController
         )
+        case settings(
+            presentatingController: UIViewController,
+            hls: [HLS],
+            currentHLS: HLS,
+            rate: PlayerRate
+        )
     }
     
     func show(_ destination: Destinition) {
@@ -57,6 +63,8 @@ extension VideoPlayerNavigator: Navigator {
                     completionBlock: completionBlock,
                     presentatingController: presentatingController
                 )
+            case .settings(let presentatingController, let hls, let currentHLS, let rate):
+                setupAndShowSettings(presentatingController: presentatingController, hls: hls, currentHLS: currentHLS, rate: rate)
         }
     }
 }
@@ -86,6 +94,19 @@ private extension VideoPlayerNavigator {
         navigationController.navigationBar.standardAppearance.configureWithOpaqueBackground()
         if let sheetController = navigationController.sheetPresentationController {
             sheetController.detents = [.large()]
+            sheetController.prefersGrabberVisible = true
+            sheetController.prefersEdgeAttachedInCompactHeight = true
+            sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+        }
+        presentatingController.present(navigationController, animated: true)
+    }
+    
+    func setupAndShowSettings(presentatingController: UIViewController, hls: [HLS], currentHLS: HLS, rate: PlayerRate) {
+        let settings = VideoPlayerSettingsController(hls: hls, currentHLS: currentHLS, rate: rate)
+        let navigationController = UINavigationController(rootViewController: settings)
+        navigationController.navigationBar.standardAppearance.configureWithOpaqueBackground()
+        if let sheetController = navigationController.sheetPresentationController {
+            sheetController.detents = [.medium(), .large()]
             sheetController.prefersGrabberVisible = true
             sheetController.prefersEdgeAttachedInCompactHeight = true
             sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true

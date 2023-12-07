@@ -225,7 +225,7 @@ extension VideoPlayerController {
     }
     
     private func checkSkips(time: Double) {
-        let skips = model.getSkips()
+        let skips = model.skips
         let isContains = skips.contains { (start, finish) in
             if time >= start && time < finish {
                 return true
@@ -302,7 +302,7 @@ private extension VideoPlayerController {
                         if customView.isOverlaysHidden == false {
                             setHideOverlayTimer()
                         }
-                        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1
+                        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = model.currentRate
                     case .waitingToPlayAtSpecifiedRate, .paused:
                         hideOverlayTimer?.invalidate()
                         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0
@@ -338,7 +338,7 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
 
 extension VideoPlayerController: VideoPlayerViewDelegate {
     func skipButtonDidTapped() {
-        let skips = model.getSkips()
+        let skips = model.skips
         let time = player.currentTime().seconds
         let filtered = skips.filter { (start, finish) in
             if time >= start && time < finish {
@@ -371,7 +371,14 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     }
     
     func settingsButtonDidTapped() {
-        print(#function)
+        let hls = model.getHLS()
+        let currentHLS = model.currentHLS
+        let rate = model.currentRate
+        guard let currentHLS, let playerRate = PlayerRate(rawValue: rate) else {
+            print("Video Player current HLS is nil or playerRate is init failed")
+            return
+        }
+        navigator?.show(.settings(presentatingController: self, hls: hls, currentHLS: currentHLS, rate: playerRate))
     }
     
     // MARK: MiddleView
@@ -428,7 +435,7 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     
     func seriesButtonDidTapped() {
         let data = model.getData()
-        let currentPlaylistNumber = model.getCurrentPlaylistNumber()
+        let currentPlaylistNumber = model.currentPlaylistNumber
         let completionBlock: (Int) -> Void = { [weak self] newPlaylistNumber in
             guard let self else { return }
             self.model.replaceCurrentPlaylist(newPlaylistNumber: newPlaylistNumber)
