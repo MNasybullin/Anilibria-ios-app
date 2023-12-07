@@ -45,6 +45,8 @@ extension AnimeItem {
     }
     
     private static func getDescriptionText(_ model: TitleAPIModel) -> String? {
-        return model.description?.replacingOccurrences(of: "[\r\n]{3,}", with: "\n\n", options: .regularExpression, range: nil)
+        return ("\t" + (model.description ?? ""))
+            .replacingOccurrences(of: "[\r\n]{3,}", with: "\n\n", options: .regularExpression, range: nil)
+            .replacingOccurrences(of: "[\n]", with: "\n\t", options: .regularExpression, range: nil)
     }
 }
