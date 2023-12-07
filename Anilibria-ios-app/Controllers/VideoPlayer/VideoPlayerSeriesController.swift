@@ -37,9 +37,9 @@ final class VideoPlayerSeriesController: UIViewController, HasCustomView {
         setupNavigationItem()
     }
     
-    override func viewIsAppearing(_ animated: Bool) {
-        super.viewIsAppearing(animated)
-        configureTableView()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        scrollToCurrentPlaylist()
     }
 }
 
@@ -56,7 +56,7 @@ private extension VideoPlayerSeriesController {
         dismiss(animated: true)
     }
     
-    func configureTableView() {
+    func scrollToCurrentPlaylist() {
         let indexPath = IndexPath(row: currentPlaylistNumber, section: 0)
         customView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
     }

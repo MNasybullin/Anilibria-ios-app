@@ -14,14 +14,14 @@ enum PlayerSettingsRow: Int, CaseIterable, CustomStringConvertible {
     var description: String {
         switch self {
             case .quality:
-                return "Качество"
+                return Strings.VideoPlayerSettings.quality
             case .rate:
-                return "Скорость"
+                return Strings.VideoPlayerSettings.rate
         }
     }
 }
 
-enum PlayerRate: Float, CustomStringConvertible {
+enum PlayerRate: Float, CustomStringConvertible, CaseIterable {
     /// 0.25
     case lowOne = 0.25
     /// 0.5
@@ -42,7 +42,7 @@ enum PlayerRate: Float, CustomStringConvertible {
     var description: String {
         switch self {
             case .default:
-                return "Обычная"
+                return Strings.VideoPlayerSettings.defaultRate
             default:
                 return String(self.rawValue)
         }

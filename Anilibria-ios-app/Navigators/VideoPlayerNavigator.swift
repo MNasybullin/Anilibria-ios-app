@@ -41,10 +41,11 @@ extension VideoPlayerNavigator: Navigator {
             presentatingController: UIViewController
         )
         case settings(
-            presentatingController: UIViewController,
             hls: [HLS],
             currentHLS: HLS,
-            rate: PlayerRate
+            rate: PlayerRate,
+            presentatingController: UIViewController,
+            delegate: VideoPlayerSettingsControllerDelegate
         )
     }
     
@@ -63,8 +64,8 @@ extension VideoPlayerNavigator: Navigator {
                     completionBlock: completionBlock,
                     presentatingController: presentatingController
                 )
-            case .settings(let presentatingController, let hls, let currentHLS, let rate):
-                setupAndShowSettings(presentatingController: presentatingController, hls: hls, currentHLS: currentHLS, rate: rate)
+            case .settings(let hls, let currentHLS, let rate, let presentatingController, let delegate):
+                setupAndShowSettings(hls: hls, currentHLS: currentHLS, rate: rate, presentatingController: presentatingController, delegate: delegate)
         }
     }
 }
@@ -101,8 +102,9 @@ private extension VideoPlayerNavigator {
         presentatingController.present(navigationController, animated: true)
     }
     
-    func setupAndShowSettings(presentatingController: UIViewController, hls: [HLS], currentHLS: HLS, rate: PlayerRate) {
+    func setupAndShowSettings(hls: [HLS], currentHLS: HLS, rate: PlayerRate, presentatingController: UIViewController, delegate: VideoPlayerSettingsControllerDelegate) {
         let settings = VideoPlayerSettingsController(hls: hls, currentHLS: currentHLS, rate: rate)
+        settings.delegate = delegate
         let navigationController = UINavigationController(rootViewController: settings)
         navigationController.navigationBar.standardAppearance.configureWithOpaqueBackground()
         if let sheetController = navigationController.sheetPresentationController {

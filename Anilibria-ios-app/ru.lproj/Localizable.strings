@@ -122,6 +122,12 @@
 // MARK: Video Player
 "VideoPlayerView.skipButton" = "Пропустить";
 
+// MARK: Video Player Settings
+"VideoPlayerSettings.settings" = "Настройки";
+"VideoPlayerSettings.quality" = "Качество";
+"VideoPlayerSettings.rate" = "Скорость";
+"VideoPlayerSettings.defaultRate" = "Обычная";
+
 // MARK: - Series Module
 "SeriesModule.seriesTitle" = "Серии";
 "SeriesModule.series" = "серий";

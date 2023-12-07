@@ -9,6 +9,7 @@ import UIKit
 
 protocol VideoPlayerModelDelegate: AnyObject {
     func configurePlayerItem(url: URL)
+    func configurePlayerItemWithCurrentPlaybackTime(url: URL)
 }
 
 final class VideoPlayerModel {
@@ -21,6 +22,7 @@ final class VideoPlayerModel {
     private (set) var currentHLS: HLS?
     private (set) var skips: [(Double, Double)] = []
     private (set) var currentRate: Float = 1.0
+    private var cachingNodes: [String] = []
     
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         self.animeItem = animeItem
@@ -36,7 +38,6 @@ final class VideoPlayerModel {
 private extension VideoPlayerModel {
     func setCurrentHLS(hls: [HLS]) {
         currentHLS = hls.first
-//        return hls.sd ?? hls.hd ?? hls.fhd!
     }
     
     func pairFromArray(array: [Double]) -> [(Double, Double)] {
@@ -63,7 +64,7 @@ extension VideoPlayerModel {
     func requestCachingNodes() {
         Task(priority: .userInitiated) {
             do {
-                let cachingNodes = try await publicApiService.getCachingNodes()
+                cachingNodes = try await publicApiService.getCachingNodes()
                 guard let cachingNode = cachingNodes.first, let currentHLS else {
                     throw MyInternalError.failedToFetchData
                 }
@@ -86,10 +87,23 @@ extension VideoPlayerModel {
         if hlsFiltered.isEmpty {
             setCurrentHLS(hls: hls)
         } else {
-            currentHLS = hls.first
+            currentHLS = hlsFiltered.first
         }
         requestCachingNodes()
         configureSkips()
+    }
+    
+    func changeCurrentHLS(_ hls: HLS) {
+        currentHLS = hls
+        guard let cachingNode = cachingNodes.first else {
+            print(MyInternalError.failedToFetchData)
+            return
+        }
+        guard let url = URL(string: "https://" + cachingNode + hls.url) else {
+            print(MyInternalError.failedToFetchURLFromData)
+            return
+        }
+        delegate?.configurePlayerItemWithCurrentPlaybackTime(url: url)
     }
     
     func getData() -> AnimeItem {

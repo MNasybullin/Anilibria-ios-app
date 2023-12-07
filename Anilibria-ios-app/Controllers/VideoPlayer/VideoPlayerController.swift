@@ -211,6 +211,7 @@ extension VideoPlayerController {
         customView.hideActivityIndicator()
         customView.playPauseButton(isSelected: true)
         player.play()
+        player.rate = model.currentRate
     }
     
     private func setHideOverlayTimer() {
@@ -332,6 +333,15 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
         playerSubscriptions()
         playerItemSubscriptions(playerItem: playerItem)
     }
+    
+    func configurePlayerItemWithCurrentPlaybackTime(url: URL) {
+        let currentPlaybackTime = player.currentTime()
+        
+        configurePlayerItem(url: url)
+        
+        let targetTime = max(.zero, player.currentTime() + currentPlaybackTime)
+        player.seek(to: targetTime, toleranceBefore: .zero, toleranceAfter: .zero)
+    }
 }
 
 // MARK: - VideoPlayerViewDelegate
@@ -378,7 +388,7 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
             print("Video Player current HLS is nil or playerRate is init failed")
             return
         }
-        navigator?.show(.settings(presentatingController: self, hls: hls, currentHLS: currentHLS, rate: playerRate))
+        navigator?.show(.settings(hls: hls, currentHLS: currentHLS, rate: playerRate, presentatingController: self, delegate: self))
     }
     
     // MARK: MiddleView
@@ -443,5 +453,21 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
             self.customView.setSubtitle(self.model.getSubtitle())
         }
         navigator?.show(.series(data: data, currentPlaylistNumber: currentPlaylistNumber, completionBlock: completionBlock, presentatingController: self))
+    }
+}
+
+// MARK: - VideoPlayerSettingsControllerDelegate
+
+extension VideoPlayerController: VideoPlayerSettingsControllerDelegate {
+    func setRate(_ rate: Float) {
+        player.rate = rate
+        model.setCurrentRate(rate)
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = rate
+        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime().seconds
+        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
+    }
+    
+    func setHLS(_ hls: HLS) {
+        model.changeCurrentHLS(hls)
     }
 }
