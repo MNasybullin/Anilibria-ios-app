@@ -14,21 +14,21 @@ protocol AnimeSeriesViewDelegate: AnyObject {
 final class AnimeSeriesView: UIView {
     weak var delegate: AnimeSeriesViewDelegate?
     
-    lazy var hStack: UIStackView = {
+    private lazy var hStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .center
         return stack
     }()
     
-    lazy var vStack: UIStackView = {
+    private lazy var vStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .leading
         return stack
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = Strings.AnimeSeriesView.seriesTitle
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -36,14 +36,14 @@ final class AnimeSeriesView: UIView {
         return label
     }()
     
-    lazy var subtitleLabel: UILabel = {
+    private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textColor = .secondaryLabel
         return label
     }()
     
-    lazy var allButton: UIButton = {
+    private lazy var allButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.title = Strings.AnimeSeriesView.allButton
         config.baseForegroundColor = .systemRed
@@ -91,5 +91,9 @@ final class AnimeSeriesView: UIView {
         ])
         
         allButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    }
+    
+    func setSubtitle(text: String?) {
+        subtitleLabel.text = text
     }
 }

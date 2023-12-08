@@ -62,8 +62,6 @@
 		2748DD122AF1789E00D53E9B /* SeriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748DD112AF1789E00D53E9B /* SeriesView.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275287B529D5913B00D403F6 /* AnimeInfoView.swift */; };
-		2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */; };
-		2754F63128A94525003485E6 /* ViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2754F63028A94525003485E6 /* ViewPreview.swift */; };
 		2758657A2ACEB2D700F98884 /* SecurityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865792ACEB2D700F98884 /* SecurityStorage.swift */; };
 		275865852ACF093100F98884 /* SecurityStorageCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */; };
 		275865872ACF094200F98884 /* SecurityStorageSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */; };
@@ -213,8 +211,6 @@
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		275287B529D5913B00D403F6 /* AnimeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeInfoView.swift; sourceTree = "<group>"; };
-		2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPreview.swift; sourceTree = "<group>"; };
-		2754F63028A94525003485E6 /* ViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPreview.swift; sourceTree = "<group>"; };
 		275865792ACEB2D700F98884 /* SecurityStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
 		275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorageCredentialsTests.swift; sourceTree = "<group>"; };
 		275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorageSessionTests.swift; sourceTree = "<group>"; };
@@ -497,15 +493,6 @@
 			path = AnimeInfoView;
 			sourceTree = "<group>";
 		};
-		2752C4CB28A938D600B17073 /* LivePreviewInUIKit */ = {
-			isa = PBXGroup;
-			children = (
-				2752C4CC28A9392A00B17073 /* ViewControllerPreview.swift */,
-				2754F63028A94525003485E6 /* ViewPreview.swift */,
-			);
-			path = LivePreviewInUIKit;
-			sourceTree = "<group>";
-		};
 		2758657D2ACF006D00F98884 /* Keychain */ = {
 			isa = PBXGroup;
 			children = (
@@ -783,7 +770,6 @@
 			children = (
 				27F5E557287C6DCA00BCF61C /* AppDelegate.swift */,
 				27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */,
-				2752C4CB28A938D600B17073 /* LivePreviewInUIKit */,
 				272D6539288EC4EC00FA4F60 /* Generated */,
 				279E4F31289C7044008038FF /* Common */,
 				275EFF0E2B134CE300C281B1 /* CoreData */,
@@ -1010,7 +996,6 @@
 				27A66E7D299298B200369EAF /* NetworkMonitor.swift in Sources */,
 				271A0E342AE90291005958CB /* ScheduleItem.swift in Sources */,
 				275B1AF229DECF50006A00EA /* AnimeSeriesView.swift in Sources */,
-				2752C4CD28A9392A00B17073 /* ViewControllerPreview.swift in Sources */,
 				2744C87729BC71A700105F11 /* SearchResultsLoadingFooterView.swift in Sources */,
 				27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */,
 				27B7070F2AF2962200DD8DC6 /* RandomAnimeModel.swift in Sources */,
@@ -1068,7 +1053,6 @@
 				271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */,
 				27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */,
 				27B707062AF253DC00DD8DC6 /* SeriesModel.swift in Sources */,
-				2754F63128A94525003485E6 /* ViewPreview.swift in Sources */,
 				27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */,
 				272D6541288EC4EC00FA4F60 /* IB-Scenes+Generated.swift in Sources */,
 				2704E4302B0F9AFB0082507F /* VideoPlayerPiPController.swift in Sources */,

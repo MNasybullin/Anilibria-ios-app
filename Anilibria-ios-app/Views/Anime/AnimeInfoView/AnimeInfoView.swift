@@ -8,15 +8,14 @@
 import UIKit
 
 final class AnimeInfoView: UIView {
-    
-    lazy var contentVStack: UIStackView = {
+    private lazy var contentVStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = 14
         return stack
     }()
     
-    lazy var ruNameLabel: UILabel = {
+    private lazy var ruNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 26, weight: .heavy)
         label.textColor = .label
@@ -25,14 +24,14 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    lazy var engNameAndSeasonAndTypeVStack: UIStackView = {
+    private lazy var engNameAndSeasonAndTypeVStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .center
         return stack
     }()
     
-    lazy var engNameLabel: UILabel = {
+    private lazy var engNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .label
@@ -41,7 +40,7 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    lazy var seasonAndTypeLabel: UILabel = {
+    private lazy var seasonAndTypeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
@@ -49,9 +48,9 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    lazy var watchAndDownloadButtonsView = WatchAndDownloadButtonsView()
+    private (set) lazy var watchAndDownloadButtonsView = WatchAndDownloadButtonsView()
     
-    lazy var genresLabel: UILabel = {
+    private lazy var genresLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
@@ -60,9 +59,9 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    lazy var favoriteAndShareButtonsView = FavoriteAndShareButtonsView()
+    private (set) lazy var favoriteAndShareButtonsView = FavoriteAndShareButtonsView()
     
-    lazy var descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .label
@@ -71,8 +70,8 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    lazy var animeSeriesView = AnimeSeriesView()
-    lazy var animeTeamInfoView = AnimeTeamInfoView()
+    private (set) lazy var animeSeriesView = AnimeSeriesView()
+    private lazy var animeTeamInfoView = AnimeTeamInfoView()
     
     init() {
         super.init(frame: .zero)
@@ -103,19 +102,16 @@ final class AnimeInfoView: UIView {
             contentVStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
         ])
     }
-}
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct AnimeInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPreview {
-            AnimeInfoView()
-        }
-        .frame(height: 500)
+    
+    func configureView(item: AnimeItem) {
+        ruNameLabel.text = item.ruName
+        engNameLabel.text = item.engName
+        seasonAndTypeLabel.text = item.seasonAndType
+        genresLabel.text = item.genres
+        descriptionLabel.text = item.description
+        animeTeamInfoView.configureView(withData: item.team)
+        
+        let subtitleText = (item.series?.string ?? "") + " " + "серий"
+        animeSeriesView.setSubtitle(text: subtitleText)
     }
 }
-
-#endif

@@ -15,16 +15,16 @@ protocol FavoriteAndShareButtonsViewDelegate: AnyObject {
 final class FavoriteAndShareButtonsView: UIView {
     weak var delegate: FavoriteAndShareButtonsViewDelegate?
     
-    let imagePadding: CGFloat = 5
+    private let imagePadding: CGFloat = 5
     
-    lazy var vStack: UIStackView = {
+    private lazy var vStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .center
         return stack
     }()
     
-    lazy var hStack: UIStackView = {
+    private lazy var hStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 20
@@ -33,7 +33,7 @@ final class FavoriteAndShareButtonsView: UIView {
         return stack
     }()
     
-    lazy var favoriteButton: UIButton = {
+    private lazy var favoriteButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.buttonSize = .mini
         config.baseForegroundColor = .secondaryLabel
@@ -52,7 +52,7 @@ final class FavoriteAndShareButtonsView: UIView {
         return button
     }()
     
-    lazy var shareButton: UIButton = {
+    private lazy var shareButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.buttonSize = .small
         config.baseForegroundColor = .secondaryLabel
@@ -97,18 +97,3 @@ final class FavoriteAndShareButtonsView: UIView {
         ])
     }
 }
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct FavoriteAndShareButtonsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPreview {
-            FavoriteAndShareButtonsView()
-        }
-        .frame(height: 80)
-    }
-}
-
-#endif

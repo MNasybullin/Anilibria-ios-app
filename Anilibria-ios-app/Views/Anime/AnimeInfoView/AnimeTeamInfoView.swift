@@ -24,6 +24,18 @@ final class AnimeTeamInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func setupLayout() {
+        addSubview(vStack)
+        
+        vStack.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            vStack.topAnchor.constraint(equalTo: topAnchor),
+            vStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            vStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            vStack.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    
     func configureView(withData teams: [Team]) {
         teams.forEach { team in
             let label = UILabel()
@@ -44,21 +56,5 @@ final class AnimeTeamInfoView: UIView {
             label.attributedText = attributedString
             vStack.addArrangedSubview(label)
         }
-    }
-}
-
-// MARK: - Private methods
-
-private extension AnimeTeamInfoView {
-    func setupLayout() {
-        addSubview(vStack)
-        
-        vStack.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            vStack.topAnchor.constraint(equalTo: topAnchor),
-            vStack.leadingAnchor.constraint(equalTo: leadingAnchor),
-            vStack.trailingAnchor.constraint(equalTo: trailingAnchor),
-            vStack.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
     }
 }
