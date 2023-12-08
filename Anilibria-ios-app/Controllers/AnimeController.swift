@@ -98,6 +98,16 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
     }
     
     func shareButtonClicked() {
-        print(#function)
+        let item = model.getAnimeItem()
+        let releaseUrl = "/release/" + item.code + ".html"
+        let textToShare = """
+            \(item.ruName)
+            \(NetworkConstants.anilibriaURL + releaseUrl)
+            Зеркало: \(NetworkConstants.mirrorAnilibriaURL + releaseUrl)
+            """
+        
+        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+        activityViewController.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
+        present(activityViewController, animated: true, completion: nil)
     }
 }

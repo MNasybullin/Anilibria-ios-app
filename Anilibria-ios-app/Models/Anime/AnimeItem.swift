@@ -10,6 +10,7 @@ import UIKit
 struct AnimeItem {
     var image: UIImage?
     let ruName: String
+    let code: String
     let engName: String?
     let seasonAndType: String
     let genres: String?
@@ -26,6 +27,7 @@ extension AnimeItem {
         self.init(
             image: image,
             ruName: item.names.ru,
+            code: item.code,
             engName: item.names.en,
             seasonAndType: AnimeItem.getSeasonAndTypeText(item),
             genres: AnimeItem.getgenresText(item.genres),
