@@ -110,19 +110,19 @@
 // MARK: - User Info View
 "UserInfoView.logoutButton" = "Выйти";
 
-// MARK: Anime View
+// MARK: - Anime View
 "AnimeView.watchButton" = "Смотреть";
 "AnimeView.favoriteButton" = "Избранное";
 "AnimeView.shareButton" = "Поделиться";
 
-// MARK: Anime Series View
+// MARK: - Anime Series View
 "AnimeSeriesView.seriesTitle" = "Серии";
 "AnimeSeriesView.allButton" = "Все";
 
-// MARK: Video Player
+// MARK: - Video Player
 "VideoPlayerView.skipButton" = "Пропустить";
 
-// MARK: Video Player Settings
+// MARK: - Video Player Settings
 "VideoPlayerSettings.settings" = "Настройки";
 "VideoPlayerSettings.quality" = "Качество";
 "VideoPlayerSettings.rate" = "Скорость";
@@ -139,3 +139,10 @@
 
 // MARK: - Skeleton Text Placeholder
 "SkeletonTextPlaceholder" = "Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder";
+
+// MARK: - Team
+"Team.voice" = "Озвучка";
+"Team.translator" = "Перевод";
+"Team.editing" = "Редактор";
+"Team.decor" = "Оформление";
+"Team.timing" = "Тайминг";

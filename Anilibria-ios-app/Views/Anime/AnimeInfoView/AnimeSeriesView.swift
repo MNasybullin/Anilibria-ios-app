@@ -73,6 +73,10 @@ final class AnimeSeriesView: UIView {
         setupConstraints()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     @objc private func viewTapped() {
         delegate?.seriesViewClicked()
     }
@@ -87,9 +91,5 @@ final class AnimeSeriesView: UIView {
         ])
         
         allButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

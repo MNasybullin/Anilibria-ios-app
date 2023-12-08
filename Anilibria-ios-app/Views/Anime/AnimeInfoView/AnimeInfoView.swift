@@ -72,21 +72,20 @@ final class AnimeInfoView: UIView {
     }()
     
     lazy var animeSeriesView = AnimeSeriesView()
+    lazy var animeTeamInfoView = AnimeTeamInfoView()
     
     init() {
         super.init(frame: .zero)
         addSubview(contentVStack)
         
-        contentVStack.addArrangedSubview(ruNameLabel)
-        contentVStack.addArrangedSubview(engNameAndSeasonAndTypeVStack)
-        contentVStack.addArrangedSubview(watchAndDownloadButtonsView)
-        contentVStack.addArrangedSubview(genresLabel)
-        contentVStack.addArrangedSubview(favoriteAndShareButtonsView)
-        contentVStack.addArrangedSubview(descriptionLabel)
-        contentVStack.addArrangedSubview(animeSeriesView)
+        [ruNameLabel, engNameAndSeasonAndTypeVStack, watchAndDownloadButtonsView,
+         genresLabel, favoriteAndShareButtonsView, descriptionLabel, animeTeamInfoView,
+         animeSeriesView]
+            .forEach { contentVStack.addArrangedSubview($0) }
         
-        engNameAndSeasonAndTypeVStack.addArrangedSubview(engNameLabel)
-        engNameAndSeasonAndTypeVStack.addArrangedSubview(seasonAndTypeLabel)
+        [engNameLabel, seasonAndTypeLabel].forEach {
+            engNameAndSeasonAndTypeVStack.addArrangedSubview($0)
+        }
         
         setupConstraints()
     }

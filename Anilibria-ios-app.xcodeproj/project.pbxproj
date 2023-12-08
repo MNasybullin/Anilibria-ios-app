@@ -119,6 +119,8 @@
 		27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707242AF5599100DD8DC6 /* HasSearchBar.swift */; };
 		27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
+		27CE88552B2316E6004DC558 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88542B2316E6004DC558 /* Team.swift */; };
+		27CE88572B231D29004DC558 /* AnimeTeamInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88562B231D29004DC558 /* AnimeTeamInfoView.swift */; };
 		27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */; };
@@ -267,6 +269,8 @@
 		27B707242AF5599100DD8DC6 /* HasSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasSearchBar.swift; sourceTree = "<group>"; };
 		27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		27CE88542B2316E6004DC558 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		27CE88562B231D29004DC558 /* AnimeTeamInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTeamInfoView.swift; sourceTree = "<group>"; };
 		27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOrientation.swift; sourceTree = "<group>"; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsErrorFooterView.swift; sourceTree = "<group>"; };
@@ -454,6 +458,7 @@
 				2748DD0B2AEE5D7E00D53E9B /* AnimeItem.swift */,
 				27EA50942B022F0100A1B987 /* Playlist.swift */,
 				273ECB042B21B03900402612 /* HLS.swift */,
+				27CE88542B2316E6004DC558 /* Team.swift */,
 			);
 			path = Anime;
 			sourceTree = "<group>";
@@ -485,6 +490,7 @@
 				275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */,
 				275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */,
 				275B1AF129DECF50006A00EA /* AnimeSeriesView.swift */,
+				27CE88562B231D29004DC558 /* AnimeTeamInfoView.swift */,
 			);
 			path = AnimeInfoView;
 			sourceTree = "<group>";
@@ -971,6 +977,7 @@
 				27B707032AF181FE00DD8DC6 /* SeriesHeaderSupplementaryView.swift in Sources */,
 				275865CD2ADB13BF00F98884 /* ProfileView.swift in Sources */,
 				275865B12AD9CD8900F98884 /* HomeNavigator.swift in Sources */,
+				27CE88552B2316E6004DC558 /* Team.swift in Sources */,
 				275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */,
 				275EFF392B14BB1400C281B1 /* UserEntity.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
@@ -993,6 +1000,7 @@
 				2748DD082AEE4EBC00D53E9B /* AnimeNavigator.swift in Sources */,
 				271072DA2ADDB7CF0024530D /* HomeController.swift in Sources */,
 				27A66E75298E93FC00369EAF /* RootViewController.swift in Sources */,
+				27CE88572B231D29004DC558 /* AnimeTeamInfoView.swift in Sources */,
 				279E4F37289D2CA7008038FF /* ProfileAPIModel.swift in Sources */,
 				2748DD102AF177C400D53E9B /* SeriesController.swift in Sources */,
 				271A0E1D2AE7E8B9005958CB /* HomeCollectionViewLayout.swift in Sources */,

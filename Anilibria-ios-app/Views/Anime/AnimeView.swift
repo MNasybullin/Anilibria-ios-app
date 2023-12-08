@@ -110,6 +110,7 @@ private extension AnimeView {
         animeInfoView.seasonAndTypeLabel.text = item.seasonAndType
         animeInfoView.genresLabel.text = item.genres
         animeInfoView.descriptionLabel.text = item.description
+        animeInfoView.animeTeamInfoView.configureView(withData: item.team)
         animeInfoView.animeSeriesView.subtitleLabel.text = (item.series?.string ?? "") + " " + "серий" //  localizable
     }
     
