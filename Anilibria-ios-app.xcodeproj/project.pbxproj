@@ -121,6 +121,7 @@
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CE88552B2316E6004DC558 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88542B2316E6004DC558 /* Team.swift */; };
 		27CE88572B231D29004DC558 /* AnimeTeamInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88562B231D29004DC558 /* AnimeTeamInfoView.swift */; };
+		27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88582B2343E0004DC558 /* NetworkConstants.swift */; };
 		27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */; };
@@ -271,6 +272,7 @@
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CE88542B2316E6004DC558 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		27CE88562B231D29004DC558 /* AnimeTeamInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTeamInfoView.swift; sourceTree = "<group>"; };
+		27CE88582B2343E0004DC558 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOrientation.swift; sourceTree = "<group>"; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsErrorFooterView.swift; sourceTree = "<group>"; };
@@ -728,6 +730,7 @@
 				2710E99E29B5117500B66C62 /* AuthorizationService.swift */,
 				2710E99C29B510ED00B66C62 /* ImageLoaderService.swift */,
 				27A66E7C299298B200369EAF /* NetworkMonitor.swift */,
+				27CE88582B2343E0004DC558 /* NetworkConstants.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1063,6 +1066,7 @@
 				2748DD0A2AEE5D1B00D53E9B /* AnimeModel.swift in Sources */,
 				275865C92ADAFDDF00F98884 /* UserModel.swift in Sources */,
 				271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */,
+				27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */,
 				27B707062AF253DC00DD8DC6 /* SeriesModel.swift in Sources */,
 				2754F63128A94525003485E6 /* ViewPreview.swift in Sources */,
 				27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */,

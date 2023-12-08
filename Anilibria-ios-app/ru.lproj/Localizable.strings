@@ -6,31 +6,6 @@
   
 */
 
-// MARK: - Network API Constants
-"NetworkConstants.anilibriaURL" = "https://www.anilibria.tv";
-"NetworkConstants.baseImagesURL" = "https://static.anilibria.tv";
-"NetworkConstants.mirrorAnilibriaURL" = "https://anilibria-ios-app.anilib.moe";
-"NetworkConstants.mirrorBaseImagesURL" = "https://static.anilib.moe";
-"NetworkConstants.apiAnilibriaURL" = "https://api.anilibria.tv";
-"NetworkConstants.getYouTube" = "/v2/getYouTube";
-"NetworkConstants.getTitle" = "/v2/getTitle";
-"NetworkConstants.getTitles" = "/v2/getTitles";
-"NetworkConstants.getUpdates" = "/v2/getUpdates";
-"NetworkConstants.getChanges" = "/v2/getChanges";
-"NetworkConstants.getSchedule" = "/v2/getSchedule";
-"NetworkConstants.getRandomTitle" = "/v2/getRandomTitle";
-"NetworkConstants.getYears" = "/v2/getYears";
-"NetworkConstants.getGenres" = "/v2/getGenres";
-"NetworkConstants.getTeam" = "/v2/getTeam";
-"NetworkConstants.getCachingNodes" = "/v2/getCachingNodes";
-"NetworkConstants.searchTitles" = "/v2/searchTitles";
-"NetworkConstants.login" = "/public/login.php";
-"NetworkConstants.logout" = "/public/logout.php";
-"NetworkConstants.profile" = "/public/api/index.php";
-"NetworkConstants.getFavorites" = "/v2/getFavorites";
-"NetworkConstants.addFavorite" = "/v2/addFavorite";
-"NetworkConstants.delFavorite" = "/v2/delFavorite";
-
 // MARK: -  Network Error
 "NetworkError.invalidServerResponse" = "Неверный ответ от сервера.";
 "NetworkError.invalidURLComponents" = "Неверный URL.";

@@ -15,7 +15,7 @@ final class AuthorizationService: NetworkQuery {
     
     /// Авторизация
     func login(email: String, password: String) async throws -> LoginAPIModel {
-        guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.login) else {
+        guard let url = URL(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.login) else {
             throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
@@ -61,7 +61,7 @@ final class AuthorizationService: NetworkQuery {
     
     /// Выход
     func logout() async throws {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.logout)
+        let urlComponents = URLComponents(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.logout)
         _ = try await dataRequest(with: urlComponents, httpMethod: .post)
         
         try securityStorage.deleteSession()
@@ -80,7 +80,7 @@ final class AuthorizationService: NetworkQuery {
             throw MyNetworkError.userIsNotAuthorized
         }
         
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getFavorites)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -102,7 +102,7 @@ final class AuthorizationService: NetworkQuery {
             throw MyNetworkError.userIsNotAuthorized
         }
         
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.addFavorite)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -127,7 +127,7 @@ final class AuthorizationService: NetworkQuery {
             throw MyNetworkError.userIsNotAuthorized
         }
         
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.delFavorite)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -144,7 +144,7 @@ final class AuthorizationService: NetworkQuery {
     
     /// Получить информацию о пользователе
     func profileInfo() async throws -> ProfileAPIModel {
-        guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.profile) else {
+        guard let url = URL(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.profile) else {
             throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)

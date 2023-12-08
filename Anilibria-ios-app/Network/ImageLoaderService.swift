@@ -29,7 +29,7 @@ final class ImageLoaderService: NetworkQuery {
     }()
     
     func getImageData(from urlSuffix: String) async throws -> Data {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorBaseImagesURL + urlSuffix)
+        let urlComponents = URLComponents(string: NetworkConstants.mirrorBaseImagesURL + urlSuffix)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         return data
