@@ -28,6 +28,7 @@ final class AnimeTeamInfoView: UIView {
         teams.forEach { team in
             let label = UILabel()
             label.font = .systemFont(ofSize: 15)
+            label.numberOfLines = 0
             
             let originalText = team.description + ": " + team.nicknames.joined(separator: ", ")
             let attributedString = NSMutableAttributedString(string: originalText)
