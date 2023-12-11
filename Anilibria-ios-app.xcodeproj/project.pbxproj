@@ -101,7 +101,9 @@
 		27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E7A2990F0ED00369EAF /* NetworkStatusView.swift */; };
 		27A66E7D299298B200369EAF /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E7C299298B200369EAF /* NetworkMonitor.swift */; };
 		27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */; };
-		27AB03EA2B25C9130007E750 /* HorizontalHomePosterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB03E92B25C9130007E750 /* HorizontalHomePosterCell.swift */; };
+		27AB03EA2B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB03E92B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift */; };
+		27AB03EC2B2735780007E750 /* TodayHomePosterCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB03EB2B2735780007E750 /* TodayHomePosterCollectionCell.swift */; };
+		27AB03EE2B27359E0007E750 /* UpdatesHomePosterCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB03ED2B27359E0007E750 /* UpdatesHomePosterCollectionCell.swift */; };
 		27B707032AF181FE00DD8DC6 /* SeriesHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707022AF181FE00DD8DC6 /* SeriesHeaderSupplementaryView.swift */; };
 		27B707062AF253DC00DD8DC6 /* SeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707052AF253DC00DD8DC6 /* SeriesModel.swift */; };
 		27B707082AF2571900DD8DC6 /* SeriesContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B707072AF2571900DD8DC6 /* SeriesContentController.swift */; };
@@ -252,7 +254,9 @@
 		27A66E7A2990F0ED00369EAF /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
 		27A66E7C299298B200369EAF /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesTableViewCell.swift; sourceTree = "<group>"; };
-		27AB03E92B25C9130007E750 /* HorizontalHomePosterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalHomePosterCell.swift; sourceTree = "<group>"; };
+		27AB03E92B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeHomePosterCollectionCell.swift; sourceTree = "<group>"; };
+		27AB03EB2B2735780007E750 /* TodayHomePosterCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayHomePosterCollectionCell.swift; sourceTree = "<group>"; };
+		27AB03ED2B27359E0007E750 /* UpdatesHomePosterCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatesHomePosterCollectionCell.swift; sourceTree = "<group>"; };
 		27B707022AF181FE00DD8DC6 /* SeriesHeaderSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesHeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		27B707052AF253DC00DD8DC6 /* SeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesModel.swift; sourceTree = "<group>"; };
 		27B707072AF2571900DD8DC6 /* SeriesContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesContentController.swift; sourceTree = "<group>"; };
@@ -336,7 +340,6 @@
 			isa = PBXGroup;
 			children = (
 				271072E22ADDD7AC0024530D /* HomePosterCollectionViewCell.swift */,
-				27AB03E92B25C9130007E750 /* HorizontalHomePosterCell.swift */,
 				27AAC70629E036A90079F4DD /* SeriesTableViewCell.swift */,
 				2744762A29B8CCF60062F6D2 /* SearchResultsTableViewCell.swift */,
 			);
@@ -710,6 +713,9 @@
 				271072DB2ADDBA3E0024530D /* HomeView.swift */,
 				271A0E1C2AE7E8B9005958CB /* HomeCollectionViewLayout.swift */,
 				2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */,
+				27AB03E92B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift */,
+				27AB03EB2B2735780007E750 /* TodayHomePosterCollectionCell.swift */,
+				27AB03ED2B27359E0007E750 /* UpdatesHomePosterCollectionCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -964,7 +970,7 @@
 			files = (
 				272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */,
 				275EFF092B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld in Sources */,
-				27AB03EA2B25C9130007E750 /* HorizontalHomePosterCell.swift in Sources */,
+				27AB03EA2B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift in Sources */,
 				2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */,
 				2748DD0C2AEE5D7E00D53E9B /* AnimeItem.swift in Sources */,
 				27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */,
@@ -977,6 +983,7 @@
 				275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */,
 				275EFF392B14BB1400C281B1 /* UserEntity.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
+				27AB03EC2B2735780007E750 /* TodayHomePosterCollectionCell.swift in Sources */,
 				2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */,
 				273ECB002B20E93600402612 /* VideoPlayerItem.swift in Sources */,
 				27EA50952B022F0100A1B987 /* Playlist.swift in Sources */,
@@ -1013,6 +1020,7 @@
 				273ECAFE2B1F53C500402612 /* VideoPlayerSettingsController.swift in Sources */,
 				272D65492897E22100FA4F60 /* ScheduleAPIModel.swift in Sources */,
 				27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */,
+				27AB03EE2B27359E0007E750 /* UpdatesHomePosterCollectionCell.swift in Sources */,
 				275865B32AD9CDB800F98884 /* SearchNavigator.swift in Sources */,
 				2748DCFE2AEBCF3000D53E9B /* HomeContentController.swift in Sources */,
 				273ECB052B21B03900402612 /* HLS.swift in Sources */,

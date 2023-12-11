@@ -131,38 +131,7 @@ extension HomeContentController: UICollectionViewDataSource {
         guard let sectionType = Section(rawValue: indexPath.section) else {
             fatalError("Section is not found")
         }
-        
-        switch sectionType {
-            case .today, .updates:
-                return setupTodayAndUpdatesCell(collectionView, cellForItemAt: indexPath)
-            case .youtube:
-                return setupYouTubeCell(collectionView, cellForItemAt: indexPath)
-        }
-    }
-    
-    func setupTodayAndUpdatesCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? HomePosterCollectionViewCell else {
-            fatalError("Can`t create new cell")
-        }
-        let section = indexPath.section
-        let row = indexPath.row
-        guard data[section].isEmpty == false else {
-            cell.configureSkeletonCell()
-            return cell
-        }
-        let item = data[section][row]
-        if item.image == nil {
-            models[section].requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[section][row].image = image
-                cell.setImage(image, urlString: item.imageUrlString)
-            }
-        }
-        cell.configureCell(item: item)
-        return cell
-    }
-    
-    func setupYouTubeCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalHomePosterCell.reuseIdentifier, for: indexPath) as? HorizontalHomePosterCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: sectionType.reuseIdentifier, for: indexPath) as? HomePosterCollectionViewCell else {
             fatalError("Can`t create new cell")
         }
         let section = indexPath.section

@@ -8,14 +8,17 @@
 import UIKit
 import SkeletonView
 
-final class HomePosterCollectionViewCell: UICollectionViewCell {
+class HomePosterCollectionViewCell: UICollectionViewCell {
     private enum Constants {
         static let stackSpacing: CGFloat = 6
         static let imageViewCornerRadius: CGFloat = 12
-        static let imageViewRatio: CGFloat =  350 / 500
         static let titleLabelFontSize: CGFloat = 16
         static let titleLabelNumberOfLines: Int = 2
         static let titleLabelLinesCornerRadius: Int = 5
+    }
+    
+    var imageViewRatio: CGFloat {
+        350 / 500
     }
         
     private lazy var contentStackView: UIStackView = {
@@ -53,12 +56,15 @@ final class HomePosterCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
+        imageViewAdditionallyConfigure(imageView)
         configureConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func imageViewAdditionallyConfigure(_ imageView: UIImageView) { }
 }
 
 // MARK: - Private methods
@@ -85,7 +91,7 @@ private extension HomePosterCollectionViewCell {
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             contentStackViewBottomAnchor,
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: Constants.imageViewRatio)
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: imageViewRatio)
         ])
     }
 }
