@@ -146,8 +146,9 @@ private extension TopOverlayView {
             leftStack.leadingAnchor.constraint(equalTo: leadingAnchor),
             
             rightStack.centerYAnchor.constraint(equalTo: leftStack.centerYAnchor),
-            rightStack.trailingAnchor.constraint(equalTo: trailingAnchor)
+            rightStack.trailingAnchor.constraint(equalTo: trailingAnchor),
             
+            middleStack.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
         landscapeConstraints = [
@@ -155,16 +156,14 @@ private extension TopOverlayView {
                                              constant: Constants.top),
             middleStack.centerXAnchor.constraint(equalTo: centerXAnchor),
             middleStack.leadingAnchor.constraint(greaterThanOrEqualTo: leftStack.trailingAnchor, constant: Constants.leftRightMiddleStackConstraints),
-            middleStack.trailingAnchor.constraint(lessThanOrEqualTo: rightStack.leadingAnchor, constant: -Constants.leftRightMiddleStackConstraints),
-            middleStack.bottomAnchor.constraint(equalTo: bottomAnchor)
+            middleStack.trailingAnchor.constraint(lessThanOrEqualTo: rightStack.leadingAnchor, constant: -Constants.leftRightMiddleStackConstraints)
         ]
         
         portraitConstraints = [
             middleStack.topAnchor.constraint(equalTo: leftStack.bottomAnchor,
                                              constant: Constants.top),
             middleStack.leadingAnchor.constraint(equalTo: leadingAnchor),
-            middleStack.trailingAnchor.constraint(equalTo: trailingAnchor),
-            middleStack.bottomAnchor.constraint(equalTo: bottomAnchor)
+            middleStack.trailingAnchor.constraint(equalTo: trailingAnchor)
         ]
         NSLayoutConstraint.activate(portraitConstraints)
     }
