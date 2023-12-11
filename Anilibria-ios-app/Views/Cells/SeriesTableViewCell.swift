@@ -124,7 +124,7 @@ class SeriesTableViewCell: UITableViewCell {
         }
         titleLabel.text = item.serieString
         subtitleLabel.text = item.createdDateString
-        imageUrlString = item.preview
+        imageUrlString = item.previewUrl
     }
     
     func setImage(_ image: UIImage, urlString: String) {

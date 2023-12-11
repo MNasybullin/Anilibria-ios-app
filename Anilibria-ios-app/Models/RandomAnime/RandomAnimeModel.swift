@@ -29,8 +29,8 @@ final class RandomAnimeModel {
             defer { isDataTaskLoading = false }
             do {
                 let titleModel = try await publicApiService.getRandomTitle()
-                let imageURL = titleModel.posters.original.url
-                let imageData = try await ImageLoaderService.shared.getImageData(from: imageURL)
+                let imageURL = NetworkConstants.mirrorBaseImagesURL + titleModel.posters.original.url
+                let imageData = try await ImageLoaderService.shared.getImageData(fromURLString: imageURL)
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
                 }

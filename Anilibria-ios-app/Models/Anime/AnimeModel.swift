@@ -29,8 +29,8 @@ private extension AnimeModel {
     func requestImage() {
         Task(priority: .userInitiated) {
             do {
-                let url = rawData.posters.original.url
-                let imageData = try await ImageLoaderService.shared.getImageData(from: url)
+                let url = NetworkConstants.mirrorBaseImagesURL + rawData.posters.original.url
+                let imageData = try await ImageLoaderService.shared.getImageData(fromURLString: url)
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
                 }

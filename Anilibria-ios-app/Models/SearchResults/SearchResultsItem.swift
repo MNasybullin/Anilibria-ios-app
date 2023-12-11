@@ -20,7 +20,7 @@ extension SearchResultsItem {
         self.init(ruName: titleAPIModel.names.ru,
                   engName: titleAPIModel.names.en,
                   description: titleAPIModel.description, 
-                  imageUrlString: titleAPIModel.posters.original.url,
+                  imageUrlString: NetworkConstants.mirrorBaseImagesURL + titleAPIModel.posters.original.url,
                   image: image)
     }
 }

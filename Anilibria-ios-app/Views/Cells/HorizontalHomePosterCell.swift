@@ -1,18 +1,18 @@
 //
-//  AnimePosterCollectionViewCell.swift
+//  HorizontalHomePosterCell.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 16.10.2023.
+//  Created by Mansur Nasybullin on 10.12.2023.
 //
 
 import UIKit
 import SkeletonView
 
-final class AnimePosterCollectionViewCell: UICollectionViewCell {
+final class HorizontalHomePosterCell: UICollectionViewCell {
     private enum Constants {
         static let stackSpacing: CGFloat = 6
         static let imageViewCornerRadius: CGFloat = 12
-        static let imageViewRatio: CGFloat =  350 / 500
+        static let imageViewRatio: CGFloat =  480 / 270
         static let titleLabelFontSize: CGFloat = 16
         static let titleLabelNumberOfLines: Int = 2
         static let titleLabelLinesCornerRadius: Int = 5
@@ -28,6 +28,7 @@ final class AnimePosterCollectionViewCell: UICollectionViewCell {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constants.imageViewCornerRadius
         imageView.layer.masksToBounds = true
@@ -53,7 +54,6 @@ final class AnimePosterCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
-        
         configureConstraints()
     }
     
@@ -64,7 +64,7 @@ final class AnimePosterCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Private methods
 
-private extension AnimePosterCollectionViewCell {
+private extension HorizontalHomePosterCell {
     private func configureView() {
         backgroundColor = .systemBackground
         isSkeletonable = true
@@ -93,8 +93,8 @@ private extension AnimePosterCollectionViewCell {
 
 // MARK: - Internal methods
 
-extension AnimePosterCollectionViewCell {
-    func configureCell(item: AnimePosterItem) {
+extension HorizontalHomePosterCell {
+    func configureCell(item: HomePosterItem) {
         if sk.isSkeletonActive == true {
             hideSkeleton(reloadDataAfter: false)
         }

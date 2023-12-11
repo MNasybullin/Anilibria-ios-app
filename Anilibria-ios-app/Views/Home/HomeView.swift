@@ -13,9 +13,10 @@ protocol HomeViewOutput: AnyObject {
 }
 
 final class HomeView: UIView {
-    enum Section: Int {
+    enum Section: Int, CaseIterable {
         case today
         case updates
+        case youtube
     }
     
     enum ElementKind {
@@ -54,8 +55,11 @@ private extension HomeView {
         let layout = HomeCollectionViewLayout().createLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(
-            AnimePosterCollectionViewCell.self,
-            forCellWithReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier)
+            HomePosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier)
+        collectionView.register(
+            HorizontalHomePosterCell.self,
+            forCellWithReuseIdentifier: HorizontalHomePosterCell.reuseIdentifier)
         collectionView.register(
             HomeHeaderSupplementaryView.self,
             forSupplementaryViewOfKind: ElementKind.sectionHeader,

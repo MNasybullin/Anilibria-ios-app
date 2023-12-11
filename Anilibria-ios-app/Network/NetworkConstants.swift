@@ -13,6 +13,7 @@ enum NetworkConstants {
     static let mirrorAnilibriaURL = "https://anilibria-ios-app.anilib.moe"
     static let mirrorBaseImagesURL = "https://static.anilib.moe"
     static let apiAnilibriaURL = "https://api.anilibria.tv"
+    static let youTubeWatchURL = "https://www.youtube.com/watch?v="
     static let getYouTube = "/v2/getYouTube"
     static let getTitle = "/v2/getTitle"
     static let getTitles = "/v2/getTitles"

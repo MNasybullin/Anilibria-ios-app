@@ -10,9 +10,9 @@ import XCTest
 
 class ImageLoaderServiceTests: XCTestCase {
     func testGetImage() async throws {
-        let urlSuffix = "/upload/avatars/noavatar.jpg"
+        let urlString = NetworkConstants.mirrorBaseImagesURL + "/upload/avatars/noavatar.jpg"
         do {
-            _ = try await ImageLoaderService.shared.getImageData(from: urlSuffix)
+            _ = try await ImageLoaderService.shared.getImageData(fromURLString: urlString)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)

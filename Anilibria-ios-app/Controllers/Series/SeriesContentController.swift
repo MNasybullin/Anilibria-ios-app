@@ -59,9 +59,9 @@ extension SeriesContentController: UITableViewDataSource {
         let row = indexPath.row
         let item = playlists[row]
         if item.image == nil {
-            model.requestImage(from: item.preview) { [weak self] image in
+            model.requestImage(from: item.previewUrl) { [weak self] image in
                 self?.playlists[row].image = image
-                cell.setImage(image, urlString: item.preview)
+                cell.setImage(image, urlString: item.previewUrl)
             }
         }
         cell.configureCell(item: playlists[row])
@@ -78,7 +78,7 @@ extension SeriesContentController: UITableViewDataSourcePrefetching {
             guard playlists[row].image == nil else {
                 return
             }
-            model.requestImage(from: playlists[row].preview) { [weak self] image in
+            model.requestImage(from: playlists[row].previewUrl) { [weak self] image in
                 self?.playlists[row].image = image
             }
         }

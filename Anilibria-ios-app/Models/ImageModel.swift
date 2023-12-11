@@ -52,7 +52,7 @@ extension ImageModel {
             return
         }
         let task = ImageTask(priority: .high) {
-            let imageData = try await ImageLoaderService.shared.getImageData(from: urlString)
+            let imageData = try await ImageLoaderService.shared.getImageData(fromURLString: urlString)
             guard let image = UIImage(data: imageData) else {
                 throw MyImageError.failedToInitialize
             }

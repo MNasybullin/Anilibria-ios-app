@@ -23,15 +23,15 @@ final class HomeUpdatesModel: ImageModel, HomeModelInput {
             do {
                 let data = try await publicApiService.getUpdates()
                 rawData = data
-                let animeTitleModels = data.map { AnimePosterItem(titleAPIModel: $0) }
-                homeModelOutput?.updateData(items: animeTitleModels, section: .updates)
+                let homePosters = data.map { HomePosterItem(fromTitleAPIModel: $0) }
+                homeModelOutput?.updateData(items: homePosters, section: .updates)
             } catch {
                 homeModelOutput?.failedRequestData(error: error)
             }
         }
     }
         
-    func getRawData(row: Int) -> TitleAPIModel? {
+    func getRawData(row: Int) -> Any? {
         guard rawData.isEmpty == false else { return nil }
         return rawData[row]
     }

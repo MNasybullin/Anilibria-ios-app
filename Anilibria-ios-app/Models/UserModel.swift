@@ -82,9 +82,10 @@ private extension UserModel {
         guard let data = profileInfo.data else {
             throw MyNetworkError.userIsNotAuthorized
         }
-        let userImage = try await requestImage(forURL: data.avatar)
+        let avatarURL = NetworkConstants.mirrorBaseImagesURL + data.avatar
+        let userImage = try await requestImage(forURL: avatarURL)
         
-        let user = UserItem(id: data.id, name: data.login, image: userImage, imageUrl: data.avatar)
+        let user = UserItem(id: data.id, name: data.login, image: userImage, imageUrl: avatarURL)
         
         let context = CoreDataService.shared.viewContext
         try? UserEntity.create(user: user, context: context)
@@ -92,7 +93,7 @@ private extension UserModel {
     }
     
     func requestImage(forURL url: String) async throws -> UIImage {
-        let imageData = try await ImageLoaderService.shared.getImageData(from: url)
+        let imageData = try await ImageLoaderService.shared.getImageData(fromURLString: url)
         guard let image = UIImage(data: imageData) else {
             throw MyImageError.failedToInitialize
         }

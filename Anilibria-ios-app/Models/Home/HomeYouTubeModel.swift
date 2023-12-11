@@ -1,18 +1,18 @@
 //
-//  HomeTodayModel.swift
+//  HomeYouTubeModel.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 24.10.2023.
+//  Created by Mansur Nasybullin on 08.12.2023.
 //
 
 import Foundation
 
-final class HomeTodayModel: ImageModel, HomeModelInput {
+final class HomeYouTubeModel: ImageModel, HomeModelInput {
     weak var homeModelOutput: HomeModelOutput?
     
     private let publicApiService = PublicApiService()
     
-    private var rawData: [TitleAPIModel] = []
+    private var rawData: [YouTubeAPIModel] = []
     var isDataTaskLoading = false
     
     func requestData() {
@@ -21,19 +21,16 @@ final class HomeTodayModel: ImageModel, HomeModelInput {
         Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
-                let data = try await publicApiService.getSchedule(with: [.currentDayOfTheWeek()])
-                guard let todayTitleModels = data.first?.list else {
-                    throw MyInternalError.failedToFetchData
-                }
-                rawData = todayTitleModels
-                let homePosters = todayTitleModels.map { HomePosterItem(fromTitleAPIModel: $0) }
-                homeModelOutput?.updateData(items: homePosters, section: .today)
+                let data = try await publicApiService.getYouTube(withLimit: 10)
+                rawData = data
+                let homePosters = data.map { HomePosterItem(fromYouTubeAPIModel: $0) }
+                homeModelOutput?.updateData(items: homePosters, section: .youtube)
             } catch {
                 homeModelOutput?.failedRequestData(error: error)
             }
         }
     }
-    
+        
     func getRawData(row: Int) -> Any? {
         guard rawData.isEmpty == false else { return nil }
         return rawData[row]

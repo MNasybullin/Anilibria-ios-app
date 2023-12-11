@@ -72,13 +72,27 @@ extension HomeController: HomeViewOutput {
 
 // MARK: - HomeContentControllerDelegate
 
+// swiftlint:disable force_cast
 extension HomeController: HomeContentControllerDelegate {
-    func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?) {
-        navigator?.show(.anime(data: rawData, image: image))
+    func didSelectItem(_ rawData: Any, image: UIImage?, section: HomeView.Section) {
+        switch section {
+            case .today, .updates:
+                navigator?.show(.anime(data: rawData as! TitleAPIModel, image: image))
+            case .youtube:
+                let data = rawData as! YouTubeAPIModel
+                let urlString = NetworkConstants.youTubeWatchURL + data.youtubeId
+                let url = URL(string: urlString)
+                UIApplication.shared.open(url!)
+        }
     }
+// swiftlint:enable force_cast
     
     func todayHeaderButtonTapped() {
         navigator?.show(.schedule)
+    }
+    
+    func youTubeHeaderButtonTapped() {
+        print(#function)
     }
     
     func refreshControlEndRefreshing() {

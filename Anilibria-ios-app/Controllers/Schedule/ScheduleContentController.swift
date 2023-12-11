@@ -70,7 +70,7 @@ extension ScheduleContentController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimePosterCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? HomePosterCollectionViewCell else {
             fatalError("Can`t create new cell")
         }
         let section = indexPath.section
@@ -95,7 +95,7 @@ extension ScheduleContentController: SkeletonCollectionViewDataSource {
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return AnimePosterCollectionViewCell.reuseIdentifier
+        return HomePosterCollectionViewCell.reuseIdentifier
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

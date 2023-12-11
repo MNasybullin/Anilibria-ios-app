@@ -10,11 +10,12 @@ import SkeletonView
 
 protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
+    func youTubeHeaderButtonTapped()
     func refreshControlEndRefreshing()
     func showSkeletonCollectionView()
     func hideSkeletonCollectionView()
     func reloadSection(numberOfSection: Int)
-    func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?)
+    func didSelectItem(_ rawData: Any, image: UIImage?, section: HomeView.Section)
 }
 
 final class HomeContentController: NSObject {
@@ -22,7 +23,7 @@ final class HomeContentController: NSObject {
     
     weak var delegate: HomeContentControllerDelegate?
     
-    private var data: [[AnimePosterItem]] = .init(repeating: [], count: 2)
+    private var data: [[HomePosterItem]] = .init(repeating: [], count: Section.allCases.count)
     private lazy var models: [HomeModelInput] = {
         let todayModel = HomeTodayModel()
         todayModel.imageModelDelegate = self
@@ -31,7 +32,12 @@ final class HomeContentController: NSObject {
         let updatesModel = HomeUpdatesModel()
         updatesModel.imageModelDelegate = self
         updatesModel.homeModelOutput = self
-        return [todayModel, updatesModel]
+        
+        let youTubeModel = HomeYouTubeModel()
+        youTubeModel.imageModelDelegate = self
+        youTubeModel.homeModelOutput = self
+        
+        return [todayModel, updatesModel, youTubeModel]
     }()
     
     private var isSkeletonView: Bool
@@ -69,7 +75,7 @@ extension HomeContentController: UICollectionViewDelegate {
             return
         }
         let image = data[section][row].image
-        delegate?.didSelectItem(rawData, image: image)
+        delegate?.didSelectItem(rawData, image: image, section: .init(rawValue: section)!)
     }
 }
 
@@ -80,18 +86,24 @@ extension HomeContentController: UICollectionViewDataSource {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier, for: indexPath) as? HomeHeaderSupplementaryView else {
             fatalError("Header is not HomeHeaderSupplementaryView")
         }
-        
-        switch indexPath.section {
-            case Section.today.rawValue:
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Section is not found")
+        }
+        switch section {
+            case .today:
                 header.configureView(
                     titleLabelText: Strings.HomeModule.Title.today,
                     titleButtonText: Strings.HomeModule.ButtonTitle.allDays) { [weak self] in
                         self?.delegate?.todayHeaderButtonTapped()
                     }
-            case Section.updates.rawValue:
+            case .updates:
                 header.configureView(titleLabelText: Strings.HomeModule.Title.updates)
-            default:
-                fatalError("Section is not found")
+            case .youtube:
+                header.configureView(
+                    titleLabelText: "YouTube",
+                    titleButtonText: "Все") { [weak self] in
+                        self?.delegate?.youTubeHeaderButtonTapped()
+                    }
         }
         return header
     }
@@ -116,7 +128,41 @@ extension HomeContentController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimePosterCollectionViewCell else {
+        guard let sectionType = Section(rawValue: indexPath.section) else {
+            fatalError("Section is not found")
+        }
+        
+        switch sectionType {
+            case .today, .updates:
+                return setupTodayAndUpdatesCell(collectionView, cellForItemAt: indexPath)
+            case .youtube:
+                return setupYouTubeCell(collectionView, cellForItemAt: indexPath)
+        }
+    }
+    
+    func setupTodayAndUpdatesCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? HomePosterCollectionViewCell else {
+            fatalError("Can`t create new cell")
+        }
+        let section = indexPath.section
+        let row = indexPath.row
+        guard data[section].isEmpty == false else {
+            cell.configureSkeletonCell()
+            return cell
+        }
+        let item = data[section][row]
+        if item.image == nil {
+            models[section].requestImage(from: item.imageUrlString) { [weak self] image in
+                self?.data[section][row].image = image
+                cell.setImage(image, urlString: item.imageUrlString)
+            }
+        }
+        cell.configureCell(item: item)
+        return cell
+    }
+    
+    func setupYouTubeCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalHomePosterCell.reuseIdentifier, for: indexPath) as? HorizontalHomePosterCell else {
             fatalError("Can`t create new cell")
         }
         let section = indexPath.section
@@ -145,7 +191,7 @@ extension HomeContentController: SkeletonCollectionViewDataSource {
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return AnimePosterCollectionViewCell.reuseIdentifier
+        return HomePosterCollectionViewCell.reuseIdentifier
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -173,7 +219,7 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
 // MARK: - HomeModelOutput
 
 extension HomeContentController: HomeModelOutput {
-    func updateData(items: [AnimePosterItem], section: HomeView.Section) {
+    func updateData(items: [HomePosterItem], section: HomeView.Section) {
         DispatchQueue.main.async { [self] in
             data[section.rawValue] = items
             if isSkeletonView {

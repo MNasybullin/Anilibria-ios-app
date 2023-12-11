@@ -39,8 +39,8 @@ private extension ScheduleView {
         let layout = ScheduleCollectionViewLayout().createLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(
-            AnimePosterCollectionViewCell.self,
-            forCellWithReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier)
+            HomePosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier)
         collectionView.register(
             ScheduleHeaderSupplementaryView.self,
             forSupplementaryViewOfKind: ElementKind.sectionHeader,

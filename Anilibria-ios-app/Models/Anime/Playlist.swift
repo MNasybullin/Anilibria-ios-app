@@ -12,7 +12,7 @@ struct Playlist {
     let serieString: String
     let createdTimestamp: Int?
     let createdDateString: String
-    let preview: String
+    let previewUrl: String
     var image: UIImage?
     let skips: GTSkips
     let hls: [HLS]
@@ -25,7 +25,7 @@ extension Playlist {
             serieString: Playlist.getSerieString(from: item.serie),
             createdTimestamp: item.createdTimestamp,
             createdDateString: Playlist.getCreatedDateString(from: item.createdTimestamp),
-            preview: item.preview ?? "",
+            previewUrl: Playlist.getPreviewUrl(fromPreview: item.preview),
             skips: item.skips,
             hls: Playlist.getHlsArray(from: item.hls)
         )
@@ -62,5 +62,12 @@ extension Playlist {
             array.append(.sd(url: sdQuality))
         }
         return array
+    }
+    
+    private static func getPreviewUrl(fromPreview preview: String?) -> String {
+        guard let preview else {
+            return ""
+        }
+        return NetworkConstants.mirrorBaseImagesURL + preview
     }
 }
