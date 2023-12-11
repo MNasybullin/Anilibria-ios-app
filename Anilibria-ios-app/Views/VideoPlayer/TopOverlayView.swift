@@ -132,7 +132,6 @@ private extension TopOverlayView {
     }
     
     func configureLayout() {
-        preservesSuperviewLayoutMargins = true
         [leftStack, middleStack, rightStack].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -140,11 +139,6 @@ private extension TopOverlayView {
         [closeButton, pipButton].forEach { leftStack.addArrangedSubview($0) }
         [titleLabel, subtitleLabel].forEach { middleStack.addArrangedSubview($0) }
         [routePickerView, settingsButton].forEach { rightStack.addArrangedSubview($0) }
-        
-        [leftStack, rightStack].flatMap { $0.arrangedSubviews }.forEach {
-            $0.setContentHuggingPriority(.required, for: .horizontal)
-            $0.setContentCompressionResistancePriority(.required, for: .horizontal)
-        }
         
         // Common Constraints
         NSLayoutConstraint.activate([
