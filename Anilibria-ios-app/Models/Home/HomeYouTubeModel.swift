@@ -35,4 +35,8 @@ final class HomeYouTubeModel: ImageModel, HomeModelInput {
         guard rawData.isEmpty == false else { return nil }
         return rawData[row]
     }
+    
+    func getRawData() -> [Any] {
+        return rawData
+    }
 }

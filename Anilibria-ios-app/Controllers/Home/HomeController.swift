@@ -81,8 +81,8 @@ extension HomeController: HomeContentControllerDelegate {
             case .youtube:
                 let data = rawData as! YouTubeAPIModel
                 let urlString = NetworkConstants.youTubeWatchURL + data.youtubeId
-                let url = URL(string: urlString)
-                UIApplication.shared.open(url!)
+                guard let url = URL(string: urlString) else { return }
+                UIApplication.shared.open(url)
         }
     }
 // swiftlint:enable force_cast
@@ -91,8 +91,8 @@ extension HomeController: HomeContentControllerDelegate {
         navigator?.show(.schedule)
     }
     
-    func youTubeHeaderButtonTapped() {
-        print(#function)
+    func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel]) {
+        navigator?.show(.youTube(data: data, rawData: rawData))
     }
     
     func refreshControlEndRefreshing() {

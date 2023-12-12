@@ -59,6 +59,7 @@ extension HomeNavigator: Navigator {
     enum Destinition {
         case schedule
         case anime(data: TitleAPIModel, image: UIImage?)
+        case youTube(data: [HomePosterItem], rawData: [YouTubeAPIModel])
     }
     
     func show(_ destination: Destinition) {
@@ -78,6 +79,11 @@ extension HomeNavigator: Navigator {
                 let animeController = AnimeController(rawData: rawData, image: image)
                 animeController.navigator = AnimeNavigator(navigationController: navigationController)
                 viewController = animeController
+            case .youTube(let data, let rawData):
+                let youTubeController = YouTubeController(data: data, rawData: rawData)
+                youTubeController.title = Strings.ScreenTitles.youTube
+                youTubeController.navigator = self
+                viewController = youTubeController
         }
         return viewController
     }

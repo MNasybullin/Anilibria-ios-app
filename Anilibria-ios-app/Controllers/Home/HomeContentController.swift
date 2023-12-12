@@ -10,7 +10,7 @@ import SkeletonView
 
 protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
-    func youTubeHeaderButtonTapped()
+    func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel])
     func refreshControlEndRefreshing()
     func showSkeletonCollectionView()
     func hideSkeletonCollectionView()
@@ -100,9 +100,12 @@ extension HomeContentController: UICollectionViewDataSource {
                 header.configureView(titleLabelText: Strings.HomeModule.Title.updates)
             case .youtube:
                 header.configureView(
-                    titleLabelText: "YouTube",
-                    titleButtonText: "Все") { [weak self] in
-                        self?.delegate?.youTubeHeaderButtonTapped()
+                    titleLabelText: Strings.HomeModule.Title.youTube,
+                    titleButtonText: Strings.HomeModule.ButtonTitle.all) { [weak self] in
+                        guard let self else { return }
+                        let section = indexPath.section
+                        guard let rawData = models[section].getRawData() as? [YouTubeAPIModel] else { return }
+                        self.delegate?.youTubeHeaderButtonTapped(data: self.data[section], rawData: rawData)
                     }
         }
         return header

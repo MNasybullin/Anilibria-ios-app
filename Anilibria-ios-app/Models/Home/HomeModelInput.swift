@@ -11,4 +11,5 @@ protocol HomeModelInput: ImageModel {
     var isDataTaskLoading: Bool { get }
     func requestData()
     func getRawData(row: Int) -> Any?
+    func getRawData() -> [Any]
 }
