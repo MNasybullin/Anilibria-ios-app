@@ -101,4 +101,8 @@ extension HomeHeaderSupplementaryView {
             titleButton.isHidden = true
         }
     }
+    
+    func titleButton(isEnabled: Bool) {
+        titleButton.isEnabled = isEnabled
+    }
 }

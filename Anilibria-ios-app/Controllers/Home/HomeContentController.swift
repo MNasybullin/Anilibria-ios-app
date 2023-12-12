@@ -107,6 +107,7 @@ extension HomeContentController: UICollectionViewDataSource {
                         guard let rawData = models[section].getRawData() as? [YouTubeAPIModel] else { return }
                         self.delegate?.youTubeHeaderButtonTapped(data: self.data[section], rawData: rawData)
                     }
+                header.titleButton(isEnabled: !data[indexPath.section].isEmpty)
         }
         return header
     }
