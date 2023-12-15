@@ -10,8 +10,9 @@ import Foundation
 import CoreData
 
 public class UserEntity: NSManagedObject {
-    static private func fetchUsers(context: NSManagedObjectContext) throws -> [UserEntity] {
+    static private func fetchUsers(userId: Int, context: NSManagedObjectContext) throws -> [UserEntity] {
         let request: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %ld", userId)
         
         do {
             let fetchResult = try context.fetch(request)
@@ -24,22 +25,22 @@ public class UserEntity: NSManagedObject {
         }
     }
     
-    static func get(context: NSManagedObjectContext) throws -> UserEntity {
+    static func find(userId: Int, context: NSManagedObjectContext) throws -> UserEntity {
         do {
-            let users = try fetchUsers(context: context)
-            if let user = users.first {
+            let fetchResult = try fetchUsers(userId: userId, context: context)
+            if let user = fetchResult.first {
                 return user
             } else {
-                throw NSError(domain: "No user data", code: 404)
+                throw NSError(domain: "No user data in coreData", code: 404)
             }
         } catch {
             throw error
         }
     }
     
-    static func create(user: UserItem, context: NSManagedObjectContext) throws {
+    static func updateOrCreate(user: UserItem, context: NSManagedObjectContext) throws {
         do {
-            let users = try fetchUsers(context: context)
+            let users = try fetchUsers(userId: user.id, context: context)
             if let existingUser = users.first {
                 existingUser.id = Int64(user.id)
                 existingUser.name = user.name

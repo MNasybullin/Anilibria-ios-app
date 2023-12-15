@@ -30,6 +30,7 @@ final class UserModel {
                 
                 if loginModel.key == KeyLoginAPI.success.rawValue {
                     let user = try await requestProfileInfo()
+                    UserDefaults.standard.isUserAuthorized = true
                     delegate?.authorizationSuccessful(user: user)
                 } else if loginModel.key == KeyLoginAPI.authorized.rawValue {
                     // Уже авторизован, Идет перелогин...
@@ -37,9 +38,13 @@ final class UserModel {
                     authorization(email: email, password: password)
                 } else {
                     let error = NSError(domain: loginModel.key, code: 0)
+                    UserDefaults.standard.isUserAuthorized = false
+                    UserDefaults.standard.userId = nil
                     delegate?.authorizationFailure(error: error)
                 }
             } catch {
+                UserDefaults.standard.isUserAuthorized = false
+                UserDefaults.standard.userId = nil
                 delegate?.authorizationFailure(error: error)
             }
         }
@@ -51,6 +56,7 @@ final class UserModel {
             delegate?.requestFromCoreDataSuccessful(user: user)
         } catch {
             UserDefaults.standard.isUserAuthorized = false
+            UserDefaults.standard.userId = nil
             delegate?.requestFromCoreDataFailure(error: error)
         }
     }
@@ -59,6 +65,8 @@ final class UserModel {
         Task(priority: .userInitiated) {
             do {
                 try await authorizationService.logout()
+                UserDefaults.standard.isUserAuthorized = false
+                UserDefaults.standard.userId = nil
                 delegate?.logoutSuccessful()
             } catch {
                 delegate?.logoutFailure(error: error)
@@ -71,8 +79,11 @@ final class UserModel {
 
 private extension UserModel {
     func requestUserFromCoreData() throws -> UserItem {
+        guard let userId = UserDefaults.standard.userId else {
+            throw NSError(domain: "User id not found in UserDefaults", code: 404)
+        }
         let context = CoreDataService.shared.viewContext
-        let userEntity = try UserEntity.get(context: context)
+        let userEntity = try UserEntity.find(userId: userId, context: context)
         let user = UserItem(userEntity: userEntity)
         return user
     }
@@ -88,7 +99,8 @@ private extension UserModel {
         let user = UserItem(id: data.id, name: data.login, image: userImage, imageUrl: avatarURL)
         
         let context = CoreDataService.shared.viewContext
-        try? UserEntity.create(user: user, context: context)
+        UserDefaults.standard.userId = user.id
+        try? UserEntity.updateOrCreate(user: user, context: context)
         return user
     }
     

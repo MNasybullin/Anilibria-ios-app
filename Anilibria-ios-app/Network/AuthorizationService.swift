@@ -40,8 +40,6 @@ final class AuthorizationService: NetworkQuery {
             
             let credentials = Credentials(login: email, password: password)
             try securityStorage.addOrUpdateCredentials(credentials)
-            
-            UserDefaults.standard.isUserAuthorized = true
         }
         return decoded
     }
@@ -66,8 +64,6 @@ final class AuthorizationService: NetworkQuery {
         
         try securityStorage.deleteSession()
         try securityStorage.deleteCredentials()
-        
-        UserDefaults.standard.isUserAuthorized = false
     }
     
     /// Получить список избранных тайтлов пользователя
