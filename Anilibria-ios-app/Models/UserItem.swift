@@ -16,16 +16,10 @@ struct UserItem {
 
 extension UserItem {
     init(userEntity model: UserEntity) {
-        let image: UIImage?
-        if let imageData = model.image {
-            image = UIImage(data: imageData)
-        } else {
-            image = nil
-        }
         self.init(
             id: Int(model.id),
             name: model.name,
-            image: image,
+            image: model.image,
             imageUrl: model.imageUrl
         )
     }

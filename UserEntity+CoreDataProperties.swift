@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 extension UserEntity {
 
@@ -16,7 +17,7 @@ extension UserEntity {
     }
 
     @NSManaged public var id: Int64
-    @NSManaged public var image: Data?
+    @NSManaged public var image: UIImage
     @NSManaged public var imageUrl: String
     @NSManaged public var name: String
 

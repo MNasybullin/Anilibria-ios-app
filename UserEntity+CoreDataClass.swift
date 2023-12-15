@@ -44,13 +44,13 @@ public class UserEntity: NSManagedObject {
             if let existingUser = users.first {
                 existingUser.id = Int64(user.id)
                 existingUser.name = user.name
-                existingUser.image = user.image?.pngData()
+                existingUser.image = user.image ?? Asset.Assets.noAvatar.image
                 existingUser.imageUrl = user.imageUrl
             } else {
                 let newUser = UserEntity(context: context)
                 newUser.id = Int64(user.id)
                 newUser.name = user.name
-                newUser.image = user.image?.pngData()
+                newUser.image = user.image ?? Asset.Assets.noAvatar.image
                 newUser.imageUrl = user.imageUrl
             }
             try context.save()

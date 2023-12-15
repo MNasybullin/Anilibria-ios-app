@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23B81" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="UserEntity" representedClassName=".UserEntity" syncable="YES">
         <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="image" attributeType="Transformable" valueTransformerName="UIImageTransformer" allowsExternalBinaryDataStorage="YES" customClassName=".UIImage"/>
         <attribute name="imageUrl" attributeType="String" defaultValueString=""/>
         <attribute name="name" attributeType="String" defaultValueString="User Name"/>
     </entity>

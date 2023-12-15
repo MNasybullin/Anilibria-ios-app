@@ -152,7 +152,8 @@
 		27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A5287EAC8100BCF61C /* SwiftGen */; };
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 		27F70CEF2B2C5FB4004036FD /* UserEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CED2B2C5FB4004036FD /* UserEntity+CoreDataClass.swift */; };
-		27F70CF02B2C5FB4004036FD /* UserEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CEE2B2C5FB4004036FD /* UserEntity+CoreDataProperties.swift */; };
+		27F70CF42B2CB443004036FD /* UserEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CF32B2CB443004036FD /* UserEntity+CoreDataProperties.swift */; };
+		27F70CF62B2CB680004036FD /* UIImage+Transformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CF52B2CB680004036FD /* UIImage+Transformable.swift */; };
 		27F8D8E529C2245900D8F4D1 /* SearchResultsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */; };
 /* End PBXBuildFile section */
 
@@ -314,7 +315,8 @@
 		27F5E5A5287EAC8100BCF61C /* SwiftGen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftGen; sourceTree = "<group>"; };
 		27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		27F70CED2B2C5FB4004036FD /* UserEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		27F70CEE2B2C5FB4004036FD /* UserEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		27F70CF32B2CB443004036FD /* UserEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		27F70CF52B2CB680004036FD /* UIImage+Transformable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Transformable.swift"; sourceTree = "<group>"; };
 		27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -602,6 +604,7 @@
 			children = (
 				275EFF072B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld */,
 				275EFF0F2B137CF800C281B1 /* CoreDataService.swift */,
+				27F70CF72B2CB687004036FD /* Transformable */,
 				275EFF3A2B14F13D00C281B1 /* Entities */,
 			);
 			path = CoreData;
@@ -610,8 +613,8 @@
 		275EFF3A2B14F13D00C281B1 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				27F70CF32B2CB443004036FD /* UserEntity+CoreDataProperties.swift */,
 				27F70CED2B2C5FB4004036FD /* UserEntity+CoreDataClass.swift */,
-				27F70CEE2B2C5FB4004036FD /* UserEntity+CoreDataProperties.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -836,6 +839,14 @@
 			path = "Anilibria-ios-app";
 			sourceTree = "<group>";
 		};
+		27F70CF72B2CB687004036FD /* Transformable */ = {
+			isa = PBXGroup;
+			children = (
+				27F70CF52B2CB680004036FD /* UIImage+Transformable.swift */,
+			);
+			path = Transformable;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1006,10 +1017,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				27AB03F62B2850F40007E750 /* YouTubeController.swift in Sources */,
+				27F70CF42B2CB443004036FD /* UserEntity+CoreDataProperties.swift in Sources */,
 				272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */,
 				275EFF092B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld in Sources */,
 				27AB03EA2B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift in Sources */,
 				2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */,
+				27F70CF62B2CB680004036FD /* UIImage+Transformable.swift in Sources */,
 				2748DD0C2AEE5D7E00D53E9B /* AnimeItem.swift in Sources */,
 				27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */,
 				275865AF2AD9C97700F98884 /* TabBarController.swift in Sources */,
@@ -1053,7 +1066,6 @@
 				27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */,
 				27B7070F2AF2962200DD8DC6 /* RandomAnimeModel.swift in Sources */,
 				275865BF2ADADBF400F98884 /* UserController.swift in Sources */,
-				27F70CF02B2C5FB4004036FD /* UserEntity+CoreDataProperties.swift in Sources */,
 				271A0E382AE90390005958CB /* ScheduleController.swift in Sources */,
 				272D6532288AEF3800FA4F60 /* NetworkQuery.swift in Sources */,
 				275865C52ADAFB8E00F98884 /* UserInfoView.swift in Sources */,
