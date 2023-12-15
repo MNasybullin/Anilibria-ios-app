@@ -1,16 +1,15 @@
 //
-//  UserEntity.swift
+//  UserEntity+CoreDataClass.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 27.11.2023.
+//  Created by Mansur Nasybullin on 15.12.2023.
+//
 //
 
 import Foundation
 import CoreData
 
-// Unique Entity
-class UserEntity: NSManagedObject {
-    
+public class UserEntity: NSManagedObject {
     static private func fetchUsers(context: NSManagedObjectContext) throws -> [UserEntity] {
         let request: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
         

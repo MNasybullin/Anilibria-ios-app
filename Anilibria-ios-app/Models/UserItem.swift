@@ -24,9 +24,9 @@ extension UserItem {
         }
         self.init(
             id: Int(model.id),
-            name: model.name ?? "",
+            name: model.name,
             image: image,
-            imageUrl: model.imageUrl ?? ""
+            imageUrl: model.imageUrl
         )
     }
 }
