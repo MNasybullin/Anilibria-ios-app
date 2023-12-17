@@ -66,6 +66,11 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleButton.isEnabled = true
+    }
+    
     private func configureView() {
         backgroundColor = .systemBackground
         isSkeletonable = true
