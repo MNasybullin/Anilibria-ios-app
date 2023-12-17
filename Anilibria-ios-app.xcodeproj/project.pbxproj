@@ -157,7 +157,7 @@
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 		27F70CEF2B2C5FB4004036FD /* UserEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CED2B2C5FB4004036FD /* UserEntity+CoreDataClass.swift */; };
 		27F70CF42B2CB443004036FD /* UserEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CF32B2CB443004036FD /* UserEntity+CoreDataProperties.swift */; };
-		27F70CF62B2CB680004036FD /* UIImage+Transformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CF52B2CB680004036FD /* UIImage+Transformable.swift */; };
+		27F70CF62B2CB680004036FD /* UIImageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CF52B2CB680004036FD /* UIImageTransformer.swift */; };
 		27F8D8E529C2245900D8F4D1 /* SearchResultsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */; };
 /* End PBXBuildFile section */
 
@@ -324,7 +324,7 @@
 		27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		27F70CED2B2C5FB4004036FD /* UserEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		27F70CF32B2CB443004036FD /* UserEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		27F70CF52B2CB680004036FD /* UIImage+Transformable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Transformable.swift"; sourceTree = "<group>"; };
+		27F70CF52B2CB680004036FD /* UIImageTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTransformer.swift; sourceTree = "<group>"; };
 		27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -854,7 +854,7 @@
 		27F70CF72B2CB687004036FD /* Transformable */ = {
 			isa = PBXGroup;
 			children = (
-				27F70CF52B2CB680004036FD /* UIImage+Transformable.swift */,
+				27F70CF52B2CB680004036FD /* UIImageTransformer.swift */,
 			);
 			path = Transformable;
 			sourceTree = "<group>";
@@ -1034,7 +1034,7 @@
 				275EFF092B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld in Sources */,
 				27AB03EA2B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift in Sources */,
 				2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */,
-				27F70CF62B2CB680004036FD /* UIImage+Transformable.swift in Sources */,
+				27F70CF62B2CB680004036FD /* UIImageTransformer.swift in Sources */,
 				2748DD0C2AEE5D7E00D53E9B /* AnimeItem.swift in Sources */,
 				27AAC70729E036A90079F4DD /* SeriesTableViewCell.swift in Sources */,
 				275865AF2AD9C97700F98884 /* TabBarController.swift in Sources */,

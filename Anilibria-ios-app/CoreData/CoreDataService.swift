@@ -24,7 +24,7 @@ final class CoreDataService {
     lazy var viewContext: NSManagedObjectContext = persistantContainer.viewContext
     
     private init() {
-        ValueTransformer.setValueTransformer(UIImageTransformer(), forName: NSValueTransformerName("UIImageTransformer"))
+        UIImageTransformer.register()
     }
     
     func saveContext() {

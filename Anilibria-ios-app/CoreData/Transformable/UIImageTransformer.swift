@@ -1,5 +1,5 @@
 //
-//  UIImage+Transformable.swift
+//  UIImageTransformer.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 15.12.2023.
@@ -9,6 +9,13 @@ import Foundation
 import UIKit
 
 class UIImageTransformer: ValueTransformer {
+    static func register() {
+        let className = String(describing: UIImageTransformer.self)
+        let name = NSValueTransformerName(className)
+        let transformer = UIImageTransformer()
+        ValueTransformer.setValueTransformer(transformer, forName: name)
+    }
+    
     override func transformedValue(_ value: Any?) -> Any? {
         guard let image = value as? UIImage else { return nil }
         do {
