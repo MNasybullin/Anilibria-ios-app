@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class UIImageTransformer: ValueTransformer {
+class UIImageTransformer: NSSecureUnarchiveFromDataTransformer {
     static func register() {
         let className = String(describing: UIImageTransformer.self)
         let name = NSValueTransformerName(className)
@@ -16,23 +16,7 @@ class UIImageTransformer: ValueTransformer {
         ValueTransformer.setValueTransformer(transformer, forName: name)
     }
     
-    override func transformedValue(_ value: Any?) -> Any? {
-        guard let image = value as? UIImage else { return nil }
-        do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: image, requiringSecureCoding: true)
-            return data
-        } catch {
-            return nil
-        }
-    }
-    
-    override func reverseTransformedValue(_ value: Any?) -> Any? {
-        guard let data = value as? Data else { return nil }
-        do {
-            let image = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIImage.self, from: data)
-            return image
-        } catch {
-            return nil
-        }
+    override static var allowedTopLevelClasses: [AnyClass] {
+        [UIImage.self]
     }
 }
