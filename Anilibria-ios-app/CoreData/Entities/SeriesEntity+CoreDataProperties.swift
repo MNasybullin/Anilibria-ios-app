@@ -18,7 +18,7 @@ extension SeriesEntity {
     @NSManaged public var numberOfSerie: Double
     @NSManaged public var duration: Double
     @NSManaged public var playbackPosition: Double
-    @NSManaged public var watchedDate: Date?
+    @NSManaged public var watchingDate: Date
     @NSManaged public var watching: WatchingEntity?
 
 }

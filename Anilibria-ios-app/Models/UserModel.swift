@@ -20,6 +20,8 @@ protocol UserModelDelegate: AnyObject {
 
 final class UserModel {
     private let authorizationService = AuthorizationService()
+    private let imageLoaderService = ImageLoaderService.shared
+    private let coreDataService = CoreDataService.shared
     
     weak var delegate: UserModelDelegate?
     
@@ -82,7 +84,7 @@ private extension UserModel {
         guard let userId = UserDefaults.standard.userId else {
             throw NSError(domain: "User id not found in UserDefaults", code: 404)
         }
-        let context = CoreDataService.shared.viewContext
+        let context = coreDataService.viewContext
         let userEntity = try UserEntity.find(userId: userId, context: context)
         let user = UserItem(userEntity: userEntity)
         return user
@@ -98,14 +100,14 @@ private extension UserModel {
         
         let user = UserItem(id: data.id, name: data.login, image: userImage, imageUrl: avatarURL)
         
-        let context = CoreDataService.shared.viewContext
+        let context = coreDataService.viewContext
         UserDefaults.standard.userId = user.id
-        try? UserEntity.updateOrCreate(user: user, context: context)
+        try? UserEntity.findOrCreate(user: user, context: context)
         return user
     }
     
     func requestImage(forURL url: String) async throws -> UIImage {
-        let imageData = try await ImageLoaderService.shared.getImageData(fromURLString: url)
+        let imageData = try await imageLoaderService.getImageData(fromURLString: url)
         guard let image = UIImage(data: imageData) else {
             throw MyImageError.failedToInitialize
         }

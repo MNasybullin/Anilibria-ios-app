@@ -4,7 +4,7 @@
         <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="numberOfSerie" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="playbackPosition" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="watchedDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="watchingDate" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="watching" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WatchingEntity" inverseName="series" inverseEntity="WatchingEntity"/>
     </entity>
     <entity name="UserEntity" representedClassName=".UserEntity" syncable="YES">

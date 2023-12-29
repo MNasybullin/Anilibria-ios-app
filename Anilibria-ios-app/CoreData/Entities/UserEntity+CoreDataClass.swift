@@ -38,7 +38,7 @@ public class UserEntity: NSManagedObject {
         }
     }
     
-    static func updateOrCreate(user: UserItem, context: NSManagedObjectContext) throws {
+    static func findOrCreate(user: UserItem, context: NSManagedObjectContext) throws {
         do {
             let users = try fetchUsers(userId: user.id, context: context)
             if let existingUser = users.first {
