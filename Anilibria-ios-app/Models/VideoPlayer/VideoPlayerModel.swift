@@ -9,6 +9,7 @@ import UIKit
 
 protocol VideoPlayerModelDelegate: AnyObject {
     func configurePlayerItem(url: URL)
+    func configurePlayerItem(url: URL, playbackPostition: Double)
     func configurePlayerItemWithCurrentPlaybackTime(url: URL)
 }
 
@@ -24,12 +25,23 @@ final class VideoPlayerModel {
     private (set) var currentRate: Float = 1.0
     private var cachingNodes: [String] = []
     
+    // CoreData Properties
+    private let coreDataService = CoreDataService.shared
+    private var userEntity: UserEntity?
+    private var watchingEntity: WatchingEntity?
+    private var currentSerieEntity: SeriesEntity?
+    
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         self.animeItem = animeItem
         self.currentPlaylistNumber = currentPlaylist
         let hls = animeItem.playlist[currentPlaylist].hls
         setCurrentHLS(hls: hls)
         configureSkips()
+        setupCurrentSerieEntity()
+    }
+    
+    deinit {
+        coreDataService.saveContext()
     }
 }
 
@@ -58,6 +70,53 @@ private extension VideoPlayerModel {
     }
 }
 
+// MARK: - CoreData methods
+extension VideoPlayerModel {
+    private func setupCurrentSerieEntity() {
+        guard let userId = UserDefaults.standard.userId else { return }
+        do {
+            if userEntity == nil {
+                userEntity = try UserEntity.find(userId: userId, context: coreDataService.viewContext)
+            }
+            if watchingEntity == nil {
+                watchingEntity = try WatchingEntity.find(forUser: userEntity!, animeId: animeItem.id, context: coreDataService.viewContext)
+            }
+            let series = watchingEntity?.series as? Set<SeriesEntity>
+            currentSerieEntity = series?.filter({ $0.numberOfSerie == animeItem.playlist[currentPlaylistNumber].serie }).first
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func createWatchingEntity(animeId: Int) {
+        watchingEntity = WatchingEntity(context: coreDataService.viewContext)
+        watchingEntity?.animeId = Int64(animeItem.id)
+        watchingEntity?.user = userEntity
+    }
+    
+    private func createCurrentSerieEntity(duration: Double, playbackPosition: Double) {
+        currentSerieEntity = SeriesEntity(context: coreDataService.viewContext)
+        currentSerieEntity?.duration = duration
+        currentSerieEntity?.numberOfSerie = animeItem.playlist[currentPlaylistNumber].serie ?? 0
+        currentSerieEntity?.playbackPosition = playbackPosition
+        currentSerieEntity?.watchingDate = Date()
+        currentSerieEntity?.watching = watchingEntity
+    }
+    
+    func configureWatchingInfo(duration: Double, playbackPosition: Double) {
+        if let currentSerieEntity {
+            currentSerieEntity.duration = duration
+            currentSerieEntity.playbackPosition = playbackPosition
+            currentSerieEntity.watchingDate = Date()
+        } else if userEntity != nil {
+            if watchingEntity == nil {
+                createWatchingEntity(animeId: animeItem.id)
+            }
+            createCurrentSerieEntity(duration: duration, playbackPosition: playbackPosition)
+        }
+    }
+}
+
 // MARK: - Internal methods
 
 extension VideoPlayerModel {
@@ -72,7 +131,11 @@ extension VideoPlayerModel {
                     throw MyInternalError.failedToFetchURLFromData
                 }
                 DispatchQueue.main.async {
-                    self.delegate?.configurePlayerItem(url: url)
+                    if let currentSerie = self.currentSerieEntity {
+                        self.delegate?.configurePlayerItem(url: url, playbackPostition: currentSerie.playbackPosition)
+                    } else {
+                        self.delegate?.configurePlayerItem(url: url)
+                    }
                 }
             } catch {
                 print(error)
@@ -89,6 +152,7 @@ extension VideoPlayerModel {
         } else {
             currentHLS = hlsFiltered.first
         }
+        setupCurrentSerieEntity()
         requestCachingNodes()
         configureSkips()
     }

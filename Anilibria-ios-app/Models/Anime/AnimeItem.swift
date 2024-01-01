@@ -8,6 +8,7 @@
 import UIKit
 
 struct AnimeItem {
+    var id: Int
     var image: UIImage?
     let ruName: String
     let code: String
@@ -23,8 +24,8 @@ struct AnimeItem {
 extension AnimeItem {
     init(fromTitleApiModel item: TitleAPIModel, image: UIImage?) {
         let playlist = item.player?.playlist?.map { Playlist(fromGTPlaylist: $0) }
-        
         self.init(
+            id: item.id,
             image: image,
             ruName: item.names.ru,
             code: item.code,

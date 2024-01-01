@@ -253,6 +253,7 @@ private extension VideoPlayerController {
             customView.setPlaybackSlider(value: floatTime)
             configureLeftRightTime(time: floatTime)
             checkSkips(time: time.seconds)
+            model.configureWatchingInfo(duration: currentItem.duration.seconds, playbackPosition: time.seconds)
         }
     }
     
@@ -334,13 +335,19 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
         playerItemSubscriptions(playerItem: playerItem)
     }
     
+    func configurePlayerItem(url: URL, playbackPostition: Double) {
+        configurePlayerItem(url: url)
+        
+        let playbackTime = CMTime(seconds: playbackPostition, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        player.seek(to: playbackTime, toleranceBefore: .zero, toleranceAfter: .zero)
+    }
+    
     func configurePlayerItemWithCurrentPlaybackTime(url: URL) {
         let currentPlaybackTime = player.currentTime()
         
         configurePlayerItem(url: url)
         
-        let targetTime = max(.zero, player.currentTime() + currentPlaybackTime)
-        player.seek(to: targetTime, toleranceBefore: .zero, toleranceAfter: .zero)
+        player.seek(to: currentPlaybackTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
 }
 
