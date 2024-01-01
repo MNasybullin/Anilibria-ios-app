@@ -64,7 +64,11 @@ extension SeriesContentController: UITableViewDataSource {
                 cell.setImage(image, urlString: item.previewUrl)
             }
         }
-        cell.configureCell(item: playlists[row])
+        let watchingInfo = model.getWatchingInfo(forSerie: item.serie ?? -1)
+        cell.configureCell(
+            item: playlists[row],
+            duration: watchingInfo?.duration,
+            playbackTime: watchingInfo?.playbackTime)
         return cell
     }
 }

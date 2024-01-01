@@ -23,7 +23,7 @@ class SeriesTableViewCell: UITableViewCell {
         return stack
     }()
     
-    private lazy var seriesImageView = UIImageView()
+    private lazy var serieImageView = SerieImageView()
     
     private lazy var labelsVStack: UIStackView = {
         let stack = UIStackView()
@@ -43,8 +43,15 @@ class SeriesTableViewCell: UITableViewCell {
     
     private lazy var indicatorImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "circle.fill")
-        imageView.tintColor = .systemRed
+        
+        let originalImage = UIImage(systemName: "circle.fill")?.withTintColor(.systemRed)
+        let scaledSize = CGSize(width: originalImage!.size.width / 2, height: originalImage!.size.height / 2)
+        let renderer = UIGraphicsImageRenderer(size: scaledSize)
+        let scaledImage = renderer.image { _ in
+            originalImage!.draw(in: CGRect(origin: .zero, size: scaledSize))
+        }
+        
+        imageView.image = scaledImage
         return imageView
     }()
     
@@ -84,7 +91,7 @@ class SeriesTableViewCell: UITableViewCell {
     private func configureLayout() {
         contentView.addSubview(hStack)
         
-        hStack.addArrangedSubview(seriesImageView)
+        hStack.addArrangedSubview(serieImageView)
         hStack.addArrangedSubview(labelsVStack)
         
         labelsVStack.addArrangedSubview(indicatorAndTitleHStack)
@@ -101,35 +108,35 @@ class SeriesTableViewCell: UITableViewCell {
             hStack.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
         ])
         
-        seriesImageView.translatesAutoresizingMaskIntoConstraints = false
+        serieImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            seriesImageView.widthAnchor.constraint(equalTo: seriesImageView.heightAnchor, multiplier: (1920/1080)),
-            seriesImageView.widthAnchor.constraint(lessThanOrEqualTo: hStack.widthAnchor, multiplier: 0.4)
+            serieImageView.widthAnchor.constraint(equalTo: serieImageView.heightAnchor, multiplier: (1920/1080)),
+            serieImageView.widthAnchor.constraint(lessThanOrEqualTo: hStack.widthAnchor, multiplier: 0.4)
         ])
-        
-        indicatorImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            indicatorImageView.heightAnchor.constraint(equalTo: indicatorImageView.widthAnchor, multiplier: 1),
-            indicatorImageView.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 0.5)
-        ])
-        
-        titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
-    func configureCell(item: Playlist) {
+    func configureCell(item: Playlist, duration: Double? = nil, playbackTime: Double? = nil) {
         if let image = item.image {
-            seriesImageView.image = image
+            serieImageView.image = image
         } else {
-            seriesImageView.image = UIImage(asset: Asset.Assets.blankImage)
+            serieImageView.image = UIImage(asset: Asset.Assets.blankImage)
         }
         titleLabel.text = item.serieString
         subtitleLabel.text = item.createdDateString
         imageUrlString = item.previewUrl
+        
+        if let duration, let playbackTime {
+            serieImageView.setupWatchingProgress(withDuration: duration, playbackTime: playbackTime)
+            indicatorImageView.isHidden = true
+        } else {
+            serieImageView.watchingProgressIsHidden = true
+            indicatorImageView.isHidden = false
+        }
     }
     
     func setImage(_ image: UIImage, urlString: String) {
         if urlString == imageUrlString {
-            seriesImageView.image = image
+            serieImageView.image = image
         }
     }
 }
