@@ -283,11 +283,21 @@ private extension VideoPlayerController {
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isPlaybackLikelyToKeepUp in
+                guard let self else { return }
                 if isPlaybackLikelyToKeepUp == false {
-                    self?.customView.showActivityIndicator()
+                    customView.showActivityIndicator()
                 } else {
-                    self?.customView.hideActivityIndicator()
+                    customView.hideActivityIndicator()
                 }
+            }
+            .store(in: &subscriptions)
+        
+        NotificationCenter.default.publisher(for: AVPlayerItem.didPlayToEndTimeNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                customView.showOverlay()
+                customView.playPauseButton(isSelected: false)
             }
             .store(in: &subscriptions)
     }
