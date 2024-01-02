@@ -80,7 +80,7 @@ private extension VideoPlayerNavigator {
             currentPlaylist: currentPlaylist
         )
         player.navigator = self
-        player.modalPresentationStyle = .overFullScreen
+        player.modalPresentationStyle = .fullScreen
         player.modalPresentationCapturesStatusBarAppearance = true
         presentatingController.present(player, animated: true)
     }

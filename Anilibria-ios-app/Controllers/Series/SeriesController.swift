@@ -32,6 +32,11 @@ final class SeriesController: UIViewController, AnimeFlow, HasCustomView {
         
         contentController.delegate = self
     }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        customView.tableView.reloadData()
+    }
 }
 
 // MARK: - SeriesContentControllerDelegate
