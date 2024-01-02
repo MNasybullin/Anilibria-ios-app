@@ -113,6 +113,9 @@ private extension VideoPlayerView {
             bottomView.topAnchor.constraint(equalTo: bottomAnchor)
         ]
         
+        let margins = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
+        topView.directionalLayoutMargins = margins
+        
         // MARK: Common constraints
         NSLayoutConstraint.activate([
             playerView.topAnchor.constraint(equalTo: topAnchor),
@@ -125,6 +128,9 @@ private extension VideoPlayerView {
             backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
+            topView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
             middleView.centerXAnchor.constraint(equalTo: centerXAnchor),
             middleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
@@ -136,8 +142,6 @@ private extension VideoPlayerView {
         
         // MARK: Landscape Constraints
         landscapeConstraints = [
-            topView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            topView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             bottomView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             skipButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
@@ -145,8 +149,6 @@ private extension VideoPlayerView {
         
         // MARK: Portrait Constraints
         portraitConstraints = [
-            topView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            topView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             bottomView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             bottomView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             skipButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24)
