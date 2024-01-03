@@ -38,6 +38,7 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        checkFavoriteStatus()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,6 +48,25 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     private func configureNavigationItem() {
         navigationItem.backButtonTitle = ""
+    }
+}
+
+// MARK: - Private methods
+
+private extension AnimeController {
+    func checkFavoriteStatus() {
+        Task(priority: .userInitiated) {
+            do {
+                customView.favoriteButtonIsSelected = true
+                customView.favoriteButtonShowActivityIndicator = true
+                customView.favoriteButtonIsSelected = try await model.isFavorite()
+                customView.favoriteButtonShowActivityIndicator = false
+            } catch {
+                print(error, error.localizedDescription)
+                customView.favoriteButtonIsSelected = false
+                customView.favoriteButtonShowActivityIndicator = false
+            }
+        }
     }
 }
 
@@ -93,8 +113,34 @@ extension AnimeController: WatchAndDownloadButtonsViewDelegate {
 // MARK: - FavoriteAndShareButtonsViewDelegate
 
 extension AnimeController: FavoriteAndShareButtonsViewDelegate {
-    func favoriteButtonClicked() {
-        print(#function)
+    func favoriteButtonClicked(button: UIButton) {
+        button.isSelected = !button.isSelected
+        Task(priority: .utility) {
+            if button.isSelected == true {
+                await addFavorite()
+            } else {
+                await delFavorite()
+            }
+        }
+    }
+    
+    private func addFavorite() async {
+        do {
+            try await model.addFavorite()
+        } catch {
+            customView.favoriteButtonIsSelected = false
+            // TODO: Если пользователь не авторизован вывести ошибки: "Необходимо авторизоваться"
+            print("addFavorite error", error.localizedDescription, error)
+        }
+    }
+    
+    private func delFavorite() async {
+        do {
+            try await model.delFavorite()
+        } catch {
+            customView.favoriteButtonIsSelected = true
+            print("delFavorite error", error.localizedDescription, error)
+        }
     }
     
     func shareButtonClicked() {

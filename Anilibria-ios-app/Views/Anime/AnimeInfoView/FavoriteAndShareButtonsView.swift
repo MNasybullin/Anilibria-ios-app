@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FavoriteAndShareButtonsViewDelegate: AnyObject {
-    func favoriteButtonClicked()
+    func favoriteButtonClicked(button: UIButton)
     func shareButtonClicked()
 }
 
@@ -33,20 +33,25 @@ final class FavoriteAndShareButtonsView: UIView {
         return stack
     }()
     
+    private lazy var favoriteButtonImage = UIImage(systemName: "heart")
+    private lazy var favoriteButtonSelectedImage = UIImage(systemName: "heart.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+    
     private lazy var favoriteButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.buttonSize = .mini
         config.baseForegroundColor = .secondaryLabel
-        
-        config.image = UIImage(systemName: "star")
+        config.baseBackgroundColor = .clear
         config.imagePadding = imagePadding
         config.imagePlacement = .top
-        
         config.title = Strings.AnimeView.favoriteButton
-        let button = UIButton(configuration: config)
         
-        button.addAction(UIAction { [weak self] _ in
-            self?.delegate?.favoriteButtonClicked()
+        let button = UIButton(configuration: config)
+        button.setImage(favoriteButtonImage, for: .normal)
+        button.setImage(favoriteButtonSelectedImage, for: .selected)
+        
+        button.addAction(UIAction { [weak self] action in
+            guard let sender = action.sender as? UIButton else { return }
+            self?.delegate?.favoriteButtonClicked(button: sender)
         }, for: .touchUpInside)
         
         return button
@@ -95,5 +100,26 @@ final class FavoriteAndShareButtonsView: UIView {
             vStack.trailingAnchor.constraint(equalTo: trailingAnchor),
             vStack.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+}
+
+// MARK: - Internal methods
+
+extension FavoriteAndShareButtonsView {
+    var favoriteButtonIsSelected: Bool {
+        get { favoriteButton.isSelected }
+        set { favoriteButton.isSelected = newValue }
+    }
+    
+    var favoriteButtonShowActivityIndicator: Bool {
+        get { favoriteButton.configuration?.showsActivityIndicator ?? false }
+        set {
+            favoriteButton.configuration?.showsActivityIndicator = newValue
+            favoriteButton.isEnabled = !newValue
+            // if selected, the background will not be clear
+            if favoriteButtonIsSelected == true && newValue == true {
+                favoriteButtonIsSelected = false
+            }
+        }
     }
 }

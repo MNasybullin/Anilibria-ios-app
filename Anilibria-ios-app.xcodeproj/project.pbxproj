@@ -93,6 +93,7 @@
 		275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF3B2B14F7DC00C281B1 /* UserItem.swift */; };
 		275EFF3E2B15C38000C281B1 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF3D2B15C38000C281B1 /* UserView.swift */; };
 		276880BD2B44324B00F5FD06 /* TopOverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276880BC2B44324B00F5FD06 /* TopOverlayButton.swift */; };
+		276880BF2B45649D00F5FD06 /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276880BE2B45649D00F5FD06 /* FavoriteModel.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
 		277841D72B1CB93A00E64B48 /* VideoPlayerSeriesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277841D62B1CB93A00E64B48 /* VideoPlayerSeriesController.swift */; };
 		278356AE2ABDC7DE00878B8F /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */; };
@@ -260,6 +261,7 @@
 		275EFF3B2B14F7DC00C281B1 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
 		275EFF3D2B15C38000C281B1 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		276880BC2B44324B00F5FD06 /* TopOverlayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopOverlayButton.swift; sourceTree = "<group>"; };
+		276880BE2B45649D00F5FD06 /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
 		277841D62B1CB93A00E64B48 /* VideoPlayerSeriesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerSeriesController.swift; sourceTree = "<group>"; };
 		278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -601,6 +603,7 @@
 				27B707052AF253DC00DD8DC6 /* SeriesModel.swift */,
 				27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */,
 				27AB03FA2B2857790007E750 /* YouTubeModel.swift */,
+				276880BE2B45649D00F5FD06 /* FavoriteModel.swift */,
 				273ECB012B20E96500402612 /* VideoPlayer */,
 				27B707232AF3E33900DD8DC6 /* SearchResults */,
 				27B707122AF2A7E400DD8DC6 /* RandomAnime */,
@@ -1126,6 +1129,7 @@
 				275865AD2AD9C7EC00F98884 /* ProfileNavigator.swift in Sources */,
 				271A0E3A2AE903F8005958CB /* ScheduleCollectionViewLayout.swift in Sources */,
 				271A0E212AE7EBBE005958CB /* HomeUpdatesModel.swift in Sources */,
+				276880BF2B45649D00F5FD06 /* FavoriteModel.swift in Sources */,
 				275865B82ADA889F00F98884 /* ProfileController.swift in Sources */,
 				275865C32ADAEB2800F98884 /* HasCustomView.swift in Sources */,
 				2784BA1F2AF97841004E9B54 /* RandomAnimeRefreshButton.swift in Sources */,

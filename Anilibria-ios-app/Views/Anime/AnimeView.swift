@@ -159,6 +159,16 @@ extension AnimeView {
     func update(image: UIImage?) {
         animeImageView.configureView(with: image)
     }
+    
+    var favoriteButtonIsSelected: Bool {
+        get { animeInfoView.favoriteAndShareButtonsView.favoriteButtonIsSelected }
+        set { animeInfoView.favoriteAndShareButtonsView.favoriteButtonIsSelected = newValue }
+    }
+    
+    var favoriteButtonShowActivityIndicator: Bool {
+        get { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator }
+        set { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator = newValue }
+    }
 }
 
 // MARK: - UINavigationBarDelegate

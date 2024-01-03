@@ -16,6 +16,7 @@ final class AnimeModel {
     private var image: UIImage?
     
     weak var delegate: AnimeModelOutput?
+    private let favoriteModel = FavoriteModel.shared
     
     init(rawData: TitleAPIModel, image: UIImage?) {
         self.rawData = rawData
@@ -51,5 +52,17 @@ extension AnimeModel {
             requestImage()
         }
         return AnimeItem(fromTitleApiModel: rawData, image: image)
+    }
+    
+    func isFavorite() async throws -> Bool {
+        return try await favoriteModel.isFavorite(title: rawData)
+    }
+    
+    func addFavorite() async throws {
+        try await favoriteModel.addFavorite(title: rawData)
+    }
+    
+    func delFavorite() async throws {
+        try await favoriteModel.delFavorite(title: rawData)
     }
 }
