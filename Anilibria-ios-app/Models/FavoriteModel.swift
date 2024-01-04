@@ -10,26 +10,12 @@ import Foundation
 final class FavoriteModel {
     static let shared: FavoriteModel = FavoriteModel()
     private let authorizationService = AuthorizationService()
+    private let expiredDateManager = ExpiredDateManager(expireTimeInMinutes: 1)
     
     private var titles: [TitleAPIModel]?
-    private lazy var dataExpiredDate: Date = getExpiredDate()
     
     private init() { }
     
-}
-
-// MARK: - Private methods
-extension FavoriteModel {
-    func getExpiredDate() -> Date {
-        var date = Date()
-        let minute: Double = 60
-        date.addTimeInterval(1 * minute)
-        return date
-    }
-    
-    func dataIsExpired() -> Bool {
-        return Date().compare(dataExpiredDate) == .orderedDescending
-    }
 }
 
 // MARK: - Internal methods
@@ -45,12 +31,12 @@ extension FavoriteModel {
     }
     
     func getFavorites(withForceUpdate forceUpdate: Bool = false) async throws -> [TitleAPIModel] {
-        if let titles, forceUpdate == false, dataIsExpired() == false {
+        if let titles, forceUpdate == false, expiredDateManager.isExpired() == false {
             return titles
         }
         let favorites = try await authorizationService.getFavorites()
         titles = favorites
-        dataExpiredDate = getExpiredDate()
+        expiredDateManager.start()
         return favorites
     }
     

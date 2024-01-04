@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class HomeController: UIViewController, HomeFlow, HasCustomView {
     typealias CustomView = HomeView
@@ -13,7 +14,9 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
     
     private lazy var contentController = HomeContentController(delegate: self)
     
-    private lazy var dataExpiredDate: Date = getExpiredDate()
+    private let expiredDateManager = ExpiredDateManager(expireTimeInMinutes: 5)
+    
+    private var subscriptions = Set<AnyCancellable>()
     
     override func loadView() {
         view = HomeView(delegate: self, collectionViewDelegate: contentController)
@@ -23,14 +26,22 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         super.viewDidLoad()
         configureNavigationItem()
         requestData()
+        expiredDateManager.start()
     }
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard dataIsExpired() == true else {
+        notificationCenterSubscription()
+        
+        guard expiredDateManager.isExpired() == true else {
             return
         }
         customView.programaticallyBeginRefreshing()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        subscriptions.removeAll()
     }
 }
 
@@ -45,15 +56,13 @@ private extension HomeController {
         contentController.requestInitialData()
     }
     
-    func getExpiredDate() -> Date {
-        var date = Date()
-        let minute: Double = 60
-        date.addTimeInterval(5 * minute)
-        return date
-    }
-    
-    func dataIsExpired() -> Bool {
-        return Date().compare(dataExpiredDate) == .orderedDescending
+    func notificationCenterSubscription() {
+        NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
+            .sink { [weak self] _ in
+                guard self?.expiredDateManager.isExpired() == true else { return }
+                self?.customView.programaticallyBeginRefreshing()
+            }
+            .store(in: &subscriptions)
     }
 }
 
@@ -109,7 +118,7 @@ extension HomeController: HomeContentControllerDelegate {
     
     func reloadSection(numberOfSection: Int) {
         customView.reloadSection(numberOfSection: numberOfSection)
-        dataExpiredDate = getExpiredDate()
+        expiredDateManager.start()
     }
 }
 
