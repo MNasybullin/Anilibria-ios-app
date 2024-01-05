@@ -8,9 +8,10 @@
 import UIKit
 
 enum TabBarItemTags: Int {
-    case home = 0
-    case search = 1
-    case profile = 2
+    case home
+    case search
+    case favorites
+    case profile
 }
 
 final class TabBarController: UITabBarController {

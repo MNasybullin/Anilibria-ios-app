@@ -72,6 +72,7 @@
 // MARK: - Screen Titles
 "ScreenTitles.home" = "Главное";
 "ScreenTitles.search" = "Поиск";
+"ScreenTitles.favorites" = "Избранное";
 "ScreenTitles.profile" = "Профиль";
 "ScreenTitles.schedule" = "Расписание";
 "ScreenTitles.updates" = "Обновления";

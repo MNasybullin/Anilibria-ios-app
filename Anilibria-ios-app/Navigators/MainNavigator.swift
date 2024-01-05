@@ -27,6 +27,7 @@ final class MainNavigator {
         tabBarNavigators = [
             HomeNavigator(),
             SearchNavigator(),
+            FavoritesNavigator(),
             ProfileNavigator()
         ]
         
