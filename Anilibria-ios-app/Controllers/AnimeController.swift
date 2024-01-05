@@ -9,7 +9,7 @@ import UIKit
 
 final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     typealias CustomView = AnimeView
-    var navigator: AnimeNavigator?
+    weak var navigator: AnimeNavigator?
     
     private let model: AnimeModel
     

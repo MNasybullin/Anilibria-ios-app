@@ -14,6 +14,7 @@ protocol HomeFlow: AnyObject {
 
 final class HomeNavigator {
     private let navigationController: UINavigationController
+    private var subNavigators: [BasicNavigator] = []
     
     init() {
         let rootViewController = HomeController()
@@ -77,7 +78,9 @@ extension HomeNavigator: Navigator {
                 viewController = scheduleController
             case .anime(let rawData, let image):
                 let animeController = AnimeController(rawData: rawData, image: image)
-                animeController.navigator = AnimeNavigator(navigationController: navigationController)
+                let animeNavigator = AnimeNavigator(navigationController: navigationController)
+                subNavigators.append(animeNavigator)
+                animeController.navigator = animeNavigator
                 viewController = animeController
             case .youTube(let data, let rawData):
                 let youTubeController = YouTubeController(data: data, rawData: rawData)

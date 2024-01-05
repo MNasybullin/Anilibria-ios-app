@@ -8,11 +8,13 @@
 import UIKit
 
 protocol FavoritesFlow: AnyObject {
+    /// use weak !
     var navigator: FavoritesNavigator? { get set }
 }
 
 final class FavoritesNavigator {
     private let navigationController: UINavigationController
+    private var subNavigators: [BasicNavigator] = []
     
     init() {
         let rootViewController = FavoritesController()
@@ -69,7 +71,9 @@ extension FavoritesNavigator: Navigator {
         switch destination {
             case .anime(let rawData, let image):
                 let animeController = AnimeController(rawData: rawData, image: image)
-                animeController.navigator = AnimeNavigator(navigationController: navigationController)
+                let animeNavigator = AnimeNavigator(navigationController: navigationController)
+                subNavigators.append(animeNavigator)
+                animeController.navigator = animeNavigator
                 viewController = animeController
         }
         return viewController

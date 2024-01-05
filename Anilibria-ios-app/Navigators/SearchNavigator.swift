@@ -8,11 +8,13 @@
 import UIKit
 
 protocol SearchFlow: AnyObject {
+    /// use weak !
     var navigator: SearchNavigator? { get set }
 }
 
 final class SearchNavigator {
     private let navigationController: UINavigationController
+    private var subNavigators: [BasicNavigator] = []
     
     init() {
         let rootViewController = SearchController()
@@ -69,7 +71,9 @@ extension SearchNavigator: Navigator {
         switch destination {
             case .anime(let rawData, let image):
                 let animeController = AnimeController(rawData: rawData, image: image)
-                animeController.navigator = AnimeNavigator(navigationController: navigationController)
+                let animeNavigator = AnimeNavigator(navigationController: navigationController)
+                subNavigators.append(animeNavigator)
+                animeController.navigator = animeNavigator
                 viewController = animeController
         }
         return viewController
