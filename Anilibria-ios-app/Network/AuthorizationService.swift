@@ -67,7 +67,9 @@ final class AuthorizationService: NetworkQuery {
     }
     
     /// Получить список избранных тайтлов пользователя
-    func getFavorites() async throws -> [TitleAPIModel] {
+    /// - Parameters:
+    ///     - withlimit: Количество запрашиваемых объектов (По умолчанию -1 (Все))
+    func getFavorites(withLimit limit: Int = -1) async throws -> [TitleAPIModel] {
         let sessionId: String
         
         do {
@@ -77,10 +79,10 @@ final class AuthorizationService: NetworkQuery {
         }
         
         var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getFavorites)
-        
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            URLQueryItem(name: "limit", value: String(limit))
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)

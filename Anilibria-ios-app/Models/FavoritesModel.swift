@@ -1,5 +1,5 @@
 //
-//  FavoriteModel.swift
+//  FavoritesModel.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 03.01.2024.
@@ -7,19 +7,20 @@
 
 import Foundation
 
-final class FavoriteModel {
-    static let shared: FavoriteModel = FavoriteModel()
+final class FavoritesModel: ImageModel {
+    static let shared = FavoritesModel()
+    
     private let authorizationService = AuthorizationService()
     private let expiredDateManager = ExpiredDateManager(expireTimeInMinutes: 1)
     
     private var titles: [TitleAPIModel]?
     
-    private init() { }
+    private override init() { }
     
 }
 
 // MARK: - Internal methods
-extension FavoriteModel {
+extension FavoritesModel {
     func addFavorite(title: TitleAPIModel) async throws {
         try await authorizationService.addFavorite(from: title.id)
         titles?.append(title)
@@ -43,5 +44,9 @@ extension FavoriteModel {
     func isFavorite(title: TitleAPIModel) async throws -> Bool {
         let favorites = try await getFavorites()
         return favorites.contains { $0.id == title.id }
+    }
+    
+    func getTitleModel(fromName name: String) -> TitleAPIModel? {
+        return titles?.first { $0.names.ru == name }
     }
 }

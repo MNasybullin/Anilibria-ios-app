@@ -16,7 +16,7 @@ final class AnimeModel {
     private var image: UIImage?
     
     weak var delegate: AnimeModelOutput?
-    private let favoriteModel = FavoriteModel.shared
+    private let favoriteModel = FavoritesModel.shared
     
     init(rawData: TitleAPIModel, image: UIImage?) {
         self.rawData = rawData

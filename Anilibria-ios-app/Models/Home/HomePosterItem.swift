@@ -7,10 +7,19 @@
 
 import UIKit
 
-struct HomePosterItem {
+struct HomePosterItem: Hashable {
     let name: String
     let imageUrlString: String
     var image: UIImage?
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(imageUrlString)
+    }
+    
+    static func == (lhs: HomePosterItem, rhs: HomePosterItem) -> Bool {
+        lhs.name == rhs.name && lhs.imageUrlString == rhs.imageUrlString
+    }
 }
 
 extension HomePosterItem {
