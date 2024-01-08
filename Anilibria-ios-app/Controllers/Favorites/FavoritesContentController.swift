@@ -71,19 +71,18 @@ private extension FavoritesContentController {
     func makeDataSource() -> DataSource {
         let dataSource = FavoritesDiffableDataSource(
             collectionView: customView.collectionView,
-            cellProvider: { [weak self] collectionView, indexPath, item in
+            cellProvider: { [weak self] (collectionView, indexPath, _) -> UICollectionViewCell? in
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier,
                     for: indexPath) as? HomePosterCollectionViewCell
-                let home = HomePosterItem(name: item.name, imageUrlString: item.imageUrlString, image: item.image)
-                
+                guard let item = self?.data[indexPath.row] else { return cell }
                 if item.image == nil {
                     self?.model.requestImage(from: item.imageUrlString) { image in
                         self?.data[indexPath.row].image = image
                         cell?.setImage(image, urlString: item.imageUrlString)
                     }
                 }
-                cell?.configureCell(item: home)
+                cell?.configureCell(item: item)
                 return cell
             })
         return dataSource
