@@ -1,10 +1,23 @@
 # Anilibria
 iOS App for Anilibria.tv 
 
+## Инструкция по сборке проекта.
+1) Склонируйте репозиторий.
+```
+https://github.com/MNasybullin/Anilibria-ios-app.git
+```
+2) В папке проекта установите CocoaPods
+```
+pod install
+```
+3) Для открытия проекта используйте сгенерированный файл Anilibria-ios-app.xcworkspace
+Готово!
+
 ## В проекте используется:
-- SwiftGen (https://github.com/SwiftGen/SwiftGen) | Homebrew
-- SwiftLint (https://github.com/realm/SwiftLint) | Homebrew
-- SkeletonView (https://github.com/Juanpe/SkeletonView.git) | Swift Package Manager
+- CocoaPods (https://github.com/CocoaPods/CocoaPods)
+- SwiftGen (https://github.com/SwiftGen/SwiftGen)
+- SwiftLint (https://github.com/realm/SwiftLint)
+- SkeletonView (https://github.com/Juanpe/SkeletonView.git)
 
 ## AniLibria API – v2.13.1
 - https://github.com/anilibria/docs/blob/master/api_v2.md
