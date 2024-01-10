@@ -11,7 +11,6 @@ https://github.com/MNasybullin/Anilibria-ios-app.git
 pod install
 ```
 3) Для открытия проекта используйте сгенерированный файл Anilibria-ios-app.xcworkspace
-Готово!
 
 ## В проекте используется:
 - CocoaPods (https://github.com/CocoaPods/CocoaPods)

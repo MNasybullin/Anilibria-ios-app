@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00D8E6661483F4C500C3DB31 /* Pods_Anilibria_ios_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD8495556304339F1EB1F8DC /* Pods_Anilibria_ios_app.framework */; };
 		2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619D2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift */; };
 		270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */; };
 		2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704E4092B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift */; };
@@ -147,6 +146,7 @@
 		27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88582B2343E0004DC558 /* NetworkConstants.swift */; };
 		27CE885B2B237FB2004DC558 /* HomeYouTubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */; };
 		27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */; };
+		27E4D03F2B4ED5780039BFE6 /* Pods_Anilibria_ios_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD8495556304339F1EB1F8DC /* Pods_Anilibria_ios_app.framework */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */; };
 		27EA393129C5FBBB00D777AE /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */; };
@@ -370,7 +370,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00D8E6661483F4C500C3DB31 /* Pods_Anilibria_ios_app.framework in Frameworks */,
+				27E4D03F2B4ED5780039BFE6 /* Pods_Anilibria_ios_app.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

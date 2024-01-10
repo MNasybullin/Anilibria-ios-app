@@ -13,7 +13,7 @@ use_frameworks!
 target 'Anilibria-ios-app' do
     pod 'SwiftGen', '~> 6.6.2'
     pod 'SwiftLint', '~> 0.54.0'
-    pod 'SkeletonView', :git => 'https://github.com/MNasybullin/SkeletonView', :branch => 'anilibria'
+    pod 'SkeletonView', :inhibit_warnings => true, :git => 'https://github.com/MNasybullin/SkeletonView', :branch => 'anilibria'
 
   # Pods for Anilibria-ios-app
 
