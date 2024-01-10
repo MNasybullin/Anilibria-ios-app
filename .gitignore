@@ -11,3 +11,7 @@ xcuserdata/
 
 .DS_Store
 Anilibria-ios-app/Generated
+
+## CocoaPods
+Pods
+*.xcworkspace

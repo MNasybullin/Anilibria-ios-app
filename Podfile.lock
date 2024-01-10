@@ -1,0 +1,33 @@
+PODS:
+  - SkeletonView (1.30.3)
+  - SwiftGen (6.6.2)
+  - SwiftLint (0.54.0)
+
+DEPENDENCIES:
+  - SkeletonView (from `https://github.com/MNasybullin/SkeletonView`, branch `anilibria`)
+  - SwiftGen (~> 6.6.2)
+  - SwiftLint (~> 0.54.0)
+
+SPEC REPOS:
+  trunk:
+    - SwiftGen
+    - SwiftLint
+
+EXTERNAL SOURCES:
+  SkeletonView:
+    :branch: anilibria
+    :git: https://github.com/MNasybullin/SkeletonView
+
+CHECKOUT OPTIONS:
+  SkeletonView:
+    :commit: f751e6258e55db0e8f614c09a31bb06190ad198a
+    :git: https://github.com/MNasybullin/SkeletonView
+
+SPEC CHECKSUMS:
+  SkeletonView: f5b099c708e42a278079a12bcaaf71c303be65a3
+  SwiftGen: 1366a7f71aeef49954ca5a63ba4bef6b0f24138c
+  SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
+
+PODFILE CHECKSUM: 420f6cf6eec8edf9a4caba131976b2c90a1e02ce
+
+COCOAPODS: 1.14.3

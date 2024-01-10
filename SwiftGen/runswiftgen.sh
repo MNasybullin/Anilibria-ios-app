@@ -12,17 +12,10 @@ do
     fi
 done
 
-if test -d "/opt/homebrew/bin/"; then
-  PATH="/opt/homebrew/bin/:${PATH}"
-fi
-
-export PATH
-
-if which swiftgen >/dev/null; then
-  swiftgen config run --config SwiftGen/swiftgen.yml
+if [[ -f "${PODS_ROOT}/SwiftGen/bin/swiftgen" ]]; then
+  "${PODS_ROOT}/SwiftGen/bin/swiftgen" config run --config SwiftGen/swiftgen.yml
 else
-    echo "error: SwiftGen not installed, download it from https://github.com/SwiftGen/SwiftGen"
-    exit 1
+  echo "warning: SwiftGen is not installed. Run 'pod install --repo-update' to install it."
 fi
 
 for file in Anilibria-ios-app/Generated/*
