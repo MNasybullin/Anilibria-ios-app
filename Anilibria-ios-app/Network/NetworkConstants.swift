@@ -32,4 +32,6 @@ enum NetworkConstants {
     static let getFavorites = "/v2/getFavorites"
     static let addFavorite = "/v2/addFavorite"
     static let delFavorite = "/v2/delFavorite"
+    
+    static let removeTorrents: URLQueryItem = URLQueryItem(name: "remove", value: "torrents")
 }

@@ -16,7 +16,8 @@ final class PublicApiService: NetworkQuery {
         var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getTitle)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id", value: id),
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            NetworkConstants.removeTorrents
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
@@ -31,7 +32,8 @@ final class PublicApiService: NetworkQuery {
         var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getTitles)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id_list", value: ids),
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            NetworkConstants.removeTorrents
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
@@ -49,7 +51,8 @@ final class PublicApiService: NetworkQuery {
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
             URLQueryItem(name: "playlist_type", value: "array"),
-            URLQueryItem(name: "after", value: String(after))
+            URLQueryItem(name: "after", value: String(after)),
+            NetworkConstants.removeTorrents
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
@@ -64,7 +67,8 @@ final class PublicApiService: NetworkQuery {
         var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getChanges)
         urlComponents?.queryItems = [
             URLQueryItem(name: "limit", value: String(limit)),
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            NetworkConstants.removeTorrents
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
@@ -80,7 +84,8 @@ final class PublicApiService: NetworkQuery {
         let daysString = days.reduce("", {$0 + String($1.rawValue) + ","})
         urlComponents?.queryItems = [
             URLQueryItem(name: "days", value: daysString),
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            NetworkConstants.removeTorrents
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
@@ -92,7 +97,8 @@ final class PublicApiService: NetworkQuery {
     func getRandomTitle() async throws -> TitleAPIModel {
         var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getRandomTitle)
         urlComponents?.queryItems = [
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            NetworkConstants.removeTorrents
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
@@ -182,7 +188,8 @@ final class PublicApiService: NetworkQuery {
             URLQueryItem(name: "genres", value: genres),
             URLQueryItem(name: "limit", value: String(limit)),
             URLQueryItem(name: "after", value: String(after)),
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            NetworkConstants.removeTorrents
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
