@@ -8,27 +8,26 @@
 import UIKit
 
 final class AnimeImageView: UIView {
-    
-    lazy var backgroundImageView: UIImageView = {
+    private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(asset: Asset.Assets.blankImage)
         return imageView
     }()
     
-    lazy var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(asset: Asset.Assets.blankImage)
         return imageView
     }()
     
-    lazy var topSafeAreaHeight: CGFloat = {
+    private lazy var topSafeAreaHeight: CGFloat = {
         let scenes = UIApplication.shared.connectedScenes
         let windowScenes = scenes.first as? UIWindowScene
         let window = windowScenes?.windows.first
         return window?.safeAreaInsets.top ?? 0.0
     }()
     
-    var bottomHeightAfterImageView: CGFloat = 40
+    private var bottomHeightAfterImageView: CGFloat = 40
     
     init() {
         super.init(frame: .zero)
@@ -69,19 +68,9 @@ final class AnimeImageView: UIView {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundImageView.addSubview(blurEffectView)
     }
-}
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct AnimeImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPreview {
-            AnimeImageView()
-        }
-        .frame(height: 500)
+    
+    func configureView(with image: UIImage?) {
+        backgroundImageView.image = image
+        imageView.image = image
     }
 }
-
-#endif

@@ -11,30 +11,22 @@ import AVKit
 protocol TopOverlayViewDelegate: AnyObject {
     func closeButtonDidTapped()
     func pipButtonDidTapped()
-    func airPlayButtonDidTapped()
     func settingsButtonDidTapped()
 }
 
 final class TopOverlayView: UIView {
-    typealias Orientation = VideoPlayerOverlayView.Orientation
+    typealias Orientation = VideoPlayerView.Orientation
     
     weak var delegate: TopOverlayViewDelegate?
     
     private enum Constants {
         static let leftRightMiddleStackConstraints: CGFloat = 8
-        static let leftRightStackSpacing: CGFloat = 32
+        static let buttonSpacing: CGFloat = 32
         static let top: CGFloat = 24
     }
     
-    private lazy var leftStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.spacing = Constants.leftRightStackSpacing
-        return stack
-    }()
-    
     private lazy var closeButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = TopOverlayButton(type: .system)
         button.tintColor = .white
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.addAction(UIAction { [weak self] _ in
@@ -44,7 +36,7 @@ final class TopOverlayView: UIView {
     }()
     
     private lazy var pipButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = TopOverlayButton(type: .system)
         button.tintColor = .white
         let startImage = AVPictureInPictureController.pictureInPictureButtonStartImage
         button.setImage(startImage, for: .normal)
@@ -77,13 +69,6 @@ final class TopOverlayView: UIView {
         return label
     }()
     
-    private lazy var rightStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.spacing = Constants.leftRightStackSpacing
-        return stack
-    }()
-        
     private lazy var routePickerView: AVRoutePickerView = {
         let routePickerView = AVRoutePickerView()
         routePickerView.backgroundColor = .clear
@@ -99,7 +84,7 @@ final class TopOverlayView: UIView {
     }
     
     private lazy var settingsButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = TopOverlayButton(type: .system)
         button.tintColor = .white
         button.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         button.addAction(UIAction { [weak self] _ in
@@ -131,47 +116,44 @@ private extension TopOverlayView {
     }
     
     func configureLayout() {
-        preservesSuperviewLayoutMargins = true
-        [leftStack, middleStack, rightStack].forEach {
+        [closeButton, pipButton, middleStack, routePickerView, settingsButton].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [closeButton, pipButton].forEach { leftStack.addArrangedSubview($0) }
         [titleLabel, subtitleLabel].forEach { middleStack.addArrangedSubview($0) }
-        [routePickerView, settingsButton].forEach { rightStack.addArrangedSubview($0) }
-        
-        [leftStack, rightStack].flatMap { $0.arrangedSubviews }.forEach {
-            $0.setContentHuggingPriority(.required, for: .horizontal)
-            $0.setContentCompressionResistancePriority(.required, for: .horizontal)
-        }
         
         // Common Constraints
         NSLayoutConstraint.activate([
-            leftStack.topAnchor.constraint(equalTo: topAnchor,
-                                           constant: Constants.top),
-            leftStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            closeButton.topAnchor.constraint(equalTo: topAnchor, constant: Constants.top),
+            pipButton.leadingAnchor.constraint(equalTo: closeButton.trailingAnchor, constant: Constants.buttonSpacing),
+            pipButton.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor),
             
-            rightStack.topAnchor.constraint(equalTo: topAnchor,
-                                                constant: Constants.top),
-            rightStack.trailingAnchor.constraint(equalTo: trailingAnchor)
+            middleStack.bottomAnchor.constraint(equalTo: bottomAnchor),
             
+            settingsButton.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor),
+            routePickerView.centerYAnchor.constraint(equalTo: settingsButton.centerYAnchor),
+            routePickerView.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -Constants.buttonSpacing)
         ])
         
         landscapeConstraints = [
-            middleStack.topAnchor.constraint(equalTo: topAnchor,
-                                             constant: Constants.top),
+            closeButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            
+            middleStack.topAnchor.constraint(equalTo: topAnchor, constant: Constants.top),
             middleStack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            middleStack.leadingAnchor.constraint(greaterThanOrEqualTo: leftStack.trailingAnchor, constant: Constants.leftRightMiddleStackConstraints),
-            middleStack.trailingAnchor.constraint(lessThanOrEqualTo: rightStack.leadingAnchor, constant: -Constants.leftRightMiddleStackConstraints),
-            middleStack.bottomAnchor.constraint(equalTo: bottomAnchor)
+            middleStack.leadingAnchor.constraint(greaterThanOrEqualTo: pipButton.trailingAnchor, constant: Constants.leftRightMiddleStackConstraints),
+            middleStack.trailingAnchor.constraint(lessThanOrEqualTo: routePickerView.leadingAnchor, constant: -Constants.leftRightMiddleStackConstraints),
+            
+            settingsButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ]
         
         portraitConstraints = [
-            middleStack.topAnchor.constraint(equalTo: leftStack.bottomAnchor,
-                                             constant: Constants.top),
-            middleStack.leadingAnchor.constraint(equalTo: leadingAnchor),
-            middleStack.trailingAnchor.constraint(equalTo: trailingAnchor),
-            middleStack.bottomAnchor.constraint(equalTo: bottomAnchor)
+            closeButton.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            
+            middleStack.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: Constants.top),
+            middleStack.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            middleStack.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            
+            settingsButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
         ]
         NSLayoutConstraint.activate(portraitConstraints)
     }

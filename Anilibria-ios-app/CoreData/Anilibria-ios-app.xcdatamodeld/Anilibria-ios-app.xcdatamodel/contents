@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23B81" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="SeriesEntity" representedClassName=".SeriesEntity" syncable="YES">
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="numberOfSerie" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="playbackPosition" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="watchingDate" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="watching" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WatchingEntity" inverseName="series" inverseEntity="WatchingEntity"/>
+    </entity>
+    <entity name="UserEntity" representedClassName=".UserEntity" syncable="YES">
+        <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" attributeType="Transformable" valueTransformerName="UIImageTransformer" allowsExternalBinaryDataStorage="YES" customClassName=".UIImage"/>
+        <attribute name="imageUrl" attributeType="String" defaultValueString=""/>
+        <attribute name="name" attributeType="String" defaultValueString="User Name"/>
+        <relationship name="watching" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="WatchingEntity" inverseName="user" inverseEntity="WatchingEntity"/>
+    </entity>
+    <entity name="WatchingEntity" representedClassName=".WatchingEntity" syncable="YES">
+        <attribute name="animeId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="series" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SeriesEntity" inverseName="watching" inverseEntity="SeriesEntity"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="watching" inverseEntity="UserEntity"/>
+    </entity>
+</model>

@@ -120,10 +120,6 @@ extension SearchResultsView {
         tableView.endUpdates()
     }
     
-    func reconfigureRows(at indexPaths: [IndexPath]) {
-        tableView.reconfigureRows(at: indexPaths)
-    }
-    
     func updateHeaderFooterView(status: Status) {
         switch status {
             case .notFound:

@@ -49,11 +49,10 @@ final class AnimeView: UIView {
         super.init(frame: .zero)
         
         configureView()
+        animeImageView.configureView(with: item.image)
+        configureAnimeInfoView(item: item, delegate: delegate)
         configureNavigationBar()
         configureScrollView()
-        configureAnimeImageView(item: item)
-        configureAnimeInfoView(item: item, delegate: delegate)
-        
         configureLayout()
     }
     
@@ -96,21 +95,12 @@ private extension AnimeView {
         scrollView.showsVerticalScrollIndicator = false
     }
     
-    func configureAnimeImageView(item: AnimeItem) {
-        update(image: item.image)
-    }
-    
     func configureAnimeInfoView(item: AnimeItem, delegate: AnimeController) {
         animeInfoView.animeSeriesView.delegate = delegate
         animeInfoView.watchAndDownloadButtonsView.delegate = delegate
         animeInfoView.favoriteAndShareButtonsView.delegate = delegate
         
-        animeInfoView.ruNameLabel.text = item.ruName
-        animeInfoView.engNameLabel.text = item.engName
-        animeInfoView.seasonAndTypeLabel.text = item.seasonAndType
-        animeInfoView.genresLabel.text = item.genres
-        animeInfoView.descriptionLabel.text = item.description
-        animeInfoView.animeSeriesView.subtitleLabel.text = (item.series?.string ?? "") + " " + "серий" //  localizable
+        animeInfoView.configureView(item: item)
     }
     
     func configureLayout() {
@@ -167,8 +157,17 @@ private extension AnimeView {
 
 extension AnimeView {
     func update(image: UIImage?) {
-        animeImageView.backgroundImageView.image = image
-        animeImageView.imageView.image = image
+        animeImageView.configureView(with: image)
+    }
+    
+    var favoriteButtonIsSelected: Bool {
+        get { animeInfoView.favoriteAndShareButtonsView.favoriteButtonIsSelected }
+        set { animeInfoView.favoriteAndShareButtonsView.favoriteButtonIsSelected = newValue }
+    }
+    
+    var favoriteButtonShowActivityIndicator: Bool {
+        get { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator }
+        set { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator = newValue }
     }
 }
 

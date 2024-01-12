@@ -8,23 +8,23 @@
 import UIKit
 
 protocol FavoriteAndShareButtonsViewDelegate: AnyObject {
-    func favoriteButtonClicked()
+    func favoriteButtonClicked(button: UIButton)
     func shareButtonClicked()
 }
 
 final class FavoriteAndShareButtonsView: UIView {
     weak var delegate: FavoriteAndShareButtonsViewDelegate?
     
-    let imagePadding: CGFloat = 5
+    private let imagePadding: CGFloat = 5
     
-    lazy var vStack: UIStackView = {
+    private lazy var vStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .center
         return stack
     }()
     
-    lazy var hStack: UIStackView = {
+    private lazy var hStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 20
@@ -33,26 +33,31 @@ final class FavoriteAndShareButtonsView: UIView {
         return stack
     }()
     
-    lazy var favoriteButton: UIButton = {
+    private lazy var favoriteButtonImage = UIImage(systemName: "heart")
+    private lazy var favoriteButtonSelectedImage = UIImage(systemName: "heart.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+    
+    private lazy var favoriteButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.buttonSize = .mini
         config.baseForegroundColor = .secondaryLabel
-        
-        config.image = UIImage(systemName: "star")
+        config.baseBackgroundColor = .clear
         config.imagePadding = imagePadding
         config.imagePlacement = .top
+        config.title = Strings.AnimeView.favoriteButton
         
-        config.title = "Избранное"
         let button = UIButton(configuration: config)
+        button.setImage(favoriteButtonImage, for: .normal)
+        button.setImage(favoriteButtonSelectedImage, for: .selected)
         
-        button.addAction(UIAction { [weak self] _ in
-            self?.delegate?.favoriteButtonClicked()
+        button.addAction(UIAction { [weak self] action in
+            guard let sender = action.sender as? UIButton else { return }
+            self?.delegate?.favoriteButtonClicked(button: sender)
         }, for: .touchUpInside)
         
         return button
     }()
     
-    lazy var shareButton: UIButton = {
+    private lazy var shareButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.buttonSize = .small
         config.baseForegroundColor = .secondaryLabel
@@ -61,7 +66,7 @@ final class FavoriteAndShareButtonsView: UIView {
         config.imagePadding = imagePadding
         config.imagePlacement = .top
         
-        config.title = "Поделиться"
+        config.title = Strings.AnimeView.shareButton
         let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in
@@ -98,17 +103,23 @@ final class FavoriteAndShareButtonsView: UIView {
     }
 }
 
-#if DEBUG
+// MARK: - Internal methods
 
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct FavoriteAndShareButtonsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPreview {
-            FavoriteAndShareButtonsView()
+extension FavoriteAndShareButtonsView {
+    var favoriteButtonIsSelected: Bool {
+        get { favoriteButton.isSelected }
+        set { favoriteButton.isSelected = newValue }
+    }
+    
+    var favoriteButtonShowActivityIndicator: Bool {
+        get { favoriteButton.configuration?.showsActivityIndicator ?? false }
+        set {
+            favoriteButton.configuration?.showsActivityIndicator = newValue
+            favoriteButton.isEnabled = !newValue
+            // if selected, the background will not be clear
+            if favoriteButtonIsSelected == true && newValue == true {
+                favoriteButtonIsSelected = false
+            }
         }
-        .frame(height: 80)
     }
 }
-
-#endif

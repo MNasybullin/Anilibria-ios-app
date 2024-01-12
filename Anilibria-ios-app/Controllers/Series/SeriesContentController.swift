@@ -21,8 +21,8 @@ final class SeriesContentController: NSObject {
         self.model = SeriesModel(animeItem: data)
         super.init()
         
-        self.playlists = model.getPlaylists()
         model.imageModelDelegate = self
+        self.playlists = model.getPlaylists()
     }
 }
 
@@ -59,12 +59,16 @@ extension SeriesContentController: UITableViewDataSource {
         let row = indexPath.row
         let item = playlists[row]
         if item.image == nil {
-            model.requestImage(from: item.preview) { [weak self] image in
+            model.requestImage(from: item.previewUrl) { [weak self] image in
                 self?.playlists[row].image = image
-                cell.setImage(image, urlString: item.preview)
+                cell.setImage(image, urlString: item.previewUrl)
             }
         }
-        cell.configureCell(item: playlists[row])
+        let watchingInfo = model.getWatchingInfo(forSerie: item.serie ?? -1)
+        cell.configureCell(
+            item: playlists[row],
+            duration: watchingInfo?.duration,
+            playbackTime: watchingInfo?.playbackTime)
         return cell
     }
 }
@@ -78,7 +82,7 @@ extension SeriesContentController: UITableViewDataSourcePrefetching {
             guard playlists[row].image == nil else {
                 return
             }
-            model.requestImage(from: playlists[row].preview) { [weak self] image in
+            model.requestImage(from: playlists[row].previewUrl) { [weak self] image in
                 self?.playlists[row].image = image
             }
         }

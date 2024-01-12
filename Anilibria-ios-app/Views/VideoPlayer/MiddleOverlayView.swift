@@ -114,4 +114,8 @@ extension MiddleOverlayView {
     func hidePlayPauseButton() {
         playPauseButton.alpha = 0
     }
+    
+    func playPauseButton(isSelected: Bool) {
+        playPauseButton.isSelected = isSelected
+    }
 }

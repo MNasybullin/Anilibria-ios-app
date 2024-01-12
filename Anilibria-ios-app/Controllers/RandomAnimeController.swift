@@ -8,7 +8,7 @@
 import UIKit
 
 protocol RandomAnimeControllerDelegate: AnyObject {
-    func randomAnimeViewDidTapped(data: TitleAPIModel)
+    func randomAnimeViewDidTapped(data: TitleAPIModel, image: UIImage?)
 }
 
 final class RandomAnimeController: UIViewController, HasCustomView {
@@ -44,11 +44,12 @@ extension RandomAnimeController: RandomAnimeViewDelegate {
     }
     
     func viewTapped() {
-        guard let rawData = model.getRawData(),
-                model.isDataTaskLoading == false else {
+        let (data, image) = model.getRawData()
+        guard model.isDataTaskLoading == false, let data else {
             return
         }
-        delegate?.randomAnimeViewDidTapped(data: rawData)
+        
+        delegate?.randomAnimeViewDidTapped(data: data, image: image)
     }
 }
 

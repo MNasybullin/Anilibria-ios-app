@@ -8,11 +8,13 @@
 import UIKit
 
 protocol SearchFlow: AnyObject {
+    /// use weak !
     var navigator: SearchNavigator? { get set }
 }
 
 final class SearchNavigator {
     private let navigationController: UINavigationController
+    private var subNavigators: [BasicNavigator] = []
     
     init() {
         let rootViewController = SearchController()
@@ -56,7 +58,7 @@ extension SearchNavigator: BasicNavigator {
 
 extension SearchNavigator: Navigator {
     enum Destinition {
-        case anime(data: TitleAPIModel)
+        case anime(data: TitleAPIModel, image: UIImage?)
     }
     
     func show(_ destination: Destinition) {
@@ -67,9 +69,11 @@ extension SearchNavigator: Navigator {
     private func makeViewController(_ destination: Destinition) -> UIViewController {
         let viewController: UIViewController
         switch destination {
-            case .anime(let rawData):
-                let animeController = AnimeController(rawData: rawData)
-                animeController.navigator = AnimeNavigator(navigationController: navigationController)
+            case .anime(let rawData, let image):
+                let animeController = AnimeController(rawData: rawData, image: image)
+                let animeNavigator = AnimeNavigator(navigationController: navigationController)
+                subNavigators.append(animeNavigator)
+                animeController.navigator = animeNavigator
                 viewController = animeController
         }
         return viewController

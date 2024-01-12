@@ -10,5 +10,6 @@ import Foundation
 protocol HomeModelInput: ImageModel {
     var isDataTaskLoading: Bool { get }
     func requestData()
-    func getRawData(row: Int) -> TitleAPIModel?
+    func getRawData(row: Int) -> Any?
+    func getRawData() -> [Any]
 }

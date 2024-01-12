@@ -5,7 +5,6 @@ output_dir: ../Anilibria-ios-app/Generated/
 xcassets:
   inputs:
     - Assets.xcassets
-    - Colors.xcassets
   outputs:
     templateName: swift5
     params:

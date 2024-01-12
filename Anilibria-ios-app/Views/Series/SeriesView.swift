@@ -8,7 +8,7 @@
 import UIKit
 
 final class SeriesView: UIView {
-    private let tableView = UITableView(frame: .zero, style: .grouped)
+    let tableView = UITableView(frame: .zero, style: .grouped)
     
     init(delegate: SeriesContentController) {
         super.init(frame: .zero)

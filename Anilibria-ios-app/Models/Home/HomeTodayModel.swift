@@ -26,16 +26,20 @@ final class HomeTodayModel: ImageModel, HomeModelInput {
                     throw MyInternalError.failedToFetchData
                 }
                 rawData = todayTitleModels
-                let animeTitleModels = todayTitleModels.map { AnimePosterItem(titleAPIModel: $0) }
-                homeModelOutput?.updateData(items: animeTitleModels, section: .today)
+                let homePosters = todayTitleModels.map { HomePosterItem(fromTitleAPIModel: $0) }
+                homeModelOutput?.updateData(items: homePosters, section: .today)
             } catch {
                 homeModelOutput?.failedRequestData(error: error)
             }
         }
     }
     
-    func getRawData(row: Int) -> TitleAPIModel? {
+    func getRawData(row: Int) -> Any? {
         guard rawData.isEmpty == false else { return nil }
         return rawData[row]
+    }
+    
+    func getRawData() -> [Any] {
+        return rawData
     }
 }

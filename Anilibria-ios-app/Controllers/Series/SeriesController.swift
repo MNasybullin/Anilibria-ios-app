@@ -9,7 +9,7 @@ import UIKit
 
 final class SeriesController: UIViewController, AnimeFlow, HasCustomView {
     typealias CustomView = SeriesView
-    var navigator: AnimeNavigator?
+    weak var navigator: AnimeNavigator?
     
     let contentController: SeriesContentController
     
@@ -31,6 +31,11 @@ final class SeriesController: UIViewController, AnimeFlow, HasCustomView {
         super.viewDidLoad()
         
         contentController.delegate = self
+    }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        customView.tableView.reloadData()
     }
 }
 

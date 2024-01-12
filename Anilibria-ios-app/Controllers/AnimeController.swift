@@ -9,14 +9,13 @@ import UIKit
 
 final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     typealias CustomView = AnimeView
-    var navigator: AnimeNavigator?
+    weak var navigator: AnimeNavigator?
     
     private let model: AnimeModel
     
     // MARK: LifeCycle
-    init(rawData: TitleAPIModel) {
-        // TODO надо еще передавать изображение
-        self.model = AnimeModel(rawData: rawData)
+    init(rawData: TitleAPIModel, image: UIImage?) {
+        self.model = AnimeModel(rawData: rawData, image: image)
         super.init(nibName: nil, bundle: nil)
         
         model.delegate = self
@@ -39,6 +38,7 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        checkFavoriteStatus()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,6 +48,25 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     private func configureNavigationItem() {
         navigationItem.backButtonTitle = ""
+    }
+}
+
+// MARK: - Private methods
+
+private extension AnimeController {
+    func checkFavoriteStatus() {
+        Task(priority: .userInitiated) {
+            do {
+                customView.favoriteButtonIsSelected = true
+                customView.favoriteButtonShowActivityIndicator = true
+                customView.favoriteButtonIsSelected = try await model.isFavorite()
+                customView.favoriteButtonShowActivityIndicator = false
+            } catch {
+                print(error, error.localizedDescription)
+                customView.favoriteButtonIsSelected = false
+                customView.favoriteButtonShowActivityIndicator = false
+            }
+        }
     }
 }
 
@@ -82,7 +101,8 @@ extension AnimeController: AnimeSeriesViewDelegate {
 
 extension AnimeController: WatchAndDownloadButtonsViewDelegate {
     func watchButtonClicked() {
-        print(#function)
+        let data = model.getAnimeItem()
+        navigator?.show(.series(data: data))
     }
     
     func downloadButtonClicked() {
@@ -93,11 +113,47 @@ extension AnimeController: WatchAndDownloadButtonsViewDelegate {
 // MARK: - FavoriteAndShareButtonsViewDelegate
 
 extension AnimeController: FavoriteAndShareButtonsViewDelegate {
-    func favoriteButtonClicked() {
-        print(#function)
+    func favoriteButtonClicked(button: UIButton) {
+        button.isSelected = !button.isSelected
+        Task(priority: .utility) {
+            if button.isSelected == true {
+                await addFavorite()
+            } else {
+                await delFavorite()
+            }
+        }
+    }
+    
+    private func addFavorite() async {
+        do {
+            try await model.addFavorite()
+        } catch {
+            customView.favoriteButtonIsSelected = false
+            // TODO: Если пользователь не авторизован вывести ошибки: "Необходимо авторизоваться"
+            print("addFavorite error", error.localizedDescription, error)
+        }
+    }
+    
+    private func delFavorite() async {
+        do {
+            try await model.delFavorite()
+        } catch {
+            customView.favoriteButtonIsSelected = true
+            print("delFavorite error", error.localizedDescription, error)
+        }
     }
     
     func shareButtonClicked() {
-        print(#function)
+        let item = model.getAnimeItem()
+        let releaseUrl = "/release/" + item.code + ".html"
+        let textToShare = """
+            \(item.ruName)
+            \(NetworkConstants.anilibriaURL + releaseUrl)
+            Зеркало: \(NetworkConstants.mirrorAnilibriaURL + releaseUrl)
+            """
+        
+        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+        activityViewController.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
+        present(activityViewController, animated: true, completion: nil)
     }
 }

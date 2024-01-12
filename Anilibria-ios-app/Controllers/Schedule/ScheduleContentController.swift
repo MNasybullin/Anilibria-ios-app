@@ -11,7 +11,7 @@ import SkeletonView
 protocol ScheduleContentControllerDelegate: AnyObject {
     func hideSkeletonCollectionView()
     func reloadData()
-    func didSelectItem(_ rawData: TitleAPIModel)
+    func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?)
 }
 
 final class ScheduleContentController: NSObject {
@@ -43,7 +43,8 @@ extension ScheduleContentController: UICollectionViewDelegate {
         guard let rawData = model.getRawData(indexPath: indexPath) else {
             return
         }
-        delegate?.didSelectItem(rawData)
+        let image = data[indexPath.section].animePosterItems[indexPath.row].image
+        delegate?.didSelectItem(rawData, image: image)
     }
 }
 
@@ -69,7 +70,7 @@ extension ScheduleContentController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimePosterCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? HomePosterCollectionViewCell else {
             fatalError("Can`t create new cell")
         }
         let section = indexPath.section
@@ -94,7 +95,7 @@ extension ScheduleContentController: SkeletonCollectionViewDataSource {
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return AnimePosterCollectionViewCell.reuseIdentifier
+        return HomePosterCollectionViewCell.reuseIdentifier
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -8,6 +8,7 @@
 import UIKit
 
 protocol ProfileFlow: AnyObject {
+    /// use weak !
     var navigator: ProfileNavigator? { get set }
 }
 

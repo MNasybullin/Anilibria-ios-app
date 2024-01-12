@@ -94,7 +94,6 @@ private extension SearchView {
 
 extension SearchView {
     func updateView(status: Status) {
-        print(status)
         switch status {
             case .normal:
                 historyView.isHidden = true

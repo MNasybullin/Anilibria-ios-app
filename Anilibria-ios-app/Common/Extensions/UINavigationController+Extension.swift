@@ -13,3 +13,9 @@ extension UINavigationController: UIGestureRecognizerDelegate {
         return viewControllers.count > 1
     }
 }
+
+extension UINavigationController {
+    open override var childForStatusBarHidden: UIViewController? {
+        return topViewController
+    }
+}

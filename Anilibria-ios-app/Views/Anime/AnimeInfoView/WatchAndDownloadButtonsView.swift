@@ -15,21 +15,21 @@ protocol WatchAndDownloadButtonsViewDelegate: AnyObject {
 final class WatchAndDownloadButtonsView: UIView {
     weak var delegate: WatchAndDownloadButtonsViewDelegate?
     
-    lazy var vStack: UIStackView = {
+    private lazy var vStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .center
         return stack
     }()
     
-    lazy var hStack: UIStackView = {
+    private lazy var hStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 20
         return stack
     }()
     
-    lazy var watchButton: UIButton = {
+    private lazy var watchButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.cornerStyle = .capsule
         config.buttonSize = .large
@@ -40,19 +40,17 @@ final class WatchAndDownloadButtonsView: UIView {
         config.imagePadding = 10
         config.imagePlacement = .leading
         
-        config.title = "Смотреть"
+        config.title = Strings.AnimeView.watchButton
         let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.watchButtonClicked()
         }, for: .touchUpInside)
         
-        button.isEnabled = false
-        
         return button
     }()
     
-    lazy var downloadButton: UIButton = {
+    private lazy var downloadButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.cornerStyle = .capsule
         config.buttonSize = .large
@@ -99,18 +97,3 @@ final class WatchAndDownloadButtonsView: UIView {
         ])
     }
 }
-
-#if DEBUG
-
-// MARK: - Live Preview In UIKit
-import SwiftUI
-struct WatchAndDownloadButtonsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewPreview {
-            WatchAndDownloadButtonsView()
-        }
-        .frame(height: 80)
-    }
-}
-
-#endif

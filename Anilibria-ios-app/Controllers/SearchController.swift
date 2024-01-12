@@ -127,17 +127,17 @@ extension SearchController: UISearchBarDelegate {
 // MARK: - RandomAnimeControllerDelegate
 
 extension SearchController: RandomAnimeControllerDelegate {
-    func randomAnimeViewDidTapped(data: TitleAPIModel) {
-        navigator?.show(.anime(data: data))
+    func randomAnimeViewDidTapped(data: TitleAPIModel, image: UIImage?) {
+        navigator?.show(.anime(data: data, image: image))
     }
 }
 
 // MARK: - SearchResultsControllerDelegate
 
 extension SearchController: SearchResultsControllerDelegate {
-    func didSelectedItem(item: TitleAPIModel) {
+    func didSelectedItem(item: TitleAPIModel, image: UIImage?) {
         customView.hideKeyboard()
-        navigator?.show(.anime(data: item))
+        navigator?.show(.anime(data: item, image: image))
     }
 }
 

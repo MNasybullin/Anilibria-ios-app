@@ -49,11 +49,11 @@ final class NetworkStatusView: UIView {
         DispatchQueue.main.async {
             if self.isNetworkActive {
                 UIView.animate(withDuration: 1, delay: 0) {
-                    self.backgroundColor = UIColor(asset: Asset.Colors.green)
+                    self.backgroundColor = UIColor.myGreen
                     self.titleLabel.text = Strings.NetworkStatusView.connectionRestored
                 }
             } else {
-                self.backgroundColor = UIColor(asset: Asset.Colors.red)
+                self.backgroundColor = UIColor.myRed
                 self.titleLabel.text = Strings.NetworkStatusView.noConnection
             }
         }

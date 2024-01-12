@@ -15,7 +15,7 @@ final class AuthorizationService: NetworkQuery {
     
     /// Авторизация
     func login(email: String, password: String) async throws -> LoginAPIModel {
-        guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.login) else {
+        guard let url = URL(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.login) else {
             throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
@@ -40,8 +40,6 @@ final class AuthorizationService: NetworkQuery {
             
             let credentials = Credentials(login: email, password: password)
             try securityStorage.addOrUpdateCredentials(credentials)
-            
-            UserDefaults.standard.isUserAuthorized = true
         }
         return decoded
     }
@@ -61,17 +59,17 @@ final class AuthorizationService: NetworkQuery {
     
     /// Выход
     func logout() async throws {
-        let urlComponents = URLComponents(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.logout)
+        let urlComponents = URLComponents(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.logout)
         _ = try await dataRequest(with: urlComponents, httpMethod: .post)
         
         try securityStorage.deleteSession()
         try securityStorage.deleteCredentials()
-        
-        UserDefaults.standard.isUserAuthorized = false
     }
     
     /// Получить список избранных тайтлов пользователя
-    func getFavorites() async throws -> [TitleAPIModel] {
+    /// - Parameters:
+    ///     - withlimit: Количество запрашиваемых объектов (По умолчанию -1 (Все))
+    func getFavorites(withLimit limit: Int = -1) async throws -> [TitleAPIModel] {
         let sessionId: String
         
         do {
@@ -80,11 +78,11 @@ final class AuthorizationService: NetworkQuery {
             throw MyNetworkError.userIsNotAuthorized
         }
         
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.getFavorites)
-        
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getFavorites)
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
-            URLQueryItem(name: "playlist_type", value: "array")
+            URLQueryItem(name: "playlist_type", value: "array"),
+            URLQueryItem(name: "limit", value: String(limit))
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
@@ -102,7 +100,7 @@ final class AuthorizationService: NetworkQuery {
             throw MyNetworkError.userIsNotAuthorized
         }
         
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.addFavorite)
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.addFavorite)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -127,7 +125,7 @@ final class AuthorizationService: NetworkQuery {
             throw MyNetworkError.userIsNotAuthorized
         }
         
-        var urlComponents = URLComponents(string: Strings.NetworkConstants.apiAnilibriaURL + Strings.NetworkConstants.delFavorite)
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.delFavorite)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -144,7 +142,7 @@ final class AuthorizationService: NetworkQuery {
     
     /// Получить информацию о пользователе
     func profileInfo() async throws -> ProfileAPIModel {
-        guard let url = URL(string: Strings.NetworkConstants.mirrorAnilibriaURL + Strings.NetworkConstants.profile) else {
+        guard let url = URL(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.profile) else {
             throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)

@@ -12,63 +12,26 @@ final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
     
     weak var navigator: ProfileNavigator?
     
-    private let signInController = SignInController()
-    private let userInfoController = UserInfoController()
+    private let userController = UserController()
     
     // MARK: LifeCycle
     override func loadView() {
-        addChild(signInController)
-        addChild(userInfoController)
+        addChild(userController)
         
-        let profileView = ProfileView(signInView: signInController.customView, userInfoView: userInfoController.customView)
+        let profileView = ProfileView(userView: userController.customView)
         view = profileView
         
-        signInController.didMove(toParent: self)
-        userInfoController.didMove(toParent: self)
+        userController.didMove(toParent: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        signInController.delegate = self
-        userInfoController.delegate = self
-        
         hideKeyboardWhenTappedAround()
         configureNavBar()
-        configureFlow()
     }
     
     private func configureNavBar() {
         self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    private func configureFlow() {
-        if UserDefaults.standard.isUserAuthorized == true {
-            userInfoController.configureView { [weak self] in
-                self?.customView.hideSignInView(animated: false)
-            }
-        }
-    }
-}
-
-// MARK: - SignInControllerDelegate
-
-extension ProfileController: SignInControllerDelegate {
-    func authorizationIsSuccessful() {
-        userInfoController.configureView { [weak self] in
-            self?.customView.hideSignInView(animated: true)
-        }
-    }
-    
-    func authorizationIsFailure(error: Error) {
-        print(#file, #function, error)
-    }
-}
-
-// MARK: - UserInfoControllerDelegate
-
-extension ProfileController: UserInfoControllerDelegate {
-    func getUserInfoIsFailure(error: Error) {
-        print(#file, #function, error)
     }
 }

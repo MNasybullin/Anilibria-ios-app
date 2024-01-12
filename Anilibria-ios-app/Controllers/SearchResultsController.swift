@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 protocol SearchResultsControllerDelegate: AnyObject {
-    func didSelectedItem(item: TitleAPIModel)
+    func didSelectedItem(item: TitleAPIModel, image: UIImage?)
 }
 
 final class SearchResultsController: UIViewController, HasCustomView {
@@ -94,7 +94,8 @@ extension SearchResultsController: UITableViewDelegate {
             return
         }
         model.cancelTasks()
-        delegate?.didSelectedItem(item: item)
+        let image = data[indexPath.row].image
+        delegate?.didSelectedItem(item: item, image: image)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

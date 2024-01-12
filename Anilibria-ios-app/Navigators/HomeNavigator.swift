@@ -14,6 +14,7 @@ protocol HomeFlow: AnyObject {
 
 final class HomeNavigator {
     private let navigationController: UINavigationController
+    private var subNavigators: [BasicNavigator] = []
     
     init() {
         let rootViewController = HomeController()
@@ -58,7 +59,8 @@ extension HomeNavigator: BasicNavigator {
 extension HomeNavigator: Navigator {
     enum Destinition {
         case schedule
-        case anime(data: TitleAPIModel)
+        case anime(data: TitleAPIModel, image: UIImage?)
+        case youTube(data: [HomePosterItem], rawData: [YouTubeAPIModel])
     }
     
     func show(_ destination: Destinition) {
@@ -74,10 +76,17 @@ extension HomeNavigator: Navigator {
                 scheduleController.title = Strings.ScreenTitles.schedule
                 scheduleController.navigator = self
                 viewController = scheduleController
-            case .anime(let rawData):
-                let animeController = AnimeController(rawData: rawData)
-                animeController.navigator = AnimeNavigator(navigationController: navigationController)
+            case .anime(let rawData, let image):
+                let animeController = AnimeController(rawData: rawData, image: image)
+                let animeNavigator = AnimeNavigator(navigationController: navigationController)
+                subNavigators.append(animeNavigator)
+                animeController.navigator = animeNavigator
                 viewController = animeController
+            case .youTube(let data, let rawData):
+                let youTubeController = YouTubeController(data: data, rawData: rawData)
+                youTubeController.title = Strings.ScreenTitles.youTube
+                youTubeController.navigator = self
+                viewController = youTubeController
         }
         return viewController
     }

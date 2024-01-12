@@ -6,31 +6,6 @@
   
 */
 
-// MARK: - Network API Constants
-"NetworkConstants.anilibriaURL" = "https://www.anilibria.tv";
-"NetworkConstants.baseImagesURL" = "https://static.anilibria.tv";
-"NetworkConstants.mirrorAnilibriaURL" = "https://anilibria-ios-app.anilib.moe";
-"NetworkConstants.mirrorBaseImagesURL" = "https://static.anilib.moe";
-"NetworkConstants.apiAnilibriaURL" = "https://api.anilibria.tv";
-"NetworkConstants.getYouTube" = "/v2/getYouTube";
-"NetworkConstants.getTitle" = "/v2/getTitle";
-"NetworkConstants.getTitles" = "/v2/getTitles";
-"NetworkConstants.getUpdates" = "/v2/getUpdates";
-"NetworkConstants.getChanges" = "/v2/getChanges";
-"NetworkConstants.getSchedule" = "/v2/getSchedule";
-"NetworkConstants.getRandomTitle" = "/v2/getRandomTitle";
-"NetworkConstants.getYears" = "/v2/getYears";
-"NetworkConstants.getGenres" = "/v2/getGenres";
-"NetworkConstants.getTeam" = "/v2/getTeam";
-"NetworkConstants.getCachingNodes" = "/v2/getCachingNodes";
-"NetworkConstants.searchTitles" = "/v2/searchTitles";
-"NetworkConstants.login" = "/public/login.php";
-"NetworkConstants.logout" = "/public/logout.php";
-"NetworkConstants.profile" = "/public/api/index.php";
-"NetworkConstants.getFavorites" = "/v2/getFavorites";
-"NetworkConstants.addFavorite" = "/v2/addFavorite";
-"NetworkConstants.delFavorite" = "/v2/delFavorite";
-
 // MARK: -  Network Error
 "NetworkError.invalidServerResponse" = "Неверный ответ от сервера.";
 "NetworkError.invalidURLComponents" = "Неверный URL.";
@@ -79,6 +54,7 @@
 // MARK: - Home Module
 "HomeModule.title.today" = "Сегодня";
 "HomeModule.title.updates" = "Обновления";
+"HomeModule.title.youTube" = "YouTube";
 
 "HomeModule.buttonTitle.allDays" = "Все дни";
 "HomeModule.buttonTitle.all" = "Все";
@@ -89,12 +65,18 @@
 "SearchModule.ErrorFooterView.titleLabel" = "Ошибка загрузки";
 "SearchModule.ErrorFooterView.refreshButton" = "Обновить";
 
+// MARK: - YouTube Module
+"YouTubeModule.ErrorFooterView.titleLabel" = "Ошибка загрузки";
+"YouTubeModule.ErrorFooterView.refreshButton" = "Обновить";
+
 // MARK: - Screen Titles
 "ScreenTitles.home" = "Главное";
 "ScreenTitles.search" = "Поиск";
+"ScreenTitles.favorites" = "Избранное";
 "ScreenTitles.profile" = "Профиль";
 "ScreenTitles.schedule" = "Расписание";
 "ScreenTitles.updates" = "Обновления";
+"ScreenTitles.youTube" = "YouTube";
 
 //MARK: - Network Status View
 "NetworkStatusView.connectionRestored" = "Подключение восстановлено";
@@ -107,7 +89,29 @@
 "SignInView.imageName.eye" = "eye";
 "SignInView.imageName.eyeSlash" = "eye.slash";
 
+// MARK: - User Info View
+"UserInfoView.logoutButton" = "Выйти";
+
+// MARK: - Anime View
+"AnimeView.watchButton" = "Смотреть";
+"AnimeView.favoriteButton" = "Избранное";
+"AnimeView.shareButton" = "Поделиться";
+
+// MARK: - Anime Series View
+"AnimeSeriesView.seriesTitle" = "Серии";
+"AnimeSeriesView.allButton" = "Все";
+
+// MARK: - Video Player
+"VideoPlayerView.skipButton" = "Пропустить";
+
+// MARK: - Video Player Settings
+"VideoPlayerSettings.settings" = "Настройки";
+"VideoPlayerSettings.quality" = "Качество";
+"VideoPlayerSettings.rate" = "Скорость";
+"VideoPlayerSettings.defaultRate" = "Обычная";
+
 // MARK: - Series Module
+"SeriesModule.seriesTitle" = "Серии";
 "SeriesModule.series" = "серий";
 
 // MARK: - RandomAnime Module
@@ -117,3 +121,10 @@
 
 // MARK: - Skeleton Text Placeholder
 "SkeletonTextPlaceholder" = "Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder";
+
+// MARK: - Team
+"Team.voice" = "Озвучка";
+"Team.translator" = "Перевод";
+"Team.editing" = "Редактор";
+"Team.decor" = "Оформление";
+"Team.timing" = "Тайминг";
