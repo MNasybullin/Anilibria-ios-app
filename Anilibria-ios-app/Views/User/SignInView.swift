@@ -19,13 +19,41 @@ final class SignInView: UIView {
     
     weak var delegate: SignInViewDelegate?
     
-    private var textFieldsVStack = UIStackView()
+    private var textFieldsVStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = Constants.textFieldsVStackSpacing
+        return stack
+    }()
+    
     private var emailTextField = UITextField()
     private var passwordTextField = UITextField()
-    private var activityIndicator = UIActivityIndicatorView()
+    
+    private var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = .medium
+        activityIndicator.color = .systemRed
+        return activityIndicator
+    }()
     
     private lazy var eyeImageView = UIImage(systemName: Strings.SignInView.ImageName.eye)
     private lazy var eyeSlashImageView = UIImage(systemName: Strings.SignInView.ImageName.eyeSlash)
+    
+    private lazy var passwordRightView: UIView = {
+        let rightView = UIView()
+        let imageView = UIImageView(image: eyeImageView)
+        
+        rightView.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: rightView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: rightView.leadingAnchor, constant: 8),
+            imageView.trailingAnchor.constraint(equalTo: rightView.trailingAnchor, constant: -8),
+            imageView.bottomAnchor.constraint(equalTo: rightView.bottomAnchor)
+        ])
+        return rightView
+    }()
     
     private var signInButton = UIButton()
     
@@ -33,10 +61,8 @@ final class SignInView: UIView {
         super.init(frame: .zero)
         
         setupView()
-        setupTextFieldsVStack()
         setupEmailTextField()
         setupPasswordTextField()
-        setupActivityIndicator()
         setupSignInButton()
         
         configureLayout()
@@ -50,13 +76,6 @@ final class SignInView: UIView {
         backgroundColor = .systemBackground
         layer.cornerRadius = Constants.cornerRadius
         layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-    }
-    
-    private func setupTextFieldsVStack() {
-        textFieldsVStack.axis = .vertical
-        textFieldsVStack.spacing = Constants.textFieldsVStackSpacing
-        textFieldsVStack.alignment = .fill
-        textFieldsVStack.distribution = .fill
     }
     
     private func setupEmailTextField() {
@@ -85,19 +104,13 @@ final class SignInView: UIView {
             action: #selector(passwordTextFieldRightViewTapped(sender:))
         )
         
-        passwordTextField.rightView = UIImageView(image: eyeImageView)
+        passwordTextField.rightView = passwordRightView
         passwordTextField.rightView?.addGestureRecognizer(tapGestureRecognizer)
         passwordTextField.rightView?.isUserInteractionEnabled = true
         passwordTextField.rightView?.tintColor = .secondaryLabel
         passwordTextField.rightViewMode = .always
         
         passwordTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
-    }
-    
-    private func setupActivityIndicator() {
-        activityIndicator.style = .medium
-        activityIndicator.color = .systemRed
-        activityIndicator.hidesWhenStopped = true
     }
     
     private func setupSignInButton() {
@@ -177,8 +190,8 @@ extension SignInView {
 extension SignInView {
     @objc private func passwordTextFieldRightViewTapped(sender: UITapGestureRecognizer) {
         passwordTextField.isSecureTextEntry.toggle()
-        guard let rightView = passwordTextField.rightView as? UIImageView else { return }
-        rightView.image = passwordTextField.isSecureTextEntry ? eyeImageView : eyeSlashImageView
+        guard let imageView = passwordTextField.rightView?.subviews.first as? UIImageView else { return }
+        imageView.image = passwordTextField.isSecureTextEntry ? eyeImageView : eyeSlashImageView
     }
     
     @objc private func textFieldsChanged() {
