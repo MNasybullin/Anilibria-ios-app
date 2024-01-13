@@ -250,8 +250,7 @@ private extension VideoPlayerController {
                 return
             }
             let floatTime = Float(time.seconds)
-            customView.setPlaybackSlider(value: floatTime)
-            configureLeftRightTime(time: floatTime)
+            configurePlayerTime(time: floatTime)
             checkSkips(time: time.seconds)
             model.configureWatchingInfo(duration: currentItem.duration.seconds, playbackPosition: time.seconds)
         }
@@ -335,10 +334,7 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
         subscriptions.removeAll()
         
         let asset = AVAsset(url: url)
-        let playerItem = AVPlayerItem(
-            asset: asset,
-            automaticallyLoadedAssetKeys: [.tracks, .duration, .commonMetadata]
-        )
+        let playerItem = AVPlayerItem(asset: asset)
         player.replaceCurrentItem(with: playerItem)
         
         playerSubscriptions()
