@@ -60,27 +60,31 @@ final class SignInView: UIView {
     }
     
     private func setupEmailTextField() {
+        emailTextField.delegate = self
         emailTextField.borderStyle = .roundedRect
         emailTextField.tintColor = .systemRed
         emailTextField.placeholder = Strings.SignInView.email
+        emailTextField.textContentType = .username
         emailTextField.keyboardType = .emailAddress
+        emailTextField.returnKeyType = .next
         
         emailTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
     }
     
     private func setupPasswordTextField() {
+        passwordTextField.delegate = self
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.tintColor = .systemRed
         passwordTextField.placeholder = Strings.SignInView.password
-        
+        passwordTextField.textContentType = .password
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.returnKeyType = .send
+        
         let tapGestureRecognizer = UITapGestureRecognizer(
             target: self,
             action: #selector(passwordTextFieldRightViewTapped(sender:))
         )
         
-//        let rightView = UIImageView(image: eyeImageView)
-//        rightView.image
         passwordTextField.rightView = UIImageView(image: eyeImageView)
         passwordTextField.rightView?.addGestureRecognizer(tapGestureRecognizer)
         passwordTextField.rightView?.isUserInteractionEnabled = true
@@ -107,8 +111,8 @@ final class SignInView: UIView {
         signInButton.configuration = config
         
         signInButton.addAction(UIAction { [weak self] _ in
-            self?.emailTextField.endEditing(true)
-            self?.passwordTextField.endEditing(true)
+            self?.emailTextField.resignFirstResponder()
+            self?.passwordTextField.resignFirstResponder()
             self?.delegate?.signInButtonTapped(
                 email: self?.emailTextField.text ?? "",
                 password: self?.passwordTextField.text ?? "")
@@ -183,5 +187,23 @@ extension SignInView {
         } else {
             signInButton.isEnabled = false
         }
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension SignInView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+        } else if textField == passwordTextField {
+            if emailTextField.hasText && passwordTextField.hasText {
+                passwordTextField.resignFirstResponder()
+                delegate?.signInButtonTapped(
+                    email: emailTextField.text ?? "",
+                    password: passwordTextField.text ?? "")
+            }
+        }
+        return true
     }
 }
