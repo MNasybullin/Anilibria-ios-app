@@ -46,13 +46,7 @@ final class AuthorizationService: NetworkQuery {
     
     // Тихая авторизация
     func relogin() async throws -> LoginAPIModel {
-        let credentials: Credentials
-        
-        do {
-            credentials = try securityStorage.getCredentials()
-        } catch KeychainError.itemNotFound {
-            throw MyNetworkError.userIsNotAuthorized
-        }
+        let credentials = try securityStorage.getCredentials()
         
         return try await login(email: credentials.login, password: credentials.password)
     }
@@ -70,13 +64,10 @@ final class AuthorizationService: NetworkQuery {
     /// - Parameters:
     ///     - withlimit: Количество запрашиваемых объектов (По умолчанию -1 (Все))
     func getFavorites(withLimit limit: Int = -1) async throws -> [TitleAPIModel] {
-        let sessionId: String
-        
-        do {
-            sessionId = try securityStorage.getSession()
-        } catch KeychainError.itemNotFound {
-            throw MyNetworkError.userIsNotAuthorized
+        if UserDefaults.standard.isUserAuthorized == false {
+            throw MyInternalError.userIsNotFoundInUserDefaults
         }
+        let sessionId = try securityStorage.getSession()
         
         var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getFavorites)
         urlComponents?.queryItems = [
@@ -92,13 +83,10 @@ final class AuthorizationService: NetworkQuery {
     
     /// Добавить тайтл в список избранных
     func addFavorite(from titleId: Int) async throws {
-        let sessionId: String
-        
-        do {
-            sessionId = try securityStorage.getSession()
-        } catch KeychainError.itemNotFound {
-            throw MyNetworkError.userIsNotAuthorized
+        if UserDefaults.standard.isUserAuthorized == false {
+            throw MyInternalError.userIsNotFoundInUserDefaults
         }
+        let sessionId = try securityStorage.getSession()
         
         var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.addFavorite)
         
@@ -117,13 +105,11 @@ final class AuthorizationService: NetworkQuery {
     
     /// Удалить тайтл из списка избранных
     func delFavorite(from titleId: Int) async throws {
-        let sessionId: String
-        
-        do {
-            sessionId = try securityStorage.getSession()
-        } catch KeychainError.itemNotFound {
-            throw MyNetworkError.userIsNotAuthorized
+        if UserDefaults.standard.isUserAuthorized == false {
+            throw MyInternalError.userIsNotFoundInUserDefaults
         }
+        
+        let sessionId = try securityStorage.getSession()
         
         var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.delFavorite)
         

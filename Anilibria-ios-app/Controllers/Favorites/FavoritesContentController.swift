@@ -23,7 +23,7 @@ final class FavoritesContentController: NSObject {
     enum Status {
         case normal
         case loading
-        case error(message: String)
+        case error(Error)
                 
         static func == (lhs: Status, rhs: Status) -> Bool {
             switch (lhs, rhs) {
@@ -129,7 +129,7 @@ extension FavoritesContentController {
                 applySnapshot()
                 status = .normal
             } catch {
-                status = .error(message: error.localizedDescription)
+                status = .error(error)
             }
         }
     }

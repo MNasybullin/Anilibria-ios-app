@@ -23,6 +23,7 @@
 // MARK: - Internal Error
 "InternalError.failedToFetchURLFromData" = "Не удалось получить URL из данных";
 "InternalError.failedToFetchData" = "Не удалось извлечь данные";
+"InternalError.userIsNotFoundInUserDefaults" = "Пользователь не авторизован в UserDefaults";
 
 // MARK: - Other Error
 "OtherError.noConnectedToInternet" = "Нет подключения к Интернету.";

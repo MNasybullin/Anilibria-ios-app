@@ -99,8 +99,8 @@ extension FavoritesView {
                 activityIndicatorView.stopAnimating()
             case .loading:
                 activityIndicatorView.startAnimating()
-            case .error(let message):
-                print(message)
+            case .error(let error):
+                print((error as NSError).description)
         }
     }
 }

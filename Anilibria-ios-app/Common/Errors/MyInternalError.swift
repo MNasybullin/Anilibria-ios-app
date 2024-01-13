@@ -12,6 +12,8 @@ enum MyInternalError: Error {
     case failedToFetchURLFromData
     /// Не удалось извлечь данные
     case failedToFetchData
+    /// Пользователь не авторизован в UserDefaults
+    case userIsNotFoundInUserDefaults
 }
 
 extension MyInternalError: CustomStringConvertible {
@@ -21,6 +23,8 @@ extension MyInternalError: CustomStringConvertible {
                 return Strings.InternalError.failedToFetchURLFromData
             case .failedToFetchData:
                 return Strings.InternalError.failedToFetchData
+            case .userIsNotFoundInUserDefaults:
+                return Strings.InternalError.userIsNotFoundInUserDefaults
         }
     }
 }
