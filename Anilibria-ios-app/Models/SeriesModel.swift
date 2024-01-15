@@ -14,17 +14,21 @@ final class SeriesModel: ImageModel {
     private let coreDataService = CoreDataService.shared
     private var watchingEntity: WatchingEntity?
     
+    var hasWatchingEntity: Bool {
+        return watchingEntity != nil
+    }
+    
     init(animeItem: AnimeItem) {
         self.animeItem = animeItem
         super.init()
-        setupSerieEntities()
+        requestWatchingEntity()
     }
 }
 
-// MARK: - Private methods
+// MARK: - Internal methods
 
-private extension SeriesModel {
-    func setupSerieEntities() {
+extension SeriesModel {
+    func requestWatchingEntity() {
         guard let userId = UserDefaults.standard.userId else { return }
         do {
             let userEntity = try UserEntity.find(userId: userId, context: coreDataService.viewContext)
@@ -33,11 +37,7 @@ private extension SeriesModel {
             print(error)
         }
     }
-}
-
-// MARK: - Internal methods
-
-extension SeriesModel {
+    
     func getPlaylists() -> [Playlist] {
         return animeItem.playlist
     }

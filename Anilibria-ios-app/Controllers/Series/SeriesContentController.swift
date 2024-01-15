@@ -13,6 +13,7 @@ protocol SeriesContentControllerDelegate: AnyObject {
 
 final class SeriesContentController: NSObject {
     weak var delegate: SeriesContentControllerDelegate?
+    weak var customView: SeriesView?
     
     let model: SeriesModel
     var playlists: [Playlist] = []
@@ -23,6 +24,17 @@ final class SeriesContentController: NSObject {
         
         model.imageModelDelegate = self
         self.playlists = model.getPlaylists()
+    }
+}
+
+// MARK: - Internal methods
+
+extension SeriesContentController {
+    func viewIsAppearing() {
+        if model.hasWatchingEntity == false {
+            model.requestWatchingEntity()
+        }
+        customView?.tableView.reloadData()
     }
 }
 
