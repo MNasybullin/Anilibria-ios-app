@@ -1,15 +1,18 @@
 PODS:
+  - FDFullscreenPopGesture (1.1)
   - SkeletonView (1.30.3)
   - SwiftGen (6.6.2)
   - SwiftLint (0.54.0)
 
 DEPENDENCIES:
+  - FDFullscreenPopGesture (= 1.1)
   - SkeletonView (from `https://github.com/MNasybullin/SkeletonView`, branch `anilibria`)
   - SwiftGen (~> 6.6.2)
   - SwiftLint (~> 0.54.0)
 
 SPEC REPOS:
   trunk:
+    - FDFullscreenPopGesture
     - SwiftGen
     - SwiftLint
 
@@ -24,10 +27,11 @@ CHECKOUT OPTIONS:
     :git: https://github.com/MNasybullin/SkeletonView
 
 SPEC CHECKSUMS:
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   SkeletonView: f5b099c708e42a278079a12bcaaf71c303be65a3
   SwiftGen: 1366a7f71aeef49954ca5a63ba4bef6b0f24138c
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 1e7ed403fd4c014d42c49c2398ff622bd0545ebf
+PODFILE CHECKSUM: 2a02db9bd94348a52078aba86deee96cb2e8e164
 
 COCOAPODS: 1.14.3

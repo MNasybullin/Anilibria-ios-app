@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FDFullscreenPopGesture
 
 final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
     typealias CustomView = ProfileView
@@ -32,6 +33,6 @@ final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
     }
     
     private func configureNavBar() {
-        self.navigationController?.isNavigationBarHidden = true
+        self.fd_prefersNavigationBarHidden = true
     }
 }

@@ -17,6 +17,7 @@ pod install
 - SwiftGen (https://github.com/SwiftGen/SwiftGen)
 - SwiftLint (https://github.com/realm/SwiftLint)
 - SkeletonView (https://github.com/Juanpe/SkeletonView.git)
+- FDFullscreenPopGesture (https://github.com/forkingdog/FDFullscreenPopGesture)
 
 ## AniLibria API – v2.13.1
 - https://github.com/anilibria/docs/blob/master/api_v2.md
