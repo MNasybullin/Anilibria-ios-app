@@ -18,6 +18,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     
     weak var navigator: VideoPlayerNavigator?
     
+    private let audioSession = AVAudioSession.sharedInstance()
     private let player = AVPlayer()
     private var pipController: VideoPlayerPiPController?
     private let model: VideoPlayerModel
@@ -68,6 +69,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupAudioSession()
         setupView()
         setupPiPController()
         addPeriodicTimeObserver()
@@ -98,6 +100,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     }
     
     deinit {
+        try? audioSession.setActive(false)
         nowPlayingInfoCenter.nowPlayingInfo = nil
     }
 }
@@ -105,6 +108,15 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
 // MARK: - Setup methods
 
 private extension VideoPlayerController {
+    func setupAudioSession() {
+        do {
+            try audioSession.setCategory(.playback, mode: .moviePlayback)
+            try audioSession.setActive(true)
+        } catch {
+            print("Setting category to AVAudioSessionCategoryPlayback failed.")
+        }
+    }
+    
     func setupView() {
         customView.delegate = self
         
