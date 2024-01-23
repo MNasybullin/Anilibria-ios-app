@@ -81,14 +81,18 @@ private extension SearchResultsView {
     }
     
     func updateTableView(header: UIView?) {
-        if tableView.tableHeaderView != header {
-            tableView.tableHeaderView = header
+        tableView.performBatchUpdates {
+            if tableView.tableHeaderView != header {
+                tableView.tableHeaderView = header
+            }
         }
     }
     
     func updateTableView(footer: UIView?) {
-        if tableView.tableFooterView != footer {
-            tableView.tableFooterView = footer
+        tableView.performBatchUpdates {
+            if tableView.tableFooterView != footer {
+                tableView.tableFooterView = footer
+            }
         }
     }
 }
@@ -115,9 +119,9 @@ extension SearchResultsView {
     }
     
     func insertRows(indexPaths: [IndexPath]) {
-        tableView.beginUpdates()
-        tableView.insertRows(at: indexPaths, with: .top)
-        tableView.endUpdates()
+        tableView.performBatchUpdates {
+            tableView.insertRows(at: indexPaths, with: .top)
+        }
     }
     
     func updateHeaderFooterView(status: Status) {
