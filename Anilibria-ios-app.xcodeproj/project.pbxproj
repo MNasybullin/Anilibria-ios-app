@@ -87,6 +87,7 @@
 		275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */; };
 		275B1AF229DECF50006A00EA /* AnimeSeriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AF129DECF50006A00EA /* AnimeSeriesView.swift */; };
 		275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */; };
+		275DAB6F2B5FC2EC0059C2F3 /* StatusAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275DAB6E2B5FC2EC0059C2F3 /* StatusAlertView.swift */; };
 		275EFF092B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF072B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld */; };
 		275EFF102B137CF800C281B1 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF0F2B137CF800C281B1 /* CoreDataService.swift */; };
 		275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275EFF3B2B14F7DC00C281B1 /* UserItem.swift */; };
@@ -266,6 +267,7 @@
 		275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAndShareButtonsView.swift; sourceTree = "<group>"; };
 		275B1AF129DECF50006A00EA /* AnimeSeriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeSeriesView.swift; sourceTree = "<group>"; };
 		275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAndDownloadButtonsView.swift; sourceTree = "<group>"; };
+		275DAB6E2B5FC2EC0059C2F3 /* StatusAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusAlertView.swift; sourceTree = "<group>"; };
 		275EFF082B134B8300C281B1 /* Anilibria-ios-app.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Anilibria-ios-app.xcdatamodel"; sourceTree = "<group>"; };
 		275EFF0F2B137CF800C281B1 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		275EFF3B2B14F7DC00C281B1 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
@@ -596,6 +598,7 @@
 				271A0E462AEA6F66005958CB /* RootView.swift */,
 				275865CC2ADB13BF00F98884 /* ProfileView.swift */,
 				27B707172AF2ACBC00DD8DC6 /* SearchView.swift */,
+				275DAB6E2B5FC2EC0059C2F3 /* StatusAlertView.swift */,
 				276880CA2B47F3A700F5FD06 /* Favorites */,
 				275EFF3F2B16139100C281B1 /* User */,
 				27EA50872AFE2DFF00A1B987 /* VideoPlayer */,
@@ -1291,6 +1294,7 @@
 				275865C92ADAFDDF00F98884 /* UserModel.swift in Sources */,
 				2758A4362B30B7020089E475 /* UserEntity+CoreDataClass.swift in Sources */,
 				2758A44D2B4300B90089E475 /* SerieImageView.swift in Sources */,
+				275DAB6F2B5FC2EC0059C2F3 /* StatusAlertView.swift in Sources */,
 				271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */,
 				27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */,
 				27B707062AF253DC00DD8DC6 /* SeriesModel.swift in Sources */,

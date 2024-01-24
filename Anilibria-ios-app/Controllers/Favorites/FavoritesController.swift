@@ -24,6 +24,7 @@ final class FavoritesController: UIViewController, FavoritesFlow, HasCustomView 
         super.viewDidLoad()
         
         contentController = FavoritesContentController(customView: customView, delegate: self)
+        configureActionButtons()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,6 +48,16 @@ private extension FavoritesController {
                 self?.contentController.loadData()
             }
             .store(in: &subscriptions)
+    }
+    
+    func configureActionButtons() {
+        customView.setActionForNoUserView(action: UIAction(handler: { _ in
+            MainNavigator.shared.rootViewController.selectTabBarItem(.profile)
+        }), for: .touchUpInside)
+        
+        customView.setActionForErrorView(action: UIAction(handler: { [weak self] _ in
+            self?.contentController.loadData()
+        }), for: .touchUpInside)
     }
 }
 

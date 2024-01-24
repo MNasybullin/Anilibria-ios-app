@@ -70,6 +70,16 @@
 "YouTubeModule.ErrorFooterView.titleLabel" = "Ошибка загрузки";
 "YouTubeModule.ErrorFooterView.refreshButton" = "Обновить";
 
+// MARK: - Favorites Module
+"FavoritesModule.NavTitle" = "Избранное";
+"FavoritesModule.ErrorView.title" = "Ошибка";
+"FavoritesModule.ErrorView.actionButton" = "Обновить";
+"FavoritesModule.FavoritesEmptyView.title" = "Ой, а тут пусто...";
+"FavoritesModule.FavoritesEmptyView.message" = "Скорее добавляй любимые аниме в избранное!";
+"FavoritesModule.NoUserView.title" = "Необходима авторизация";
+"FavoritesModule.NoUserView.message" = "Пожалуйста, войдите в свой профиль";
+"FavoritesModule.NoUserView.actionButton" = "Войти";
+
 // MARK: - Screen Titles
 "ScreenTitles.home" = "Главное";
 "ScreenTitles.search" = "Поиск";

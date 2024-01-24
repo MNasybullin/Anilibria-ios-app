@@ -23,6 +23,8 @@ final class FavoritesContentController: NSObject {
     enum Status {
         case normal
         case loading
+        case favoritesIsEmpty
+        case userIsNotAuthorized
         case error(Error)
                 
         static func == (lhs: Status, rhs: Status) -> Bool {
@@ -46,8 +48,12 @@ final class FavoritesContentController: NSObject {
     private let model = FavoritesModel.shared
     
     private var data: [HomePosterItem] = []
+    
     private var status: Status = .normal {
         didSet {
+            if status != .normal && status != .loading {
+                customView.showCollectionViewSkeleton()
+            }
             customView.updateView(withStatus: status)
         }
     }
@@ -107,11 +113,11 @@ extension FavoritesContentController {
     func loadData() {
         guard status != .loading else { return }
         if data.isEmpty {
-            customView.collectionView.showAnimatedSkeleton()
+            customView.showCollectionViewSkeleton()
         }
-        status = .loading
         Task(priority: .userInitiated) {
             do {
+                status = .loading
                 let models = try await self.model.getFavorites(withForceUpdate: true)
                 
                 var newData = [HomePosterItem]()
@@ -123,11 +129,11 @@ extension FavoritesContentController {
                 }
                 data = newData.reversed()
                 
-                if customView.collectionView.sk.isSkeletonActive {
-                    customView.collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
-                }
+                customView.hideCollectionViewSkeleton()
                 applySnapshot()
-                status = .normal
+                status = data.isEmpty ? .favoritesIsEmpty : .normal
+            } catch let error as MyInternalError {
+                status = error == .userIsNotFoundInUserDefaults ? .userIsNotAuthorized : .error(error)
             } catch {
                 status = .error(error)
             }

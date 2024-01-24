@@ -65,4 +65,8 @@ extension RootViewController {
             self.customView.showFlashNetworkActivityView()
         }
     }
+    
+    func selectTabBarItem(_ item: TabBarItemTags) {
+        tabBar.selectedIndex = item.rawValue
+    }
 }
