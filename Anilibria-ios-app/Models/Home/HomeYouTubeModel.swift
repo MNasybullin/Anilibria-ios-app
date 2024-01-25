@@ -13,7 +13,6 @@ final class HomeYouTubeModel: ImageModel, HomeModelInput {
     private let publicApiService = PublicApiService()
     
     private var rawData: [YouTubeAPIModel] = []
-    private var pangination: ListPangination = .initialData()
     var isDataTaskLoading = false
     
     func requestData() {
@@ -22,8 +21,7 @@ final class HomeYouTubeModel: ImageModel, HomeModelInput {
         Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
-                let data = try await publicApiService.youTube(page: pangination.currentPage + 1, itemsPerPage: 10)
-                pangination = data.pagination
+                let data = try await publicApiService.youTube(page: 1, itemsPerPage: 10)
                 rawData = data.list
                 let homePosters = data.list.map { HomePosterItem(fromYouTubeAPIModel: $0) }
                 homeModelOutput?.updateData(items: homePosters, section: .youtube)
