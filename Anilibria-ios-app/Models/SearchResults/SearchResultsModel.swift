@@ -21,7 +21,7 @@ final class SearchResultsModel: ImageModel {
     private let publicApiService = PublicApiService()
     
     private var rawData: [TitleAPIModel] = []
-    private var pangination: ListPangination = .initialData()
+    private var pagination: ListPagination = .initialData()
     private var loadingDataTask: Task<(), Never>?
     private (set) var needLoadMoreData: Bool = true
     
@@ -36,16 +36,22 @@ final class SearchResultsModel: ImageModel {
             do {
                 let titleModelsList = try await publicApiService.titleSearch(
                     withSearchText: searchText,
-                    page: pangination.currentPage + 1, itemsPerPage: Constants.limitResults)
+                    page: pagination.currentPage + 1, itemsPerPage: Constants.limitResults)
                 if Task.isCancelled == true {
                     return
                 }
-                pangination = titleModelsList.pagination
+                pagination = titleModelsList.pagination
                 rawData.append(contentsOf: titleModelsList.list)
                 let result = titleModelsList.list.map {
                     SearchResultsItem(from: $0, image: nil)
                 }
+//                Ошибка на стороне сервера,
+//                поэтому определять по pagination.areThereMorePages() в titleSearch нельзя!
+//                Потому что будет возвращать всегда pages = 1
+                
+//                needLoadMoreData = pagination.areThereMorePages()
                 needLoadMoreData = titleModelsList.list.count == Constants.limitResults
+                
                 delegate?.update(newData: result, afterValue: value)
             } catch {
                 if Task.isCancelled == true {
@@ -66,7 +72,7 @@ final class SearchResultsModel: ImageModel {
     func deleteData() {
         needLoadMoreData = true
         rawData.removeAll()
-        pangination = .initialData()
+        pagination = .initialData()
     }
     
     func getRawData(row: Int) -> TitleAPIModel? {

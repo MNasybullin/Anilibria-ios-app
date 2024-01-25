@@ -11,16 +11,20 @@ import Foundation
 /// title/updates, title/changes, title/search, user/favorites
 struct ListAPIModel<T: Decodable>: Decodable {
     let list: [T]
-    let pagination: ListPangination
+    let pagination: ListPagination
 }
 
-struct ListPangination: Decodable {
+struct ListPagination: Decodable {
     let pages: Int
     let currentPage: Int
     let itemsPerPage: Int
     let totalItems: Int
     
-    static func initialData() -> ListPangination {
-        ListPangination(pages: -1, currentPage: 0, itemsPerPage: -1, totalItems: -1)
+    static func initialData() -> ListPagination {
+        ListPagination(pages: -1, currentPage: 0, itemsPerPage: -1, totalItems: -1)
+    }
+    
+    func areThereMorePages() -> Bool {
+        currentPage < pages
     }
 }
