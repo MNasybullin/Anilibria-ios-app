@@ -31,6 +31,10 @@ extension HomePosterItem {
     }
     
     init(fromYouTubeAPIModel model: YouTubeAPIModel) {
-        self.init(name: model.title, imageUrlString: NetworkConstants.mirrorBaseImagesURL + model.preview.src)
+        var imageUrlString = ""
+        if let previewUrl = model.preview.src {
+            imageUrlString = NetworkConstants.mirrorBaseImagesURL + previewUrl
+        }
+        self.init(name: model.title, imageUrlString: imageUrlString)
     }
 }

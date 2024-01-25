@@ -14,6 +14,7 @@ protocol ImageModelDelegate: AnyObject {
 class ImageModel {
     typealias ImageTask = Task<UIImage, Error>
     weak var imageModelDelegate: ImageModelDelegate?
+    var downsampleSize: CGSize?
     
     private var imageTasks: [String: ImageTask] = [:]
 }
@@ -40,6 +41,31 @@ private extension ImageModel {
             }
         }
     }
+    
+    func downsample(imageAt imageData: Data, to pointSize: CGSize, scale: CGFloat = UIScreen.main.scale) -> UIImage? {
+        
+        // Create an CGImageSource that represent an image
+        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let imageSource = CGImageSourceCreateWithData(imageData as CFData, imageSourceOptions) else {
+            return nil
+        }
+        
+        // Calculate the desired dimension
+        let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+        
+        // Perform downsampling
+        let downsampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
+        ] as CFDictionary
+        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            return nil
+        }
+        
+        return UIImage(cgImage: downsampledImage)
+    }
 }
 
 // MARK: - Internal methods
@@ -53,10 +79,17 @@ extension ImageModel {
         }
         let task = ImageTask(priority: .high) {
             let imageData = try await ImageLoaderService.shared.getImageData(fromURLString: urlString)
-            guard let image = UIImage(data: imageData) else {
-                throw MyImageError.failedToInitialize
+            if downsampleSize != nil {
+                guard let downsampleImage = downsample(imageAt: imageData, to: downsampleSize!) else {
+                    throw MyImageError.failedToInitialize
+                }
+                return downsampleImage
+            } else {
+                guard let image = UIImage(data: imageData) else {
+                    throw MyImageError.failedToInitialize
+                }
+                return image
             }
-            return image
         }
         imageTasks[urlString] = task
         existingTask(task, successCompletion: successCompletion)

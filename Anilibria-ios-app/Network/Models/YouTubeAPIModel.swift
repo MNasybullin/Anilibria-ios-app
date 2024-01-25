@@ -20,6 +20,6 @@ struct YouTubeAPIModel: Decodable {
 }
 
 struct YouTubePreview: Decodable {
-    let src: String
-    let thumbnail: String
+    let src: String?
+    let thumbnail: String?
 }

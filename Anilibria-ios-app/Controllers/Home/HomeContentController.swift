@@ -36,6 +36,7 @@ final class HomeContentController: NSObject {
         let youTubeModel = HomeYouTubeModel()
         youTubeModel.imageModelDelegate = self
         youTubeModel.homeModelOutput = self
+        youTubeModel.downsampleSize = .init(width: 396, height: 222)
         
         return [todayModel, updatesModel, youTubeModel]
     }()

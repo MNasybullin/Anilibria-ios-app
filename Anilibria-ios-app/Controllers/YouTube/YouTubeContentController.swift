@@ -29,14 +29,19 @@ final class YouTubeContentController: NSObject {
         self.model = YouTubeModel(rawData: rawData)
         super.init()
         
-        model.imageModelDelegate = self
-        model.delegate = self
+        setupModel()
     }
 }
 
 // MARK: Private methods
 
 private extension YouTubeContentController {
+    func setupModel() {
+        model.imageModelDelegate = self
+        model.delegate = self
+        model.downsampleSize = .init(width: 396, height: 222)
+    }
+    
     func loadMoreData() {
         guard model.needLoadMoreData == true,
               status == .normal else { return }
@@ -133,6 +138,7 @@ extension YouTubeContentController: YouTubeModelDelegate {
     func failedRequestData(error: Error) {
         DispatchQueue.main.async {
             self.status = .loadingMoreFail
+            print(error)
         }
     }
 }

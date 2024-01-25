@@ -26,6 +26,10 @@ final class YouTubeModel: ImageModel {
     init(rawData: [YouTubeAPIModel]) {
         self.rawData = rawData
         super.init()
+        
+        if rawData.isEmpty == false {
+            pangination = ListPangination(pages: -1, currentPage: 1, itemsPerPage: -1, totalItems: -1)
+        }
     }
     
     func requestData(after: Int) {
@@ -33,6 +37,7 @@ final class YouTubeModel: ImageModel {
             do {
                 let data = try await publicApiService.youTube(page: pangination.currentPage + 1, itemsPerPage: Constants.limitResults)
                 pangination = data.pagination
+//                print(pangination)
                 rawData += data.list
                 let homePosters = data.list.map { HomePosterItem(fromYouTubeAPIModel: $0) }
                 needLoadMoreData = data.list.count == Constants.limitResults
