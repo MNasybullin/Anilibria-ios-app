@@ -13,6 +13,7 @@ class EpisodesTableViewCell: UITableViewCell {
         static let secondaryStackSpacing: CGFloat = 6
         static let titleLabelFontSize: CGFloat = 16
         static let subtitleLabelFontSize: CGFloat = 14
+        static let episodeNameLabelFontSize: CGFloat = 15
     }
     
     private lazy var hStack: UIStackView = {
@@ -71,6 +72,15 @@ class EpisodesTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var episodeNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: Constants.episodeNameLabelFontSize,
+                                       weight: .medium)
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 2
+        return label
+    }()
+    
     private var imageUrlString = ""
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -83,12 +93,16 @@ class EpisodesTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
-    private func configureView() {
+}
+
+// MARK: - Private methods
+
+private extension EpisodesTableViewCell {
+    func configureView() {
         backgroundColor = .systemBackground
     }
     
-    private func configureLayout() {
+    func configureLayout() {
         contentView.addSubview(hStack)
         
         hStack.addArrangedSubview(episodeImageView)
@@ -96,6 +110,7 @@ class EpisodesTableViewCell: UITableViewCell {
         
         labelsVStack.addArrangedSubview(indicatorAndTitleHStack)
         labelsVStack.addArrangedSubview(subtitleLabel)
+        labelsVStack.addArrangedSubview(episodeNameLabel)
         
         indicatorAndTitleHStack.addArrangedSubview(indicatorImageView)
         indicatorAndTitleHStack.addArrangedSubview(titleLabel)
@@ -114,7 +129,11 @@ class EpisodesTableViewCell: UITableViewCell {
             episodeImageView.widthAnchor.constraint(lessThanOrEqualTo: hStack.widthAnchor, multiplier: 0.4)
         ])
     }
-    
+}
+
+// MARK: - Internal methods
+
+extension EpisodesTableViewCell {
     func configureCell(item: Playlist, duration: Double? = nil, playbackTime: Double? = nil) {
         if let image = item.image {
             episodeImageView.image = image
@@ -123,6 +142,7 @@ class EpisodesTableViewCell: UITableViewCell {
         }
         titleLabel.text = item.episodeString
         subtitleLabel.text = item.createdDateString
+        episodeNameLabel.text = item.name
         imageUrlString = item.previewUrl
         
         if let duration, let playbackTime {
