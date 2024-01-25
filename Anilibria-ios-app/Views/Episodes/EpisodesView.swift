@@ -1,5 +1,5 @@
 //
-//  SeriesView.swift
+//  EpisodesView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 31.10.2023.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class SeriesView: UIView {
+final class EpisodesView: UIView {
     let tableView = UITableView(frame: .zero, style: .grouped)
     
-    init(delegate: SeriesContentController) {
+    init(delegate: EpisodesContentController) {
         super.init(frame: .zero)
         
         configureView()
@@ -27,18 +27,18 @@ final class SeriesView: UIView {
 
 // MARK: - Private methods
 
-private extension SeriesView {
+private extension EpisodesView {
     func configureView() {
         backgroundColor = .systemBackground
     }
     
-    func configureTableView(delegate: SeriesContentController) {
+    func configureTableView(delegate: EpisodesContentController) {
         tableView.delegate = delegate
         tableView.dataSource = delegate
         tableView.prefetchDataSource = delegate
         
-        tableView.register(SeriesTableViewCell.self, forCellReuseIdentifier: SeriesTableViewCell.reuseIdentifier)
-        tableView.register(SeriesHeaderSupplementaryView.self, forHeaderFooterViewReuseIdentifier: SeriesHeaderSupplementaryView.reuseIdentifier)
+        tableView.register(EpisodesTableViewCell.self, forCellReuseIdentifier: EpisodesTableViewCell.reuseIdentifier)
+        tableView.register(EpisodesHeaderSupplementaryView.self, forHeaderFooterViewReuseIdentifier: EpisodesHeaderSupplementaryView.reuseIdentifier)
     }
     
     func configureLayout() {

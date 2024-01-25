@@ -1,5 +1,5 @@
 //
-//  VideoPlayerSeriesController.swift
+//  VideoPlayerEpisodesController.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 03.12.2023.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-final class VideoPlayerSeriesController: UIViewController, HasCustomView {
-    typealias CustomView = SeriesView
+final class VideoPlayerEpisodesController: UIViewController, HasCustomView {
+    typealias CustomView = EpisodesView
     
-    let contentController: SeriesContentController
+    let contentController: EpisodesContentController
     let currentPlaylistNumber: Int
     let completionBlock: (Int) -> Void
     
     // MARK: LifeCycle
     init(data: AnimeItem, currentPlaylistNumber: Int, completionBlock: @escaping (Int) -> Void) {
-        contentController = SeriesContentController(data: data)
+        contentController = EpisodesContentController(data: data)
         self.currentPlaylistNumber = currentPlaylistNumber
         self.completionBlock = completionBlock
         super.init(nibName: nil, bundle: nil)
@@ -27,7 +27,7 @@ final class VideoPlayerSeriesController: UIViewController, HasCustomView {
     }
     
     override func loadView() {
-        view = SeriesView(delegate: contentController)
+        view = EpisodesView(delegate: contentController)
     }
     
     override func viewDidLoad() {
@@ -45,9 +45,9 @@ final class VideoPlayerSeriesController: UIViewController, HasCustomView {
 
 // MARK: - Private methods
 
-private extension VideoPlayerSeriesController {
+private extension VideoPlayerEpisodesController {
     func setupNavigationItem() {
-        navigationItem.title = Strings.SeriesModule.seriesTitle
+        navigationItem.title = Strings.EpisodesModule.episodesTitle
         let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonDidTapped))
         navigationItem.rightBarButtonItem = closeButton
     }
@@ -62,9 +62,9 @@ private extension VideoPlayerSeriesController {
     }
 }
 
-// MARK: - SeriesContentControllerDelegate
+// MARK: - EpisodesContentControllerDelegate
 
-extension VideoPlayerSeriesController: SeriesContentControllerDelegate {
+extension VideoPlayerEpisodesController: EpisodesContentControllerDelegate {
     func didSelectItem(animeItem: AnimeItem, currentPlaylist: Int) {
         completionBlock(currentPlaylist)
         dismiss(animated: true)

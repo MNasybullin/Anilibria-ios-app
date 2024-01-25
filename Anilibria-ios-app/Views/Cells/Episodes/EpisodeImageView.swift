@@ -1,5 +1,5 @@
 //
-//  SerieImageView.swift
+//  EpisodeImageView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 01.01.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SerieImageView: UIImageView {
+final class EpisodeImageView: UIImageView {
     private lazy var watchingProgress: UIProgressView = {
         let progressView = UIProgressView()
         progressView.progressTintColor = .systemRed

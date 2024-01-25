@@ -96,7 +96,7 @@ private extension AnimeView {
     }
     
     func configureAnimeInfoView(item: AnimeItem, delegate: AnimeController) {
-        animeInfoView.animeSeriesView.delegate = delegate
+        animeInfoView.animeEpisodesView.delegate = delegate
         animeInfoView.watchAndDownloadButtonsView.delegate = delegate
         animeInfoView.favoriteAndShareButtonsView.delegate = delegate
         

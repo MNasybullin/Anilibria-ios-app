@@ -1,5 +1,5 @@
 //
-//  SeriesTableViewCell.swift
+//  EpisodesTableViewCell.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 07.04.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SeriesTableViewCell: UITableViewCell {
+class EpisodesTableViewCell: UITableViewCell {
     private enum Constants {
         static let mainStackSpacing: CGFloat = 8
         static let secondaryStackSpacing: CGFloat = 6
@@ -23,7 +23,7 @@ class SeriesTableViewCell: UITableViewCell {
         return stack
     }()
     
-    private lazy var serieImageView = SerieImageView()
+    private lazy var episodeImageView = EpisodeImageView()
     
     private lazy var labelsVStack: UIStackView = {
         let stack = UIStackView()
@@ -91,7 +91,7 @@ class SeriesTableViewCell: UITableViewCell {
     private func configureLayout() {
         contentView.addSubview(hStack)
         
-        hStack.addArrangedSubview(serieImageView)
+        hStack.addArrangedSubview(episodeImageView)
         hStack.addArrangedSubview(labelsVStack)
         
         labelsVStack.addArrangedSubview(indicatorAndTitleHStack)
@@ -108,35 +108,35 @@ class SeriesTableViewCell: UITableViewCell {
             hStack.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
         ])
         
-        serieImageView.translatesAutoresizingMaskIntoConstraints = false
+        episodeImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            serieImageView.widthAnchor.constraint(equalTo: serieImageView.heightAnchor, multiplier: (1920/1080)),
-            serieImageView.widthAnchor.constraint(lessThanOrEqualTo: hStack.widthAnchor, multiplier: 0.4)
+            episodeImageView.widthAnchor.constraint(equalTo: episodeImageView.heightAnchor, multiplier: (1920/1080)),
+            episodeImageView.widthAnchor.constraint(lessThanOrEqualTo: hStack.widthAnchor, multiplier: 0.4)
         ])
     }
     
     func configureCell(item: Playlist, duration: Double? = nil, playbackTime: Double? = nil) {
         if let image = item.image {
-            serieImageView.image = image
+            episodeImageView.image = image
         } else {
-            serieImageView.image = UIImage(asset: Asset.Assets.blankImage)
+            episodeImageView.image = UIImage(asset: Asset.Assets.blankImage)
         }
-        titleLabel.text = item.serieString
+        titleLabel.text = item.episodeString
         subtitleLabel.text = item.createdDateString
         imageUrlString = item.previewUrl
         
         if let duration, let playbackTime {
-            serieImageView.setupWatchingProgress(withDuration: duration, playbackTime: playbackTime)
+            episodeImageView.setupWatchingProgress(withDuration: duration, playbackTime: playbackTime)
             indicatorImageView.isHidden = true
         } else {
-            serieImageView.watchingProgressIsHidden = true
+            episodeImageView.watchingProgressIsHidden = true
             indicatorImageView.isHidden = false
         }
     }
     
     func setImage(_ image: UIImage, urlString: String) {
         if urlString == imageUrlString {
-            serieImageView.image = image
+            episodeImageView.image = image
         }
     }
 }

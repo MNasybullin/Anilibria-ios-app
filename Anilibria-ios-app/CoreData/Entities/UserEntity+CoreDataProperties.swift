@@ -2,7 +2,7 @@
 //  UserEntity+CoreDataProperties.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 16.12.2023.
+//  Created by Mansur Nasybullin on 24.01.2024.
 //
 //
 
@@ -16,10 +16,13 @@ extension UserEntity {
         return NSFetchRequest<UserEntity>(entityName: "UserEntity")
     }
 
-    @NSManaged public var id: Int64
+    @NSManaged public var email: String
     @NSManaged public var image: UIImage
     @NSManaged public var imageUrl: String
-    @NSManaged public var name: String
+    @NSManaged public var login: String
+    @NSManaged public var nickname: String?
+    @NSManaged public var patreonId: String?
+    @NSManaged public var vkId: String?
     @NSManaged public var watching: NSSet?
 
 }

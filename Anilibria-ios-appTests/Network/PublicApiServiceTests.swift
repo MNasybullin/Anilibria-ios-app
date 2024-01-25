@@ -12,10 +12,10 @@ class PublicApiServiceTests: XCTestCase {
     
     let publicApiService = PublicApiService()
     
-    func testGetTitle() async throws {
+    func testTitle() async throws {
         let id = "8500"
         do {
-            _ = try await publicApiService.getTitle(with: id)
+            _ = try await publicApiService.title(id: id)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -23,10 +23,10 @@ class PublicApiServiceTests: XCTestCase {
         }
     }
     
-    func testGetTitles() async throws {
+    func testTitleList() async throws {
         let ids = "8500, 8800"
         do {
-            _ = try await publicApiService.getTitles(with: ids)
+            _ = try await publicApiService.titleList(ids: ids)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -34,22 +34,10 @@ class PublicApiServiceTests: XCTestCase {
         }
     }
     
-    func testGetUpdates() async throws {
-        let limit = 10
-        let after = 1
-        do {
-            _ = try await publicApiService.getUpdates(withLimit: limit, after: after)
-        } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
-        }
-    }
-    
-    func testGetChanges() async throws {
+    func testTitleUpdates() async throws {
         let limit = 10
         do {
-            _ = try await publicApiService.getChanges(with: limit)
+            _ = try await publicApiService.titleUpdates(page: 1, itemsPerPage: limit)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -57,31 +45,10 @@ class PublicApiServiceTests: XCTestCase {
         }
     }
     
-    func testGetSchedule() async throws {
-        do {
-            _ = try await publicApiService.getSchedule(with: DaysOfTheWeek.allCases)
-        } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
-        }
-    }
-    
-    func testGetRandomTitle() async throws {
-        do {
-            _ = try await publicApiService.getRandomTitle()
-        } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
-        }
-    }
-    
-    func testGetYouTube() async throws {
+    func testTitleChanges() async throws {
         let limit = 10
-        let after = 1
         do {
-            _ = try await publicApiService.getYouTube(withLimit: limit, after: after)
+            _ = try await publicApiService.titleChanges(page: 1, itemsPerPage: limit)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -89,9 +56,9 @@ class PublicApiServiceTests: XCTestCase {
         }
     }
     
-    func testGetYears() async throws {
+    func testTitleSchedule() async throws {
         do {
-            _ = try await publicApiService.getYears()
+            _ = try await publicApiService.titleSchedule(withDays: DaysOfTheWeek.allCases)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -99,9 +66,9 @@ class PublicApiServiceTests: XCTestCase {
         }
     }
     
-    func testGetGenres() async throws {
+    func testTitleRandom() async throws {
         do {
-            _ = try await publicApiService.getGenres()
+            _ = try await publicApiService.titleRandom()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -109,9 +76,10 @@ class PublicApiServiceTests: XCTestCase {
         }
     }
     
-    func testGetTeam() async throws {
+    func testYouTube() async throws {
+        let limit = 10
         do {
-            _ = try await publicApiService.getTeam()
+            _ = try await publicApiService.youTube(page: 1, itemsPerPage: limit)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -119,9 +87,9 @@ class PublicApiServiceTests: XCTestCase {
         }
     }
     
-    func testGetCachingNodes() async throws {
+    func testYears() async throws {
         do {
-            _ = try await publicApiService.getCachingNodes()
+            _ = try await publicApiService.years()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -129,9 +97,29 @@ class PublicApiServiceTests: XCTestCase {
         }
     }
     
-    func testSearchTitles() async throws {
+    func testGenres() async throws {
         do {
-            _ = try await publicApiService.searchTitles(withSearchText: "Песнь")
+            _ = try await publicApiService.genres()
+        } catch {
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
+        }
+    }
+    
+    func testTeam() async throws {
+        do {
+            _ = try await publicApiService.team()
+        } catch {
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
+        }
+    }
+    
+    func testTitleSearch() async throws {
+        do {
+            _ = try await publicApiService.titleSearch(withSearchText: "Песнь", page: 1)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)

@@ -8,11 +8,18 @@
 import Foundation
 
 /// Возвращается в запросах:
-/// getYouTube
+/// youtube
 struct YouTubeAPIModel: Decodable {
     let id: Int
     let title: String
-    let image: String
+    let preview: YouTubePreview
     let youtubeId: String
+    let comments: Int
+    let views: Int
     let timestamp: Int
+}
+
+struct YouTubePreview: Decodable {
+    let src: String
+    let thumbnail: String
 }

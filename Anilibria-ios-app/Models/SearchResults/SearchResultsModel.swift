@@ -21,6 +21,7 @@ final class SearchResultsModel: ImageModel {
     private let publicApiService = PublicApiService()
     
     private var rawData: [TitleAPIModel] = []
+    private var pangination: ListPangination = .initialData()
     private var loadingDataTask: Task<(), Never>?
     private (set) var needLoadMoreData: Bool = true
     
@@ -33,18 +34,18 @@ final class SearchResultsModel: ImageModel {
                 loadingDataTask = nil
             }
             do {
-                let titleModels = try await publicApiService.searchTitles(
+                let titleModelsList = try await publicApiService.titleSearch(
                     withSearchText: searchText,
-                    withLimit: Constants.limitResults,
-                    after: value)
+                    page: pangination.currentPage + 1, itemsPerPage: Constants.limitResults)
                 if Task.isCancelled == true {
                     return
                 }
-                rawData.append(contentsOf: titleModels)
-                let result = titleModels.map {
+                pangination = titleModelsList.pagination
+                rawData.append(contentsOf: titleModelsList.list)
+                let result = titleModelsList.list.map {
                     SearchResultsItem(from: $0, image: nil)
                 }
-                needLoadMoreData = titleModels.count == Constants.limitResults
+                needLoadMoreData = titleModelsList.list.count == Constants.limitResults
                 delegate?.update(newData: result, afterValue: value)
             } catch {
                 if Task.isCancelled == true {
@@ -65,6 +66,7 @@ final class SearchResultsModel: ImageModel {
     func deleteData() {
         needLoadMoreData = true
         rawData.removeAll()
+        pangination = .initialData()
     }
     
     func getRawData(row: Int) -> TitleAPIModel? {

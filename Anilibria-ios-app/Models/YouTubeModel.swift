@@ -20,6 +20,7 @@ final class YouTubeModel: ImageModel {
     
     private let publicApiService = PublicApiService()
     private var rawData: [YouTubeAPIModel]
+    private var pangination: ListPangination = .initialData()
     private (set) var needLoadMoreData: Bool = true
     
     init(rawData: [YouTubeAPIModel]) {
@@ -30,10 +31,11 @@ final class YouTubeModel: ImageModel {
     func requestData(after: Int) {
         Task(priority: .userInitiated) {
             do {
-                let data = try await publicApiService.getYouTube(withLimit: Constants.limitResults, after: after)
-                rawData += data
-                let homePosters = data.map { HomePosterItem(fromYouTubeAPIModel: $0) }
-                needLoadMoreData = data.count == Constants.limitResults
+                let data = try await publicApiService.youTube(page: pangination.currentPage + 1, itemsPerPage: Constants.limitResults)
+                pangination = data.pagination
+                rawData += data.list
+                let homePosters = data.list.map { HomePosterItem(fromYouTubeAPIModel: $0) }
+                needLoadMoreData = data.list.count == Constants.limitResults
                 delegate?.updateData(homePosters)
             } catch {
                 delegate?.failedRequestData(error: error)

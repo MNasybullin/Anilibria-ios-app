@@ -17,13 +17,14 @@ struct AnimeItem {
     let genres: String?
     let team: [Team]
     let description: String?
-    let series: GTSeries?
+    let host: String?
+    let episodes: GTEpisodes?
     let playlist: [Playlist]
 }
 
 extension AnimeItem {
     init(fromTitleApiModel item: TitleAPIModel, image: UIImage?) {
-        let playlist = item.player?.playlist?.map { Playlist(fromGTPlaylist: $0) }
+        let playlist = item.player?.list?.map { Playlist(fromGTPlaylist: $0) }
         self.init(
             id: item.id,
             image: image,
@@ -34,7 +35,8 @@ extension AnimeItem {
             genres: AnimeItem.getgenresText(item.genres),
             team: AnimeItem.convertToTeam(from: item.team),
             description: AnimeItem.getDescriptionText(item.description),
-            series: item.player?.series,
+            host: item.player?.host,
+            episodes: item.player?.episodes,
             playlist: playlist ?? [Playlist]())
     }
     

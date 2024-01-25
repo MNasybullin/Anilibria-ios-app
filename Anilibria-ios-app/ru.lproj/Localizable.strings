@@ -108,9 +108,9 @@
 "AnimeView.favoriteButton" = "Избранное";
 "AnimeView.shareButton" = "Поделиться";
 
-// MARK: - Anime Series View
-"AnimeSeriesView.seriesTitle" = "Серии";
-"AnimeSeriesView.allButton" = "Все";
+// MARK: - Anime Episodes View
+"AnimeEpisodesView.episodesTitle" = "Серии";
+"AnimeEpisodesView.allButton" = "Все";
 
 // MARK: - Video Player
 "VideoPlayerView.skipButton" = "Пропустить";
@@ -121,9 +121,9 @@
 "VideoPlayerSettings.rate" = "Скорость";
 "VideoPlayerSettings.defaultRate" = "Обычная";
 
-// MARK: - Series Module
-"SeriesModule.seriesTitle" = "Серии";
-"SeriesModule.series" = "серий";
+// MARK: - Episodes Module
+"EpisodesModule.episodesTitle" = "Серии";
+"EpisodesModule.episodes" = "серий";
 
 // MARK: - RandomAnime Module
 "RandomAnimeModule.title.randomAnime" = "Случайное аниме";

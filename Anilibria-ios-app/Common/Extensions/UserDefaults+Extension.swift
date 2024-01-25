@@ -9,7 +9,7 @@ import Foundation
 
 enum UserDefaultsKeys: String {
     case isUserAuthorized
-    case userId
+    case userLogin
 }
 
 extension UserDefaults {
@@ -18,19 +18,16 @@ extension UserDefaults {
             bool(forKey: UserDefaultsKeys.isUserAuthorized.rawValue)
         }
         set {
-            set(newValue, 
-                forKey: UserDefaultsKeys.isUserAuthorized.rawValue)
+            set(newValue, forKey: UserDefaultsKeys.isUserAuthorized.rawValue)
         }
     }
     
-    var userId: Int? {
+    var userLogin: String? {
         get {
-            let value = integer(forKey: UserDefaultsKeys.userId.rawValue)
-            return value != 0 ? value : nil
+            string(forKey: UserDefaultsKeys.userLogin.rawValue)
         }
         set {
-            set(newValue ?? 0,
-                forKey: UserDefaultsKeys.userId.rawValue)
+            set(newValue, forKey: UserDefaultsKeys.userLogin.rawValue)
         }
     }
 }

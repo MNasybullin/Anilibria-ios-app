@@ -21,7 +21,7 @@ final class HomeTodayModel: ImageModel, HomeModelInput {
         Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
-                let data = try await publicApiService.getSchedule(with: [.currentDayOfTheWeek()])
+                let data = try await publicApiService.titleSchedule(withDays: [.currentDayOfTheWeek()])
                 guard let todayTitleModels = data.first?.list else {
                     throw MyInternalError.failedToFetchData
                 }

@@ -13,6 +13,7 @@ final class HomeUpdatesModel: ImageModel, HomeModelInput {
     private let publicApiService = PublicApiService()
     
     private var rawData: [TitleAPIModel] = []
+    private var pangination: ListPangination = .initialData()
     var isDataTaskLoading = false
     
     func requestData() {
@@ -21,9 +22,10 @@ final class HomeUpdatesModel: ImageModel, HomeModelInput {
         Task(priority: .userInitiated) {
             defer { isDataTaskLoading = false }
             do {
-                let data = try await publicApiService.getUpdates()
-                rawData = data
-                let homePosters = data.map { HomePosterItem(fromTitleAPIModel: $0) }
+                let data = try await publicApiService.titleUpdates(page: pangination.currentPage + 1)
+                pangination = data.pagination
+                rawData = data.list
+                let homePosters = data.list.map { HomePosterItem(fromTitleAPIModel: $0) }
                 homeModelOutput?.updateData(items: homePosters, section: .updates)
             } catch {
                 homeModelOutput?.failedRequestData(error: error)

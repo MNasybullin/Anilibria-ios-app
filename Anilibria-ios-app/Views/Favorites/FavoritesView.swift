@@ -155,7 +155,7 @@ extension FavoritesView {
                 showOnly(view: noUserView)
             case .error(let error):
                 activityIndicatorView.stopAnimating()
-                errorView.setMessage(text: error.localizedDescription)
+                errorView.setMessage(text: (error as NSError).description + error.localizedDescription)
                 showOnly(view: errorView)
         }
     }

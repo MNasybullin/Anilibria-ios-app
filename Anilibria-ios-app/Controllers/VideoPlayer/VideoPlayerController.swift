@@ -74,7 +74,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
         setupPiPController()
         addPeriodicTimeObserver()
         model.delegate = self
-        model.requestCachingNodes()
+        model.start()
         setNeedsUpdateOfHomeIndicatorAutoHidden()
         setupRemoteCommandCenterController()
     }
@@ -468,7 +468,7 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
         }
     }
     
-    func seriesButtonDidTapped() {
+    func episodesButtonDidTapped() {
         let data = model.getData()
         let currentPlaylistNumber = model.currentPlaylistNumber
         let completionBlock: (Int) -> Void = { [weak self] newPlaylistNumber in
@@ -477,7 +477,7 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
             self.customView.setTitle(self.model.getTitle())
             self.customView.setSubtitle(self.model.getSubtitle())
         }
-        navigator?.show(.series(data: data, currentPlaylistNumber: currentPlaylistNumber, completionBlock: completionBlock, presentatingController: self))
+        navigator?.show(.episodes(data: data, currentPlaylistNumber: currentPlaylistNumber, completionBlock: completionBlock, presentatingController: self))
     }
 }
 

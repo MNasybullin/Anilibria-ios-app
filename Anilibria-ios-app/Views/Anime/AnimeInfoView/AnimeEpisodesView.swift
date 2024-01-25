@@ -1,5 +1,5 @@
 //
-//  AnimeSeriesView.swift
+//  AnimeEpisodesView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 06.04.2023.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol AnimeSeriesViewDelegate: AnyObject {
-    func seriesViewClicked()
+protocol AnimeEpisodesViewDelegate: AnyObject {
+    func episodesViewClicked()
 }
 
-final class AnimeSeriesView: UIView {
-    weak var delegate: AnimeSeriesViewDelegate?
+final class AnimeEpisodesView: UIView {
+    weak var delegate: AnimeEpisodesViewDelegate?
     
     private lazy var hStack: UIStackView = {
         let stack = UIStackView()
@@ -30,7 +30,7 @@ final class AnimeSeriesView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Strings.AnimeSeriesView.seriesTitle
+        label.text = Strings.AnimeEpisodesView.episodesTitle
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.textColor = .label
         return label
@@ -45,7 +45,7 @@ final class AnimeSeriesView: UIView {
     
     private lazy var allButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.title = Strings.AnimeSeriesView.allButton
+        config.title = Strings.AnimeEpisodesView.allButton
         config.baseForegroundColor = .systemRed
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
@@ -78,7 +78,7 @@ final class AnimeSeriesView: UIView {
     }
     
     @objc private func viewTapped() {
-        delegate?.seriesViewClicked()
+        delegate?.episodesViewClicked()
     }
     
     private func setupConstraints() {

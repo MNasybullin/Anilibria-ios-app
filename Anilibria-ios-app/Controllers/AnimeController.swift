@@ -88,12 +88,12 @@ extension AnimeController: AnimeModelOutput {
     }
 }
 
-// MARK: - AnimeSeriesViewDelegate
+// MARK: - AnimeEpisodesViewDelegate
 
-extension AnimeController: AnimeSeriesViewDelegate {
-    func seriesViewClicked() {
+extension AnimeController: AnimeEpisodesViewDelegate {
+    func episodesViewClicked() {
         let data = model.getAnimeItem()
-        navigator?.show(.series(data: data))
+        navigator?.show(.episodes(data: data))
     }
 }
 
@@ -102,7 +102,7 @@ extension AnimeController: AnimeSeriesViewDelegate {
 extension AnimeController: WatchAndDownloadButtonsViewDelegate {
     func watchButtonClicked() {
         let data = model.getAnimeItem()
-        navigator?.show(.series(data: data))
+        navigator?.show(.episodes(data: data))
     }
     
     func downloadButtonClicked() {

@@ -18,6 +18,7 @@ class AuthorizationServiceTests: XCTestCase {
         
         do {
             _ = try await authorizationService.login(email: email, password: password)
+            UserDefaults.standard.isUserAuthorized = true
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -28,6 +29,7 @@ class AuthorizationServiceTests: XCTestCase {
     func testLogout() async throws {
         do {
             try await authorizationService.logout()
+            UserDefaults.standard.isUserAuthorized = false
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -35,10 +37,10 @@ class AuthorizationServiceTests: XCTestCase {
         }
     }
     
-    func testGetFavorites() async throws {
+    func testGetUserFavorites() async throws {
         do {
             try await testLogin()
-            _ = try await authorizationService.getFavorites()
+            _ = try await authorizationService.getUserFavorites()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -46,11 +48,11 @@ class AuthorizationServiceTests: XCTestCase {
         }
     }
     
-    func testDelFavorite() async throws {
+    func testDelUserFavorite() async throws {
         let titleID = 8500
         do {
             try await testLogin()
-            _ = try await authorizationService.delFavorite(from: titleID)
+            _ = try await authorizationService.delUserFavorite(from: titleID)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -58,12 +60,12 @@ class AuthorizationServiceTests: XCTestCase {
         }
     }
     
-    func testAddFavorite() async throws {
+    func testPutUserFavorite() async throws {
         let titleID = 8500
         do {
             try await testLogin()
-            try await testDelFavorite()
-            _ = try await authorizationService.addFavorite(from: titleID)
+            try await testDelUserFavorite()
+            _ = try await authorizationService.putUserFavorites(from: titleID)
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)
@@ -71,10 +73,10 @@ class AuthorizationServiceTests: XCTestCase {
         }
     }
     
-    func testProfileInfo() async throws {
+    func testUser() async throws {
         do {
             try await testLogin()
-            _ = try await authorizationService.profileInfo()
+            _ = try await authorizationService.user()
         } catch {
             ErrorProcessing.shared.handle(error: error) { message in
                 XCTFail(message)

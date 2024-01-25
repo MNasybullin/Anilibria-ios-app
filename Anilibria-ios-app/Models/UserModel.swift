@@ -31,7 +31,7 @@ final class UserModel {
                 let loginModel = try await authorizationService.login(email: email, password: password)
                 
                 if loginModel.key == KeyLoginAPI.success.rawValue {
-                    let user = try await requestProfileInfo()
+                    let user = try await requestUser()
                     UserDefaults.standard.isUserAuthorized = true
                     delegate?.authorizationSuccessful(user: user)
                 } else if loginModel.key == KeyLoginAPI.authorized.rawValue {
@@ -41,12 +41,12 @@ final class UserModel {
                 } else {
                     let error = NSError(domain: loginModel.key, code: 0)
                     UserDefaults.standard.isUserAuthorized = false
-                    UserDefaults.standard.userId = nil
+                    UserDefaults.standard.userLogin = nil
                     delegate?.authorizationFailure(error: error)
                 }
             } catch {
                 UserDefaults.standard.isUserAuthorized = false
-                UserDefaults.standard.userId = nil
+                UserDefaults.standard.userLogin = nil
                 delegate?.authorizationFailure(error: error)
             }
         }
@@ -58,7 +58,7 @@ final class UserModel {
             delegate?.requestFromCoreDataSuccessful(user: user)
         } catch {
             UserDefaults.standard.isUserAuthorized = false
-            UserDefaults.standard.userId = nil
+            UserDefaults.standard.userLogin = nil
             delegate?.requestFromCoreDataFailure(error: error)
         }
     }
@@ -68,7 +68,7 @@ final class UserModel {
             do {
                 try await authorizationService.logout()
                 UserDefaults.standard.isUserAuthorized = false
-                UserDefaults.standard.userId = nil
+                UserDefaults.standard.userLogin = nil
                 delegate?.logoutSuccessful()
             } catch {
                 delegate?.logoutFailure(error: error)
@@ -81,27 +81,22 @@ final class UserModel {
 
 private extension UserModel {
     func requestUserFromCoreData() throws -> UserItem {
-        guard let userId = UserDefaults.standard.userId else {
+        guard let userLogin = UserDefaults.standard.userLogin else {
             throw NSError(domain: "User id not found in UserDefaults", code: 404)
         }
         let context = coreDataService.viewContext
-        let userEntity = try UserEntity.find(userId: userId, context: context)
+        let userEntity = try UserEntity.find(userLogin: userLogin, context: context)
         let user = UserItem(userEntity: userEntity)
         return user
     }
     
-    func requestProfileInfo() async throws -> UserItem {
-        let profileInfo = try await authorizationService.profileInfo()
-        guard let data = profileInfo.data else {
-            throw MyNetworkError.userIsNotAuthorized
-        }
-        let avatarURL = NetworkConstants.mirrorBaseImagesURL + data.avatar
-        let userImage = try await requestImage(forURL: avatarURL)
-        
-        let user = UserItem(id: data.id, name: data.login, image: userImage, imageUrl: avatarURL)
+    func requestUser() async throws -> UserItem {
+        let userApiModel = try await authorizationService.user()
+        var user = UserItem(userApiModel: userApiModel)
+        user.image = try await requestImage(forURL: user.imageUrl)
         
         let context = coreDataService.viewContext
-        UserDefaults.standard.userId = user.id
+        UserDefaults.standard.userLogin = user.login
         try? UserEntity.findOrCreate(user: user, context: context)
         return user
     }

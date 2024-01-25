@@ -8,12 +8,13 @@
 import Foundation
 
 /// Возвращается в запросах:
-/// getTitle, getTitles, getUpdates, getChanges, getRandomTitle, getFavorites
+/// title, title/list, title/random
 /// - Prefix `GT` = GetTitle
 struct TitleAPIModel: Decodable {
     let id: Int
     let code: String
     let names: GTNames
+    let franchises: [GTFranchises]
     let announce: String?
     let status: GTStatus?
     let posters: GTPosters
@@ -35,6 +36,23 @@ struct GTNames: Decodable {
     let alternative: String?
 }
 
+struct GTFranchises: Decodable {
+    let franchise: GTFranchise
+    let releases: [GTReleases]
+}
+
+struct GTFranchise: Decodable {
+    let id: String
+    let name: String
+}
+
+struct GTReleases: Decodable {
+    let id: Int
+    let code: String
+    let ordinal: Int
+    let names: GTNames
+}
+
 struct GTStatus: Decodable {
     let string: String?
     let code: Int?
@@ -54,7 +72,7 @@ struct GTType: Decodable {
     let fullString: String?
     let code: Int?
     let string: String?
-    let series: Int?
+    let episodes: Int?
     let length: Int?
 }
 
@@ -81,18 +99,20 @@ struct GTBlocked: Decodable {
 struct GTPlayer: Decodable {
     let alternativePlayer: String?
     let host: String?
-    let series: GTSeries?
-    let playlist: [GTPlaylist]?
+    let episodes: GTEpisodes?
+    let list: [GTPlaylist]?
 }
 
-struct GTSeries: Decodable {
+struct GTEpisodes: Decodable {
     let first: Double?
     let last: Double?
     let string: String?
 }
 
 struct GTPlaylist: Decodable {
-    let serie: Double?
+    let episode: Float?
+    let name: String?
+    let uuid: String?
     let createdTimestamp: Int?
     let preview: String?
     let skips: GTSkips

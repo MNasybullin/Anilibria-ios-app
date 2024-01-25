@@ -1,5 +1,5 @@
 //
-//  SeriesHeaderSupplementaryView.swift
+//  EpisodesHeaderSupplementaryView.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 31.10.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SeriesHeaderSupplementaryView: UITableViewHeaderFooterView {
+final class EpisodesHeaderSupplementaryView: UITableViewHeaderFooterView {
     private enum Constants {
         static let titleLabelFontSize: CGFloat = 16
     }
@@ -53,10 +53,10 @@ final class SeriesHeaderSupplementaryView: UITableViewHeaderFooterView {
 
 // MARK: - Internal methods
 
-extension SeriesHeaderSupplementaryView {
+extension EpisodesHeaderSupplementaryView {
     func configureTitleLabel(text: String?) {
         if let text {
-            titleLabel.text = text + " " + Strings.SeriesModule.series
+            titleLabel.text = text + " " + Strings.EpisodesModule.episodes
         }
     }
 }

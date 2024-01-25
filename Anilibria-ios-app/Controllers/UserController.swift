@@ -69,7 +69,7 @@ extension UserController: UserModelDelegate {
         DispatchQueue.main.async {
             self.isAuthorizationProgress = false
             self.customView.userInfoView.set(image: user.image)
-            self.customView.userInfoView.set(userName: user.name)
+            self.customView.userInfoView.set(userName: user.login)
             self.customView.hideSignInView(animated: true)
         }
     }
@@ -84,7 +84,7 @@ extension UserController: UserModelDelegate {
     func requestFromCoreDataSuccessful(user: UserItem) {
         DispatchQueue.main.async {
             self.customView.userInfoView.set(image: user.image)
-            self.customView.userInfoView.set(userName: user.name)
+            self.customView.userInfoView.set(userName: user.login)
             self.customView.hideSignInView(animated: false)
         }
     }

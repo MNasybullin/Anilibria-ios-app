@@ -1,5 +1,5 @@
 //
-//  SeriesContentController.swift
+//  EpisodesContentController.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 01.11.2023.
@@ -7,19 +7,19 @@
 
 import UIKit
 
-protocol SeriesContentControllerDelegate: AnyObject {
+protocol EpisodesContentControllerDelegate: AnyObject {
     func didSelectItem(animeItem: AnimeItem, currentPlaylist: Int)
 }
 
-final class SeriesContentController: NSObject {
-    weak var delegate: SeriesContentControllerDelegate?
-    weak var customView: SeriesView?
+final class EpisodesContentController: NSObject {
+    weak var delegate: EpisodesContentControllerDelegate?
+    weak var customView: EpisodesView?
     
-    let model: SeriesModel
+    let model: EpisodesModel
     var playlists: [Playlist] = []
     
     init(data: AnimeItem) {
-        self.model = SeriesModel(animeItem: data)
+        self.model = EpisodesModel(animeItem: data)
         super.init()
         
         model.imageModelDelegate = self
@@ -29,7 +29,7 @@ final class SeriesContentController: NSObject {
 
 // MARK: - Internal methods
 
-extension SeriesContentController {
+extension EpisodesContentController {
     func viewIsAppearing() {
         if model.hasWatchingEntity == false {
             model.requestWatchingEntity()
@@ -40,7 +40,7 @@ extension SeriesContentController {
 
 // MARK: - UITableViewDelegate
 
-extension SeriesContentController: UITableViewDelegate {
+extension EpisodesContentController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let animeItem = model.getAnimeItem()
@@ -50,13 +50,13 @@ extension SeriesContentController: UITableViewDelegate {
 
 // MARK: - UITableViewDataSource
 
-extension SeriesContentController: UITableViewDataSource {
+extension EpisodesContentController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: SeriesHeaderSupplementaryView.reuseIdentifier) as? SeriesHeaderSupplementaryView else {
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: EpisodesHeaderSupplementaryView.reuseIdentifier) as? EpisodesHeaderSupplementaryView else {
             fatalError("Can`t create new header")
         }
-        let seriesDescription = model.getSeriesDescription()
-        header.configureTitleLabel(text: seriesDescription)
+        let episodesDescription = model.getEpisodesDescription()
+        header.configureTitleLabel(text: episodesDescription)
         return header
     }
     
@@ -65,7 +65,7 @@ extension SeriesContentController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SeriesTableViewCell.reuseIdentifier, for: indexPath) as? SeriesTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EpisodesTableViewCell.reuseIdentifier, for: indexPath) as? EpisodesTableViewCell else {
             fatalError("Can`t create new cell")
         }
         let row = indexPath.row
@@ -76,7 +76,7 @@ extension SeriesContentController: UITableViewDataSource {
                 cell.setImage(image, urlString: item.previewUrl)
             }
         }
-        let watchingInfo = model.getWatchingInfo(forSerie: item.serie ?? -1)
+        let watchingInfo = model.getWatchingInfo(forEpisode: item.episode ?? -1)
         cell.configureCell(
             item: playlists[row],
             duration: watchingInfo?.duration,
@@ -87,7 +87,7 @@ extension SeriesContentController: UITableViewDataSource {
 
 // MARK: - UITableViewDataSourcePrefetching
 
-extension SeriesContentController: UITableViewDataSourcePrefetching {
+extension EpisodesContentController: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             let row = indexPath.row
@@ -101,7 +101,7 @@ extension SeriesContentController: UITableViewDataSourcePrefetching {
     }
 }
 
-extension SeriesContentController: ImageModelDelegate {
+extension EpisodesContentController: ImageModelDelegate {
     func failedRequestImage(error: Error) {
         print(#function, error)
     }

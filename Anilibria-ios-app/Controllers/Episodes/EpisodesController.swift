@@ -1,5 +1,5 @@
 //
-//  SeriesController.swift
+//  EpisodesController.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 31.10.2023.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-final class SeriesController: UIViewController, AnimeFlow, HasCustomView {
-    typealias CustomView = SeriesView
+final class EpisodesController: UIViewController, AnimeFlow, HasCustomView {
+    typealias CustomView = EpisodesView
     weak var navigator: AnimeNavigator?
     
-    let contentController: SeriesContentController
+    let contentController: EpisodesContentController
     
     // MARK: LifeCycle
     init(data: AnimeItem) {
-        contentController = SeriesContentController(data: data)
+        contentController = EpisodesContentController(data: data)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -24,7 +24,7 @@ final class SeriesController: UIViewController, AnimeFlow, HasCustomView {
     }
     
     override func loadView() {
-        view = SeriesView(delegate: contentController)
+        view = EpisodesView(delegate: contentController)
     }
     
     override func viewDidLoad() {
@@ -41,16 +41,16 @@ final class SeriesController: UIViewController, AnimeFlow, HasCustomView {
 
 // MARK: - Private methods
 
-private extension SeriesController {
+private extension EpisodesController {
     func setupContentController() {
         contentController.delegate = self
         contentController.customView = customView
     }
 }
 
-// MARK: - SeriesContentControllerDelegate
+// MARK: - EpisodesContentControllerDelegate
 
-extension SeriesController: SeriesContentControllerDelegate {
+extension EpisodesController: EpisodesContentControllerDelegate {
     func didSelectItem(animeItem: AnimeItem, currentPlaylist: Int) {
         navigator?.show(.videoPlayer(data: animeItem, currentPlaylist: currentPlaylist))
     }

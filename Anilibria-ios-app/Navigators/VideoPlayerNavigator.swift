@@ -34,7 +34,7 @@ extension VideoPlayerNavigator: Navigator {
             currentPlaylist: Int,
             presentatingController: UIViewController
         )
-        case series(
+        case episodes(
             data: AnimeItem,
             currentPlaylistNumber: Int,
             completionBlock: (Int) -> Void,
@@ -57,8 +57,8 @@ extension VideoPlayerNavigator: Navigator {
                     currentPlaylist: currentPlaylist,
                     presentatingController: presentatingController
                 )
-            case .series(let data, let currentPlaylistNumber, let completionBlock, let presentatingController):
-                setupAndShowSeries(
+            case .episodes(let data, let currentPlaylistNumber, let completionBlock, let presentatingController):
+                setupAndShowEpisodes(
                     data: data,
                     currentPlaylistNumber: currentPlaylistNumber,
                     completionBlock: completionBlock,
@@ -85,13 +85,13 @@ private extension VideoPlayerNavigator {
         presentatingController.present(player, animated: true)
     }
     
-    func setupAndShowSeries(data: AnimeItem, currentPlaylistNumber: Int, completionBlock: @escaping (Int) -> Void, presentatingController: UIViewController) {
-        let series = VideoPlayerSeriesController(
+    func setupAndShowEpisodes(data: AnimeItem, currentPlaylistNumber: Int, completionBlock: @escaping (Int) -> Void, presentatingController: UIViewController) {
+        let episodes = VideoPlayerEpisodesController(
             data: data,
             currentPlaylistNumber: currentPlaylistNumber,
             completionBlock: completionBlock
         )
-        let navigationController = UINavigationController(rootViewController: series)
+        let navigationController = UINavigationController(rootViewController: episodes)
         navigationController.navigationBar.standardAppearance.configureWithOpaqueBackground()
         if let sheetController = navigationController.sheetPresentationController {
             sheetController.detents = [.large()]

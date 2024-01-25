@@ -22,7 +22,7 @@ final class ScheduleModel: ImageModel {
     func requestData() {
         Task(priority: .userInitiated) {
             do {
-                let data = try await publicApiService.getSchedule(with: DaysOfTheWeek.allCases)
+                let data = try await publicApiService.titleSchedule(withDays: DaysOfTheWeek.allCases)
                 rawData = data
                 let scheduleItem = data.map { ScheduleItem(scheduleAPIModel: $0) }
                 scheduleModelOutput?.update(data: scheduleItem)

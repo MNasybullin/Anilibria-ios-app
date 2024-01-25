@@ -1,5 +1,5 @@
 //
-//  SeriesModel.swift
+//  EpisodesModel.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 01.11.2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class SeriesModel: ImageModel {
+final class EpisodesModel: ImageModel {
     private var animeItem: AnimeItem
     
     // MARK: CoreData Properties
@@ -27,11 +27,11 @@ final class SeriesModel: ImageModel {
 
 // MARK: - Internal methods
 
-extension SeriesModel {
+extension EpisodesModel {
     func requestWatchingEntity() {
-        guard let userId = UserDefaults.standard.userId else { return }
+        guard let userLogin = UserDefaults.standard.userLogin else { return }
         do {
-            let userEntity = try UserEntity.find(userId: userId, context: coreDataService.viewContext)
+            let userEntity = try UserEntity.find(userLogin: userLogin, context: coreDataService.viewContext)
             watchingEntity = try WatchingEntity.find(forUser: userEntity, animeId: animeItem.id, context: coreDataService.viewContext)
         } catch {
             print(error)
@@ -46,14 +46,14 @@ extension SeriesModel {
         return animeItem
     }
     
-    func getSeriesDescription() -> String? {
-        return animeItem.series?.string
+    func getEpisodesDescription() -> String? {
+        return animeItem.episodes?.string
     }
     
-    func getWatchingInfo(forSerie serie: Double) -> (duration: Double, playbackTime: Double)? {
-        guard let serieEntities = watchingEntity?.series as? Set<SeriesEntity>, serieEntities.isEmpty == false else { return nil }
+    func getWatchingInfo(forEpisode episode: Float) -> (duration: Double, playbackTime: Double)? {
+        guard let episodesEntities = watchingEntity?.episodes as? Set<EpisodesEntity>, episodesEntities.isEmpty == false else { return nil }
         
-        guard let result = serieEntities.filter({ $0.numberOfSerie == serie }).first else { return nil }
+        guard let result = episodesEntities.filter({ $0.numberOfEpisode == episode }).first else { return nil }
         return (result.duration, result.playbackPosition)
     }
 }
