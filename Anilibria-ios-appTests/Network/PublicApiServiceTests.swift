@@ -126,4 +126,24 @@ class PublicApiServiceTests: XCTestCase {
             }
         }
     }
+    
+    func testTitleFranchises() async throws {
+        do {
+            _ = try await publicApiService.titleFranchises(id: 8500)
+        } catch {
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
+        }
+    }
+    
+    func testFranchiseList() async throws {
+        do {
+            _ = try await publicApiService.franchiseList(page: 1)
+        } catch {
+            ErrorProcessing.shared.handle(error: error) { message in
+                XCTFail(message)
+            }
+        }
+    }
 }

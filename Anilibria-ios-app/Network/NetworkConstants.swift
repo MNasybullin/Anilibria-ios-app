@@ -22,6 +22,8 @@ enum NetworkConstants {
     static let titleSchedule = "/v3/title/schedule"
     static let titleRandom = "/v3/title/random"
     static let titleSearch = "/v3/title/search"
+    static let titleFranchises = "/v3/title/franchises"
+    static let franchiseList = "/v3/franchise/list"
     static let years = "/v3/years"
     static let genres = "/v3/genres"
     static let team = "/v3/team"

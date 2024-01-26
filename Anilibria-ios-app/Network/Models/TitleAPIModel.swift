@@ -14,7 +14,7 @@ struct TitleAPIModel: Decodable {
     let id: Int
     let code: String
     let names: GTNames
-    let franchises: [GTFranchises]
+    let franchises: [FranchisesAPIModel]
     let announce: String?
     let status: GTStatus?
     let posters: GTPosters
@@ -34,23 +34,6 @@ struct GTNames: Decodable {
     let ru: String
     let en: String?
     let alternative: String?
-}
-
-struct GTFranchises: Decodable {
-    let franchise: GTFranchise
-    let releases: [GTReleases]
-}
-
-struct GTFranchise: Decodable {
-    let id: String
-    let name: String
-}
-
-struct GTReleases: Decodable {
-    let id: Int
-    let code: String
-    let ordinal: Int
-    let names: GTNames
 }
 
 struct GTStatus: Decodable {

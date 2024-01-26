@@ -190,4 +190,35 @@ final class PublicApiService: NetworkQuery {
         let decoded = try jsonDecoder.decode(ListAPIModel<TitleAPIModel>.self, from: data)
         return decoded
     }
+    
+    /// Получить информацию о франшизе по ID тайтла
+    /// - Parameters:
+    ///     - id: ID тайтла
+    func titleFranchises(id: Int) async throws -> [FranchisesAPIModel] {
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.titleFranchises)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "id", value: String(id))
+        ]
+        
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
+        let decoded = try jsonDecoder.decode([FranchisesAPIModel].self, from: data)
+        return decoded
+    }
+
+    /// Получить список всех франшиз
+    /// - Parameters:
+    ///     - page: Номер страницы для запроса
+    ///     - itemsPerPage: Количество запрашиваемых объектов на странице (По умолчанию 5)
+    func franchiseList(page: Int,
+                       itemsPerPage: Int = 5) async throws -> ListAPIModel<FranchisesAPIModel> {
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.franchiseList)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "page", value: String(page)),
+            URLQueryItem(name: "items_per_page", value: String(itemsPerPage))
+        ]
+        
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
+        let decoded = try jsonDecoder.decode(ListAPIModel<FranchisesAPIModel>.self, from: data)
+        return decoded
+    }
 }
