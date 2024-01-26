@@ -7,6 +7,6 @@
 
 import Foundation
 
-final class TodayHomePosterCollectionCell: HomePosterCollectionViewCell {
+final class TodayHomePosterCollectionCell: PosterCollectionViewCell {
     
 }

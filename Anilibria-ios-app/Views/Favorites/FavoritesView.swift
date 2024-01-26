@@ -103,8 +103,8 @@ private extension FavoritesView {
     
     func setupCollectionView() {
         collectionView.register(
-            HomePosterCollectionViewCell.self,
-            forCellWithReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier)
+            PosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: PosterCollectionViewCell.reuseIdentifier)
         
         collectionView.isSkeletonable = true
     }

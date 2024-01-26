@@ -67,8 +67,8 @@ private extension HomeView {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         // For SkeletonView
         collectionView.register(
-            HomePosterCollectionViewCell.self,
-            forCellWithReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier)
+            PosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: PosterCollectionViewCell.reuseIdentifier)
         
         collectionView.register(
             TodayHomePosterCollectionCell.self,

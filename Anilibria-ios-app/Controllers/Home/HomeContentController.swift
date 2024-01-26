@@ -136,7 +136,7 @@ extension HomeContentController: UICollectionViewDataSource {
         guard let sectionType = Section(rawValue: indexPath.section) else {
             fatalError("Section is not found")
         }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: sectionType.reuseIdentifier, for: indexPath) as? HomePosterCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: sectionType.reuseIdentifier, for: indexPath) as? PosterCollectionViewCell else {
             fatalError("Can`t create new cell")
         }
         let section = indexPath.section
@@ -165,7 +165,7 @@ extension HomeContentController: SkeletonCollectionViewDataSource {
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return HomePosterCollectionViewCell.reuseIdentifier
+        return PosterCollectionViewCell.reuseIdentifier
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

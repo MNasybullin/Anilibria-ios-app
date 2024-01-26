@@ -1,5 +1,5 @@
 //
-//  HomePosterCollectionViewCell.swift
+//  PosterCollectionViewCell.swift
 //  Anilibria-ios-app
 //
 //  Created by Mansur Nasybullin on 16.10.2023.
@@ -8,7 +8,7 @@
 import UIKit
 import SkeletonView
 
-class HomePosterCollectionViewCell: UICollectionViewCell {
+class PosterCollectionViewCell: UICollectionViewCell {
     private enum Constants {
         static let stackSpacing: CGFloat = 6
         static let imageViewCornerRadius: CGFloat = 12
@@ -69,7 +69,7 @@ class HomePosterCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Private methods
 
-private extension HomePosterCollectionViewCell {
+private extension PosterCollectionViewCell {
     private func configureView() {
         backgroundColor = .systemBackground
         isSkeletonable = true
@@ -98,7 +98,7 @@ private extension HomePosterCollectionViewCell {
 
 // MARK: - Internal methods
 
-extension HomePosterCollectionViewCell {
+extension PosterCollectionViewCell {
     func configureCell(item: HomePosterItem) {
         if sk.isSkeletonActive == true {
             hideSkeleton(reloadDataAfter: false)

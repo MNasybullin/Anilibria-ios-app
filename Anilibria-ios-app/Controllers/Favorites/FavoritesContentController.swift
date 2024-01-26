@@ -79,8 +79,8 @@ private extension FavoritesContentController {
             collectionView: customView.collectionView,
             cellProvider: { [weak self] (collectionView, indexPath, _) -> UICollectionViewCell? in
                 let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier,
-                    for: indexPath) as? HomePosterCollectionViewCell
+                    withReuseIdentifier: PosterCollectionViewCell.reuseIdentifier,
+                    for: indexPath) as? PosterCollectionViewCell
                 guard let item = self?.data[indexPath.row] else { return cell }
                 if item.image == nil {
                     self?.model.requestImage(from: item.imageUrlString) { image in
