@@ -65,4 +65,8 @@ extension AnimeModel {
     func delFavorite() async throws {
         try await favoriteModel.delFavorite(title: rawData)
     }
+    
+    func getFranchises() -> [FranchisesAPIModel] {
+        rawData.franchises
+    }
 }

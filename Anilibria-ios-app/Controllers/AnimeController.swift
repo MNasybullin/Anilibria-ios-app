@@ -11,6 +11,7 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     typealias CustomView = AnimeView
     weak var navigator: AnimeNavigator?
     
+    private var franchiseController: FranchiseController?
     private let model: AnimeModel
     
     // MARK: LifeCycle
@@ -32,7 +33,9 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureNavigationItem()
+        setupFranchiseController()
     }
         
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +70,18 @@ private extension AnimeController {
                 customView.favoriteButtonShowActivityIndicator = false
             }
         }
+    }
+    
+    func setupFranchiseController() {
+        let franchises = model.getFranchises()
+        guard franchises.isEmpty == false else { return }
+        franchiseController = FranchiseController(franchisesData: franchises)
+        
+        addChild(franchiseController!)
+        
+        customView.appendFranchiseView(franchiseController!.customView)
+        
+        franchiseController!.didMove(toParent: self)
     }
 }
 

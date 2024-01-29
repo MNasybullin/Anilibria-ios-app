@@ -70,8 +70,8 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    private (set) lazy var animeEpisodesView = AnimeEpisodesView()
     private lazy var animeTeamInfoView = AnimeTeamInfoView()
+    private (set) lazy var animeEpisodesView = AnimeEpisodesView()
     
     init() {
         super.init(frame: .zero)

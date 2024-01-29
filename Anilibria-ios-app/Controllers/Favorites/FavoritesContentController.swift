@@ -29,7 +29,11 @@ final class FavoritesContentController: NSObject {
                 
         static func == (lhs: Status, rhs: Status) -> Bool {
             switch (lhs, rhs) {
-                case (.normal, .normal), (.loading, .loading), (.error, .error):
+                case (.normal, .normal), 
+                    (.loading, .loading),
+                    (.favoritesIsEmpty, .favoritesIsEmpty),
+                    (.userIsNotAuthorized, .userIsNotAuthorized),
+                    (.error, .error):
                     return true
                 default:
                     return false

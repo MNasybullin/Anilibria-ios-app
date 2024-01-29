@@ -169,6 +169,10 @@ extension AnimeView {
         get { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator }
         set { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator = newValue }
     }
+    
+    func appendFranchiseView(_ franchiseView: FranchiseView) {
+        contentVStack.addArrangedSubview(franchiseView)
+    }
 }
 
 // MARK: - UINavigationBarDelegate
