@@ -31,4 +31,9 @@ final class FranchiseController: UIViewController, HasCustomView {
         
         contentController = FranchiseContentController(franchisesData: franchisesData, customView: customView)
     }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        customView.manualUpdateConstraints()
+    }
 }

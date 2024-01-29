@@ -8,12 +8,15 @@
 import UIKit
 
 final class FranchiseView: UIView {
+    enum ElementKind {
+        static let sectionHeader = "section-header-element-kind"
+    }
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Франшизы:"
+        label.text = "Порядок просмотра:"
         label.textColor = .label
-        let size = UIFont.preferredFont(forTextStyle: .title2).pointSize
+        let size = UIFont.preferredFont(forTextStyle: .headline).pointSize
         label.font = UIFont.systemFont(ofSize: size, weight: .medium)
         return label
     }()
@@ -47,6 +50,10 @@ private extension FranchiseView {
         collectionView.register(
             PosterCollectionViewCell.self,
             forCellWithReuseIdentifier: PosterCollectionViewCell.reuseIdentifier)
+        collectionView.register(
+            FranchiseHeaderSupplementaryView.self,
+            forSupplementaryViewOfKind: ElementKind.sectionHeader,
+            withReuseIdentifier: FranchiseHeaderSupplementaryView.reuseIdentifier)
         
         collectionView.isSkeletonable = true
     }
@@ -74,14 +81,10 @@ private extension FranchiseView {
     
     func updateHeightConstraint() {
         let size = collectionView.collectionViewLayout.collectionViewContentSize
-        guard heightConstraint.constant != size.height && size.height != 0 else {
+        guard heightConstraint.constant < size.height else {
             return
         }
-        guard heightConstraint.constant < size.height else { return }
         self.heightConstraint.constant = size.height
-//        UIView.animate(withDuration: 0.25, delay: .zero, options: .allowUserInteraction) {
-//            self.heightConstraint.constant = size.height
-//        }
     }
 }
 
@@ -104,7 +107,6 @@ extension FranchiseView {
         }, completion: { [weak self] isFinished in
             if isFinished {
                 self?.updateHeightConstraint()
-                self?.layoutIfNeeded()
             }
         })
     }

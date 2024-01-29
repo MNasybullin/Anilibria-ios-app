@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct HomePosterItem: Hashable {
+struct HomePosterItem: PosterItem, Hashable {
     let name: String
     let imageUrlString: String
     var image: UIImage?

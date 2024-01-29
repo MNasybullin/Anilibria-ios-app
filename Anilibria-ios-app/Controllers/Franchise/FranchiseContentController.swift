@@ -9,8 +9,8 @@ import UIKit
 
 @MainActor
 final class FranchiseContentController: NSObject {
-    typealias DataSource = UICollectionViewDiffableDataSource<String, HomePosterItem>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<String, HomePosterItem>
+    typealias DataSource = UICollectionViewDiffableDataSource<String, FranchisePosterItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<String, FranchisePosterItem>
         
     enum Status {
         case normal
@@ -32,11 +32,11 @@ final class FranchiseContentController: NSObject {
     
     weak var customView: FranchiseView!
     
-    private var section: [String] = []
+    private var sectionIdentifier: [String] = []
     private var status: Status = .normal
     private lazy var dataSource = makeDataSource()
     private let model: FranchiseModel
-    private var data: [[HomePosterItem]] = [[]]
+    private var data: [[FranchisePosterItem]] = [[]]
     
     init(franchisesData: [FranchisesAPIModel], customView: FranchiseView!) {
         self.customView = customView
@@ -46,6 +46,7 @@ final class FranchiseContentController: NSObject {
         customView.collectionView.delegate = self
         customView.collectionView.prefetchDataSource = self
         
+        setupSupplementaryViewProvider()
         initialSnapshot()
         loadData()
     }
@@ -73,15 +74,16 @@ private extension FranchiseContentController {
                 cell?.configureCell(item: item)
                 return cell
             })
+        dataSource.numberOfSections = model.getNumberOfSections()
         return dataSource
     }
     
     func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        print("count = ", data.count)
+        
         data.forEach { items in
             let section: String = UUID().uuidString
-            self.section.append(section)
+            self.sectionIdentifier.append(section)
             snapshot.appendSections([section])
             snapshot.appendItems(items, toSection: section)
         }
@@ -91,15 +93,14 @@ private extension FranchiseContentController {
         }
     }
     
+    /// For SkeletonView
     func initialSnapshot() {
-        data.append([HomePosterItem(name: "Skeleton", imageUrlString: "")])
+        data.append([FranchisePosterItem(name: "Skeleton", imageUrlString: "", sectionName: "Skeleton")])
         var snapshot = Snapshot()
         snapshot.appendSections([UUID().uuidString])
         snapshot.appendItems(data[0])
 
-        dataSource.apply(snapshot, animatingDifferences: false) { [weak self] in
-            self?.customView.manualUpdateConstraints()
-        }
+        dataSource.apply(snapshot, animatingDifferences: false)
         customView.showCollectionViewSkeleton()
     }
     
@@ -120,6 +121,17 @@ private extension FranchiseContentController {
                 status = .normal
                 print(error)
             }
+        }
+    }
+    
+    func setupSupplementaryViewProvider() {
+        dataSource.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath) in
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FranchiseHeaderSupplementaryView.reuseIdentifier, for: indexPath) as? FranchiseHeaderSupplementaryView else {
+                fatalError("Header is not FranchiseHeaderSupplementaryView")
+            }
+            let title = self?.data[indexPath.section].first?.sectionName ?? ""
+            headerView.configureView(title: title)
+            return headerView
         }
     }
 }

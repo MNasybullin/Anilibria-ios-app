@@ -8,6 +8,8 @@
 import UIKit
 
 final class FranchiseCollectionViewLayout {
+    typealias ElementKind = FranchiseView.ElementKind
+    
     func createLayout() -> UICollectionViewLayout {
         let section = configureSection()
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -40,17 +42,16 @@ final class FranchiseCollectionViewLayout {
             trailing: 0)
         section.orthogonalScrollingBehavior = .continuous
         
-//        let headerSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(1.0),
-//            heightDimension: .estimated(40))
-//        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-//            layoutSize: headerSize,
-//            elementKind: ElementKind.sectionHeader,
-//            alignment: .top)
-//        sectionHeader.pinToVisibleBounds = true
-//        sectionHeader.zIndex = 2
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(40))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: ElementKind.sectionHeader,
+            alignment: .top)
+        sectionHeader.contentInsets = .init(top: 0, leading: 8, bottom: 8, trailing: 0)
         
-//        section.boundarySupplementaryItems = [sectionHeader]
+        section.boundarySupplementaryItems = [sectionHeader]
         
         return section
     }

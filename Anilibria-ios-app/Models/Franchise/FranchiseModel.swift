@@ -31,14 +31,14 @@ private extension FranchiseModel {
         return titleIds
     }
     
-    func getPosterItems(from titles: [TitleAPIModel]) -> [[HomePosterItem]] {
-        var posterItems = [[HomePosterItem]]()
+    func getPosterItems(from titles: [TitleAPIModel]) -> [[FranchisePosterItem]] {
+        var posterItems = [[FranchisePosterItem]]()
         
         franchisesData.forEach { franchise in
-            var indexPosterItem = [HomePosterItem]()
+            var indexPosterItem = [FranchisePosterItem]()
             franchise.releases.forEach { release in
                 let title = titles.first(where: { $0.id == release.id })!
-                indexPosterItem.append(HomePosterItem(fromTitleAPIModel: title))
+                indexPosterItem.append(FranchisePosterItem(fromTitleAPIModel: title, sectionName: franchise.franchise.name))
             }
             posterItems.append(indexPosterItem)
         }
@@ -50,11 +50,15 @@ private extension FranchiseModel {
 // MARK: - Internal Methods
 
 extension FranchiseModel {
-    func getFranchisesTitles() async throws -> [[HomePosterItem]] {
+    func getFranchisesTitles() async throws -> [[FranchisePosterItem]] {
         let titleIds = getTitleIds()
         let titles = try await publicAPIService.titleList(ids: titleIds)
         titlesData = titles
-        var posterItems = getPosterItems(from: titles)
+        let posterItems = getPosterItems(from: titles)
         return posterItems
+    }
+    
+    func getNumberOfSections() -> Int {
+        franchisesData.count
     }
 }

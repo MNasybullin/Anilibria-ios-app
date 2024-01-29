@@ -99,7 +99,7 @@ private extension PosterCollectionViewCell {
 // MARK: - Internal methods
 
 extension PosterCollectionViewCell {
-    func configureCell(item: HomePosterItem) {
+    func configureCell(item: any PosterItem) {
         if sk.isSkeletonActive == true {
             hideSkeleton(reloadDataAfter: false)
         }
