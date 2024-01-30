@@ -76,6 +76,7 @@ private extension AnimeController {
         let franchises = model.getFranchises()
         guard franchises.isEmpty == false else { return }
         franchiseController = FranchiseController(franchisesData: franchises)
+        franchiseController?.delegate = self
         
         addChild(franchiseController!)
         
@@ -170,5 +171,11 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
         let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
         activityViewController.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
         present(activityViewController, animated: true, completion: nil)
+    }
+}
+
+extension AnimeController: FranchiseControllerDelegate {
+    func showAnime(data: TitleAPIModel, image: UIImage?) {
+        navigator?.show(.anime(data: data, image: image))
     }
 }

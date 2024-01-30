@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol FranchiseControllerDelegate: AnyObject {
+    func showAnime(data: TitleAPIModel, image: UIImage?)
+}
+
 final class FranchiseController: UIViewController, HasCustomView {
     typealias CustomView = FranchiseView
+    
+    weak var delegate: FranchiseControllerDelegate?
     
     private var contentController: FranchiseContentController!
     private let franchisesData: [FranchisesAPIModel]
@@ -29,11 +35,26 @@ final class FranchiseController: UIViewController, HasCustomView {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentController = FranchiseContentController(franchisesData: franchisesData, customView: customView)
+        setupContentController()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         customView.manualUpdateConstraints()
+    }
+}
+
+// MARK: - Private methods
+
+private extension FranchiseController {
+    func setupContentController() {
+        contentController = FranchiseContentController(franchisesData: franchisesData, customView: customView)
+        contentController.delegate = self
+    }
+}
+
+extension FranchiseController: FranchiseContentControllerDelegate {
+    func didSelectItem(data: TitleAPIModel, image: UIImage?) {
+        delegate?.showAnime(data: data, image: image)
     }
 }

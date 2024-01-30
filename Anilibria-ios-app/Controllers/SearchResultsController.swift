@@ -189,7 +189,7 @@ extension SearchResultsController: SearchResultsModelDelegate {
             if afterValue != 0 {
                 self.status = .loadingMoreFail
             } else {
-                print(#function)
+                print(error)
             }
         }
     }

@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol FranchiseContentControllerDelegate: AnyObject {
+    func didSelectItem(data: TitleAPIModel, image: UIImage?)
+}
+
 @MainActor
 final class FranchiseContentController: NSObject {
     typealias DataSource = UICollectionViewDiffableDataSource<String, FranchisePosterItem>
@@ -31,6 +35,7 @@ final class FranchiseContentController: NSObject {
     }
     
     weak var customView: FranchiseView!
+    weak var delegate: FranchiseContentControllerDelegate?
     
     private var sectionIdentifier: [String] = []
     private var status: Status = .normal
@@ -95,7 +100,7 @@ private extension FranchiseContentController {
     
     /// For SkeletonView
     func initialSnapshot() {
-        data.append([FranchisePosterItem(name: "Skeleton", imageUrlString: "", sectionName: "Skeleton")])
+        data.append([FranchisePosterItem(id: -1, name: "Skeleton", imageUrlString: "", sectionName: "Skeleton")])
         var snapshot = Snapshot()
         snapshot.appendSections([UUID().uuidString])
         snapshot.appendItems(data[0])
@@ -140,7 +145,17 @@ private extension FranchiseContentController {
 
 extension FranchiseContentController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("select ", indexPath)
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let section = indexPath.section
+        let row = indexPath.row
+        let posterItem = data[section][row]
+        
+        guard let item = model.getTitleAPIModel(forID: posterItem.id) else {
+            print("Selected item is not found")
+            return
+        }
+        delegate?.didSelectItem(data: item, image: posterItem.image)
     }
 }
 

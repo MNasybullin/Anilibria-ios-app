@@ -61,4 +61,8 @@ extension FranchiseModel {
     func getNumberOfSections() -> Int {
         franchisesData.count
     }
+    
+    func getTitleAPIModel(forID id: Int) -> TitleAPIModel? {
+        titlesData?.first(where: { $0.id == id })
+    }
 }

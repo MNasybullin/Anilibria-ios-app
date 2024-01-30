@@ -32,12 +32,17 @@ extension AnimeNavigator: BasicNavigator {
 
 extension AnimeNavigator: Navigator {
     enum Destinition {
+        case anime(data: TitleAPIModel, image: UIImage?)
         case episodes(data: AnimeItem)
         case videoPlayer(data: AnimeItem, currentPlaylist: Int)
     }
     
     func show(_ destination: Destinition) {
         switch destination {
+            case .anime(let data, let image):
+                let animeController = AnimeController(rawData: data, image: image)
+                animeController.navigator = self
+                navigationController.pushViewController(animeController, animated: true)
             case .episodes(let data):
                 let episodes = EpisodesController(data: data)
                 episodes.title = data.ruName
