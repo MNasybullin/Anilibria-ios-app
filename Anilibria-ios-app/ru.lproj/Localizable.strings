@@ -129,6 +129,9 @@
 "RandomAnimeModule.title.randomAnime" = "Случайное аниме";
 "RandomAnimeModule.image.refresh" = "arrow.clockwise";
 
+// MARK: - Franchise Module
+"FranchiseModule.headerTitle.franchiseViewingOrder" = "Порядок просмотра франшизы:";
+
 
 // MARK: - Skeleton Text Placeholder
 "SkeletonTextPlaceholder" = "Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder";

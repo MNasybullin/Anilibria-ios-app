@@ -34,6 +34,7 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavBar()
         configureNavigationItem()
         setupFranchiseController()
     }
@@ -46,17 +47,39 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        if !isPopedAnimeController() {
+            navigationController?.setNavigationBarHidden(false, animated: true)
+        }
     }
-    
-    private func configureNavigationItem() {
-        navigationItem.backButtonTitle = ""
-    }
+
 }
 
 // MARK: - Private methods
 
 private extension AnimeController {
+    private func configureNavBar() {
+        fd_prefersNavigationBarHidden = true
+    }
+    
+    func configureNavigationItem() {
+        navigationItem.backButtonTitle = ""
+    }
+    /// Only For viewWillDisappear !
+    func isPopedAnimeController() -> Bool {
+        if let viewControllers = navigationController?.viewControllers, viewControllers.count >= 1 {
+            let previousViewController = viewControllers[viewControllers.count - 1]
+            
+            if previousViewController is AnimeController {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            // Нет предыдущего контроллера или не удается получить информацию
+            return false
+        }
+    }
+    
     func checkFavoriteStatus() {
         Task(priority: .userInitiated) {
             do {

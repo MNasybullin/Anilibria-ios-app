@@ -432,6 +432,15 @@
 			path = Franchise;
 			sourceTree = "<group>";
 		};
+		27103DC92B68F15600B4CA49 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				27B707192AF3A56800DD8DC6 /* SearchResultsController.swift */,
+				27B707152AF2ABAB00DD8DC6 /* SearchController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		271072E12ADDD77C0024530D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -656,8 +665,7 @@
 				275865BE2ADADBF400F98884 /* UserController.swift */,
 				2748DD032AEC2ABA00D53E9B /* AnimeController.swift */,
 				27B7070A2AF290A900DD8DC6 /* RandomAnimeController.swift */,
-				27B707192AF3A56800DD8DC6 /* SearchResultsController.swift */,
-				27B707152AF2ABAB00DD8DC6 /* SearchController.swift */,
+				27103DC92B68F15600B4CA49 /* Search */,
 				277513F02B63F35600947AED /* Franchise */,
 				276880CF2B49C28000F5FD06 /* Favorites */,
 				27AB03F92B2851050007E750 /* YouTube */,

@@ -14,7 +14,7 @@ final class FranchiseView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Порядок просмотра:"
+        label.text = Strings.FranchiseModule.HeaderTitle.franchiseViewingOrder
         label.textColor = .label
         let size = UIFont.preferredFont(forTextStyle: .headline).pointSize
         label.font = UIFont.systemFont(ofSize: size, weight: .medium)
