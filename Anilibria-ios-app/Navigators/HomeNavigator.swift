@@ -12,14 +12,16 @@ protocol HomeFlow: AnyObject {
     var navigator: HomeNavigator? { get set }
 }
 
-final class HomeNavigator {
+final class HomeNavigator: NSObject {
     private let navigationController: UINavigationController
     private var subNavigators: [BasicNavigator] = []
     
-    init() {
+    override init() {
         let rootViewController = HomeController()
         
         navigationController = HomeNavigator.createNavigationController(for: rootViewController)
+        super.init()
+        navigationController.delegate = self
         
         rootViewController.navigator = self
     }
@@ -89,5 +91,13 @@ extension HomeNavigator: Navigator {
                 viewController = youTubeController
         }
         return viewController
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+
+extension HomeNavigator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        AnimeAnimator(type: operation, from: fromVC, to: toVC)
     }
 }

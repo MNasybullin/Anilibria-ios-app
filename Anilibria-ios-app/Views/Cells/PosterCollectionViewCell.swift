@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 class PosterCollectionViewCell: UICollectionViewCell {
-    private enum Constants {
+    enum Constants {
         static let stackSpacing: CGFloat = 6
         static let imageViewCornerRadius: CGFloat = 12
         static let titleLabelFontSize: CGFloat = 16
@@ -29,7 +29,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    private lazy var imageView: UIImageView = {
+    private (set) lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constants.imageViewCornerRadius

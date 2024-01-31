@@ -8,13 +8,13 @@
 import UIKit
 
 final class AnimeImageView: UIView {
-    private lazy var backgroundImageView: UIImageView = {
+    private (set) lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(asset: Asset.Assets.blankImage)
         return imageView
     }()
     
-    private lazy var imageView: UIImageView = {
+    private (set) lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(asset: Asset.Assets.blankImage)
         return imageView
