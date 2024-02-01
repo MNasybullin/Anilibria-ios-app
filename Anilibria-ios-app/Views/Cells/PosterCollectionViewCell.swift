@@ -39,7 +39,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private (set) lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
                                        weight: .medium)

@@ -21,7 +21,7 @@ final class AnimeView: UIView {
         stack.axis = .vertical
         return stack
     }()
-    private lazy var animeInfoView = AnimeInfoView()
+    private (set) lazy var animeInfoView = AnimeInfoView()
     
     private let animeName: String
     

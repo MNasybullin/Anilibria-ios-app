@@ -58,19 +58,22 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         
-        guard let toView = transitionContext.view(forKey: .to) else {
+        guard let toView = transitionContext.view(forKey: .to),
+                let toViewSnapshot = toView.snapshotView(afterScreenUpdates: true) else {
             transitionContext.completeTransition(false)
             return
         }
         containerView.addSubview(toView)
-        toView.layoutIfNeeded()
+        if isPresenting {
+            toView.layoutIfNeeded()
+        }
         
         guard let cellImageSnapshot = selectedCell.imageView.snapshotView(afterScreenUpdates: true),
-              let controllerImageViewSnapshot = animeController.customView.animeImageView.imageView.snapshotView(afterScreenUpdates: true),
-              let homeControllerViewSnapshot = homeController.view.snapshotView(afterScreenUpdates: true),
-              let animeControllerViewSnapshot = animeController.view.snapshotView(afterScreenUpdates: true),
-              let windowViewSnapshot = window.snapshotView(afterScreenUpdates: false),
-              let controllerBackgroundImageViewSnapshot = animeController.customView.animeImageView.backgroundImageView.snapshotView(afterScreenUpdates: true) else {
+                let controllerImageViewSnapshot = animeController.customView.animeImageView.imageView.snapshotView(afterScreenUpdates: true),
+                let homeControllerViewSnapshot = homeController.view.snapshotView(afterScreenUpdates: true),
+                let animeControllerViewSnapshot = animeController.view.snapshotView(afterScreenUpdates: true),
+                let windowViewSnapshot = window.snapshotView(afterScreenUpdates: false),
+                let controllerBackgroundImageViewSnapshot = animeController.customView.animeImageView.backgroundImageView.snapshotView(afterScreenUpdates: true) else {
             transitionContext.completeTransition(true)
             return
         }
@@ -86,7 +89,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         if isPresenting {
             backgroundView = windowViewSnapshot
             backgroundView.addSubview(removeCellView)
-            fadeView = toView.snapshotView(afterScreenUpdates: true)!
+            fadeView = toViewSnapshot
             fadeView.addSubview(controllerBackgroundImageViewSnapshot)
             backgroundView.addSubview(fadeView)
         } else {
