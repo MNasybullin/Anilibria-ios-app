@@ -63,8 +63,8 @@ final class HomeCollectionViewLayout {
             layoutSize: headerSize,
             elementKind: ElementKind.sectionHeader,
             alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
-        sectionHeader.zIndex = 2
+//        sectionHeader.pinToVisibleBounds = true
+//        sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
         
@@ -105,8 +105,8 @@ final class HomeCollectionViewLayout {
             layoutSize: headerSize,
             elementKind: ElementKind.sectionHeader,
             alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
-        sectionHeader.zIndex = 2
+//        sectionHeader.pinToVisibleBounds = true
+//        sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
         
@@ -147,8 +147,8 @@ final class HomeCollectionViewLayout {
             layoutSize: headerSize,
             elementKind: ElementKind.sectionHeader,
             alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
-        sectionHeader.zIndex = 2
+//        sectionHeader.pinToVisibleBounds = true
+//        sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
         

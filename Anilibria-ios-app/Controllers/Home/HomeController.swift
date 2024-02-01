@@ -15,6 +15,8 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
     // MARK: Transition properties
     var selectedCell: PosterCollectionViewCell?
     var selectedCellImageViewSnapshot: UIView?
+    var navigationViewSnapshot: UIView?
+    var navBarViewSnapshot: UIView?
     
     private lazy var contentController = HomeContentController(delegate: self)
     
@@ -91,6 +93,8 @@ extension HomeController: HomeContentControllerDelegate {
         
         self.selectedCell = selectedCell
         self.selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
+        self.navigationViewSnapshot = navigationController?.view.snapshotView(afterScreenUpdates: false)
+        self.navBarViewSnapshot = navigationController?.navigationBar.snapshotView(afterScreenUpdates: false)
         
         switch section {
             case .today, .updates:

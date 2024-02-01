@@ -58,21 +58,21 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         
-        guard let toView = isPresenting ? animeController.view : homeController.view
-            else {
-                transitionContext.completeTransition(false)
-                return
+        guard let toView = isPresenting ? animeController.view : homeController.view else {
+            transitionContext.completeTransition(false)
+            return
         }
-        toView.alpha = 0
+        
         containerView.addSubview(toView)
+        toView.layoutIfNeeded()
         
         guard let cellImageSnapshot = selectedCell.imageView.snapshotView(afterScreenUpdates: true),
               let controllerImageViewSnapshot = animeController.customView.animeImageView.imageView.snapshotView(afterScreenUpdates: true),
               let homeControllerViewSnapshot = homeController.view.snapshotView(afterScreenUpdates: true),
               let animeControllerViewSnapshot = animeController.view.snapshotView(afterScreenUpdates: true),
               let windowViewSnapshot = window.snapshotView(afterScreenUpdates: false),
-//              let homeNavBarSnapshot = homeController.navigationController?.view.snapshotView(afterScreenUpdates: false),
-//              let animeNavBarSnapshot = animeController.navigationController?.navigationBar.snapshotView(afterScreenUpdates: false),
+              let homeNavViewSnapshot = homeController.navigationViewSnapshot,
+              let homeNavBarViewSnapshot = homeController.navBarViewSnapshot,
               let controllerBackgroundImageViewSnapshot = animeController.customView.animeImageView.backgroundImageView.snapshotView(afterScreenUpdates: true) else {
             transitionContext.completeTransition(true)
             return
@@ -84,24 +84,29 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         controllerBackgroundImageViewSnapshot.frame = controllerBackgroundImageViewRect
         
         let backgroundView: UIView
+        let fadeView: UIView
+        
         if isPresenting {
             let removeCellView = UIView(frame: selectedCellImageViewRect)
             removeCellView.backgroundColor = homeController.view.backgroundColor
-            backgroundView = windowViewSnapshot
+            backgroundView = homeNavViewSnapshot
             backgroundView.addSubview(removeCellView)
+            fadeView = toView.snapshotView(afterScreenUpdates: true)!
+            fadeView.addSubview(controllerBackgroundImageViewSnapshot)
+            backgroundView.addSubview(fadeView)
         } else {
-            backgroundView = windowViewSnapshot
-            let controllerBackgroundImageViewRect = animeController.customView.animeImageView.backgroundImageView.convert(animeController.customView.animeImageView.backgroundImageView.bounds, to: animeControllerViewSnapshot)
-            controllerBackgroundImageViewSnapshot.frame = controllerBackgroundImageViewRect
-            backgroundView.addSubview(controllerBackgroundImageViewSnapshot)
+            backgroundView = homeNavViewSnapshot
+            backgroundView.addSubview(homeNavBarViewSnapshot)
+            backgroundView.addSubview(homeControllerViewSnapshot)
+            backgroundView.addSubview(removeCellView)
+            
+            fadeView = animeControllerViewSnapshot
+            fadeView.addSubview(controllerBackgroundImageViewSnapshot)
+            backgroundView.addSubview(fadeView)
         }
+        fadeView.alpha = isPresenting ? 0 : 1
         
-        let imageViewSnapshot: UIView
-        if isPresenting {
-            imageViewSnapshot = cellImageSnapshot
-        } else {
-            imageViewSnapshot = controllerImageViewSnapshot
-        }
+        let imageViewSnapshot = controllerImageViewSnapshot
         
         [backgroundView, imageViewSnapshot].forEach { containerView.addSubview($0) }
         
@@ -122,12 +127,13 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                     $0.frame = self.isPresenting ? controllerImageViewRect : self.selectedCellImageViewRect
                     $0.layer.cornerRadius = self.isPresenting ? 0 : PosterCollectionViewCell.Constants.imageViewCornerRadius
                 }
+                fadeView.alpha = self.isPresenting ? 1 : 0
             }
         } completion: { _ in
             imageViewSnapshot.removeFromSuperview()
             backgroundView.removeFromSuperview()
             
-            toView.alpha = 1
+//            toView.alpha = 1
             
             transitionContext.completeTransition(true)
         }
