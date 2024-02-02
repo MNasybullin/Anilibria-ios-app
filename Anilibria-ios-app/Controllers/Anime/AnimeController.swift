@@ -13,9 +13,12 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     private var franchiseController: FranchiseController?
     private let model: AnimeModel
+    private (set) var interactiveTransitionController: PopSwipeInteractiveTransitionController?
+    private let hasInteractiveTransitionController: Bool
     
     // MARK: LifeCycle
-    init(rawData: TitleAPIModel, image: UIImage?) {
+    init(rawData: TitleAPIModel, image: UIImage?, hasInteractiveTransitionController: Bool = false) {
+        self.hasInteractiveTransitionController = hasInteractiveTransitionController
         self.model = AnimeModel(rawData: rawData, image: image)
         super.init(nibName: nil, bundle: nil)
         
@@ -36,6 +39,7 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
         
         configureNavBar()
         configureNavigationItem()
+        setupInteractiveTransitionController()
         setupFranchiseController()
     }
         
@@ -92,6 +96,15 @@ private extension AnimeController {
                 customView.favoriteButtonIsSelected = false
                 customView.favoriteButtonShowActivityIndicator = false
             }
+        }
+    }
+    
+    func setupInteractiveTransitionController() {
+        if hasInteractiveTransitionController {
+            interactiveTransitionController = PopSwipeInteractiveTransitionController(viewController: self)
+            
+            // Инане UIScreenEdgePanGestureRecognizer не работает
+            self.fd_interactivePopDisabled = true
         }
     }
     
@@ -196,6 +209,8 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
         present(activityViewController, animated: true, completion: nil)
     }
 }
+
+// MARK: - FranchiseControllerDelegate
 
 extension AnimeController: FranchiseControllerDelegate {
     func showAnime(data: TitleAPIModel, image: UIImage?) {

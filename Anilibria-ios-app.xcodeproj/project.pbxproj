@@ -48,6 +48,7 @@
 		272D6545288ECB4500FA4F60 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 272D6544288ECB4500FA4F60 /* README.md */; };
 		272D6547288ED42B00FA4F60 /* TitleAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6546288ED42B00FA4F60 /* TitleAPIModel.swift */; };
 		272D65492897E22100FA4F60 /* ScheduleAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D65482897E22100FA4F60 /* ScheduleAPIModel.swift */; };
+		2733B2032B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2733B2022B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift */; };
 		273ECAFE2B1F53C500402612 /* VideoPlayerSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273ECAFD2B1F53C500402612 /* VideoPlayerSettingsController.swift */; };
 		273ECB002B20E93600402612 /* VideoPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273ECAFF2B20E93600402612 /* VideoPlayerItem.swift */; };
 		273ECB052B21B03900402612 /* HLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273ECB042B21B03900402612 /* HLS.swift */; };
@@ -239,6 +240,7 @@
 		272D6544288ECB4500FA4F60 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		272D6546288ED42B00FA4F60 /* TitleAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleAPIModel.swift; sourceTree = "<group>"; };
 		272D65482897E22100FA4F60 /* ScheduleAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAPIModel.swift; sourceTree = "<group>"; };
+		2733B2022B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopSwipeInteractiveTransitionController.swift; sourceTree = "<group>"; };
 		273ECAFD2B1F53C500402612 /* VideoPlayerSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerSettingsController.swift; sourceTree = "<group>"; };
 		273ECAFF2B20E93600402612 /* VideoPlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerItem.swift; sourceTree = "<group>"; };
 		273ECB042B21B03900402612 /* HLS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HLS.swift; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				2748DD032AEC2ABA00D53E9B /* AnimeController.swift */,
+				2733B2022B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift */,
 			);
 			path = Anime;
 			sourceTree = "<group>";
@@ -1417,6 +1420,7 @@
 				275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */,
 				275EFF3E2B15C38000C281B1 /* UserView.swift in Sources */,
 				2758A4392B30B7020089E475 /* WatchingEntity+CoreDataClass.swift in Sources */,
+				2733B2032B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift in Sources */,
 				27103DC52B683A7400B4CA49 /* FranchisePosterItem.swift in Sources */,
 				27B707082AF2571900DD8DC6 /* EpisodesContentController.swift in Sources */,
 				27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */,

@@ -18,6 +18,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     private var selectedCellImageViewSnapshot: UIView
     private let selectedCellImageViewRect: CGRect
     private let window: UIWindow
+    let interactionController: PopSwipeInteractiveTransitionController?
     
     init?(type: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) {
         self.isPresenting = type == .push
@@ -47,6 +48,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         self.selectedCellImageViewSnapshot = selectedCellImageViewSnapshot
         self.selectedCellImageViewRect = selectedCell.imageView.convert(selectedCell.imageView.bounds, to: window)
         self.window = window
+        self.interactionController = animeController.interactiveTransitionController
         
         super.init()
     }
@@ -140,7 +142,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             controllerImageViewSnapshot.removeFromSuperview()
             backgroundView.removeFromSuperview()
             
-            transitionContext.completeTransition(true)
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
     }

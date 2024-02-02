@@ -79,7 +79,7 @@ extension HomeNavigator: Navigator {
                 scheduleController.navigator = self
                 viewController = scheduleController
             case .anime(let rawData, let image):
-                let animeController = AnimeController(rawData: rawData, image: image)
+                let animeController = AnimeController(rawData: rawData, image: image, hasInteractiveTransitionController: true)
                 let animeNavigator = AnimeNavigator(navigationController: navigationController)
                 subNavigators.append(animeNavigator)
                 animeController.navigator = animeNavigator
@@ -99,5 +99,14 @@ extension HomeNavigator: Navigator {
 extension HomeNavigator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         AnimeAnimator(type: operation, from: fromVC, to: toVC)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard let animeAnimator = animationController as? AnimeAnimator,
+              let interactiveTransitionController = animeAnimator.interactionController,
+              interactiveTransitionController.interactionInProgress else {
+            return nil
+        }
+        return interactiveTransitionController
     }
 }
