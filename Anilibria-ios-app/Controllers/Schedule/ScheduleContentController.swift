@@ -113,6 +113,7 @@ extension ScheduleContentController: SkeletonCollectionViewDataSource {
 
 extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard !data.isEmpty else { return }
         indexPaths.forEach { indexPath in
             let section = indexPath.section
             let row = indexPath.row
