@@ -44,3 +44,15 @@ extension ScheduleController: ScheduleContentControllerDelegate {
         customView.reloadData()
     }
 }
+
+// MARK: - HasPosterCellAnimatedTransitioning
+
+extension ScheduleController: HasPosterCellAnimatedTransitioning {
+    var selectedCell: PosterCollectionViewCell? {
+        contentController.selectedCell
+    }
+    
+    var selectedCellImageViewSnapshot: UIView? {
+        contentController.selectedCellImageViewSnapshot
+    }
+}

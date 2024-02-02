@@ -68,3 +68,15 @@ extension FavoritesController: FavoritesContentControllerDelegate {
         navigator?.show(.anime(data: data, image: image))
     }
 }
+
+// MARK: - HasPosterCellAnimatedTransitioning
+
+extension FavoritesController: HasPosterCellAnimatedTransitioning {
+    var selectedCell: PosterCollectionViewCell? {
+        contentController.selectedCell
+    }
+    
+    var selectedCellImageViewSnapshot: UIView? {
+        contentController.selectedCellImageViewSnapshot
+    }
+}

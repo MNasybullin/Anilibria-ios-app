@@ -12,14 +12,16 @@ protocol FavoritesFlow: AnyObject {
     var navigator: FavoritesNavigator? { get set }
 }
 
-final class FavoritesNavigator {
+final class FavoritesNavigator: NSObject {
     private let navigationController: UINavigationController
     private var subNavigators: [BasicNavigator] = []
     
-    init() {
+    override init() {
         let rootViewController = FavoritesController()
         
         navigationController = FavoritesNavigator.createNavigationController(for: rootViewController)
+        super.init()
+        navigationController.delegate = self
         
         rootViewController.navigator = self
     }
@@ -70,12 +72,29 @@ extension FavoritesNavigator: Navigator {
         let viewController: UIViewController
         switch destination {
             case .anime(let rawData, let image):
-                let animeController = AnimeController(rawData: rawData, image: image)
+                let animeController = AnimeController(rawData: rawData, image: image, hasInteractiveTransitionController: true)
                 let animeNavigator = AnimeNavigator(navigationController: navigationController)
                 subNavigators.append(animeNavigator)
                 animeController.navigator = animeNavigator
                 viewController = animeController
         }
         return viewController
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+
+extension FavoritesNavigator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        AnimeAnimator(type: operation, from: fromVC, to: toVC)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard let animeAnimator = animationController as? AnimeAnimator,
+              let interactiveTransitionController = animeAnimator.interactionController,
+              interactiveTransitionController.interactionInProgress else {
+            return nil
+        }
+        return interactiveTransitionController
     }
 }

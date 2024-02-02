@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol HasPosterCellAnimatedTransitioning: AnyObject {
+    var selectedCell: PosterCollectionViewCell? { get }
+    var selectedCellImageViewSnapshot: UIView? { get }
+}
+
 final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     static let duration: TimeInterval = 0.25
     
     private let isPresenting: Bool
     
-    private let homeController: HomeController
+    private let cellController: UIViewController
     private let animeController: AnimeController
     private let selectedCell: PosterCollectionViewCell
     private var selectedCellImageViewSnapshot: UIView
@@ -24,24 +29,23 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         self.isPresenting = type == .push
         
         if type == .push {
-            guard let homeController = fromVC as? HomeController,
-                  let animeController = toVC as? AnimeController else {
+            guard let animeController = toVC as? AnimeController else {
                 return nil
             }
-            self.homeController = homeController
+            self.cellController = fromVC
             self.animeController = animeController
         } else {
-            guard let animeController = fromVC as? AnimeController,
-                  let homeController = toVC as? HomeController else {
+            guard let animeController = fromVC as? AnimeController else {
                 return nil
             }
-            self.homeController = homeController
+            self.cellController = toVC
             self.animeController = animeController
         }
         
-        guard let selectedCell = homeController.selectedCell,
-              let selectedCellImageViewSnapshot = homeController.selectedCellImageViewSnapshot,
-              let window = homeController.view.window ?? animeController.view.window else {
+        guard let posterCellProtocol = cellController as? HasPosterCellAnimatedTransitioning,
+            let selectedCell = posterCellProtocol.selectedCell,
+              let selectedCellImageViewSnapshot = posterCellProtocol.selectedCellImageViewSnapshot,
+              let window = cellController.view.window ?? animeController.view.window else {
             return nil
         }
         self.selectedCell = selectedCell
@@ -72,7 +76,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         guard let cellImageSnapshot = selectedCell.imageView.snapshotView(afterScreenUpdates: true),
                 let controllerImageViewSnapshot = animeController.customView.animeImageView.imageView.snapshotView(afterScreenUpdates: true),
-                let homeControllerViewSnapshot = homeController.view.snapshotView(afterScreenUpdates: true),
+                let cellControllerViewSnapshot = cellController.view.snapshotView(afterScreenUpdates: true),
                 let animeControllerViewSnapshot = animeController.view.snapshotView(afterScreenUpdates: true),
                 let windowViewSnapshot = window.snapshotView(afterScreenUpdates: false),
                 let controllerBackgroundImageViewSnapshot = animeController.customView.animeImageView.backgroundImageView.snapshotView(afterScreenUpdates: true) else {
@@ -82,7 +86,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         // MARK: - Background Start
         let removeCellView = UIView(frame: selectedCellImageViewRect)
-        removeCellView.backgroundColor = homeController.view.backgroundColor
+        removeCellView.backgroundColor = cellController.view.backgroundColor
         let controllerBackgroundImageViewRect = animeController.customView.animeImageView.backgroundImageView.convert(animeController.customView.animeImageView.backgroundImageView.bounds, to: animeControllerViewSnapshot)
         controllerBackgroundImageViewSnapshot.frame = controllerBackgroundImageViewRect
         
@@ -95,7 +99,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             fadeView.addSubview(controllerBackgroundImageViewSnapshot)
             backgroundView.addSubview(fadeView)
         } else {
-            backgroundView = homeControllerViewSnapshot
+            backgroundView = cellControllerViewSnapshot
             backgroundView.addSubview(removeCellView)
             fadeView = animeControllerViewSnapshot
             fadeView.addSubview(controllerBackgroundImageViewSnapshot)

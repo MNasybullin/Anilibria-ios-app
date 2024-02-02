@@ -17,6 +17,10 @@ protocol ScheduleContentControllerDelegate: AnyObject {
 final class ScheduleContentController: NSObject {
     weak var delegate: ScheduleContentControllerDelegate?
     
+    // MARK: Transition properties
+    private (set) var selectedCell: PosterCollectionViewCell?
+    private (set) var selectedCellImageViewSnapshot: UIView?
+    
     private lazy var model: ScheduleModel = {
         let model = ScheduleModel()
         model.imageModelDelegate = self
@@ -44,6 +48,8 @@ extension ScheduleContentController: UICollectionViewDelegate {
             return
         }
         let image = data[indexPath.section].animePosterItems[indexPath.row].image
+        selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
+        selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(rawData, image: image)
     }
 }

@@ -12,10 +12,6 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
     typealias CustomView = HomeView
     weak var navigator: HomeNavigator?
     
-    // MARK: Transition properties
-    var selectedCell: PosterCollectionViewCell?
-    var selectedCellImageViewSnapshot: UIView?
-    
     private lazy var contentController = HomeContentController(delegate: self)
     
     private let expiredDateManager = ExpiredDateManager(expireTimeInMinutes: 5)
@@ -87,11 +83,8 @@ extension HomeController: HomeViewOutput {
 
 // swiftlint:disable force_cast
 extension HomeController: HomeContentControllerDelegate {
-    func didSelectItem(_ rawData: Any, image: UIImage?, section: HomeView.Section, selectedCell: PosterCollectionViewCell?) {
-        
-        self.selectedCell = selectedCell
-        self.selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
-        
+    func didSelectItem(_ rawData: Any, image: UIImage?, section: HomeView.Section) {
+                
         switch section {
             case .today, .updates:
                 navigator?.show(.anime(data: rawData as! TitleAPIModel, image: image))
@@ -135,5 +128,17 @@ extension HomeController: HomeContentControllerDelegate {
 extension HomeController: HasScrollableView {
     func scrollToTop() {
         customView.scrollToTop()
+    }
+}
+
+// MARK: - HasPosterCellAnimatedTransitioning
+
+extension HomeController: HasPosterCellAnimatedTransitioning {
+    var selectedCell: PosterCollectionViewCell? {
+        contentController.selectedCell
+    }
+    
+    var selectedCellImageViewSnapshot: UIView? {
+        contentController.selectedCellImageViewSnapshot
     }
 }

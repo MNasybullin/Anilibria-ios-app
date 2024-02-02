@@ -15,11 +15,15 @@ protocol HomeContentControllerDelegate: AnyObject {
     func showSkeletonCollectionView()
     func hideSkeletonCollectionView()
     func reloadSection(numberOfSection: Int)
-    func didSelectItem(_ rawData: Any, image: UIImage?, section: HomeView.Section, selectedCell: PosterCollectionViewCell?)
+    func didSelectItem(_ rawData: Any, image: UIImage?, section: HomeView.Section)
 }
 
 final class HomeContentController: NSObject {
     typealias Section = HomeView.Section
+    
+    // MARK: Transition properties
+    private (set) var selectedCell: PosterCollectionViewCell?
+    private (set) var selectedCellImageViewSnapshot: UIView?
     
     weak var delegate: HomeContentControllerDelegate?
     
@@ -76,12 +80,12 @@ extension HomeContentController: UICollectionViewDelegate {
             return
         }
         let image = data[section][row].image
-        let selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
+        selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
+        selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(
             rawData,
             image: image,
-            section: .init(rawValue: section)!,
-            selectedCell: selectedCell
+            section: .init(rawValue: section)!
         )
     }
 }

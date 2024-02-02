@@ -16,6 +16,10 @@ final class FavoritesContentController: NSObject {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, HomePosterItem>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, HomePosterItem>
     
+    // MARK: Transition properties
+    private (set) var selectedCell: PosterCollectionViewCell?
+    private (set) var selectedCellImageViewSnapshot: UIView?
+    
     enum Section: Int {
         case main
     }
@@ -154,6 +158,8 @@ extension FavoritesContentController: UICollectionViewDelegate {
             print("not found data in model")
             return
         }
+        selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
+        selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(data: data, image: item.image)
     }
 }
