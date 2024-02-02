@@ -15,7 +15,11 @@ protocol FranchiseContentControllerDelegate: AnyObject {
 final class FranchiseContentController: NSObject {
     typealias DataSource = UICollectionViewDiffableDataSource<String, FranchisePosterItem>
     typealias Snapshot = NSDiffableDataSourceSnapshot<String, FranchisePosterItem>
-        
+    
+    // MARK: Transition properties
+    private (set) var selectedCell: PosterCollectionViewCell?
+    private (set) var selectedCellImageViewSnapshot: UIView?
+    
     enum Status {
         case normal
         case loading
@@ -155,6 +159,8 @@ extension FranchiseContentController: UICollectionViewDelegate {
             print("Selected item is not found")
             return
         }
+        selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
+        selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(data: item, image: posterItem.image)
     }
 }

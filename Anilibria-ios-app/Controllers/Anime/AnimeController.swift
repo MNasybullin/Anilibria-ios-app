@@ -217,3 +217,15 @@ extension AnimeController: FranchiseControllerDelegate {
         navigator?.show(.anime(data: data, image: image))
     }
 }
+
+// MARK: - HasPosterCellAnimatedTransitioning
+
+extension AnimeController: HasPosterCellAnimatedTransitioning {
+    var selectedCell: PosterCollectionViewCell? {
+        franchiseController?.selectedCell
+    }
+    
+    var selectedCellImageViewSnapshot: UIView? {
+        franchiseController?.selectedCellImageViewSnapshot
+    }
+}

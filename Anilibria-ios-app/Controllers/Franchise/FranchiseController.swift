@@ -58,3 +58,15 @@ extension FranchiseController: FranchiseContentControllerDelegate {
         delegate?.showAnime(data: data, image: image)
     }
 }
+
+// MARK: - HasPosterCellAnimatedTransitioning
+
+extension FranchiseController: HasPosterCellAnimatedTransitioning {
+    var selectedCell: PosterCollectionViewCell? {
+        contentController.selectedCell
+    }
+    
+    var selectedCellImageViewSnapshot: UIView? {
+        contentController.selectedCellImageViewSnapshot
+    }
+}
