@@ -93,19 +93,22 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let backgroundView: UIView
         let fadeView: UIView
         if isPresenting {
-            backgroundView = windowViewSnapshot
-            backgroundView.addSubview(removeCellView)
             fadeView = toViewSnapshot
             fadeView.addSubview(controllerBackgroundImageViewSnapshot)
+            fadeView.alpha = 0
+            
+            backgroundView = windowViewSnapshot
+            backgroundView.addSubview(removeCellView)
             backgroundView.addSubview(fadeView)
         } else {
             fadeView = animeControllerViewSnapshot
             fadeView.addSubview(controllerBackgroundImageViewSnapshot)
+            fadeView.alpha = 1
+            
             backgroundView = cellControllerViewSnapshot
             backgroundView.addSubview(removeCellView)
             backgroundView.addSubview(fadeView)
         }
-        fadeView.alpha = isPresenting ? 0 : 1
         // MARK: - Background Finish
         
         // MARK: - Cell & Controller Image Start
