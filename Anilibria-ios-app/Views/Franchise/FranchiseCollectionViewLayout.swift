@@ -49,7 +49,6 @@ final class FranchiseCollectionViewLayout {
             layoutSize: headerSize,
             elementKind: ElementKind.sectionHeader,
             alignment: .top)
-        sectionHeader.contentInsets = .init(top: 0, leading: 8, bottom: 8, trailing: 0)
         
         section.boundarySupplementaryItems = [sectionHeader]
         

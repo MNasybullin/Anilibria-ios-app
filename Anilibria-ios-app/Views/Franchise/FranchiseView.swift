@@ -70,7 +70,7 @@ private extension FranchiseView {
             titleLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
