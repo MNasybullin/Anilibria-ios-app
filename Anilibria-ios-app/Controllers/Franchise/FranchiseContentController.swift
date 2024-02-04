@@ -13,7 +13,7 @@ protocol FranchiseContentControllerDelegate: AnyObject {
 
 @MainActor
 final class FranchiseContentController: NSObject {
-    typealias DataSource = UICollectionViewDiffableDataSource<String, FranchisePosterItem>
+    typealias DataSource = FranchiseDiffableDataSource
     typealias Snapshot = NSDiffableDataSourceSnapshot<String, FranchisePosterItem>
     
     // MARK: Transition properties
@@ -123,7 +123,7 @@ private extension FranchiseContentController {
                 status = .loading
                 data = try await self.model.getFranchisesTitles()
                 
-                customView.hideCollectionViewSkeleton()
+                customView.hideCollectionViewSkeleton(reloadDataAfter: true)
                 applySnapshot()
                 status = .normal
             } catch {
