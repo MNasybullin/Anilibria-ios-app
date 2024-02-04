@@ -21,15 +21,12 @@ final class PopSwipeInteractiveTransitionController: UIPercentDrivenInteractiveT
 private extension PopSwipeInteractiveTransitionController {
     func prepareGestureRecognizer(in view: UIView) {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
+        gesture.maximumNumberOfTouches = 1
         view.addGestureRecognizer(gesture)
-        
-        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
-        edgeGesture.edges = .left
-        view.addGestureRecognizer(edgeGesture)
     }
     
     @objc func handleGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
-        let translation = gestureRecognizer.translation(in: gestureRecognizer.view!.superview!)
+        let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
         var progress = (translation.x / 200)
         progress = CGFloat(fminf(fmaxf(Float(progress), 0.0), 1.0))
         
@@ -43,8 +40,9 @@ private extension PopSwipeInteractiveTransitionController {
                 interactionInProgress = false
                 cancel()
             case .ended:
+                let velocity = gestureRecognizer.velocity(in: gestureRecognizer.view)
                 interactionInProgress = false
-                if progress > 0.5 {
+                if progress > 0.5 || (velocity.x > 0 && progress > 0.2) {
                     finish()
                 } else {
                     cancel()

@@ -102,9 +102,6 @@ private extension AnimeController {
     func setupInteractiveTransitionController() {
         if hasInteractiveTransitionController {
             interactiveTransitionController = PopSwipeInteractiveTransitionController(viewController: self)
-            
-            // Инане UIScreenEdgePanGestureRecognizer не работает
-            self.fd_interactivePopDisabled = true
         }
     }
     

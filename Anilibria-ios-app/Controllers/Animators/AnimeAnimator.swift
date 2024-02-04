@@ -65,21 +65,20 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let containerView = transitionContext.containerView
         
         guard let toView = transitionContext.view(forKey: .to),
-                let toViewSnapshot = toView.snapshotView(afterScreenUpdates: true) else {
+              let fromView = transitionContext.view(forKey: .from),
+              let toViewSnapshot = toView.snapshotView(afterScreenUpdates: true),
+              let fromViewSnapshot = fromView.snapshotView(afterScreenUpdates: true) else {
             transitionContext.completeTransition(false)
             return
         }
-        containerView.addSubview(toView)
+        containerView.insertSubview(toView, belowSubview: fromView)
         if isPresenting {
             toView.layoutIfNeeded()
         }
         
-        guard let cellImageSnapshot = selectedCell.imageView.snapshotView(afterScreenUpdates: true),
-                let controllerImageViewSnapshot = animeController.customView.animeImageView.imageView.snapshotView(afterScreenUpdates: true),
-                let cellControllerViewSnapshot = cellController.view.snapshotView(afterScreenUpdates: true),
-                let animeControllerViewSnapshot = animeController.view.snapshotView(afterScreenUpdates: true),
-                let windowViewSnapshot = window.snapshotView(afterScreenUpdates: false),
-                let controllerBackgroundImageViewSnapshot = animeController.customView.animeImageView.backgroundImageView.snapshotView(afterScreenUpdates: true) else {
+        guard let controllerImageViewSnapshot = animeController.customView.animeImageView.imageView.snapshotView(afterScreenUpdates: true),
+              let windowViewSnapshot = window.snapshotView(afterScreenUpdates: false),
+              let controllerBackgroundImageViewSnapshot = animeController.customView.animeImageView.backgroundImageView.snapshotView(afterScreenUpdates: true) else {
             transitionContext.completeTransition(true)
             return
         }
@@ -87,35 +86,18 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         // MARK: - Background Start
         let removeCellView = UIView(frame: selectedCellImageViewRect)
         removeCellView.backgroundColor = cellController.view.backgroundColor
-        let controllerBackgroundImageViewRect = animeController.customView.animeImageView.backgroundImageView.convert(animeController.customView.animeImageView.backgroundImageView.bounds, to: animeControllerViewSnapshot)
+        let controllerBackgroundImageViewRect = animeController.customView.animeImageView.backgroundImageView.convert(animeController.customView.animeImageView.backgroundImageView.bounds, to: window)
         controllerBackgroundImageViewSnapshot.frame = controllerBackgroundImageViewRect
         
-        var backgroundView = UIView(frame: containerView.bounds)
-        let fadeView: UIView
-        if isPresenting {
-            fadeView = toViewSnapshot
-            fadeView.addSubview(controllerBackgroundImageViewSnapshot)
-            fadeView.alpha = 0
-            
-            backgroundView = windowViewSnapshot
-            backgroundView.addSubview(removeCellView)
-            backgroundView.addSubview(fadeView)
-        } else {
-            fadeView = animeControllerViewSnapshot
-            fadeView.addSubview(controllerBackgroundImageViewSnapshot)
-            fadeView.alpha = 1
-            
-            backgroundView.addSubview(cellControllerViewSnapshot)
-            backgroundView.addSubview(removeCellView)
-            backgroundView.addSubview(fadeView)
-        }
+        let backgroundView = isPresenting ? windowViewSnapshot : toViewSnapshot
+        backgroundView.addSubview(removeCellView)
+        
+        let fadeView = isPresenting ? toViewSnapshot : fromViewSnapshot
+        fadeView.addSubview(controllerBackgroundImageViewSnapshot)
+        fadeView.alpha = isPresenting ? 0 : 1
         // MARK: - Background Finish
         
         // MARK: - Cell & Controller Image Start
-        if isPresenting {
-            selectedCellImageViewSnapshot = cellImageSnapshot
-        }
-        
         let controllerImageViewRect = animeController.customView.animeImageView.imageView.convert(animeController.customView.animeImageView.imageView.bounds, to: window)
         
         [selectedCellImageViewSnapshot, controllerImageViewSnapshot].forEach {
@@ -128,17 +110,18 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         controllerImageViewSnapshot.alpha = isPresenting ? 0 : 1
         // MARK: - Cell & Controller Image Finish
         
-        [backgroundView, selectedCellImageViewSnapshot, controllerImageViewSnapshot].forEach {
+        [backgroundView, fadeView, selectedCellImageViewSnapshot, controllerImageViewSnapshot].forEach {
             containerView.addSubview($0)
         }
         
-        UIView.animateKeyframes(withDuration: Self.duration, delay: 0, options: .calculationModeCubic) {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
+        UIView.animateKeyframes(withDuration: Self.duration, delay: 0, options: [.calculationModeCubic]) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1.0) {
+                fadeView.alpha = self.isPresenting ? 1 : 0
+                
                 [self.selectedCellImageViewSnapshot, controllerImageViewSnapshot].forEach {
                     $0.frame = self.isPresenting ? controllerImageViewRect : self.selectedCellImageViewRect
                     $0.layer.cornerRadius = self.isPresenting ? 0 : PosterCollectionViewCell.Constants.imageViewCornerRadius
                 }
-                fadeView.alpha = self.isPresenting ? 1 : 0
             }
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
                 self.selectedCellImageViewSnapshot.alpha = self.isPresenting ? 0 : 1
@@ -148,6 +131,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             self.selectedCellImageViewSnapshot.removeFromSuperview()
             controllerImageViewSnapshot.removeFromSuperview()
             backgroundView.removeFromSuperview()
+            fadeView.removeFromSuperview()
             
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }

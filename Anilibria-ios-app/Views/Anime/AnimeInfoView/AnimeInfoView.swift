@@ -15,7 +15,7 @@ final class AnimeInfoView: UIView {
         return stack
     }()
     
-    private (set) lazy var ruNameLabel: UILabel = {
+    private lazy var ruNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 26, weight: .heavy)
         label.textColor = .label
