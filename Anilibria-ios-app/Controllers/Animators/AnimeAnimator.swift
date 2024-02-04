@@ -116,12 +116,13 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         UIView.animateKeyframes(withDuration: Self.duration, delay: 0, options: [.calculationModeCubic]) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1.0) {
-                fadeView.alpha = self.isPresenting ? 1 : 0
-                
                 [self.selectedCellImageViewSnapshot, controllerImageViewSnapshot].forEach {
                     $0.frame = self.isPresenting ? controllerImageViewRect : self.selectedCellImageViewRect
                     $0.layer.cornerRadius = self.isPresenting ? 0 : PosterCollectionViewCell.Constants.imageViewCornerRadius
                 }
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.9) {
+                fadeView.alpha = self.isPresenting ? 1 : 0
             }
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.6) {
                 self.selectedCellImageViewSnapshot.alpha = self.isPresenting ? 0 : 1
