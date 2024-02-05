@@ -27,11 +27,13 @@ private extension PopSwipeInteractiveTransitionController {
     
     @objc func handleGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
         let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
+        let velocity = gestureRecognizer.velocity(in: gestureRecognizer.view)
         var progress = (translation.x / 200)
         progress = CGFloat(fminf(fmaxf(Float(progress), 0.0), 1.0))
         
         switch gestureRecognizer.state {
             case .began:
+                guard velocity.x > 0 else { break }
                 interactionInProgress = true
                 viewController.navigationController?.popViewController(animated: true)
             case .changed:
@@ -40,7 +42,6 @@ private extension PopSwipeInteractiveTransitionController {
                 interactionInProgress = false
                 cancel()
             case .ended:
-                let velocity = gestureRecognizer.velocity(in: gestureRecognizer.view)
                 interactionInProgress = false
                 if progress > 0.5 || (velocity.x > 0 && progress > 0.2) {
                     finish()

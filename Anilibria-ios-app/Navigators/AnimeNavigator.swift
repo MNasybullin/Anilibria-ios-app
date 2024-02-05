@@ -40,7 +40,7 @@ extension AnimeNavigator: Navigator {
     func show(_ destination: Destinition) {
         switch destination {
             case .anime(let data, let image):
-                let animeController = AnimeController(rawData: data, image: image, hasInteractiveTransitionController: true)
+                let animeController = AnimeController(rawData: data, image: image, hasInteractiveTransitionController: navigationController.delegate != nil)
                 animeController.navigator = self
                 navigationController.pushViewController(animeController, animated: true)
             case .episodes(let data):
