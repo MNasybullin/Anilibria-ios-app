@@ -37,7 +37,6 @@ final class AnimeView: UIView {
     
     private lazy var topSafeAreaHeight: CGFloat = currentWindow?.safeAreaInsets.top ?? 0.0
     
-    private var lastContentOffsetY: Double = 0
     private var animeHeightConstraint: NSLayoutConstraint!
     private var animeTopConstraint: NSLayoutConstraint!
     
@@ -187,20 +186,22 @@ extension AnimeView: UINavigationBarDelegate {
 
 extension AnimeView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        setupNavBar(scrollView)
-        if -scrollView.contentOffset.y >= animeImageViewSmallHeight {
+        let offsetY = scrollView.contentOffset.y
+        setupNavBar(offsetY)
+        
+        if -offsetY >= animeImageViewSmallHeight {
             if animeTopConstraint.constant != 0 {
                 animeTopConstraint.constant = 0
             }
-            animeHeightConstraint.constant = -scrollView.contentOffset.y
+            animeHeightConstraint.constant = -offsetY
         } else {
-            animeTopConstraint.constant -= scrollView.contentOffset.y - lastContentOffsetY
+            animeHeightConstraint.constant = animeImageViewSmallHeight
+            animeTopConstraint.constant = -(offsetY + animeImageViewSmallHeight)
         }
-        lastContentOffsetY = scrollView.contentOffset.y
     }
     
-    private func setupNavBar(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y + topSafeAreaHeight <= 0 {
+    private func setupNavBar(_ offsetY: CGFloat) {
+        if offsetY + topSafeAreaHeight <= 0 {
             navBarItem.title = ""
             navigationBar.isTranslucent = true
         } else {
