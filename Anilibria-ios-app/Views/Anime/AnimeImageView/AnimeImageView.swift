@@ -70,7 +70,9 @@ final class AnimeImageView: UIView {
     }
     
     func configureView(with image: UIImage?) {
-        backgroundImageView.image = image
-        imageView.image = image
+        if image != nil {
+            backgroundImageView.image = image
+            imageView.image = image
+        }
     }
 }
