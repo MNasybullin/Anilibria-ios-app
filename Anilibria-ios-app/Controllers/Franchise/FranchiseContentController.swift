@@ -121,7 +121,7 @@ private extension FranchiseContentController {
         Task(priority: .userInitiated) {
             do {
                 status = .loading
-                data = try await self.model.getFranchisesTitles()
+                data = try await model.getFranchisesTitles()
                 
                 customView.hideCollectionViewSkeleton(reloadDataAfter: true)
                 applySnapshot()
