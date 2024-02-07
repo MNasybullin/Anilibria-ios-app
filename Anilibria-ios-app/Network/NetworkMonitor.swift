@@ -11,7 +11,6 @@ import Combine
 
 final class NetworkMonitor {
     static let shared = NetworkMonitor()
-    private init() { }
     
     private let queue = DispatchQueue.global()
     private let monitor = NWPathMonitor()
@@ -36,6 +35,10 @@ final class NetworkMonitor {
         case cellular
         case ethernet
         case unknown
+    }
+    
+    private init() {
+        startMonitoring()
     }
     
     private func getConnectionType(_ path: NWPath) {
