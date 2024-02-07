@@ -15,6 +15,7 @@ final class SecurityStorageSessionTests: XCTestCase {
     
     override func tearDownWithError() throws {
         try? securityStorage.deleteSession(withAccount: account)
+        try super.tearDownWithError()
     }
     
     func testAddSession() {

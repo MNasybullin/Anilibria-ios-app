@@ -9,10 +9,22 @@ import XCTest
 @testable import Anilibria_ios_app
 
 class AuthorizationServiceTests: XCTestCase {
+    var authorizationService: AuthorizationService!
+    let networkMonitor = NetworkMonitor.shared
     
-    let authorizationService = AuthorizationService()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        authorizationService = AuthorizationService()
+    }
+    
+    override func tearDownWithError() throws {
+        authorizationService = nil
+        try super.tearDownWithError()
+    }
     
     func testLogin() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         let email = "anilibria_test@mail.ru"
         let password = "TestPasswordTest"
         
@@ -27,6 +39,8 @@ class AuthorizationServiceTests: XCTestCase {
     }
     
     func testLogout() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             try await authorizationService.logout()
             UserDefaults.standard.isUserAuthorized = false
@@ -38,6 +52,8 @@ class AuthorizationServiceTests: XCTestCase {
     }
     
     func testGetUserFavorites() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             try await testLogin()
             _ = try await authorizationService.getUserFavorites()
@@ -49,6 +65,8 @@ class AuthorizationServiceTests: XCTestCase {
     }
     
     func testDelUserFavorite() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         let titleID = 8500
         do {
             try await testLogin()
@@ -61,6 +79,8 @@ class AuthorizationServiceTests: XCTestCase {
     }
     
     func testPutUserFavorite() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         let titleID = 8500
         do {
             try await testLogin()
@@ -74,6 +94,8 @@ class AuthorizationServiceTests: XCTestCase {
     }
     
     func testUser() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             try await testLogin()
             _ = try await authorizationService.user()

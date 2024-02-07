@@ -15,6 +15,7 @@ final class SecurityStorageCredentialsTests: XCTestCase {
     
     override func tearDownWithError() throws {
         try? securityStorage.deleteCredentials(withLabel: label)
+        try super.tearDownWithError()
     }
     
     func testAddCredentials() {

@@ -30,12 +30,24 @@
       codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "274BFB9E28A29C3400C3F9C9"
-               BuildableName = "Anilibria-ios-appTests.xctest"
-               BlueprintName = "Anilibria-ios-appTests"
+               BlueprintIdentifier = "27E283642B72991500651E0B"
+               BuildableName = "APITests.xctest"
+               BlueprintName = "APITests"
+               ReferencedContainer = "container:Anilibria-ios-app.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "27E283712B72992700651E0B"
+               BuildableName = "SecurityStorageTests.xctest"
+               BlueprintName = "SecurityStorageTests"
                ReferencedContainer = "container:Anilibria-ios-app.xcodeproj">
             </BuildableReference>
          </TestableReference>

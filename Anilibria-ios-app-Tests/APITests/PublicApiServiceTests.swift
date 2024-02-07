@@ -9,10 +9,22 @@ import XCTest
 @testable import Anilibria_ios_app
 
 class PublicApiServiceTests: XCTestCase {
+    var publicApiService: PublicApiService!
+    let networkMonitor = NetworkMonitor.shared
     
-    let publicApiService = PublicApiService()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        publicApiService = PublicApiService()
+    }
+    
+    override func tearDownWithError() throws {
+        publicApiService = nil
+        try super.tearDownWithError()
+    }
     
     func testTitle() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         let id = "8500"
         do {
             _ = try await publicApiService.title(id: id)
@@ -24,6 +36,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testTitleList() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         let ids = "8500, 8800"
         do {
             _ = try await publicApiService.titleList(ids: ids)
@@ -35,6 +49,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testTitleUpdates() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         let limit = 10
         do {
             _ = try await publicApiService.titleUpdates(page: 1, itemsPerPage: limit)
@@ -46,6 +62,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testTitleChanges() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         let limit = 10
         do {
             _ = try await publicApiService.titleChanges(page: 1, itemsPerPage: limit)
@@ -57,6 +75,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testTitleSchedule() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             _ = try await publicApiService.titleSchedule(withDays: DaysOfTheWeek.allCases)
         } catch {
@@ -67,6 +87,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testTitleRandom() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             _ = try await publicApiService.titleRandom()
         } catch {
@@ -77,6 +99,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testYouTube() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         let limit = 10
         do {
             _ = try await publicApiService.youTube(page: 1, itemsPerPage: limit)
@@ -88,6 +112,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testYears() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             _ = try await publicApiService.years()
         } catch {
@@ -98,6 +124,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testGenres() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             _ = try await publicApiService.genres()
         } catch {
@@ -108,6 +136,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testTeam() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             _ = try await publicApiService.team()
         } catch {
@@ -118,6 +148,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testTitleSearch() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             _ = try await publicApiService.titleSearch(withSearchText: "Песнь", page: 1)
         } catch {
@@ -128,6 +160,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testTitleFranchises() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             _ = try await publicApiService.titleFranchises(id: 8500)
         } catch {
@@ -138,6 +172,8 @@ class PublicApiServiceTests: XCTestCase {
     }
     
     func testFranchiseList() async throws {
+        try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
+        
         do {
             _ = try await publicApiService.franchiseList(page: 1)
         } catch {

@@ -23,9 +23,6 @@
 		2710E99D29B510ED00B66C62 /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E99C29B510ED00B66C62 /* ImageLoaderService.swift */; };
 		2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E99E29B5117500B66C62 /* AuthorizationService.swift */; };
 		2710E9A129B5146500B66C62 /* PublicApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A029B5146500B66C62 /* PublicApiService.swift */; };
-		2710E9A329B5187000B66C62 /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
-		2710E9A529B518AD00B66C62 /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
-		2710E9A729B518E200B66C62 /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
 		271A0E1D2AE7E8B9005958CB /* HomeCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E1C2AE7E8B9005958CB /* HomeCollectionViewLayout.swift */; };
 		271A0E1F2AE7EBA4005958CB /* HomeTodayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E1E2AE7EBA4005958CB /* HomeTodayModel.swift */; };
 		271A0E212AE7EBBE005958CB /* HomeUpdatesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E202AE7EBBE005958CB /* HomeUpdatesModel.swift */; };
@@ -67,8 +64,6 @@
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275287B529D5913B00D403F6 /* AnimeInfoView.swift */; };
 		2758657A2ACEB2D700F98884 /* SecurityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865792ACEB2D700F98884 /* SecurityStorage.swift */; };
-		275865852ACF093100F98884 /* SecurityStorageCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */; };
-		275865872ACF094200F98884 /* SecurityStorageSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */; };
 		275865AB2AD9BAC200F98884 /* MainNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865AA2AD9BAC200F98884 /* MainNavigator.swift */; };
 		275865AD2AD9C7EC00F98884 /* ProfileNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865AC2AD9C7EC00F98884 /* ProfileNavigator.swift */; };
 		275865AF2AD9C97700F98884 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865AE2AD9C97700F98884 /* TabBarController.swift */; };
@@ -160,6 +155,11 @@
 		27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88582B2343E0004DC558 /* NetworkConstants.swift */; };
 		27CE885B2B237FB2004DC558 /* HomeYouTubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */; };
 		27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */; };
+		27E2837B2B72997100651E0B /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
+		27E2837C2B72997100651E0B /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
+		27E2837D2B72997100651E0B /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
+		27E2837E2B72997D00651E0B /* SecurityStorageCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */; };
+		27E2837F2B72997D00651E0B /* SecurityStorageSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */; };
 		27E4D03F2B4ED5780039BFE6 /* Pods_Anilibria_ios_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD8495556304339F1EB1F8DC /* Pods_Anilibria_ios_app.framework */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */; };
@@ -184,11 +184,17 @@
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 		27F70CF62B2CB680004036FD /* UIImageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CF52B2CB680004036FD /* UIImageTransformer.swift */; };
 		27F8D8E529C2245900D8F4D1 /* SearchResultsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */; };
-		ACF0BCF9EDC730AD785651E3 /* Pods_Anilibria_ios_appTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE2C43AB048EA575235E750 /* Pods_Anilibria_ios_appTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		274BFBA328A29C3400C3F9C9 /* PBXContainerItemProxy */ = {
+		27E283692B72991500651E0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27F5E54C287C6DCA00BCF61C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27F5E553287C6DCA00BCF61C;
+			remoteInfo = "Anilibria-ios-app";
+		};
+		27E283762B72992700651E0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 27F5E54C287C6DCA00BCF61C /* Project object */;
 			proxyType = 1;
@@ -257,7 +263,6 @@
 		2748DD0F2AF177C400D53E9B /* EpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesController.swift; sourceTree = "<group>"; };
 		2748DD112AF1789E00D53E9B /* EpisodesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesView.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
-		274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		275287B529D5913B00D403F6 /* AnimeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeInfoView.swift; sourceTree = "<group>"; };
 		275865792ACEB2D700F98884 /* SecurityStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
 		275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorageCredentialsTests.swift; sourceTree = "<group>"; };
@@ -353,6 +358,8 @@
 		27CE88582B2343E0004DC558 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYouTubeModel.swift; sourceTree = "<group>"; };
 		27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOrientation.swift; sourceTree = "<group>"; };
+		27E283652B72991500651E0B /* APITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		27E283722B72992700651E0B /* SecurityStorageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecurityStorageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsErrorFooterView.swift; sourceTree = "<group>"; };
 		27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
@@ -386,11 +393,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		274BFB9C28A29C3400C3F9C9 /* Frameworks */ = {
+		27E283622B72991500651E0B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACF0BCF9EDC730AD785651E3 /* Pods_Anilibria_ios_appTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27E2836F2B72992700651E0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,25 +483,6 @@
 				2744762A29B8CCF60062F6D2 /* SearchResultsTableViewCell.swift */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		2710E9AA29B724BD00B66C62 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */,
-				2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */,
-				2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */,
-				275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */,
-				275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		2710E9AC29B724D500B66C62 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 		271A0E222AE7EC1A005958CB /* Home */ = {
@@ -608,15 +602,6 @@
 				27A66E4F2976ACEE00369EAF /* ErrorProcessing.swift */,
 			);
 			path = Errors;
-			sourceTree = "<group>";
-		};
-		274BFBA028A29C3400C3F9C9 /* Anilibria-ios-appTests */ = {
-			isa = PBXGroup;
-			children = (
-				2710E9AC29B724D500B66C62 /* Common */,
-				2710E9AA29B724BD00B66C62 /* Network */,
-			);
-			path = "Anilibria-ios-appTests";
 			sourceTree = "<group>";
 		};
 		275287B429D5911700D403F6 /* AnimeInfoView */ = {
@@ -823,6 +808,15 @@
 			path = RandomAnime;
 			sourceTree = "<group>";
 		};
+		27934FF92B737A6900B7BD07 /* Anilibria-ios-app-Tests */ = {
+			isa = PBXGroup;
+			children = (
+				27E283732B72992700651E0B /* SecurityStorageTests */,
+				27E283662B72991500651E0B /* APITests */,
+			);
+			path = "Anilibria-ios-app-Tests";
+			sourceTree = "<group>";
+		};
 		279E4F31289C7044008038FF /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -948,6 +942,25 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		27E283662B72991500651E0B /* APITests */ = {
+			isa = PBXGroup;
+			children = (
+				2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */,
+				2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */,
+				2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */,
+			);
+			path = APITests;
+			sourceTree = "<group>";
+		};
+		27E283732B72992700651E0B /* SecurityStorageTests */ = {
+			isa = PBXGroup;
+			children = (
+				275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */,
+				275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */,
+			);
+			path = SecurityStorageTests;
+			sourceTree = "<group>";
+		};
 		27EA392829C4564200D777AE /* AnimeImageView */ = {
 			isa = PBXGroup;
 			children = (
@@ -979,7 +992,7 @@
 				27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */,
 				27F5E5A5287EAC8100BCF61C /* SwiftGen */,
 				27F5E556287C6DCA00BCF61C /* Anilibria-ios-app */,
-				274BFBA028A29C3400C3F9C9 /* Anilibria-ios-appTests */,
+				27934FF92B737A6900B7BD07 /* Anilibria-ios-app-Tests */,
 				27F5E555287C6DCA00BCF61C /* Products */,
 				903D15975B5DFA73E3CD4ABF /* Pods */,
 				0C075EB6F56FFB753DC07815 /* Frameworks */,
@@ -990,7 +1003,8 @@
 			isa = PBXGroup;
 			children = (
 				27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */,
-				274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */,
+				27E283652B72991500651E0B /* APITests.xctest */,
+				27E283722B72992700651E0B /* SecurityStorageTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1039,23 +1053,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		274BFB9E28A29C3400C3F9C9 /* Anilibria-ios-appTests */ = {
+		27E283642B72991500651E0B /* APITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 274BFBA528A29C3400C3F9C9 /* Build configuration list for PBXNativeTarget "Anilibria-ios-appTests" */;
+			buildConfigurationList = 27E2836B2B72991500651E0B /* Build configuration list for PBXNativeTarget "APITests" */;
 			buildPhases = (
-				39B4994A4D49037087F236D8 /* [CP] Check Pods Manifest.lock */,
-				274BFB9B28A29C3400C3F9C9 /* Sources */,
-				274BFB9C28A29C3400C3F9C9 /* Frameworks */,
-				274BFB9D28A29C3400C3F9C9 /* Resources */,
+				27E283612B72991500651E0B /* Sources */,
+				27E283622B72991500651E0B /* Frameworks */,
+				27E283632B72991500651E0B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				274BFBA428A29C3400C3F9C9 /* PBXTargetDependency */,
+				27E2836A2B72991500651E0B /* PBXTargetDependency */,
 			);
-			name = "Anilibria-ios-appTests";
-			productName = "Anilibria-ios-appTests";
-			productReference = 274BFB9F28A29C3400C3F9C9 /* Anilibria-ios-appTests.xctest */;
+			name = APITests;
+			productName = APITests;
+			productReference = 27E283652B72991500651E0B /* APITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		27E283712B72992700651E0B /* SecurityStorageTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27E283782B72992700651E0B /* Build configuration list for PBXNativeTarget "SecurityStorageTests" */;
+			buildPhases = (
+				27E2836E2B72992700651E0B /* Sources */,
+				27E2836F2B72992700651E0B /* Frameworks */,
+				27E283702B72992700651E0B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				27E283772B72992700651E0B /* PBXTargetDependency */,
+			);
+			name = SecurityStorageTests;
+			productName = SecurityStorageTests;
+			productReference = 27E283722B72992700651E0B /* SecurityStorageTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */ = {
@@ -1088,11 +1119,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
-					274BFB9E28A29C3400C3F9C9 = {
-						CreatedOnToolsVersion = 13.4.1;
+					27E283642B72991500651E0B = {
+						CreatedOnToolsVersion = 15.2;
+						TestTargetID = 27F5E553287C6DCA00BCF61C;
+					};
+					27E283712B72992700651E0B = {
+						CreatedOnToolsVersion = 15.2;
 						TestTargetID = 27F5E553287C6DCA00BCF61C;
 					};
 					27F5E553287C6DCA00BCF61C = {
@@ -1117,13 +1152,21 @@
 			projectRoot = "";
 			targets = (
 				27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */,
-				274BFB9E28A29C3400C3F9C9 /* Anilibria-ios-appTests */,
+				27E283642B72991500651E0B /* APITests */,
+				27E283712B72992700651E0B /* SecurityStorageTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		274BFB9D28A29C3400C3F9C9 /* Resources */ = {
+		27E283632B72991500651E0B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27E283702B72992700651E0B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1188,28 +1231,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"${PODS_ROOT}/SwiftLint/swiftlint\" ]]; then\n  \"${PODS_ROOT}/SwiftLint/swiftlint\" --config .swiftlint.yml\nelse\n  echo \"warning: SwiftLint is not installed. Run 'pod install --repo-update' to install it.\"\nfi\n";
 		};
-		39B4994A4D49037087F236D8 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Anilibria-ios-appTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		61259703A46C6E8D6577C3B9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1252,15 +1273,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		274BFB9B28A29C3400C3F9C9 /* Sources */ = {
+		27E283612B72991500651E0B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2710E9A329B5187000B66C62 /* PublicApiServiceTests.swift in Sources */,
-				2710E9A729B518E200B66C62 /* ImageLoaderServiceTests.swift in Sources */,
-				275865852ACF093100F98884 /* SecurityStorageCredentialsTests.swift in Sources */,
-				275865872ACF094200F98884 /* SecurityStorageSessionTests.swift in Sources */,
-				2710E9A529B518AD00B66C62 /* AuthorizationServiceTests.swift in Sources */,
+				27E2837C2B72997100651E0B /* ImageLoaderServiceTests.swift in Sources */,
+				27E2837B2B72997100651E0B /* AuthorizationServiceTests.swift in Sources */,
+				27E2837D2B72997100651E0B /* PublicApiServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27E2836E2B72992700651E0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27E2837E2B72997D00651E0B /* SecurityStorageCredentialsTests.swift in Sources */,
+				27E2837F2B72997D00651E0B /* SecurityStorageSessionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1436,10 +1464,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		274BFBA428A29C3400C3F9C9 /* PBXTargetDependency */ = {
+		27E2836A2B72991500651E0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */;
-			targetProxy = 274BFBA328A29C3400C3F9C9 /* PBXContainerItemProxy */;
+			targetProxy = 27E283692B72991500651E0B /* PBXContainerItemProxy */;
+		};
+		27E283772B72992700651E0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */;
+			targetProxy = 27E283762B72992700651E0B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1463,47 +1496,113 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		274BFBA628A29C3400C3F9C9 /* Debug */ = {
+		27E2836C2B72991500651E0B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 20F323270BF3B56BCA33C439 /* Pods-Anilibria-ios-appTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = ZQ774W5T35;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-appTests";
+				PRODUCT_BUNDLE_IDENTIFIER = Nasybullin.APITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/Anilibria-ios-app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Anilibria-ios-app";
 			};
 			name = Debug;
 		};
-		274BFBA728A29C3400C3F9C9 /* Release */ = {
+		27E2836D2B72991500651E0B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 48BB9CC5BFBA7CD49EC7BFAF /* Pods-Anilibria-ios-appTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = ZQ774W5T35;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-appTests";
+				PRODUCT_BUNDLE_IDENTIFIER = Nasybullin.APITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/Anilibria-ios-app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Anilibria-ios-app";
+			};
+			name = Release;
+		};
+		27E283792B72992700651E0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = ZQ774W5T35;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Nasybullin.SecurityStorageTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Anilibria-ios-app";
+			};
+			name = Debug;
+		};
+		27E2837A2B72992700651E0B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = ZQ774W5T35;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Nasybullin.SecurityStorageTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Anilibria-ios-app";
 			};
 			name = Release;
 		};
@@ -1708,11 +1807,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		274BFBA528A29C3400C3F9C9 /* Build configuration list for PBXNativeTarget "Anilibria-ios-appTests" */ = {
+		27E2836B2B72991500651E0B /* Build configuration list for PBXNativeTarget "APITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				274BFBA628A29C3400C3F9C9 /* Debug */,
-				274BFBA728A29C3400C3F9C9 /* Release */,
+				27E2836C2B72991500651E0B /* Debug */,
+				27E2836D2B72991500651E0B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27E283782B72992700651E0B /* Build configuration list for PBXNativeTarget "SecurityStorageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27E283792B72992700651E0B /* Debug */,
+				27E2837A2B72992700651E0B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
