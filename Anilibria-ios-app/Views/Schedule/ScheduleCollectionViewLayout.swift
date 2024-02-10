@@ -8,8 +8,7 @@
 import UIKit
 
 final class ScheduleCollectionViewLayout {
-    typealias Section = HomeView.Section
-    typealias ElementKind = HomeView.ElementKind
+    typealias ElementKind = ScheduleView.ElementKind
     
     func createLayout() -> UICollectionViewLayout {
         let section = configureSection()
