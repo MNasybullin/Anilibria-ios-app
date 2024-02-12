@@ -142,3 +142,15 @@
 "Team.editing" = "Редактор";
 "Team.decor" = "Оформление";
 "Team.timing" = "Тайминг";
+
+// MARK: - Profile AniLibria
+"ProfileModule.Anilibria.site" = "AniLibria.tv";
+"ProfileModule.Anilibria.team" = "Команда";
+"ProfileModule.Anilibria.vk" = "ВКонтакте";
+"ProfileModule.Anilibria.telegram" = "Telegram";
+"ProfileModule.Anilibria.youtube" = "YouTube";
+"ProfileModule.Anilibria.discord" = "Discord";
+
+// MARK: - Profile App
+"ProfileModule.App.settings" = "Настройки";
+"ProfileModule.App.aboutApp" = "О приложении";

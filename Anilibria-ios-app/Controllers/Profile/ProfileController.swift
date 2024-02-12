@@ -13,26 +13,29 @@ final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
     
     weak var navigator: ProfileNavigator?
     
-    private let userController = UserController()
+    private var contentController: ProfileContentController!
     
     // MARK: LifeCycle
     override func loadView() {
-        addChild(userController)
-        
-        let profileView = ProfileView(userView: userController.customView)
-        view = profileView
-        
-        userController.didMove(toParent: self)
+        view = ProfileView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        hideKeyboardWhenTappedAround()
-        configureNavBar()
+        setupNavBar()
+        setupContentController()
+    }
+}
+
+// MARK: - Private methods
+
+private extension ProfileController {
+    func setupNavBar() {
+        self.fd_prefersNavigationBarHidden = true
     }
     
-    private func configureNavBar() {
-        self.fd_prefersNavigationBarHidden = true
+    func setupContentController() {
+        contentController = ProfileContentController(customView: customView)
     }
 }

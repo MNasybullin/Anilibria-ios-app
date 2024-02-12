@@ -112,8 +112,9 @@
 		277513F92B63FF1400947AED /* FranchiseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277513F82B63FF1400947AED /* FranchiseModel.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
 		277841D72B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277841D62B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift */; };
-		278356AE2ABDC7DE00878B8F /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */; };
 		2784BA1F2AF97841004E9B54 /* RandomAnimeRefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784BA1E2AF97841004E9B54 /* RandomAnimeRefreshButton.swift */; };
+		27934FFB2B77845C00B7BD07 /* ProfileContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27934FFA2B77845C00B7BD07 /* ProfileContentController.swift */; };
+		27934FFE2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27934FFD2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift */; };
 		279E4F30289C4C70008038FF /* LoginAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginAPIModel.swift */; };
 		279E4F35289D0304008038FF /* FavoriteAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteAPIModel.swift */; };
 		279E4F37289D2CA7008038FF /* UserAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F36289D2CA7008038FF /* UserAPIModel.swift */; };
@@ -315,8 +316,9 @@
 		277513F82B63FF1400947AED /* FranchiseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FranchiseModel.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
 		277841D62B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerEpisodesController.swift; sourceTree = "<group>"; };
-		278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		2784BA1E2AF97841004E9B54 /* RandomAnimeRefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeRefreshButton.swift; sourceTree = "<group>"; };
+		27934FFA2B77845C00B7BD07 /* ProfileContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentController.swift; sourceTree = "<group>"; };
+		27934FFD2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewLayout.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIModel.swift; sourceTree = "<group>"; };
 		279E4F34289D0304008038FF /* FavoriteAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAPIModel.swift; sourceTree = "<group>"; };
 		279E4F36289D2CA7008038FF /* UserAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIModel.swift; sourceTree = "<group>"; };
@@ -644,9 +646,9 @@
 				271072E12ADDD77C0024530D /* Cells */,
 				27A66E7A2990F0ED00369EAF /* NetworkStatusView.swift */,
 				271A0E462AEA6F66005958CB /* RootView.swift */,
-				275865CC2ADB13BF00F98884 /* ProfileView.swift */,
 				27B707172AF2ACBC00DD8DC6 /* SearchView.swift */,
 				275DAB6E2B5FC2EC0059C2F3 /* StatusAlertView.swift */,
+				27934FFF2B77852000B7BD07 /* Profile */,
 				277513F72B63F48500947AED /* Franchise */,
 				276880CA2B47F3A700F5FD06 /* Favorites */,
 				275EFF3F2B16139100C281B1 /* User */,
@@ -668,9 +670,9 @@
 				27103DCC2B6A46D800B4CA49 /* Animators */,
 				27A66E74298E93FC00369EAF /* RootViewController.swift */,
 				275865AE2AD9C97700F98884 /* TabBarController.swift */,
-				275865B72ADA889F00F98884 /* ProfileController.swift */,
 				275865BE2ADADBF400F98884 /* UserController.swift */,
 				27B7070A2AF290A900DD8DC6 /* RandomAnimeController.swift */,
+				27934FFC2B77846100B7BD07 /* Profile */,
 				27103DCD2B6A47C000B4CA49 /* Anime */,
 				27103DC92B68F15600B4CA49 /* Search */,
 				277513F02B63F35600947AED /* Franchise */,
@@ -791,7 +793,6 @@
 			isa = PBXGroup;
 			children = (
 				27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */,
-				278356AD2ABDC7DE00878B8F /* UIViewController+Extension.swift */,
 				275865CE2ADC117700F98884 /* UserDefaults+Extension.swift */,
 				2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */,
 				27EA508C2B00140F00A1B987 /* UIImage+Extension.swift */,
@@ -815,6 +816,24 @@
 				27E283662B72991500651E0B /* APITests */,
 			);
 			path = "Anilibria-ios-app-Tests";
+			sourceTree = "<group>";
+		};
+		27934FFC2B77846100B7BD07 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				275865B72ADA889F00F98884 /* ProfileController.swift */,
+				27934FFA2B77845C00B7BD07 /* ProfileContentController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		27934FFF2B77852000B7BD07 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				275865CC2ADB13BF00F98884 /* ProfileView.swift */,
+				27934FFD2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		279E4F31289C7044008038FF /* Common */ = {
@@ -1331,6 +1350,7 @@
 				277513EF2B63F35100947AED /* FranchiseContentController.swift in Sources */,
 				275DAB752B6186A00059C2F3 /* EpisodesTableViewCell.swift in Sources */,
 				27EA50932B014E4600A1B987 /* MiddleOverlayButton.swift in Sources */,
+				27934FFB2B77845C00B7BD07 /* ProfileContentController.swift in Sources */,
 				27A66E6F298BCFC600369EAF /* TeamAPIModel.swift in Sources */,
 				27AB03FB2B2857790007E750 /* YouTubeModel.swift in Sources */,
 				276880C12B46DDAE00F5FD06 /* ExpiredDateManager.swift in Sources */,
@@ -1377,7 +1397,6 @@
 				272D6547288ED42B00FA4F60 /* TitleAPIModel.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
 				27EA508B2AFE327800A1B987 /* MiddleOverlayView.swift in Sources */,
-				278356AE2ABDC7DE00878B8F /* UIViewController+Extension.swift in Sources */,
 				275865AB2AD9BAC200F98884 /* MainNavigator.swift in Sources */,
 				27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */,
 				271A0E3C2AE97F10005958CB /* ScheduleModel.swift in Sources */,
@@ -1441,6 +1460,7 @@
 				2758657A2ACEB2D700F98884 /* SecurityStorage.swift in Sources */,
 				27EA50912B01402600A1B987 /* VideoPlayerModel.swift in Sources */,
 				275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */,
+				27934FFE2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift in Sources */,
 				2758A43A2B30B7020089E475 /* EpisodesEntity+CoreDataClass.swift in Sources */,
 				2758A43B2B30B7020089E475 /* EpisodesEntity+CoreDataProperties.swift in Sources */,
 				273ECB072B21C10A00402612 /* VideoPlayerSettingsDetailController.swift in Sources */,
