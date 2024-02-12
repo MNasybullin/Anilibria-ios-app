@@ -73,9 +73,8 @@ final class SignInView: UIView {
     }
     
     private func setupView() {
-        backgroundColor = .systemBackground
+        backgroundColor = .systemGroupedBackground
         layer.cornerRadius = Constants.cornerRadius
-        layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }
     
     private func setupEmailTextField() {

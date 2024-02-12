@@ -14,6 +14,13 @@ final class UserView: UIView {
     private var signInViewTopAnchor: NSLayoutConstraint!
     private var signInViewBottomAnchor: NSLayoutConstraint!
     
+    private lazy var currentWindow: UIWindow? = {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScenes = scenes.first as? UIWindowScene
+        let window = windowScenes?.windows.first
+        return window
+    }()
+    
     init() {
         super.init(frame: .zero)
         
@@ -30,7 +37,7 @@ final class UserView: UIView {
 
 private extension UserView {
     func setupView() {
-        backgroundColor = .systemBackground
+        backgroundColor = .systemGroupedBackground
     }
     
     func setupLayout() {
@@ -42,6 +49,8 @@ private extension UserView {
         
         signInViewTopAnchor = signInView.topAnchor.constraint(equalTo: topAnchor)
         signInViewBottomAnchor = signInView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        
+        directionalLayoutMargins = NSDirectionalEdgeInsets(top: currentWindow?.safeAreaInsets.top ?? 16, leading: 16, bottom: 16, trailing: 16)
         
         NSLayoutConstraint.activate([
             userInfoView.topAnchor.constraint(equalTo: topAnchor),
