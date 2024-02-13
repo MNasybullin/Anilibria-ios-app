@@ -36,4 +36,10 @@ enum NetworkConstants {
     static let noAvatarSuffix = "/upload/avatars/noavatar.jpg"
     
     static let removeTorrents: URLQueryItem = URLQueryItem(name: "remove", value: "torrents")
+    
+    // Anilibria resources
+    static let anilibriaVk = "https://vk.com/anilibria"
+    static let anilibriaTelegram = "https://t.me/anilibria_tv"
+    static let anilibriaYouTube = "https://www.youtube.com/@anilibriatv"
+    static let anilibriaDiscord = "https://discord.gg/anilibria"
 }

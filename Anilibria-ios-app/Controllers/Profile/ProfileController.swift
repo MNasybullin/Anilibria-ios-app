@@ -37,5 +37,26 @@ private extension ProfileController {
     
     func setupContentController() {
         contentController = ProfileContentController(customView: customView)
+        contentController.delegate = self
+    }
+}
+
+// MARK: - ProfileContentControllerDelegate
+
+extension ProfileController: ProfileContentControllerDelegate {
+    func showSite(url: URL) {
+        UIApplication.shared.open(url)
+    }
+    
+    func showTeam(data: TeamAPIModel) {
+    }
+    
+    func showAppItem(type: ProfileContentController.AppItem) {
+        switch type {
+            case .settings:
+                break
+            case .aboutApp:
+                break
+        }
     }
 }

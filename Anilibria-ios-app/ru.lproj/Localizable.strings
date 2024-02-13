@@ -144,7 +144,7 @@
 "Team.timing" = "Тайминг";
 
 // MARK: - Profile AniLibria
-"ProfileModule.Anilibria.site" = "AniLibria.tv";
+"ProfileModule.Anilibria.site" = "Сайт AniLibria.tv";
 "ProfileModule.Anilibria.team" = "Команда";
 "ProfileModule.Anilibria.vk" = "ВКонтакте";
 "ProfileModule.Anilibria.telegram" = "Telegram";
