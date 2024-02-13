@@ -23,6 +23,7 @@ final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigationItem()
         setupNavBar()
         setupContentController()
     }
@@ -31,6 +32,10 @@ final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
 // MARK: - Private methods
 
 private extension ProfileController {
+    func setupNavigationItem() {
+        navigationItem.backButtonTitle = ""
+    }
+    
     func setupNavBar() {
         self.fd_prefersNavigationBarHidden = true
     }
@@ -49,6 +54,7 @@ extension ProfileController: ProfileContentControllerDelegate {
     }
     
     func showTeam(data: TeamAPIModel) {
+        navigator?.show(.team(rawData: data))
     }
     
     func showAppItem(type: ProfileContentController.AppItem) {

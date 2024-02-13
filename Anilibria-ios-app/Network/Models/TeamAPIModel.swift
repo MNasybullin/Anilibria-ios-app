@@ -8,7 +8,11 @@
 import Foundation
 
 /// Возвращается в запросах:
-/// getTeam
+/// team
 struct TeamAPIModel: Decodable {
-    let team: GTTeam?
+    let voice: [String]
+    let translator: [String]
+    let editing: [String]
+    let decor: [String]
+    let timing: [String]
 }

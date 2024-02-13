@@ -12,6 +12,7 @@ final class ProfileModel {
     private let publicApiService = PublicApiService()
     
     init() {
+        
     }
 }
 

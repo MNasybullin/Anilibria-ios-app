@@ -136,6 +136,9 @@
 // MARK: - Skeleton Text Placeholder
 "SkeletonTextPlaceholder" = "Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder";
 
+// MARK: - Team Module
+"TeamModule.title" = "Команда";
+ 
 // MARK: - Team
 "Team.voice" = "Озвучка";
 "Team.translator" = "Перевод";

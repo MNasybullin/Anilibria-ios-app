@@ -157,6 +157,10 @@
 		27CE885B2B237FB2004DC558 /* HomeYouTubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */; };
 		27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */; };
 		27E1BA072B7AB70A00A9C73C /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA062B7AB70A00A9C73C /* ProfileModel.swift */; };
+		27E1BA092B7B82F300A9C73C /* TeamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA082B7B82F300A9C73C /* TeamController.swift */; };
+		27E1BA0B2B7B834100A9C73C /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA0A2B7B834100A9C73C /* TeamView.swift */; };
+		27E1BA0D2B7B836800A9C73C /* TeamContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA0C2B7B836800A9C73C /* TeamContentController.swift */; };
+		27E1BA102B7B862E00A9C73C /* TeamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA0F2B7B862E00A9C73C /* TeamModel.swift */; };
 		27E2837B2B72997100651E0B /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
 		27E2837C2B72997100651E0B /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
 		27E2837D2B72997100651E0B /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
@@ -362,6 +366,10 @@
 		27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYouTubeModel.swift; sourceTree = "<group>"; };
 		27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOrientation.swift; sourceTree = "<group>"; };
 		27E1BA062B7AB70A00A9C73C /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		27E1BA082B7B82F300A9C73C /* TeamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamController.swift; sourceTree = "<group>"; };
+		27E1BA0A2B7B834100A9C73C /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
+		27E1BA0C2B7B836800A9C73C /* TeamContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamContentController.swift; sourceTree = "<group>"; };
+		27E1BA0F2B7B862E00A9C73C /* TeamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamModel.swift; sourceTree = "<group>"; };
 		27E283652B72991500651E0B /* APITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27E283722B72992700651E0B /* SecurityStorageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecurityStorageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
@@ -650,6 +658,7 @@
 				271A0E462AEA6F66005958CB /* RootView.swift */,
 				27B707172AF2ACBC00DD8DC6 /* SearchView.swift */,
 				275DAB6E2B5FC2EC0059C2F3 /* StatusAlertView.swift */,
+				27E1BA0A2B7B834100A9C73C /* TeamView.swift */,
 				27934FFF2B77852000B7BD07 /* Profile */,
 				277513F72B63F48500947AED /* Franchise */,
 				276880CA2B47F3A700F5FD06 /* Favorites */,
@@ -674,6 +683,7 @@
 				275865AE2AD9C97700F98884 /* TabBarController.swift */,
 				275865BE2ADADBF400F98884 /* UserController.swift */,
 				27B7070A2AF290A900DD8DC6 /* RandomAnimeController.swift */,
+				27E1BA0E2B7B836D00A9C73C /* Team */,
 				27934FFC2B77846100B7BD07 /* Profile */,
 				27103DCD2B6A47C000B4CA49 /* Anime */,
 				27103DC92B68F15600B4CA49 /* Search */,
@@ -699,6 +709,7 @@
 				276880BE2B45649D00F5FD06 /* FavoritesModel.swift */,
 				27103DC72B68402900B4CA49 /* PosterItem.swift */,
 				27E1BA062B7AB70A00A9C73C /* ProfileModel.swift */,
+				27E1BA0F2B7B862E00A9C73C /* TeamModel.swift */,
 				27103DC62B68401900B4CA49 /* Franchise */,
 				273ECB012B20E96500402612 /* VideoPlayer */,
 				27B707232AF3E33900DD8DC6 /* SearchResults */,
@@ -962,6 +973,15 @@
 				27CE88582B2343E0004DC558 /* NetworkConstants.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		27E1BA0E2B7B836D00A9C73C /* Team */ = {
+			isa = PBXGroup;
+			children = (
+				27E1BA082B7B82F300A9C73C /* TeamController.swift */,
+				27E1BA0C2B7B836800A9C73C /* TeamContentController.swift */,
+			);
+			path = Team;
 			sourceTree = "<group>";
 		};
 		27E283662B72991500651E0B /* APITests */ = {
@@ -1377,6 +1397,7 @@
 				276880CE2B49BB7400F5FD06 /* FavoritesContentController.swift in Sources */,
 				275B1AF229DECF50006A00EA /* AnimeEpisodesView.swift in Sources */,
 				2744C87729BC71A700105F11 /* SearchResultsLoadingFooterView.swift in Sources */,
+				27E1BA0B2B7B834100A9C73C /* TeamView.swift in Sources */,
 				27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */,
 				27B7070F2AF2962200DD8DC6 /* RandomAnimeModel.swift in Sources */,
 				275865BF2ADADBF400F98884 /* UserController.swift in Sources */,
@@ -1391,6 +1412,7 @@
 				2748DCFE2AEBCF3000D53E9B /* HomeContentController.swift in Sources */,
 				273ECB052B21B03900402612 /* HLS.swift in Sources */,
 				27AB03FD2B286DD40007E750 /* YouTubeFooterSupplementaryView.swift in Sources */,
+				27E1BA102B7B862E00A9C73C /* TeamModel.swift in Sources */,
 				27EA508D2B00140F00A1B987 /* UIImage+Extension.swift in Sources */,
 				2748DD012AEBFD6500D53E9B /* ScheduleContentController.swift in Sources */,
 				277513F22B63F3BA00947AED /* FranchiseDiffableDataSource.swift in Sources */,
@@ -1398,6 +1420,7 @@
 				2704E42E2B0E86010082507F /* PlayerView.swift in Sources */,
 				272D6540288EC4EC00FA4F60 /* XCAssets+Generated.swift in Sources */,
 				272D6547288ED42B00FA4F60 /* TitleAPIModel.swift in Sources */,
+				27E1BA0D2B7B836800A9C73C /* TeamContentController.swift in Sources */,
 				272D6543288EC75600FA4F60 /* MyNetworkError.swift in Sources */,
 				27EA508B2AFE327800A1B987 /* MiddleOverlayView.swift in Sources */,
 				275865AB2AD9BAC200F98884 /* MainNavigator.swift in Sources */,
@@ -1454,6 +1477,7 @@
 				277513F42B63F44300947AED /* FranchiseView.swift in Sources */,
 				271A0E262AE7F32C005958CB /* HomeModelOutput.swift in Sources */,
 				271A0E452AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift in Sources */,
+				27E1BA092B7B82F300A9C73C /* TeamController.swift in Sources */,
 				277841D72B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift in Sources */,
 				276880BD2B44324B00F5FD06 /* TopOverlayButton.swift in Sources */,
 				2748DD042AEC2ABA00D53E9B /* AnimeController.swift in Sources */,
