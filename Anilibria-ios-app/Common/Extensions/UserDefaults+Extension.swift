@@ -5,11 +5,13 @@
 //  Created by Mansur Nasybullin on 15.10.2023.
 //
 
-import Foundation
+import UIKit
 
 enum UserDefaultsKeys: String {
     case isUserAuthorized
     case userLogin
+    
+    case appearance
 }
 
 extension UserDefaults {
@@ -28,6 +30,15 @@ extension UserDefaults {
         }
         set {
             set(newValue, forKey: UserDefaultsKeys.userLogin.rawValue)
+        }
+    }
+    
+    var appearance: UIUserInterfaceStyle {
+        get {
+            UIUserInterfaceStyle(rawValue: integer(forKey: UserDefaultsKeys.appearance.rawValue)) ?? .unspecified
+        }
+        set {
+            set(newValue.rawValue, forKey: UserDefaultsKeys.appearance.rawValue)
         }
     }
 }

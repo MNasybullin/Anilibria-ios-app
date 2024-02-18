@@ -17,6 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = MainNavigator.shared.rootViewController
         window?.makeKeyAndVisible()
+        
+        applyAppearance()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -48,4 +50,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         CoreDataService.shared.saveContext()
     }
 
+}
+
+extension SceneDelegate {
+    func applyAppearance() {
+        let style = UserDefaults.standard.appearance
+        window?.overrideUserInterfaceStyle = style
+    }
 }

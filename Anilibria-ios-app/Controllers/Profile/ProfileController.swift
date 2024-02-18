@@ -60,7 +60,7 @@ extension ProfileController: ProfileContentControllerDelegate {
     func showAppItem(type: ProfileContentController.AppItem) {
         switch type {
             case .settings:
-                break
+                navigator?.show(.settings)
             case .aboutApp:
                 break
         }

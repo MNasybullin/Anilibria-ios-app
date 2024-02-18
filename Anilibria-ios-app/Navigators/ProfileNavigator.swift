@@ -55,6 +55,7 @@ extension ProfileNavigator: BasicNavigator {
 extension ProfileNavigator: Navigator {
     enum Destinition {
         case team(rawData: TeamAPIModel)
+        case settings
     }
     
     func show(_ destination: Destinition) {
@@ -63,6 +64,9 @@ extension ProfileNavigator: Navigator {
             case .team(let rawData):
                 viewController = TeamController(rawData: rawData)
                 viewController.title = Strings.TeamModule.title
+            case .settings:
+                viewController = SettingsController()
+                viewController.title = Strings.SettingsModule.title
         }
         navigationController.pushViewController(viewController, animated: true)
 

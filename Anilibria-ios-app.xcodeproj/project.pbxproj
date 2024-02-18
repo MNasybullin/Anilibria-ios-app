@@ -161,6 +161,13 @@
 		27E1BA0B2B7B834100A9C73C /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA0A2B7B834100A9C73C /* TeamView.swift */; };
 		27E1BA0D2B7B836800A9C73C /* TeamContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA0C2B7B836800A9C73C /* TeamContentController.swift */; };
 		27E1BA102B7B862E00A9C73C /* TeamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA0F2B7B862E00A9C73C /* TeamModel.swift */; };
+		27E1BA142B822A2700A9C73C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA132B822A2700A9C73C /* SettingsView.swift */; };
+		27E1BA162B822A4800A9C73C /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA152B822A4800A9C73C /* SettingsController.swift */; };
+		27E1BA182B822A5900A9C73C /* SettingsContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA172B822A5900A9C73C /* SettingsContentController.swift */; };
+		27E1BA1B2B822C1C00A9C73C /* SettingsCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA1A2B822C1C00A9C73C /* SettingsCollectionViewLayout.swift */; };
+		27E1BA1E2B82530600A9C73C /* SettingsCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA1D2B82530600A9C73C /* SettingsCollectionViewHeader.swift */; };
+		27E1BA202B82565000A9C73C /* SettingsAppearanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA1F2B82565000A9C73C /* SettingsAppearanceCell.swift */; };
+		27E1BA222B82613900A9C73C /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA212B82613900A9C73C /* SettingsModel.swift */; };
 		27E2837B2B72997100651E0B /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
 		27E2837C2B72997100651E0B /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
 		27E2837D2B72997100651E0B /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
@@ -370,6 +377,13 @@
 		27E1BA0A2B7B834100A9C73C /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
 		27E1BA0C2B7B836800A9C73C /* TeamContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamContentController.swift; sourceTree = "<group>"; };
 		27E1BA0F2B7B862E00A9C73C /* TeamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamModel.swift; sourceTree = "<group>"; };
+		27E1BA132B822A2700A9C73C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		27E1BA152B822A4800A9C73C /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		27E1BA172B822A5900A9C73C /* SettingsContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContentController.swift; sourceTree = "<group>"; };
+		27E1BA1A2B822C1C00A9C73C /* SettingsCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCollectionViewLayout.swift; sourceTree = "<group>"; };
+		27E1BA1D2B82530600A9C73C /* SettingsCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCollectionViewHeader.swift; sourceTree = "<group>"; };
+		27E1BA1F2B82565000A9C73C /* SettingsAppearanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppearanceCell.swift; sourceTree = "<group>"; };
+		27E1BA212B82613900A9C73C /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		27E283652B72991500651E0B /* APITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27E283722B72992700651E0B /* SecurityStorageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecurityStorageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
@@ -659,6 +673,7 @@
 				27B707172AF2ACBC00DD8DC6 /* SearchView.swift */,
 				275DAB6E2B5FC2EC0059C2F3 /* StatusAlertView.swift */,
 				27E1BA0A2B7B834100A9C73C /* TeamView.swift */,
+				27E1BA1C2B822C2000A9C73C /* Settings */,
 				27934FFF2B77852000B7BD07 /* Profile */,
 				277513F72B63F48500947AED /* Franchise */,
 				276880CA2B47F3A700F5FD06 /* Favorites */,
@@ -683,6 +698,7 @@
 				275865AE2AD9C97700F98884 /* TabBarController.swift */,
 				275865BE2ADADBF400F98884 /* UserController.swift */,
 				27B7070A2AF290A900DD8DC6 /* RandomAnimeController.swift */,
+				27E1BA192B822A5D00A9C73C /* Settings */,
 				27E1BA0E2B7B836D00A9C73C /* Team */,
 				27934FFC2B77846100B7BD07 /* Profile */,
 				27103DCD2B6A47C000B4CA49 /* Anime */,
@@ -710,6 +726,7 @@
 				27103DC72B68402900B4CA49 /* PosterItem.swift */,
 				27E1BA062B7AB70A00A9C73C /* ProfileModel.swift */,
 				27E1BA0F2B7B862E00A9C73C /* TeamModel.swift */,
+				27E1BA212B82613900A9C73C /* SettingsModel.swift */,
 				27103DC62B68401900B4CA49 /* Franchise */,
 				273ECB012B20E96500402612 /* VideoPlayer */,
 				27B707232AF3E33900DD8DC6 /* SearchResults */,
@@ -982,6 +999,26 @@
 				27E1BA0C2B7B836800A9C73C /* TeamContentController.swift */,
 			);
 			path = Team;
+			sourceTree = "<group>";
+		};
+		27E1BA192B822A5D00A9C73C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				27E1BA152B822A4800A9C73C /* SettingsController.swift */,
+				27E1BA172B822A5900A9C73C /* SettingsContentController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		27E1BA1C2B822C2000A9C73C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				27E1BA132B822A2700A9C73C /* SettingsView.swift */,
+				27E1BA1D2B82530600A9C73C /* SettingsCollectionViewHeader.swift */,
+				27E1BA1F2B82565000A9C73C /* SettingsAppearanceCell.swift */,
+				27E1BA1A2B822C1C00A9C73C /* SettingsCollectionViewLayout.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		27E283662B72991500651E0B /* APITests */ = {
@@ -1357,12 +1394,15 @@
 				27CE88552B2316E6004DC558 /* Team.swift in Sources */,
 				275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
+				27E1BA1B2B822C1C00A9C73C /* SettingsCollectionViewLayout.swift in Sources */,
 				27AB03EC2B2735780007E750 /* TodayHomePosterCollectionCell.swift in Sources */,
 				2710E99F29B5117500B66C62 /* AuthorizationService.swift in Sources */,
 				273ECB002B20E93600402612 /* VideoPlayerItem.swift in Sources */,
 				27EA50952B022F0100A1B987 /* Playlist.swift in Sources */,
 				27103DC82B68402900B4CA49 /* PosterItem.swift in Sources */,
 				2710E99D29B510ED00B66C62 /* ImageLoaderService.swift in Sources */,
+				27E1BA202B82565000A9C73C /* SettingsAppearanceCell.swift in Sources */,
+				27E1BA142B822A2700A9C73C /* SettingsView.swift in Sources */,
 				271A0E1F2AE7EBA4005958CB /* HomeTodayModel.swift in Sources */,
 				2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
@@ -1451,6 +1491,7 @@
 				271072E92ADDDE310024530D /* HomePosterItem.swift in Sources */,
 				27A66E792990EF9200369EAF /* HasScrollableView.swift in Sources */,
 				27EA50892AFE321A00A1B987 /* TopOverlayView.swift in Sources */,
+				27E1BA1E2B82530600A9C73C /* SettingsCollectionViewHeader.swift in Sources */,
 				27AB03F12B2850B10007E750 /* YouTubeView.swift in Sources */,
 				274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */,
 				2744762B29B8CCF70062F6D2 /* SearchResultsTableViewCell.swift in Sources */,
@@ -1465,6 +1506,7 @@
 				27103DCB2B6A46C900B4CA49 /* AnimeAnimator.swift in Sources */,
 				275DAB6F2B5FC2EC0059C2F3 /* StatusAlertView.swift in Sources */,
 				271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */,
+				27E1BA222B82613900A9C73C /* SettingsModel.swift in Sources */,
 				27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */,
 				27B707062AF253DC00DD8DC6 /* EpisodesModel.swift in Sources */,
 				27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */,
@@ -1489,10 +1531,12 @@
 				27EA50912B01402600A1B987 /* VideoPlayerModel.swift in Sources */,
 				275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */,
 				27934FFE2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift in Sources */,
+				27E1BA182B822A5900A9C73C /* SettingsContentController.swift in Sources */,
 				2758A43A2B30B7020089E475 /* EpisodesEntity+CoreDataClass.swift in Sources */,
 				2758A43B2B30B7020089E475 /* EpisodesEntity+CoreDataProperties.swift in Sources */,
 				273ECB072B21C10A00402612 /* VideoPlayerSettingsDetailController.swift in Sources */,
 				271A0E242AE7F322005958CB /* HomeModelInput.swift in Sources */,
+				27E1BA162B822A4800A9C73C /* SettingsController.swift in Sources */,
 				275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */,
 				275EFF3E2B15C38000C281B1 /* UserView.swift in Sources */,
 				2758A4392B30B7020089E475 /* WatchingEntity+CoreDataClass.swift in Sources */,

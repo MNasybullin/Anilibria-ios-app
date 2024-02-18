@@ -157,3 +157,12 @@
 // MARK: - Profile App
 "ProfileModule.App.settings" = "Настройки";
 "ProfileModule.App.aboutApp" = "О приложении";
+
+// MARK: - Settings Module
+"SettingsModule.title" = "Настройки";
+"SettingsModule.HeaderText.appearance" = "Тема оформления";
+"SettingsModule.Appearance.title.unspecified" = "Системная";
+"SettingsModule.Appearance.title.light" = "Светлая";
+"SettingsModule.Appearance.title.dark" = "Тёмная";
+"SettingsModule.Appearance.subtitle.unspecified" = "Такая же, как на устройстве";
+
