@@ -130,7 +130,6 @@ extension SettingsContentController: UICollectionViewDelegate {
                 }
                 selectedAppearanceCell?.isSelected = false
                 selectedAppearanceCell?.configureViewForIsSelected()
-                cell.isSelected = true
                 cell.configureView(style: style)
                 model.appearance = style
                 selectedAppearanceCell = cell
