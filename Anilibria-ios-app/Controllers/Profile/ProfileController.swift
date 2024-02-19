@@ -62,7 +62,7 @@ extension ProfileController: ProfileContentControllerDelegate {
             case .settings:
                 navigator?.show(.settings)
             case .aboutApp:
-                break
+                navigator?.show(.aboutApp)
         }
     }
 }

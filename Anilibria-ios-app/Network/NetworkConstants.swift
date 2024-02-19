@@ -42,4 +42,7 @@ enum NetworkConstants {
     static let anilibriaTelegram = "https://t.me/anilibria_tv"
     static let anilibriaYouTube = "https://www.youtube.com/@anilibriatv"
     static let anilibriaDiscord = "https://discord.gg/anilibria"
+    
+    // App
+    static let github = "https://github.com/MNasybullin/Anilibria-ios-app"
 }

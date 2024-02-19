@@ -166,3 +166,9 @@
 "SettingsModule.Appearance.title.dark" = "Тёмная";
 "SettingsModule.Appearance.subtitle.unspecified" = "Такая же, как на устройстве";
 
+//MARK: - AboutApp Module
+"AboutAppModule.title" = "О приложении";
+"AboutAppModule.disclaimer" = "Весь материал в приложении представлен исключительно для домашнего ознакомительного просмотра.";
+"AboutAppModule.version" = "Версия";
+"AboutAppModule.github" = "Исходный код на GitHub";
+
