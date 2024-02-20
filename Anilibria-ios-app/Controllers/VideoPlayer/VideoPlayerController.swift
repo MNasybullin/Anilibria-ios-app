@@ -5,6 +5,8 @@
 //  Created by Mansur Nasybullin on 08.11.2023.
 //
 
+// swiftlint: disable file_length
+
 import AVKit
 import Combine
 import MediaPlayer
@@ -63,6 +65,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     override func loadView() {
         let videoPlayerView = VideoPlayerView()
         videoPlayerView.playerView.player = player
+        videoPlayerView.ambientPlayerView.player = player
         view = videoPlayerView
     }
     
@@ -494,5 +497,9 @@ extension VideoPlayerController: VideoPlayerSettingsControllerDelegate {
     
     func setHLS(_ hls: HLS) {
         model.changeCurrentHLS(hls)
+    }
+    
+    func updateAmbientModeStatus() {
+        customView.updateAmbientViewStatus()
     }
 }

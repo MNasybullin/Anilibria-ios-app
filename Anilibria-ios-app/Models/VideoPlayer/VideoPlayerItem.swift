@@ -10,6 +10,7 @@ import Foundation
 enum PlayerSettingsRow: Int, CaseIterable, CustomStringConvertible {
     case quality
     case rate
+    case ambientMode
     
     var description: String {
         switch self {
@@ -17,6 +18,8 @@ enum PlayerSettingsRow: Int, CaseIterable, CustomStringConvertible {
                 return Strings.VideoPlayerSettings.quality
             case .rate:
                 return Strings.VideoPlayerSettings.rate
+            case .ambientMode:
+                return Strings.VideoPlayerSettings.ambientMode
         }
     }
 }

@@ -12,6 +12,9 @@ enum UserDefaultsKeys: String {
     case userLogin
     
     case appearance
+    
+    // VideoPlayer
+    case ambientMode
 }
 
 extension UserDefaults {
@@ -39,6 +42,20 @@ extension UserDefaults {
         }
         set {
             set(newValue.rawValue, forKey: UserDefaultsKeys.appearance.rawValue)
+        }
+    }
+}
+
+
+// MARK: - VideoPlayer
+
+extension UserDefaults {
+    var ambientMode: Bool {
+        get {
+            bool(forKey: UserDefaultsKeys.ambientMode.rawValue)
+        }
+        set {
+            set(newValue, forKey: UserDefaultsKeys.ambientMode.rawValue)
         }
     }
 }

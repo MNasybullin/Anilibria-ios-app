@@ -13,10 +13,13 @@ final class SettingsContentController: NSObject {
     typealias AppearanceStyle = UIUserInterfaceStyle
     
     enum Section: Int, CaseIterable {
+        case videoPlayer
         case appearance
         
         var headerText: String? {
             switch self {
+                case .videoPlayer:
+                    Strings.SettingsModule.HeaderText.videoPlayer
                 case .appearance:
                     Strings.SettingsModule.HeaderText.appearance
             }
@@ -24,20 +27,39 @@ final class SettingsContentController: NSObject {
     }
     
     enum Item: Hashable {
+        case videoPlayer(VideoPlayerItem)
         case appearance(AppearanceStyle)
         
         static func == (lhs: Item, rhs: Item) -> Bool {
             switch (lhs, rhs) {
+                case (.videoPlayer(let lType), .videoPlayer(let rType)):
+                    return lType == rType
                 case (.appearance(let lType), .appearance(let rType)):
                     return lType == rType
+                default:
+                    return false
             }
         }
         
         func hash(into hasher: inout Hasher) {
             switch self {
+                case .videoPlayer(let type):
+                    hasher.combine("videoPlayer")
+                    hasher.combine(type)
                 case .appearance(let type):
                     hasher.combine("appearance")
                     hasher.combine(type)
+            }
+        }
+    }
+    
+    enum VideoPlayerItem: CustomStringConvertible {
+        case ambientMode
+        
+        var description: String {
+            switch self {
+                case .ambientMode:
+                    Strings.SettingsModule.VideoPlayer.ambientMode
             }
         }
     }
@@ -67,6 +89,11 @@ private extension SettingsContentController {
     func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(Section.allCases)
+        
+        snapshot.appendItems([
+            .videoPlayer(.ambientMode)
+        ], toSection: .videoPlayer)
+        
         snapshot.appendItems([
             .appearance(.unspecified),
             .appearance(.dark),
@@ -82,6 +109,8 @@ private extension SettingsContentController {
             cellProvider: { [weak self] (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
                 
                 switch itemIdentifier {
+                    case .videoPlayer(let item):
+                        self?.configureVideoPlayerCell(collectionView, indexPath: indexPath, item: item)
                     case .appearance(let style):
                         self?.configureAppearanceCell(collectionView, indexPath: indexPath, style: style)
                 }
@@ -98,6 +127,34 @@ private extension SettingsContentController {
         }
         
         return dataSource
+    }
+    
+    func configureVideoPlayerCell(_ collectionView: UICollectionView, indexPath: IndexPath, item: VideoPlayerItem) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewListCell.reuseIdentifier, for: indexPath) as? UICollectionViewListCell else {
+            fatalError("Can`t create new list cell")
+        }
+        
+        var content = cell.defaultContentConfiguration()
+        content.text = item.description
+        cell.contentConfiguration = content
+        cell.layer.cornerRadius = 15
+        cell.layer.masksToBounds = true
+        var backgroundConfig = UIBackgroundConfiguration.listGroupedCell()
+        backgroundConfig.backgroundColor = .secondarySystemBackground
+        
+        cell.backgroundConfiguration = backgroundConfig
+        
+        let switchView = UISwitch()
+        switchView.addAction(UIAction(handler: { [weak self] action in
+            guard let self else { return }
+            model.ambientMode.toggle()
+            let switchView = action.sender as? UISwitch
+            switchView?.setOn(model.ambientMode, animated: true)
+        }), for: .valueChanged)
+        
+        switchView.isOn = model.ambientMode
+        cell.accessories = [.customView(configuration: .init(customView: switchView, placement: .trailing()))]
+        return cell
     }
     
     func configureAppearanceCell(_ collectionView: UICollectionView, indexPath: IndexPath, style: AppearanceStyle) -> UICollectionViewCell {
@@ -124,8 +181,10 @@ extension SettingsContentController: UICollectionViewDelegate {
             return
         }
         switch item {
+            case .videoPlayer(_):
+                collectionView.deselectItem(at: indexPath, animated: true)
             case .appearance(let style):
-                guard let cell = cell as? SettingsAppearanceCell else {
+                guard let cell = cell as? SettingsAppearanceCell, cell != selectedAppearanceCell else {
                      return
                 }
                 selectedAppearanceCell?.isSelected = false

@@ -11,16 +11,46 @@ final class SettingsCollectionViewLayout {
     typealias Section = SettingsContentController.Section
     
     func createLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
             guard let section = Section(rawValue: sectionIndex) else {
                 fatalError("Layout section is not found.")
             }
             switch section {
+                case .videoPlayer:
+                    return self.configureVideoPlayerSection(layoutEnvironment: layoutEnvironment)
                 case .appearance:
                     return self.configureAppearanceSection()
             }
         }
         return layout
+    }
+    
+    private func configureVideoPlayerSection(layoutEnvironment: NSCollectionLayoutEnvironment ) -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(50))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item])
+        group.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(40))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        return section
     }
     
     private func configureAppearanceSection() -> NSCollectionLayoutSection {

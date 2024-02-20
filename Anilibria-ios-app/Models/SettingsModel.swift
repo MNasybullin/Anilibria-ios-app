@@ -18,6 +18,11 @@ final class SettingsModel {
         }
     }
     
+    var ambientMode: Bool {
+        get { userDefaults.ambientMode }
+        set { userDefaults.ambientMode = newValue }
+    }
+    
 }
 
 // MARK: - Private methods

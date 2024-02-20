@@ -15,7 +15,7 @@ protocol VideoPlayerViewDelegate: AnyObject, TopOverlayViewDelegate, MiddleOverl
 
 final class VideoPlayerView: UIView {
     private enum Constants {
-        static let backgroundColor = UIColor.black.withAlphaComponent(0.65)
+        static let overlayBackgroundColor = UIColor.black.withAlphaComponent(0.65)
     }
     
     enum Orientation {
@@ -23,7 +23,20 @@ final class VideoPlayerView: UIView {
     }
     
     let playerView = PlayerView()
-    private let backgroundView = UIView()
+    private (set) lazy var ambientPlayerView: PlayerView = {
+        let ambientPlayerView = PlayerView()
+        ambientPlayerView.playerLayer.videoGravity = .resize
+        
+        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = ambientPlayerView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        ambientPlayerView.addSubview(blurEffectView)
+        return ambientPlayerView
+    }()
+    
+    private let overlayBackgroundView = UIView()
     private let topView = TopOverlayView()
     private let middleView = MiddleOverlayView()
     private let bottomView = BottomOverlayView()
@@ -60,6 +73,8 @@ final class VideoPlayerView: UIView {
     
     private (set) var isOverlaysHidden = false
     
+    private let userDefaults = UserDefaults.standard
+    
     weak var delegate: VideoPlayerViewDelegate? {
         didSet {
             topView.delegate = delegate
@@ -73,6 +88,7 @@ final class VideoPlayerView: UIView {
         super.init(frame: .zero)
         
         configureView()
+        updateAmbientViewStatus()
         configureLayout()
     }
     
@@ -86,7 +102,7 @@ final class VideoPlayerView: UIView {
 private extension VideoPlayerView {
     func configureView() {
         backgroundColor = .black
-        backgroundView.backgroundColor = Constants.backgroundColor
+        overlayBackgroundView.backgroundColor = Constants.overlayBackgroundColor
         
         topView.isHidden = false
         middleView.isHidden = true
@@ -96,7 +112,7 @@ private extension VideoPlayerView {
     }
     
     func configureLayout() {
-        [playerView, backgroundView, topView, middleView, bottomView, activityIndicator, skipButton].forEach {
+        [ambientPlayerView, playerView, overlayBackgroundView, topView, middleView, bottomView, activityIndicator, skipButton].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -118,15 +134,20 @@ private extension VideoPlayerView {
         
         // MARK: Common constraints
         NSLayoutConstraint.activate([
+            ambientPlayerView.topAnchor.constraint(equalTo: topAnchor),
+            ambientPlayerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            ambientPlayerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            ambientPlayerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             playerView.topAnchor.constraint(equalTo: topAnchor),
             playerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             playerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             playerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            backgroundView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            overlayBackgroundView.topAnchor.constraint(equalTo: topAnchor),
+            overlayBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            overlayBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            overlayBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             topView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -183,7 +204,7 @@ extension VideoPlayerView {
                 $0.alpha = 1
             }
             
-            backgroundView.backgroundColor = Constants.backgroundColor
+            overlayBackgroundView.backgroundColor = Constants.overlayBackgroundColor
             
             NSLayoutConstraint.deactivate(hideConstraints)
             NSLayoutConstraint.activate(showConstraints)
@@ -195,7 +216,7 @@ extension VideoPlayerView {
     func hideOverlay() {
         isOverlaysHidden = true
         UIView.animate(withDuration: 0.35) { [self] in
-            backgroundView.backgroundColor = UIColor.clear
+            overlayBackgroundView.backgroundColor = UIColor.clear
             
             [topView, middleView, bottomView].forEach {
                 $0.alpha = 0
@@ -270,5 +291,9 @@ extension VideoPlayerView {
                 skipButton.alpha = isHidden ? 0 : 1
             }
         }
+    }
+    
+    func updateAmbientViewStatus() {
+        ambientPlayerView.isHidden = !userDefaults.ambientMode
     }
 }

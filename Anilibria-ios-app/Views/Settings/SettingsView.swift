@@ -33,6 +33,7 @@ private extension SettingsView {
     
     func setupCollectionView() {
         collectionView.register(SettingsAppearanceCell.self, forCellWithReuseIdentifier: SettingsAppearanceCell.reuseIdentifier)
+        collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: UICollectionViewListCell.reuseIdentifier)
         collectionView.register(SettingsCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SettingsCollectionViewHeader.reuseIdentifier)
     }
     

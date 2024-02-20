@@ -120,6 +120,7 @@
 "VideoPlayerSettings.quality" = "Качество";
 "VideoPlayerSettings.rate" = "Скорость";
 "VideoPlayerSettings.defaultRate" = "Обычная";
+"VideoPlayerSettings.ambientMode" = "Фоновая подсветка";
 
 // MARK: - Episodes Module
 "EpisodesModule.episodesTitle" = "Серии";
@@ -161,6 +162,8 @@
 // MARK: - Settings Module
 "SettingsModule.title" = "Настройки";
 "SettingsModule.HeaderText.appearance" = "Тема оформления";
+"SettingsModule.HeaderText.videoPlayer" = "Видеоплеер";
+"SettingsModule.VideoPlayer.ambientMode" = "Фоновая подсветка";
 "SettingsModule.Appearance.title.unspecified" = "Системная";
 "SettingsModule.Appearance.title.light" = "Светлая";
 "SettingsModule.Appearance.title.dark" = "Тёмная";
