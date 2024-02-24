@@ -111,7 +111,7 @@ final class AnimeInfoView: UIView {
         descriptionLabel.text = item.description
         animeTeamInfoView.configureView(withData: item.team)
         
-        let subtitleText = (item.episodes?.string ?? "") + " " + "серий"
+        let subtitleText = (item.episodes?.string ?? "0") + " " + "серий"
         animeEpisodesView.setSubtitle(text: subtitleText)
     }
 }
