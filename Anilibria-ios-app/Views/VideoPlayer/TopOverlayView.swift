@@ -26,7 +26,8 @@ final class TopOverlayView: UIView {
     }
     
     private lazy var closeButton: UIButton = {
-        let button = TopOverlayButton(type: .system)
+        let button = ResizeInsidePointButton(type: .system)
+        button.insetBy = (dx: -16, dy: -16)
         button.tintColor = .white
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.addAction(UIAction { [weak self] _ in
@@ -36,7 +37,8 @@ final class TopOverlayView: UIView {
     }()
     
     private lazy var pipButton: UIButton = {
-        let button = TopOverlayButton(type: .system)
+        let button = ResizeInsidePointButton(type: .system)
+        button.insetBy = (dx: -16, dy: -16)
         button.tintColor = .white
         let startImage = AVPictureInPictureController.pictureInPictureButtonStartImage
         button.setImage(startImage, for: .normal)
@@ -84,7 +86,8 @@ final class TopOverlayView: UIView {
     }
     
     private lazy var settingsButton: UIButton = {
-        let button = TopOverlayButton(type: .system)
+        let button = ResizeInsidePointButton(type: .system)
+        button.insetBy = (dx: -16, dy: -16)
         button.tintColor = .white
         button.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         button.addAction(UIAction { [weak self] _ in

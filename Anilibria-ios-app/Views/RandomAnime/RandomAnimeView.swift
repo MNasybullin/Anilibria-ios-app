@@ -40,7 +40,8 @@ final class RandomAnimeView: UIView {
     }()
     
     private lazy var refreshButton: UIButton = {
-        let button = RandomAnimeRefreshButton()
+        let button = ResizeInsidePointButton()
+        button.insetBy = (dx: -15, dy: -15)
         button.tintColor = .systemRed
         button.setImage(
             UIImage(systemName: Strings.RandomAnimeModule.Image.refresh),

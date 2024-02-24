@@ -30,7 +30,8 @@ final class MiddleOverlayView: UIView {
     private lazy var secondImageSize = CGSize(width: 32, height: 32)
     
     private lazy var backwardButton: UIButton = {
-        let button = MiddleOverlayButton()
+        let button = ResizeInsidePointButton()
+        button.insetBy = (dx: -20, dy: -20)
         button.tintColor = .white
         let image = UIImage(systemName: "goforward.10")?
             .resized(to: secondImageSize)?.withRenderingMode(.alwaysTemplate)
@@ -45,7 +46,8 @@ final class MiddleOverlayView: UIView {
     private lazy var pauseImage = UIImage(systemName: "pause.fill")?.resized(to: mainImageSize)?.withRenderingMode(.alwaysTemplate)
     
     private lazy var playPauseButton: UIButton = {
-        let button = MiddleOverlayButton()
+        let button = ResizeInsidePointButton()
+        button.insetBy = (dx: -20, dy: -20)
         button.tintColor = .white
         button.setImage(playImage, for: .normal)
         button.setImage(pauseImage, for: .selected)
@@ -57,7 +59,8 @@ final class MiddleOverlayView: UIView {
     }()
     
     private lazy var forwardButton: UIButton = {
-        let button = MiddleOverlayButton()
+        let button = ResizeInsidePointButton()
+        button.insetBy = (dx: -20, dy: -20)
         button.tintColor = .white
         let image = UIImage(systemName: "goforward.10")?
             .resized(to: secondImageSize)?.withRenderingMode(.alwaysTemplate)
