@@ -82,8 +82,33 @@ struct GTBlocked: Decodable {
 struct GTPlayer: Decodable {
     let alternativePlayer: String?
     let host: String?
-    let episodes: GTEpisodes?
+    let episodes: GTEpisodesResponse
     let list: [GTPlaylist]?
+}
+
+// Так как иногда с сервера может прийти массив, вместо объекта :/
+enum GTEpisodesResponse: Decodable {
+    case singleEpisode(GTEpisodes?)
+    case episodeArray([GTEpisodes])
+    
+    var data: GTEpisodes? {
+        switch self {
+            case .singleEpisode(let data):
+                return data
+            case .episodeArray(let data):
+                return data.first
+        }
+    }
+
+    init(from decoder: Decoder) throws {
+        if let singleEpisode = try? GTEpisodes(from: decoder) {
+            self = .singleEpisode(singleEpisode)
+        } else if let episodeArray = try? [GTEpisodes](from: decoder) {
+            self = .episodeArray(episodeArray)
+        } else {
+            throw DecodingError.typeMismatch(GTEpisodesResponse.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Failed to decode GTEpisodesResponse"))
+        }
+    }
 }
 
 struct GTEpisodes: Decodable {

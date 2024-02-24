@@ -31,12 +31,12 @@ extension AnimeItem {
             ruName: item.names.ru,
             code: item.code,
             engName: item.names.en,
-            seasonAndType: AnimeItem.getSeasonAndTypeText(item),
-            genres: AnimeItem.getgenresText(item.genres),
-            team: AnimeItem.convertToTeam(from: item.team),
-            description: AnimeItem.getDescriptionText(item.description),
+            seasonAndType: Self.getSeasonAndTypeText(item),
+            genres: Self.getgenresText(item.genres),
+            team: Self.convertToTeam(from: item.team),
+            description: Self.getDescriptionText(item.description),
             host: item.player?.host,
-            episodes: item.player?.episodes,
+            episodes: item.player?.episodes.data,
             playlist: playlist ?? [Playlist]())
     }
     
