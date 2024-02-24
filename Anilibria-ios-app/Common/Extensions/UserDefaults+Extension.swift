@@ -46,7 +46,6 @@ extension UserDefaults {
     }
 }
 
-
 // MARK: - VideoPlayer
 
 extension UserDefaults {

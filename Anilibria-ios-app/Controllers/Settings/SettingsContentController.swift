@@ -181,7 +181,7 @@ extension SettingsContentController: UICollectionViewDelegate {
             return
         }
         switch item {
-            case .videoPlayer(_):
+            case .videoPlayer:
                 collectionView.deselectItem(at: indexPath, animated: true)
             case .appearance(let style):
                 guard let cell = cell as? SettingsAppearanceCell, cell != selectedAppearanceCell else {

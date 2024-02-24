@@ -84,6 +84,8 @@
 		2758A43A2B30B7020089E475 /* EpisodesEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2758A4342B30B7020089E475 /* EpisodesEntity+CoreDataClass.swift */; };
 		2758A43B2B30B7020089E475 /* EpisodesEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2758A4352B30B7020089E475 /* EpisodesEntity+CoreDataProperties.swift */; };
 		2758A44D2B4300B90089E475 /* EpisodeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2758A44C2B4300B90089E475 /* EpisodeImageView.swift */; };
+		275956E42B861FE7004B31CF /* VideoPlayerDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275956E32B861FE7004B31CF /* VideoPlayerDismissAnimator.swift */; };
+		275956E62B887FB0004B31CF /* VideoPlayerInteractiveTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275956E52B887FB0004B31CF /* VideoPlayerInteractiveTransitionController.swift */; };
 		275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */; };
 		275B1AF229DECF50006A00EA /* AnimeEpisodesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275B1AF129DECF50006A00EA /* AnimeEpisodesView.swift */; };
 		275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */; };
@@ -304,6 +306,8 @@
 		2758A4342B30B7020089E475 /* EpisodesEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EpisodesEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2758A4352B30B7020089E475 /* EpisodesEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EpisodesEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2758A44C2B4300B90089E475 /* EpisodeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeImageView.swift; sourceTree = "<group>"; };
+		275956E32B861FE7004B31CF /* VideoPlayerDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerDismissAnimator.swift; sourceTree = "<group>"; };
+		275956E52B887FB0004B31CF /* VideoPlayerInteractiveTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerInteractiveTransitionController.swift; sourceTree = "<group>"; };
 		275B1AEF29DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAndShareButtonsView.swift; sourceTree = "<group>"; };
 		275B1AF129DECF50006A00EA /* AnimeEpisodesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeEpisodesView.swift; sourceTree = "<group>"; };
 		275BD3E729DADABF006A00EA /* WatchAndDownloadButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAndDownloadButtonsView.swift; sourceTree = "<group>"; };
@@ -470,6 +474,7 @@
 				277841D62B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift */,
 				273ECAFD2B1F53C500402612 /* VideoPlayerSettingsController.swift */,
 				273ECB062B21C10A00402612 /* VideoPlayerSettingsDetailController.swift */,
+				275956E52B887FB0004B31CF /* VideoPlayerInteractiveTransitionController.swift */,
 			);
 			path = VideoPlayer;
 			sourceTree = "<group>";
@@ -496,6 +501,7 @@
 			isa = PBXGroup;
 			children = (
 				27103DCA2B6A46C900B4CA49 /* AnimeAnimator.swift */,
+				275956E32B861FE7004B31CF /* VideoPlayerDismissAnimator.swift */,
 			);
 			path = Animators;
 			sourceTree = "<group>";
@@ -1402,6 +1408,7 @@
 				275EFF092B134B8300C281B1 /* Anilibria-ios-app.xcdatamodeld in Sources */,
 				27AB03EA2B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift in Sources */,
 				2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */,
+				275956E42B861FE7004B31CF /* VideoPlayerDismissAnimator.swift in Sources */,
 				27E1BA262B837B4A00A9C73C /* AboutAppContentController.swift in Sources */,
 				27F70CF62B2CB680004036FD /* UIImageTransformer.swift in Sources */,
 				2748DD0C2AEE5D7E00D53E9B /* AnimeItem.swift in Sources */,
@@ -1512,6 +1519,7 @@
 				275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */,
 				2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */,
 				271072E92ADDDE310024530D /* HomePosterItem.swift in Sources */,
+				275956E62B887FB0004B31CF /* VideoPlayerInteractiveTransitionController.swift in Sources */,
 				27A66E792990EF9200369EAF /* HasScrollableView.swift in Sources */,
 				27EA50892AFE321A00A1B987 /* TopOverlayView.swift in Sources */,
 				27E1BA1E2B82530600A9C73C /* SettingsCollectionViewHeader.swift in Sources */,

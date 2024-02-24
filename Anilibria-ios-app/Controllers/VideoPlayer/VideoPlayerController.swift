@@ -20,6 +20,8 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     
     weak var navigator: VideoPlayerNavigator?
     
+    private var interactiveTransitionController: VideoPlayerInteractiveTransitionController!
+    
     private let audioSession = AVAudioSession.sharedInstance()
     private let player = AVPlayer()
     private var pipController: VideoPlayerPiPController?
@@ -56,6 +58,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
             currentPlaylist: currentPlaylist
         )
         super.init(nibName: nil, bundle: nil)
+        interactiveTransitionController = VideoPlayerInteractiveTransitionController(viewController: self)
     }
     
     required init?(coder: NSCoder) {
