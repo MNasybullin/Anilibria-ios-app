@@ -124,11 +124,11 @@ extension BottomOverlayView {
         rightTimeLabel.text = title
     }
     
-    func setSlider(duration: Float) {
+    func setPlaybackSlider(duration: Float) {
         slider.maximumValue = duration
     }
     
-    func setSlider(value: Float) {
+    func setPlaybackSlider(value: Float) {
         slider.value = value
     }
 }

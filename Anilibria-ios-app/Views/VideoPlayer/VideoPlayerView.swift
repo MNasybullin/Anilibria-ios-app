@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 
-protocol VideoPlayerViewDelegate: AnyObject, TopOverlayViewDelegate, MiddleOverlayViewDelegate, BottomOverlayViewDelegate, AVRoutePickerViewDelegate {
+protocol VideoPlayerViewDelegate: AnyObject {
     func statusBarAppearanceUpdate(isHidden: Bool)
     func skipButtonDidTapped()
 }
@@ -23,23 +23,12 @@ final class VideoPlayerView: UIView {
     }
     
     let playerView = PlayerView()
-    private (set) lazy var ambientPlayerView: PlayerView = {
-        let ambientPlayerView = PlayerView()
-        ambientPlayerView.playerLayer.videoGravity = .resize
-        
-        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = ambientPlayerView.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        ambientPlayerView.addSubview(blurEffectView)
-        return ambientPlayerView
-    }()
+    let ambientPlayerView = AmbientPlayerView()
     
     private let overlayBackgroundView = UIView()
-    private let topView = TopOverlayView()
-    private let middleView = MiddleOverlayView()
-    private let bottomView = BottomOverlayView()
+    let topView = TopOverlayView()
+    let middleView = MiddleOverlayView()
+    let bottomView = BottomOverlayView()
     private lazy var skipButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.cornerStyle = .capsule
@@ -47,7 +36,7 @@ final class VideoPlayerView: UIView {
         config.baseForegroundColor = .white
         config.baseBackgroundColor = .systemRed
         config.title = Strings.VideoPlayerView.skipButton
-
+        
         let button = UIButton(configuration: config)
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.skipButtonDidTapped()
@@ -73,22 +62,12 @@ final class VideoPlayerView: UIView {
     
     private (set) var isOverlaysHidden = false
     
-    private let userDefaults = UserDefaults.standard
-    
-    weak var delegate: VideoPlayerViewDelegate? {
-        didSet {
-            topView.delegate = delegate
-            topView.routePickerViewDelegate = delegate
-            middleView.delegate = delegate
-            bottomView.delegate = delegate
-        }
-    }
+    weak var delegate: VideoPlayerViewDelegate?
     
     init() {
         super.init(frame: .zero)
         
         configureView()
-        updateAmbientViewStatus()
         configureLayout()
     }
     
@@ -245,38 +224,6 @@ extension VideoPlayerView {
         middleView.showPlayPauseButton()
     }
     
-    func setTitle(_ text: String) {
-        topView.setTitle(text)
-    }
-    
-    func setSubtitle(_ text: String) {
-        topView.setSubtitle(text)
-    }
-    
-    func setPlaybackSlider(duration: Float) {
-        bottomView.setSlider(duration: duration)
-    }
-    
-    func setPlaybackSlider(value: Float) {
-        bottomView.setSlider(value: value)
-    }
-    
-    func setLeftTime(text: String) {
-        bottomView.setLeftTimeTitle(text)
-    }
-    
-    func setRightTime(text: String) {
-        bottomView.setRightTimeTitle(text)
-    }
-    
-    func setPIPButton(isHidden: Bool) {
-        topView.setPIPButton(isHidden: isHidden)
-    }
-    
-    func playPauseButton(isSelected: Bool) {
-        middleView.playPauseButton(isSelected: isSelected)
-    }
-    
     func skipButton(isHidden: Bool) {
         guard skipButton.isHidden != isHidden else { return }
         if isHidden {
@@ -291,9 +238,5 @@ extension VideoPlayerView {
                 skipButton.alpha = isHidden ? 0 : 1
             }
         }
-    }
-    
-    func updateAmbientViewStatus() {
-        ambientPlayerView.isHidden = !userDefaults.ambientMode
     }
 }

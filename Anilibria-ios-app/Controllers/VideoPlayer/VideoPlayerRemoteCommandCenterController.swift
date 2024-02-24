@@ -33,14 +33,14 @@ final class VideoPlayerRemoteCommandCenterController: NSObject {
 
 private extension VideoPlayerRemoteCommandCenterController {
     @objc func playCommand(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        videoPlayerController?.customView.playPauseButton(isSelected: true)
+        videoPlayerController?.customView.middleView.playPauseButton(isSelected: true)
         let player = videoPlayerController?.customView.playerView.player
         player?.play()
         return .success
     }
     
     @objc func pauseCommand(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
-        videoPlayerController?.customView.playPauseButton(isSelected: false)
+        videoPlayerController?.customView.middleView.playPauseButton(isSelected: false)
         let player = videoPlayerController?.customView.playerView.player
         player?.pause()
         return .success

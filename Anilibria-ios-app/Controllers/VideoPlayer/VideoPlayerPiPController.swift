@@ -25,7 +25,7 @@ final class VideoPlayerPiPController: NSObject {
 private extension VideoPlayerPiPController {
     func setupPiP() {
         guard AVPictureInPictureController.isPictureInPictureSupported(), let videoPlayerController else {
-            videoPlayerController?.customView.setPIPButton(isHidden: true)
+            videoPlayerController?.customView.topView.setPIPButton(isHidden: true)
             return
         }
         
@@ -39,7 +39,7 @@ private extension VideoPlayerPiPController {
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak videoPlayerController] isPictureInPicturePossible in
-                videoPlayerController?.customView.setPIPButton(isHidden: !isPictureInPicturePossible)
+                videoPlayerController?.customView.topView.setPIPButton(isHidden: !isPictureInPicturePossible)
             }
             .store(in: &subscriptions)
     }
