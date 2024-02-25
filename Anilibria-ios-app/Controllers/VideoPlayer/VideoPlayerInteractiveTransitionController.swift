@@ -51,7 +51,6 @@ private extension VideoPlayerInteractiveTransitionController {
                 interactionInProgress = false
                 if progress > 0.7 || (velocity.y > 300 && progress > 0.2) {
                     videoPlayerVC.willDismiss()
-                    videoPlayerVC.view.isHidden = true
                     finish()
                 } else {
                     cancel()

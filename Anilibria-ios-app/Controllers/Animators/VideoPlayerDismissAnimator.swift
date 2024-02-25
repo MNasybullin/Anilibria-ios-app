@@ -49,31 +49,37 @@ final class VideoPlayerDismissAnimator: NSObject, UIViewControllerAnimatedTransi
         containerView.insertSubview(fadeView, belowSubview: fromView)
         
         UIView.animateKeyframes(withDuration: Self.duration, delay: 0, options: [.calculationModeCubic]) {
-            
-            fromView.backgroundColor = .clear
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0) {
+                fromView.backgroundColor = .clear
+            }
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.8) {
                 fadeView.backgroundColor = .clear
             }
             UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 1) {
-                fromView.alpha = 0.5
+                fromView.alpha = 0.7
             }
         } completion: { _ in
-            let duration = transitionContext.transitionWasCancelled ? 0.25 : 0
-            UIView.animate(withDuration: duration) {
-                videoPlayerView.playerView.player?.volume = initialVolume
-                fromView.transform = .identity
-                videoPlayerView.ambientPlayerView.alpha = 1
+            UIView.animate(withDuration: 0.25) {
+                if transitionContext.transitionWasCancelled {
+                    videoPlayerView.playerView.player?.volume = initialVolume
+                    fromView.transform = .identity
+                    videoPlayerView.ambientPlayerView.alpha = 1
+                } else {
+                    fromView.transform = .identity.scaledBy(x: 0.01, y: 0.01)
+                    fromView.alpha = 0
+                }
             } completion: { _ in
                 fadeView.removeFromSuperview()
+                toView.alpha = 1
+                if transitionContext.transitionWasCancelled {
+                    if overlayStatus == false {
+                        videoPlayerView.showOverlay()
+                    } else {
+                        videoPlayerView.hideOverlay()
+                    }
+                }
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             }
-            toView.alpha = 1
-            
-            if overlayStatus == false {
-                videoPlayerView.showOverlay()
-            } else {
-                videoPlayerView.hideOverlay()
-            }
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
 }
