@@ -50,7 +50,7 @@ final class FavoritesContentController: NSObject {
     }
     
     weak var delegate: FavoritesContentControllerDelegate?
-    weak var customView: FavoritesView!
+    let customView: FavoritesView
     
     private lazy var dataSource = makeDataSource()
     private let model = FavoritesModel.shared

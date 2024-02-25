@@ -38,7 +38,7 @@ final class FranchiseContentController: NSObject {
         }
     }
     
-    weak var customView: FranchiseView!
+    let customView: FranchiseView
     weak var delegate: FranchiseContentControllerDelegate?
     
     private var sectionIdentifier: [String] = []
@@ -47,7 +47,7 @@ final class FranchiseContentController: NSObject {
     private let model: FranchiseModel
     private var data: [[FranchisePosterItem]] = [[]]
     
-    init(franchisesData: [FranchisesAPIModel], customView: FranchiseView!) {
+    init(franchisesData: [FranchisesAPIModel], customView: FranchiseView) {
         self.customView = customView
         self.model = FranchiseModel(franchisesData: franchisesData)
         super.init()
