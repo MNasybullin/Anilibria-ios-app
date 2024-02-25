@@ -13,37 +13,17 @@ protocol HomeViewOutput: AnyObject {
 }
 
 final class HomeView: UIView {
-    enum Section: Int, CaseIterable {
-        case today
-        case updates
-        case youtube
-        
-        var reuseIdentifier: String {
-            switch self {
-                case .today: 
-                    TodayHomePosterCollectionCell.reuseIdentifier
-                case .updates: 
-                    UpdatesHomePosterCollectionCell.reuseIdentifier
-                case .youtube: 
-                    YouTubeHomePosterCollectionCell.reuseIdentifier
-            }
-        }
-    }
-    
-    enum ElementKind {
-        static let sectionHeader = "section-header-element-kind"
-    }
-    
-    private var collectionView: UICollectionView!
+    private let layout = HomeCollectionViewLayout().createLayout()
+    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     
     weak var delegate: HomeViewOutput?
     
-    init(delegate: HomeController, collectionViewDelegate: HomeContentController) {
+    init(delegate: HomeController) {
         self.delegate = delegate
         super.init(frame: .zero)
         
         configureView()
-        configureCollectionView(delegate: collectionViewDelegate)
+        setupCollectionView()
         configureRefreshControll()
         
         configureLayout()
@@ -62,9 +42,7 @@ private extension HomeView {
         backgroundColor = .systemBackground
     }
     
-    func configureCollectionView(delegate: HomeContentController) {
-        let layout = HomeCollectionViewLayout().createLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    func setupCollectionView() {
         // For SkeletonView
         collectionView.register(
             PosterCollectionViewCell.self,
@@ -81,15 +59,11 @@ private extension HomeView {
             forCellWithReuseIdentifier: YouTubeHomePosterCollectionCell.reuseIdentifier)
         collectionView.register(
             HomeHeaderSupplementaryView.self,
-            forSupplementaryViewOfKind: ElementKind.sectionHeader,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
         
         collectionView.isSkeletonable = true
-        
-        collectionView.delegate = delegate
-        collectionView.dataSource = delegate
-        collectionView.prefetchDataSource = delegate
     }
     
     func configureRefreshControll() {
@@ -124,22 +98,27 @@ private extension HomeView {
 
 extension HomeView {
     func scrollToTop() {
-        let contentOffset = CGPoint(x: 0, y: -collectionView.adjustedContentInset.top)
-        collectionView.setContentOffset(contentOffset, animated: true)
+        let topOffset = CGPoint(x: 0, y: -collectionView.adjustedContentInset.top)
+        collectionView.setContentOffset(topOffset, animated: true)
     }
     
     func refreshControlEndRefreshing() {
-        guard self.collectionView.refreshControl?.isRefreshing == true else {
+        guard collectionView.refreshControl?.isRefreshing == true else {
             return
         }
-        UIView.animate(withDuration: 1) {
-            self.collectionView.refreshControl?.endRefreshing()
+        scrollSectionsToTop()
+        collectionView.refreshControl?.endRefreshing()
+    }
+    
+    func scrollSectionsToTop() {
+        for section in 0..<collectionView.numberOfSections {
+            let indexPath = IndexPath(row: 0, section: section)
+            collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
         }
     }
     
     func programaticallyBeginRefreshing() {
         collectionView.refreshControl?.beginRefreshing()
-        scrollToTop()
         delegate?.handleRefreshControl()
     }
     
@@ -148,10 +127,8 @@ extension HomeView {
     }
     
     func hideSkeletonCollectionView() {
-        collectionView.hideSkeleton(reloadDataAfter: false)
-    }
-    
-    func reloadSection(numberOfSection: Int) {
-        collectionView.reloadSections(IndexSet(integer: numberOfSection))
+        if collectionView.sk.isSkeletonActive {
+            collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
+        }
     }
 }

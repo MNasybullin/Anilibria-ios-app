@@ -7,39 +7,22 @@
 
 import Foundation
 
-final class HomeTodayModel: ImageModel, HomeModelInput {
-    weak var homeModelOutput: HomeModelOutput?
-    
+final class HomeTodayModel: ImageModel {    
     private let publicApiService = PublicApiService()
-    
     private var rawData: [TitleAPIModel] = []
-    var isDataTaskLoading = false
     
-    func requestData() {
-        guard isDataTaskLoading == false else { return }
-        isDataTaskLoading = true
-        Task(priority: .userInitiated) {
-            defer { isDataTaskLoading = false }
-            do {
-                let data = try await publicApiService.titleSchedule(withDays: [.currentDayOfTheWeek()])
-                guard let todayTitleModels = data.first?.list else {
-                    throw MyInternalError.failedToFetchData
-                }
-                rawData = todayTitleModels
-                let homePosters = todayTitleModels.map { HomePosterItem(fromTitleAPIModel: $0) }
-                homeModelOutput?.updateData(items: homePosters, section: .today)
-            } catch {
-                homeModelOutput?.failedRequestData(error: error)
-            }
+    func requestData() async throws -> [HomePosterItem] {
+        let data = try await publicApiService.titleSchedule(withDays: [.currentDayOfTheWeek()])
+        guard let todayTitleModels = data.first?.list else {
+            throw MyInternalError.failedToFetchData
         }
+        rawData = todayTitleModels
+        let homePosters = todayTitleModels.map { HomePosterItem(fromTitleAPIModel: $0) }
+        return homePosters
     }
     
-    func getRawData(row: Int) -> Any? {
+    func getRawData(row: Int) -> TitleAPIModel? {
         guard rawData.isEmpty == false else { return nil }
         return rawData[row]
-    }
-    
-    func getRawData() -> [Any] {
-        return rawData
     }
 }

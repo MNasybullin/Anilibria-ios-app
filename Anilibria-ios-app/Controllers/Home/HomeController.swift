@@ -12,20 +12,20 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
     typealias CustomView = HomeView
     weak var navigator: HomeNavigator?
     
-    private lazy var contentController = HomeContentController(delegate: self)
+    private var contentController: HomeContentController!
     
     private let expiredDateManager = ExpiredDateManager(expireTimeInMinutes: 5)
     
     private var subscriptions = Set<AnyCancellable>()
     
     override func loadView() {
-        view = HomeView(delegate: self, collectionViewDelegate: contentController)
+        view = HomeView(delegate: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationItem()
-        requestData()
+        setupContentController()
         expiredDateManager.start()
     }
         
@@ -52,8 +52,8 @@ private extension HomeController {
         navigationItem.backButtonTitle = ""
     }
     
-    func requestData() {
-        contentController.requestInitialData()
+    func setupContentController() {
+        contentController = HomeContentController(customView: customView, delegate: self)
     }
     
     func notificationCenterSubscription() {
@@ -81,21 +81,23 @@ extension HomeController: HomeViewOutput {
 
 // MARK: - HomeContentControllerDelegate
 
-// swiftlint:disable force_cast
 extension HomeController: HomeContentControllerDelegate {
-    func didSelectItem(_ rawData: Any, image: UIImage?, section: HomeView.Section) {
-                
-        switch section {
-            case .today, .updates:
-                navigator?.show(.anime(data: rawData as! TitleAPIModel, image: image))
-            case .youtube:
-                let data = rawData as! YouTubeAPIModel
-                let urlString = NetworkConstants.youTubeWatchURL + data.youtubeId
-                guard let url = URL(string: urlString) else { return }
-                UIApplication.shared.open(url)
-        }
+    func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?) {
+        guard let rawData else { return }
+        navigator?.show(.anime(data: rawData, image: image))
     }
-// swiftlint:enable force_cast
+    
+    func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?) {
+        guard let rawData else { return }
+        navigator?.show(.anime(data: rawData, image: image))
+    }
+    
+    func didSelectYoutubeItem(_ rawData: YouTubeAPIModel?) {
+        guard let rawData else { return }
+        let urlString = NetworkConstants.youTubeWatchURL + rawData.youtubeId
+        guard let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url)
+    }
     
     func todayHeaderButtonTapped() {
         navigator?.show(.schedule)
@@ -105,20 +107,7 @@ extension HomeController: HomeContentControllerDelegate {
         navigator?.show(.youTube(data: data, rawData: rawData))
     }
     
-    func refreshControlEndRefreshing() {
-        customView.refreshControlEndRefreshing()
-    }
-    
-    func showSkeletonCollectionView() {
-        customView.showSkeletonCollectionView()
-    }
-    
-    func hideSkeletonCollectionView() {
-        customView.hideSkeletonCollectionView()
-    }
-    
-    func reloadSection(numberOfSection: Int) {
-        customView.reloadSection(numberOfSection: numberOfSection)
+    func dataIsApply() {
         expiredDateManager.start()
     }
 }

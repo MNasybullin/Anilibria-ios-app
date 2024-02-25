@@ -8,8 +8,7 @@
 import UIKit
 
 final class HomeCollectionViewLayout {
-    typealias Section = HomeView.Section
-    typealias ElementKind = HomeView.ElementKind
+    typealias Section = HomeContentController.Section
     
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
@@ -61,7 +60,7 @@ final class HomeCollectionViewLayout {
             heightDimension: .estimated(40))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
-            elementKind: ElementKind.sectionHeader,
+            elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         sectionHeader.pinToVisibleBounds = true
         sectionHeader.zIndex = 2
@@ -103,7 +102,7 @@ final class HomeCollectionViewLayout {
             heightDimension: .estimated(40))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
-            elementKind: ElementKind.sectionHeader,
+            elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         sectionHeader.pinToVisibleBounds = true
         sectionHeader.zIndex = 2
@@ -145,7 +144,7 @@ final class HomeCollectionViewLayout {
             heightDimension: .estimated(40))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
-            elementKind: ElementKind.sectionHeader,
+            elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         sectionHeader.pinToVisibleBounds = true
         sectionHeader.zIndex = 2

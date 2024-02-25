@@ -26,8 +26,6 @@
 		271A0E1D2AE7E8B9005958CB /* HomeCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E1C2AE7E8B9005958CB /* HomeCollectionViewLayout.swift */; };
 		271A0E1F2AE7EBA4005958CB /* HomeTodayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E1E2AE7EBA4005958CB /* HomeTodayModel.swift */; };
 		271A0E212AE7EBBE005958CB /* HomeUpdatesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E202AE7EBBE005958CB /* HomeUpdatesModel.swift */; };
-		271A0E242AE7F322005958CB /* HomeModelInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E232AE7F322005958CB /* HomeModelInput.swift */; };
-		271A0E262AE7F32C005958CB /* HomeModelOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E252AE7F32C005958CB /* HomeModelOutput.swift */; };
 		271A0E342AE90291005958CB /* ScheduleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E332AE90291005958CB /* ScheduleItem.swift */; };
 		271A0E362AE90341005958CB /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E352AE90341005958CB /* ScheduleView.swift */; };
 		271A0E382AE90390005958CB /* ScheduleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E372AE90390005958CB /* ScheduleController.swift */; };
@@ -113,6 +111,7 @@
 		277513F92B63FF1400947AED /* FranchiseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277513F82B63FF1400947AED /* FranchiseModel.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
 		277841D72B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277841D62B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift */; };
+		2786D5B82B8B3B4C009EF542 /* HomeDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2786D5B72B8B3B4C009EF542 /* HomeDiffableDataSource.swift */; };
 		27934FFB2B77845C00B7BD07 /* ProfileContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27934FFA2B77845C00B7BD07 /* ProfileContentController.swift */; };
 		27934FFE2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27934FFD2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift */; };
 		279E4F30289C4C70008038FF /* LoginAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginAPIModel.swift */; };
@@ -246,8 +245,6 @@
 		271A0E1C2AE7E8B9005958CB /* HomeCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewLayout.swift; sourceTree = "<group>"; };
 		271A0E1E2AE7EBA4005958CB /* HomeTodayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTodayModel.swift; sourceTree = "<group>"; };
 		271A0E202AE7EBBE005958CB /* HomeUpdatesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUpdatesModel.swift; sourceTree = "<group>"; };
-		271A0E232AE7F322005958CB /* HomeModelInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModelInput.swift; sourceTree = "<group>"; };
-		271A0E252AE7F32C005958CB /* HomeModelOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModelOutput.swift; sourceTree = "<group>"; };
 		271A0E332AE90291005958CB /* ScheduleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleItem.swift; sourceTree = "<group>"; };
 		271A0E352AE90341005958CB /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		271A0E372AE90390005958CB /* ScheduleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleController.swift; sourceTree = "<group>"; };
@@ -335,6 +332,7 @@
 		277513F82B63FF1400947AED /* FranchiseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FranchiseModel.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
 		277841D62B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerEpisodesController.swift; sourceTree = "<group>"; };
+		2786D5B72B8B3B4C009EF542 /* HomeDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiffableDataSource.swift; sourceTree = "<group>"; };
 		27934FFA2B77845C00B7BD07 /* ProfileContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentController.swift; sourceTree = "<group>"; };
 		27934FFD2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewLayout.swift; sourceTree = "<group>"; };
 		279E4F2F289C4C70008038FF /* LoginAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIModel.swift; sourceTree = "<group>"; };
@@ -532,8 +530,6 @@
 				271A0E1E2AE7EBA4005958CB /* HomeTodayModel.swift */,
 				271A0E202AE7EBBE005958CB /* HomeUpdatesModel.swift */,
 				27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */,
-				271A0E232AE7F322005958CB /* HomeModelInput.swift */,
-				271A0E252AE7F32C005958CB /* HomeModelOutput.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -598,6 +594,7 @@
 			children = (
 				271072D92ADDB7CF0024530D /* HomeController.swift */,
 				2748DCFD2AEBCF3000D53E9B /* HomeContentController.swift */,
+				2786D5B72B8B3B4C009EF542 /* HomeDiffableDataSource.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1463,6 +1460,7 @@
 				271A0E472AEA6F66005958CB /* RootView.swift in Sources */,
 				27AB03F82B2851010007E750 /* YouTubeContentController.swift in Sources */,
 				2748DD082AEE4EBC00D53E9B /* AnimeNavigator.swift in Sources */,
+				2786D5B82B8B3B4C009EF542 /* HomeDiffableDataSource.swift in Sources */,
 				271072DA2ADDB7CF0024530D /* HomeController.swift in Sources */,
 				27A66E75298E93FC00369EAF /* RootViewController.swift in Sources */,
 				27CE88572B231D29004DC558 /* AnimeTeamInfoView.swift in Sources */,
@@ -1555,7 +1553,6 @@
 				27E1BA2B2B83929300A9C73C /* AboutAppModel.swift in Sources */,
 				276880C92B47F36700F5FD06 /* FavoritesCollectionViewLayout.swift in Sources */,
 				277513F42B63F44300947AED /* FranchiseView.swift in Sources */,
-				271A0E262AE7F32C005958CB /* HomeModelOutput.swift in Sources */,
 				271A0E452AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift in Sources */,
 				27E1BA092B7B82F300A9C73C /* TeamController.swift in Sources */,
 				277841D72B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift in Sources */,
@@ -1574,7 +1571,6 @@
 				27B98C432B89EC8100B1ABC4 /* ResizeInsidePointButton.swift in Sources */,
 				273ECB072B21C10A00402612 /* VideoPlayerSettingsDetailController.swift in Sources */,
 				27B98C412B89E9AF00B1ABC4 /* AmbientPlayerView.swift in Sources */,
-				271A0E242AE7F322005958CB /* HomeModelInput.swift in Sources */,
 				27E1BA162B822A4800A9C73C /* SettingsController.swift in Sources */,
 				275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */,
 				275EFF3E2B15C38000C281B1 /* UserView.swift in Sources */,
