@@ -25,6 +25,8 @@ extension HomeDiffableDataSource: SkeletonCollectionViewDataSource {
         switch section {
             case .today:
                 return TodayHomePosterCollectionCell.reuseIdentifier
+            case .watching:
+                return WatchingHomeCollectionViewCell.reuseIdentifier
             case .updates:
                 return UpdatesHomePosterCollectionCell.reuseIdentifier
             case .youtube:

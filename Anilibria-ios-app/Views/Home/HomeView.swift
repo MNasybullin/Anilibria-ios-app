@@ -13,8 +13,8 @@ protocol HomeViewOutput: AnyObject {
 }
 
 final class HomeView: UIView {
-    private let layout = HomeCollectionViewLayout().createLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    let homeCollectionViewLayout = HomeCollectionViewLayout()
+    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: homeCollectionViewLayout.createLayout())
     
     weak var delegate: HomeViewOutput?
     
@@ -51,6 +51,9 @@ private extension HomeView {
         collectionView.register(
             TodayHomePosterCollectionCell.self,
             forCellWithReuseIdentifier: TodayHomePosterCollectionCell.reuseIdentifier)
+        collectionView.register(
+            WatchingHomeCollectionViewCell.self,
+            forCellWithReuseIdentifier: WatchingHomeCollectionViewCell.reuseIdentifier)
         collectionView.register(
             UpdatesHomePosterCollectionCell.self,
             forCellWithReuseIdentifier: UpdatesHomePosterCollectionCell.reuseIdentifier)

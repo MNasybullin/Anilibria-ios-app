@@ -54,6 +54,7 @@
 
 // MARK: - Home Module
 "HomeModule.title.today" = "Сегодня";
+"HomeModule.title.watching" = "Продолжить просмотр";
 "HomeModule.title.updates" = "Обновления";
 "HomeModule.title.youTube" = "YouTube";
 

@@ -60,6 +60,9 @@
 		2748DD102AF177C400D53E9B /* EpisodesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748DD0F2AF177C400D53E9B /* EpisodesController.swift */; };
 		2748DD122AF1789E00D53E9B /* EpisodesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748DD112AF1789E00D53E9B /* EpisodesView.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
+		274EFEE02B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274EFEDF2B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift */; };
+		274EFEE22B8C80C20094804C /* HomeWatchingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274EFEE12B8C80C20094804C /* HomeWatchingItem.swift */; };
+		274EFEE42B8C85710094804C /* HomeWatchingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274EFEE32B8C85710094804C /* HomeWatchingModel.swift */; };
 		275287B629D5913B00D403F6 /* AnimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275287B529D5913B00D403F6 /* AnimeInfoView.swift */; };
 		2758657A2ACEB2D700F98884 /* SecurityStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865792ACEB2D700F98884 /* SecurityStorage.swift */; };
 		275865AB2AD9BAC200F98884 /* MainNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865AA2AD9BAC200F98884 /* MainNavigator.swift */; };
@@ -279,6 +282,9 @@
 		2748DD0F2AF177C400D53E9B /* EpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesController.swift; sourceTree = "<group>"; };
 		2748DD112AF1789E00D53E9B /* EpisodesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesView.swift; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
+		274EFEDF2B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchingHomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		274EFEE12B8C80C20094804C /* HomeWatchingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchingItem.swift; sourceTree = "<group>"; };
+		274EFEE32B8C85710094804C /* HomeWatchingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchingModel.swift; sourceTree = "<group>"; };
 		275287B529D5913B00D403F6 /* AnimeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeInfoView.swift; sourceTree = "<group>"; };
 		275865792ACEB2D700F98884 /* SecurityStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorage.swift; sourceTree = "<group>"; };
 		275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityStorageCredentialsTests.swift; sourceTree = "<group>"; };
@@ -527,6 +533,8 @@
 			isa = PBXGroup;
 			children = (
 				271072E82ADDDE310024530D /* HomePosterItem.swift */,
+				274EFEE12B8C80C20094804C /* HomeWatchingItem.swift */,
+				274EFEE32B8C85710094804C /* HomeWatchingModel.swift */,
 				271A0E1E2AE7EBA4005958CB /* HomeTodayModel.swift */,
 				271A0E202AE7EBBE005958CB /* HomeUpdatesModel.swift */,
 				27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */,
@@ -997,6 +1005,7 @@
 				27AB03E92B25C9130007E750 /* YouTubeHomePosterCollectionCell.swift */,
 				27AB03EB2B2735780007E750 /* TodayHomePosterCollectionCell.swift */,
 				27AB03ED2B27359E0007E750 /* UpdatesHomePosterCollectionCell.swift */,
+				274EFEDF2B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1511,6 +1520,7 @@
 				27AB03F32B2850D60007E750 /* YouTubeCollectionViewLayout.swift in Sources */,
 				275EFF102B137CF800C281B1 /* CoreDataService.swift in Sources */,
 				275865AD2AD9C7EC00F98884 /* ProfileNavigator.swift in Sources */,
+				274EFEE42B8C85710094804C /* HomeWatchingModel.swift in Sources */,
 				271A0E3A2AE903F8005958CB /* ScheduleCollectionViewLayout.swift in Sources */,
 				271A0E212AE7EBBE005958CB /* HomeUpdatesModel.swift in Sources */,
 				277513E92B624DF300947AED /* ListAPIModel.swift in Sources */,
@@ -1522,6 +1532,7 @@
 				272D653F288EC4EC00FA4F60 /* Strings+Generated.swift in Sources */,
 				275B1AF029DDCAF5006A00EA /* FavoriteAndShareButtonsView.swift in Sources */,
 				2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */,
+				274EFEE02B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift in Sources */,
 				271072E92ADDDE310024530D /* HomePosterItem.swift in Sources */,
 				275956E62B887FB0004B31CF /* VideoPlayerInteractiveTransitionController.swift in Sources */,
 				27A66E792990EF9200369EAF /* HasScrollableView.swift in Sources */,
@@ -1559,6 +1570,7 @@
 				2748DD042AEC2ABA00D53E9B /* AnimeController.swift in Sources */,
 				2748DD122AF1789E00D53E9B /* EpisodesView.swift in Sources */,
 				27B7071E2AF3B2B700DD8DC6 /* SearchResultsItem.swift in Sources */,
+				274EFEE22B8C80C20094804C /* HomeWatchingItem.swift in Sources */,
 				27B7071C2AF3A5B600DD8DC6 /* SearchResultsView.swift in Sources */,
 				27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */,
 				2758657A2ACEB2D700F98884 /* SecurityStorage.swift in Sources */,
