@@ -11,6 +11,10 @@ final class HomeCollectionViewLayout {
     typealias Section = HomeContentController.Section
     typealias DataSource = HomeContentController.DataSource
     
+    enum Constants {
+        static let headerPinToVisibleBounds = false
+    }
+    
     weak var dataSource: DataSource?
     
     func createLayout() -> UICollectionViewLayout {
@@ -68,7 +72,7 @@ final class HomeCollectionViewLayout {
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
+        sectionHeader.pinToVisibleBounds = Constants.headerPinToVisibleBounds
         sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
@@ -110,7 +114,7 @@ final class HomeCollectionViewLayout {
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
+        sectionHeader.pinToVisibleBounds = Constants.headerPinToVisibleBounds
         sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
@@ -152,7 +156,7 @@ final class HomeCollectionViewLayout {
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
+        sectionHeader.pinToVisibleBounds = Constants.headerPinToVisibleBounds
         sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
@@ -194,7 +198,7 @@ final class HomeCollectionViewLayout {
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
-        sectionHeader.pinToVisibleBounds = true
+        sectionHeader.pinToVisibleBounds = Constants.headerPinToVisibleBounds
         sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]

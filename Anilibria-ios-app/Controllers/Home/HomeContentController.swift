@@ -99,9 +99,7 @@ final class HomeContentController: NSObject {
         }
         do {
             watchingData = try watchingModel.requestData()
-            if !watchingData.isEmpty {
-                applyWatchingSnapshot()
-            }
+            applyWatchingSnapshot()
         } catch {
             print(error)
         }
@@ -249,7 +247,7 @@ private extension HomeContentController {
     func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         
-        var watchingArray = watchingData.map {
+        let watchingArray = watchingData.map {
             Item.watching($0, .watching)
         }
         
@@ -297,9 +295,15 @@ private extension HomeContentController {
     func applyWatchingSnapshot() {
         var snapshot = dataSource.snapshot()
         
-        var watchingArray = watchingData.map {
-            Item.watching($0, .watching)
+        guard !watchingData.isEmpty else {
+            if snapshot.sectionIdentifiers.contains(where: { $0 == .watching }) {
+                snapshot.deleteSections([.watching])
+                dataSource.apply(snapshot)
+            }
+            return
         }
+        
+        let watchingArray = watchingData.map { Item.watching($0, .watching) }
         
         if snapshot.sectionIdentifiers.contains(where: { $0 == .watching }) {
             var sectionSnapshot = SectionSnapshot()

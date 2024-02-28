@@ -42,7 +42,7 @@ extension HomeWatchingModel {
             let item = HomeWatchingItem(
                 id: Int($0.animeId),
                 title: $0.animeName,
-                subtitle: "\(Int(episode.numberOfEpisode)) Серия",
+                subtitle: "\(Int(episode.numberOfEpisode)) серия",
                 watchingDate: episode.watchingDate,
                 duration: episode.duration,
                 numberOfEpisode: episode.numberOfEpisode,
