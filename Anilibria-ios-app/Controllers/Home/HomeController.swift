@@ -34,6 +34,7 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         notificationCenterSubscription()
         
         guard expiredDateManager.isExpired() == true else {
+            contentController.requestRefreshWatchingData()
             return
         }
         customView.programaticallyBeginRefreshing()
@@ -60,7 +61,10 @@ private extension HomeController {
     func notificationCenterSubscription() {
         NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
             .sink { [weak self] _ in
-                guard self?.expiredDateManager.isExpired() == true else { return }
+                guard self?.expiredDateManager.isExpired() == true else {
+                    self?.contentController.requestRefreshWatchingData()
+                    return
+                }
                 self?.customView.programaticallyBeginRefreshing()
                 self?.expiredDateManager.start()
             }

@@ -21,6 +21,7 @@ protocol HomeContentControllerDelegate: AnyObject {
 final class HomeContentController: NSObject {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+    typealias SectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>
     
     enum Section: Int, CaseIterable {
         case today
@@ -90,6 +91,21 @@ final class HomeContentController: NSObject {
         }
         requestData()
     }
+    
+    func requestRefreshWatchingData() {
+        guard isLoadingData == false &&
+        customView.collectionView.sk.isSkeletonActive == false else {
+            return
+        }
+        do {
+            watchingData = try watchingModel.requestData()
+            if !watchingData.isEmpty {
+                applyWatchingSnapshot()
+            }
+        } catch {
+            print(error)
+        }
+    }
 }
 
 // MARK: - Private methods
@@ -130,12 +146,11 @@ private extension HomeContentController {
     }
     
     func watchingCellRegistration() -> UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> {
-        UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> { [weak self] cell, indexPath, _ in
-            
-            guard let item = self?.watchingData[indexPath.row] else {
+        UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> { cell, _, item in
+            guard case .watching(let data, _) = item else {
                 return
             }
-            cell.configureCell(item: item)
+            cell.configureCell(item: data)
         }
     }
     
@@ -234,9 +249,8 @@ private extension HomeContentController {
     func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         
-        var watchingArray = [Item]()
-        watchingData.forEach {
-            watchingArray.append(.watching($0, .watching))
+        var watchingArray = watchingData.map {
+            Item.watching($0, .watching)
         }
         
         var noImageData = [Item]()
@@ -278,6 +292,24 @@ private extension HomeContentController {
         snapshot.reconfigureItems(noImageData)
         
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+    
+    func applyWatchingSnapshot() {
+        var snapshot = dataSource.snapshot()
+        
+        var watchingArray = watchingData.map {
+            Item.watching($0, .watching)
+        }
+        
+        if snapshot.sectionIdentifiers.contains(where: { $0 == .watching }) {
+            var sectionSnapshot = SectionSnapshot()
+            sectionSnapshot.append(watchingArray)
+            dataSource.apply(sectionSnapshot, to: .watching)
+        } else {
+            snapshot.insertSections([.watching], afterSection: .today)
+            snapshot.appendItems(watchingArray, toSection: .watching)
+            dataSource.apply(snapshot)
+        }
     }
     
     func requestData() {
