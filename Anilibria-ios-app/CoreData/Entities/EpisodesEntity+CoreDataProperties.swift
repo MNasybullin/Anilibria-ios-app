@@ -2,7 +2,7 @@
 //  EpisodesEntity+CoreDataProperties.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 24.01.2024.
+//  Created by Mansur Nasybullin on 27.02.2024.
 //
 //
 

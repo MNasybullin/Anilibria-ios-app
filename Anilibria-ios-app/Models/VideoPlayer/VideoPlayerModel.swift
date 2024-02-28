@@ -87,31 +87,35 @@ extension VideoPlayerModel {
         }
     }
     
-    private func createWatchingEntity(animeId: Int) {
+    private func createWatchingEntity() {
         watchingEntity = WatchingEntity(context: coreDataService.viewContext)
         watchingEntity?.animeId = Int64(animeItem.id)
+        watchingEntity?.animeName = animeItem.ruName
+        watchingEntity?.animeImage = animeItem.image
         watchingEntity?.user = userEntity
     }
     
-    private func createCurrentEpisodeEntity(duration: Double, playbackPosition: Double) {
+    private func createCurrentEpisodeEntity(duration: Double, playbackPosition: Double, image: UIImage?) {
         currentEpisodeEntity = EpisodesEntity(context: coreDataService.viewContext)
         currentEpisodeEntity?.duration = duration
         currentEpisodeEntity?.numberOfEpisode = animeItem.playlist[currentPlaylistNumber].episode ?? 0
         currentEpisodeEntity?.playbackPosition = playbackPosition
         currentEpisodeEntity?.watchingDate = Date()
         currentEpisodeEntity?.watching = watchingEntity
+        currentEpisodeEntity?.watching?.animeImage = image
     }
     
-    func configureWatchingInfo(duration: Double, playbackPosition: Double) {
+    func configureWatchingInfo(duration: Double, playbackPosition: Double, image: UIImage?) {
         if let currentEpisodeEntity {
             currentEpisodeEntity.duration = duration
             currentEpisodeEntity.playbackPosition = playbackPosition
             currentEpisodeEntity.watchingDate = Date()
+            currentEpisodeEntity.watching?.animeImage = image
         } else if userEntity != nil {
             if watchingEntity == nil {
-                createWatchingEntity(animeId: animeItem.id)
+                createWatchingEntity()
             }
-            createCurrentEpisodeEntity(duration: duration, playbackPosition: playbackPosition)
+            createCurrentEpisodeEntity(duration: duration, playbackPosition: playbackPosition, image: image)
         }
     }
 }

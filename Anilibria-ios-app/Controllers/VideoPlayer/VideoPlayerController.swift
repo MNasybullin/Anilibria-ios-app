@@ -24,6 +24,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     
     private let audioSession = AVAudioSession.sharedInstance()
     private let player = AVPlayer()
+    private var videoOutput: AVPlayerItemVideoOutput!
     private var pipController: VideoPlayerPiPController?
     private let model: VideoPlayerModel
     private let remoteCommandCenterController = VideoPlayerRemoteCommandCenterController()
@@ -274,9 +275,25 @@ private extension VideoPlayerController {
             let floatTime = Float(time.seconds)
             configurePlayerTime(time: floatTime)
             checkSkips(time: time.seconds)
-            model.configureWatchingInfo(duration: currentItem.duration.seconds, playbackPosition: time.seconds)
+            
+            model.configureWatchingInfo(duration: currentItem.duration.seconds, playbackPosition: time.seconds, image: getCurrentImage())
         }
     }
+    
+    func getCurrentImage() -> UIImage? {
+            guard let currentItem = player.currentItem else { return nil }
+
+            let time = currentItem.currentTime()
+            guard let buffer = videoOutput.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil) else { return nil }
+
+            let ciImage = CIImage(cvPixelBuffer: buffer)
+            let context = CIContext()
+            guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return nil }
+
+            let image = UIImage(cgImage: cgImage)
+
+            return image
+        }
     
     func playerItemSubscriptions(playerItem: AVPlayerItem) {
         playerItem.publisher(for: \.status)
@@ -359,8 +376,17 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
         let playerItem = AVPlayerItem(asset: asset)
         player.replaceCurrentItem(with: playerItem)
         
+        setupVideoOutput()
         playerSubscriptions()
         playerItemSubscriptions(playerItem: playerItem)
+    }
+    
+    private func setupVideoOutput() {
+        let pixelBufferAttributes: [String: Any] = [
+            String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)
+        ]
+        videoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: pixelBufferAttributes)
+        player.currentItem?.add(videoOutput)
     }
     
     func configurePlayerItem(url: URL, playbackPostition: Double) {
