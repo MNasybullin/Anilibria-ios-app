@@ -12,9 +12,9 @@ protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
     func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel])
     func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?)
+    func didSelectWatchingItem(data: AnimeItem, currentPlaylist: Int)
     func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?)
     func didSelectYoutubeItem(_ rawData: YouTubeAPIModel?)
-    func dataIsApply()
 }
 
 @MainActor
@@ -78,7 +78,7 @@ final class HomeContentController: NSObject {
         
         setupCollectionView()
         setupModels()
-        applySnapshot()
+        applyInitialSnapshot()
         customView.showSkeletonCollectionView()
         requestData()
     }
@@ -106,6 +106,11 @@ private extension HomeContentController {
         }
         
         youtubeModel.downsampleSize = .init(width: 396, height: 222)
+    }
+    
+    func applyInitialSnapshot() {
+        let snapshot = Snapshot()
+        dataSource.apply(snapshot)
     }
     
     func todayCellRegistration() -> UICollectionView.CellRegistration<TodayHomePosterCollectionCell, Item> {
@@ -189,6 +194,11 @@ private extension HomeContentController {
                 }
             })
         
+        makeSupplementaryViewProvider(dataSource: dataSource)
+        return dataSource
+    }
+    
+    func makeSupplementaryViewProvider(dataSource: DataSource) {
         dataSource.supplementaryViewProvider = { [weak self, weak dataSource] collectionView, kind, indexPath in
             guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier, for: indexPath) as? HomeHeaderSupplementaryView else {
                 fatalError("Can`t create header view")
@@ -219,8 +229,6 @@ private extension HomeContentController {
             }
             return headerView
         }
-        
-        return dataSource
     }
     
     func applySnapshot(animatingDifferences: Bool = true) {
@@ -269,16 +277,15 @@ private extension HomeContentController {
         // for skeletonView. (Иначе пропадает skeleton на image)
         snapshot.reconfigureItems(noImageData)
         
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences) { [weak self] in
-            self?.customView.refreshControlEndRefreshing()
-            self?.delegate?.dataIsApply()
-        }
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
     func requestData() {
+        guard isLoadingData == false else { return }
         isLoadingData = true
         Task(priority: .userInitiated) {
             defer {
+                customView.refreshControlEndRefreshing()
                 isLoadingData = false
             }
             do {
@@ -289,6 +296,7 @@ private extension HomeContentController {
                 await todayData = try today
                 await updatesData = try updates
                 await youtubeData = try youtube
+                watchingData = try watchingModel.requestData()
                 
                 customView.hideSkeletonCollectionView()
                 applySnapshot()
@@ -318,7 +326,14 @@ extension HomeContentController: UICollectionViewDelegate {
                     todayModel.getRawData(row: row),
                     image: todayData[row].image)
             case .watching:
-                print("watching did selected")
+                Task {
+                    let id = watchingData[row].id
+                    guard let data = try? await watchingModel.requestAnimeData(id: id) else {
+                        print("fail request watching anime data")
+                        return
+                    }
+                    delegate?.didSelectWatchingItem(data: data, currentPlaylist: 0)
+                }
             case .updates:
                 delegate?.didSelectUpdatesItem(
                     updatesModel.getRawData(row: row),

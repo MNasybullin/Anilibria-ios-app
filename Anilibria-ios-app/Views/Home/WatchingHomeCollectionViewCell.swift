@@ -10,7 +10,7 @@ import SkeletonView
 
 final class WatchingHomeCollectionViewCell: UICollectionViewCell {
     enum Constants {
-        static let stackSpacing: CGFloat = 6
+        static let stackSpacing: CGFloat = 2
         static let imageViewCornerRadius: CGFloat = 12
         static let titleLabelFontSize: CGFloat = 16
         static let subtitleLabelFontSize: CGFloat = 14
@@ -21,13 +21,14 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .fill
-        stack.spacing = 2
+        stack.spacing = Constants.stackSpacing
         stack.isSkeletonable = true
         return stack
     }()
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constants.imageViewCornerRadius
         imageView.layer.masksToBounds = true
@@ -42,8 +43,7 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
                                        weight: .medium)
-//        label.textAlignment = .left
-        label.textColor = .label
+        label.textColor = .secondaryLabel
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
         label.skeletonTextNumberOfLines = 1
@@ -56,8 +56,7 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: Constants.subtitleLabelFontSize,
                                        weight: .medium)
-//        label.textAlignment = .left
-        label.textColor = .secondaryLabel
+        label.textColor = .tertiaryLabel
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
         label.skeletonTextNumberOfLines = 1

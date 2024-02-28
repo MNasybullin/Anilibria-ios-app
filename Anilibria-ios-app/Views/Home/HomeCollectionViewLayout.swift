@@ -143,7 +143,7 @@ final class HomeCollectionViewLayout {
             leading: 0,
             bottom: 16,
             trailing: 0)
-        section.orthogonalScrollingBehavior = .continuous
+        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),

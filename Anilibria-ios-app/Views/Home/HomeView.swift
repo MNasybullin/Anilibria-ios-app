@@ -42,12 +42,7 @@ private extension HomeView {
         backgroundColor = .systemBackground
     }
     
-    func setupCollectionView() {
-        // For SkeletonView
-        collectionView.register(
-            PosterCollectionViewCell.self,
-            forCellWithReuseIdentifier: PosterCollectionViewCell.reuseIdentifier)
-        
+    func setupCollectionView() {        
         collectionView.register(
             TodayHomePosterCollectionCell.self,
             forCellWithReuseIdentifier: TodayHomePosterCollectionCell.reuseIdentifier)
@@ -100,9 +95,9 @@ private extension HomeView {
 // MARK: - Internal methods
 
 extension HomeView {
-    func scrollToTop() {
+    func scrollToTop(animated: Bool = true) {
         let topOffset = CGPoint(x: 0, y: -collectionView.adjustedContentInset.top)
-        collectionView.setContentOffset(topOffset, animated: true)
+        collectionView.setContentOffset(topOffset, animated: animated)
     }
     
     func refreshControlEndRefreshing() {
@@ -122,6 +117,7 @@ extension HomeView {
     
     func programaticallyBeginRefreshing() {
         collectionView.refreshControl?.beginRefreshing()
+        scrollToTop(animated: false)
         delegate?.handleRefreshControl()
     }
     

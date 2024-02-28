@@ -37,6 +37,7 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
             return
         }
         customView.programaticallyBeginRefreshing()
+        expiredDateManager.start()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -61,6 +62,7 @@ private extension HomeController {
             .sink { [weak self] _ in
                 guard self?.expiredDateManager.isExpired() == true else { return }
                 self?.customView.programaticallyBeginRefreshing()
+                self?.expiredDateManager.start()
             }
             .store(in: &subscriptions)
     }
@@ -87,6 +89,10 @@ extension HomeController: HomeContentControllerDelegate {
         navigator?.show(.anime(data: rawData, image: image))
     }
     
+    func didSelectWatchingItem(data: AnimeItem, currentPlaylist: Int) {
+        navigator?.show(.videoPlayer(data: data, currentPlaylist: currentPlaylist))
+    }
+    
     func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?) {
         guard let rawData else { return }
         navigator?.show(.anime(data: rawData, image: image))
@@ -105,10 +111,6 @@ extension HomeController: HomeContentControllerDelegate {
     
     func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel]) {
         navigator?.show(.youTube(data: data, rawData: rawData))
-    }
-    
-    func dataIsApply() {
-        expiredDateManager.start()
     }
 }
 

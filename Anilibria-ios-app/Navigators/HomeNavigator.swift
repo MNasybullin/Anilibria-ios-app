@@ -63,34 +63,31 @@ extension HomeNavigator: Navigator {
         case schedule
         case anime(data: TitleAPIModel, image: UIImage?)
         case youTube(data: [HomePosterItem], rawData: [YouTubeAPIModel])
+        case videoPlayer(data: AnimeItem, currentPlaylist: Int)
     }
     
     func show(_ destination: Destinition) {
-        let viewController = makeViewController(destination)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-    
-    private func makeViewController(_ destination: Destinition) -> UIViewController {
-        let viewController: UIViewController
         switch destination {
             case .schedule:
                 let scheduleController = ScheduleController()
                 scheduleController.title = Strings.ScreenTitles.schedule
                 scheduleController.navigator = self
-                viewController = scheduleController
+                navigationController.pushViewController(scheduleController, animated: true)
             case .anime(let rawData, let image):
                 let animeController = AnimeController(rawData: rawData, image: image, hasInteractiveTransitionController: true)
                 let animeNavigator = AnimeNavigator(navigationController: navigationController)
                 subNavigators.append(animeNavigator)
                 animeController.navigator = animeNavigator
-                viewController = animeController
+                navigationController.pushViewController(animeController, animated: true)
             case .youTube(let data, let rawData):
                 let youTubeController = YouTubeController(data: data, rawData: rawData)
                 youTubeController.title = Strings.ScreenTitles.youTube
                 youTubeController.navigator = self
-                viewController = youTubeController
+                navigationController.pushViewController(youTubeController, animated: true)
+            case .videoPlayer(let item, let currentPlaylist):
+                let playerNavigator = VideoPlayerNavigator.shared
+                playerNavigator.show(.player(data: item, currentPlaylist: currentPlaylist, presentatingController: navigationController))
         }
-        return viewController
     }
 }
 

@@ -44,7 +44,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
                                        weight: .medium)
         label.numberOfLines = Constants.titleLabelNumberOfLines
-        label.textColor = .systemGray
+        label.textColor = .secondaryLabel
         label.textAlignment = .left
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
