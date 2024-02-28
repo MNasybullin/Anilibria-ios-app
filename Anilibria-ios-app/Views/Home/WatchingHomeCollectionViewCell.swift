@@ -26,8 +26,8 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
+    private lazy var imageView: EpisodeImageView = {
+        let imageView = EpisodeImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constants.imageViewCornerRadius
@@ -46,7 +46,6 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         label.textColor = .secondaryLabel
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
-        label.skeletonTextNumberOfLines = 1
         label.lastLineFillPercent = 100
         label.text = "Skeleton"
         return label
@@ -59,7 +58,6 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         label.textColor = .tertiaryLabel
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
-        label.skeletonTextNumberOfLines = 1
         label.lastLineFillPercent = 40
         label.text = "Skeleton"
         return label
@@ -124,5 +122,6 @@ extension WatchingHomeCollectionViewCell {
         titleLabel.text = item.title
         subtitleLabel.text = item.subtitle
         imageView.image = item.image
+        imageView.setupWatchingProgress(withDuration: item.duration, playbackTime: item.playbackPosition)
     }
 }

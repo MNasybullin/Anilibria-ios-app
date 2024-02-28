@@ -11,13 +11,15 @@ final class EpisodeImageView: UIImageView {
     private lazy var watchingProgress: UIProgressView = {
         let progressView = UIProgressView()
         progressView.progressTintColor = .systemRed
-        progressView.trackTintColor = .systemGray
+        progressView.trackTintColor = .systemGray.withAlphaComponent(0.5)
+        progressView.progressViewStyle = .bar
         
         addSubview(progressView)
         progressView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             progressView.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            progressView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.04),
             progressView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         return progressView

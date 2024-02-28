@@ -44,6 +44,9 @@ extension HomeWatchingModel {
                 title: $0.animeName,
                 subtitle: "\(Int(episode.numberOfEpisode)) Серия",
                 watchingDate: episode.watchingDate,
+                duration: episode.duration,
+                numberOfEpisode: episode.numberOfEpisode,
+                playbackPosition: episode.playbackPosition,
                 image: $0.animeImage ?? blankImage)
             result.append(item)
         }
