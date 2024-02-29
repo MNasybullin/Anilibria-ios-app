@@ -93,7 +93,7 @@ private extension UserModel {
     func requestUser() async throws -> UserItem {
         let userApiModel = try await authorizationService.user()
         var user = UserItem(userApiModel: userApiModel)
-        user.image = try await requestImage(forURL: user.imageUrl)
+        user.image = try? await requestImage(forURL: user.imageUrl)
         
         let context = coreDataService.viewContext
         UserDefaults.standard.userLogin = user.login
