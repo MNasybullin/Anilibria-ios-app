@@ -95,9 +95,9 @@ extension FranchiseView {
         collectionView.showAnimatedSkeleton()
     }
     
-    func hideCollectionViewSkeleton(reloadDataAfter: Bool = false) {
+    func hideCollectionViewSkeleton() {
         if collectionView.sk.isSkeletonActive {
-            collectionView.hideSkeleton(reloadDataAfter: reloadDataAfter, transition: .none)
+            collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
         }
     }
     

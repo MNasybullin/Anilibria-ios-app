@@ -56,7 +56,7 @@ final class FranchiseContentController: NSObject {
         customView.collectionView.prefetchDataSource = self
         
         setupSupplementaryViewProvider()
-        initialSnapshot()
+        applyInitialSnapshot()
         loadData()
     }
 }
@@ -102,28 +102,23 @@ private extension FranchiseContentController {
         }
     }
     
-    /// For SkeletonView
-    func initialSnapshot() {
-        data.append([FranchisePosterItem(id: -1, name: "Skeleton", imageUrlString: "", sectionName: "Skeleton")])
-        var snapshot = Snapshot()
-        snapshot.appendSections([UUID().uuidString])
-        snapshot.appendItems(data[0])
-
-        dataSource.apply(snapshot, animatingDifferences: false)
+    func applyInitialSnapshot() {
+        let snapshot = Snapshot()
+        dataSource.apply(snapshot)
         customView.showCollectionViewSkeleton()
     }
     
     func loadData() {
         guard status != .loading else { return }
+        status = .loading
         if data.isEmpty {
             customView.showCollectionViewSkeleton()
         }
         Task(priority: .userInitiated) {
             do {
-                status = .loading
                 data = try await model.getFranchisesTitles()
                 
-                customView.hideCollectionViewSkeleton(reloadDataAfter: true)
+                customView.hideCollectionViewSkeleton()
                 applySnapshot()
                 status = .normal
             } catch {

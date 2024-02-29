@@ -115,9 +115,6 @@ private extension PosterCollectionViewCell {
 
 extension PosterCollectionViewCell {
     func configureCell(item: any PosterItem) {
-        if sk.isSkeletonActive == true {
-            hideSkeleton(reloadDataAfter: false)
-        }
         imageView.image = item.image
         if item.image == nil {
             imageView.showAnimatedSkeleton(transition: .none)
@@ -125,12 +122,6 @@ extension PosterCollectionViewCell {
         
         titleLabel.text = item.name
         imageUrlString = item.imageUrlString
-    }
-    
-    func configureSkeletonCell() {
-        imageView.image = nil
-        titleLabel.text = Strings.skeletonTextPlaceholder
-        showAnimatedSkeleton(transition: .none)
     }
     
     func setImage(_ image: UIImage, urlString: String) {
