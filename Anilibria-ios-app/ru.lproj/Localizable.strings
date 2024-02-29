@@ -149,7 +149,7 @@
 "Team.timing" = "Тайминг";
 
 // MARK: - Profile AniLibria
-"ProfileModule.Anilibria.site" = "Сайт AniLibria.tv";
+"ProfileModule.Anilibria.site" = "Сайт";
 "ProfileModule.Anilibria.team" = "Команда";
 "ProfileModule.Anilibria.vk" = "ВКонтакте";
 "ProfileModule.Anilibria.telegram" = "Telegram";
@@ -174,5 +174,5 @@
 "AboutAppModule.title" = "О приложении";
 "AboutAppModule.disclaimer" = "Весь материал в приложении представлен исключительно для домашнего ознакомительного просмотра.";
 "AboutAppModule.version" = "Версия";
-"AboutAppModule.github" = "Исходный код на GitHub";
+"AboutAppModule.github" = "GitHub";
 

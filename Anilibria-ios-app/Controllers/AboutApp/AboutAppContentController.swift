@@ -72,8 +72,9 @@ extension AboutAppContentController: UITableViewDataSource {
     }
     
     private func configureVersionCell(_ cell: UITableViewCell) {
-        var content = cell.defaultContentConfiguration()
-        content.text = Localization.version + " \(model.getAppVersion())"
+        var content = UIListContentConfiguration.valueCell()
+        content.text = Localization.version
+        content.secondaryText = model.getAppVersion()
         cell.contentConfiguration = content
     }
     
