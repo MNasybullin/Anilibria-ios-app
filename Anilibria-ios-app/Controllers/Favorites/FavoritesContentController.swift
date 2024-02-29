@@ -106,12 +106,16 @@ private extension FavoritesContentController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(data)
+                
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         
         // for skeletonView. (Иначе пропадает skeleton на image)
         let noImageData = data.filter { $0.image == nil }
-        snapshot.reconfigureItems(noImageData)
-        
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        if !noImageData.isEmpty {
+            var noImageSnapshot = self.dataSource.snapshot()
+            noImageSnapshot.reconfigureItems(noImageData)
+            self.dataSource.apply(noImageSnapshot)
+        }
     }
 }
 
@@ -120,12 +124,12 @@ private extension FavoritesContentController {
 extension FavoritesContentController {
     func loadData() {
         guard status != .loading else { return }
+        status = .loading
         if data.isEmpty {
             customView.showCollectionViewSkeleton()
         }
         Task(priority: .userInitiated) {
             do {
-                status = .loading
                 let models = try await self.model.getFavorites(withForceUpdate: true)
                 
                 var newData = [HomePosterItem]()

@@ -286,10 +286,14 @@ private extension HomeContentController {
         snapshot.appendItems(updatesArray, toSection: .updates)
         snapshot.appendItems(youtubeArray, toSection: .youtube)
         
-        // for skeletonView. (Иначе пропадает skeleton на image)
-        snapshot.reconfigureItems(noImageData)
-        
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        
+        // for skeletonView. (Иначе пропадает skeleton на image)
+        if !noImageData.isEmpty {
+            var noImageSnapshot = dataSource.snapshot()
+            noImageSnapshot.reconfigureItems(noImageData)
+            dataSource.apply(noImageSnapshot)
+        }
     }
     
     func applyWatchingSnapshot() {
