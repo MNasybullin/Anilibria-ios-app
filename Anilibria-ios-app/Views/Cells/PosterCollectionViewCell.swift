@@ -115,9 +115,11 @@ private extension PosterCollectionViewCell {
 
 extension PosterCollectionViewCell {
     func configureCell(item: any PosterItem) {
-        imageView.image = item.image
         if item.image == nil {
             imageView.showAnimatedSkeleton(transition: .none)
+        } else {
+            imageView.image = item.image
+            imageView.hideSkeleton(reloadDataAfter: false)
         }
         
         titleLabel.text = item.name
@@ -126,8 +128,8 @@ extension PosterCollectionViewCell {
     
     func setImage(_ image: UIImage, urlString: String) {
         if urlString == imageUrlString {
-            imageView.hideSkeleton(reloadDataAfter: false)
             imageView.image = image
+            imageView.hideSkeleton(reloadDataAfter: false)
         }
     }
 }
