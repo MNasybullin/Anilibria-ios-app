@@ -63,7 +63,7 @@ extension HomeNavigator: Navigator {
         case schedule
         case anime(data: TitleAPIModel, image: UIImage?)
         case youTube(data: [HomePosterItem], rawData: [YouTubeAPIModel])
-        case videoPlayer(data: AnimeItem, currentPlaylist: Int)
+        case videoPlayer(animeId: Int, numberOfEpisode: Float)
     }
     
     func show(_ destination: Destinition) {
@@ -84,9 +84,9 @@ extension HomeNavigator: Navigator {
                 youTubeController.title = Strings.ScreenTitles.youTube
                 youTubeController.navigator = self
                 navigationController.pushViewController(youTubeController, animated: true)
-            case .videoPlayer(let item, let currentPlaylist):
+            case .videoPlayer(let animeId, let numberOfEpisode):
                 let playerNavigator = VideoPlayerNavigator.shared
-                playerNavigator.show(.player(data: item, currentPlaylist: currentPlaylist, presentatingController: navigationController))
+                playerNavigator.show(.playerNoData(animeId: animeId, numberOfEpisode: numberOfEpisode, presentatingController: navigationController))
         }
     }
 }

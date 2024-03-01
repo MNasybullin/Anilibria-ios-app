@@ -115,6 +115,8 @@
 
 // MARK: - Video Player
 "VideoPlayerView.skipButton" = "Пропустить";
+"VideoPlayerView.error" = "Ошибка";
+"VideoPlayerView.episodeIsNotFound" = "Серия не найдена";
 
 // MARK: - Video Player Settings
 "VideoPlayerSettings.settings" = "Настройки";

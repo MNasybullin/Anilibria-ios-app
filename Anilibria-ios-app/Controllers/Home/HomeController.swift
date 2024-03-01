@@ -93,8 +93,8 @@ extension HomeController: HomeContentControllerDelegate {
         navigator?.show(.anime(data: rawData, image: image))
     }
     
-    func didSelectWatchingItem(data: AnimeItem, currentPlaylist: Int) {
-        navigator?.show(.videoPlayer(data: data, currentPlaylist: currentPlaylist))
+    func didSelectWatchingItem(animeId: Int, numberOfEpisode: Float) {
+        navigator?.show(.videoPlayer(animeId: animeId, numberOfEpisode: numberOfEpisode))
     }
     
     func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?) {

@@ -54,9 +54,4 @@ extension HomeWatchingModel {
         result.sort { $0.watchingDate > $1.watchingDate }
         return result
     }
-    
-    func requestAnimeData(id: Int) async throws -> AnimeItem {
-        let titleApiModel = try await publicApiService.title(id: String(id))
-        return AnimeItem(fromTitleApiModel: titleApiModel, image: nil)
-    }
 }

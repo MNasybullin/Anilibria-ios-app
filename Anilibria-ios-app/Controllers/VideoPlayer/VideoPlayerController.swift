@@ -26,7 +26,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     private let player = AVPlayer()
     private var videoOutput: AVPlayerItemVideoOutput!
     private var pipController: VideoPlayerPiPController?
-    private let model: VideoPlayerModel
+    private var model: VideoPlayerModel!
     private let remoteCommandCenterController = VideoPlayerRemoteCommandCenterController()
     private let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
     
@@ -52,12 +52,26 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
         }
     }
     
+    private let needDownloadAnimeData: Bool
+    private var animeId: Int
+    private var numberOfEpisode: Float?
+    
     // MARK: LifeCycle
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         model = VideoPlayerModel(
             animeItem: animeItem,
             currentPlaylist: currentPlaylist
         )
+        needDownloadAnimeData = false
+        self.animeId = animeItem.id
+        super.init(nibName: nil, bundle: nil)
+        interactiveTransitionController = VideoPlayerInteractiveTransitionController(viewController: self)
+    }
+    
+    init(animeId: Int, numberOfEpisode: Float) {
+        needDownloadAnimeData = true
+        self.animeId = animeId
+        self.numberOfEpisode = numberOfEpisode
         super.init(nibName: nil, bundle: nil)
         interactiveTransitionController = VideoPlayerInteractiveTransitionController(viewController: self)
     }
@@ -75,15 +89,11 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupAudioSession()
-        setupView()
-        setupPiPController()
-        addPeriodicTimeObserver()
-        model.delegate = self
-        model.start()
-        setNeedsUpdateOfHomeIndicatorAutoHidden()
-        setupRemoteCommandCenterController()
+        if needDownloadAnimeData {
+            setupControllerNoData()
+        } else {
+            setupController()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -115,6 +125,40 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
 // MARK: - Setup methods
 
 private extension VideoPlayerController {
+    func setupControllerNoData() {
+        customView.hideOverlay()
+        Task(priority: .userInitiated) {
+            do {
+                let data = try await VideoPlayerModel.requestAnimeData(id: animeId)
+                guard let currentPlaylist = data.playlist.firstIndex(where: { $0.episode == numberOfEpisode }) else {
+                    throw NSError(domain: Strings.VideoPlayerView.episodeIsNotFound, code: 0)
+                }
+                model = VideoPlayerModel(
+                    animeItem: data,
+                    currentPlaylist: currentPlaylist
+                )
+                setupController()
+                customView.showOverlay()
+            } catch {
+                Alert.showErrorAlert(on: self, title: Strings.VideoPlayerView.error, message: error.localizedDescription) { [weak self] in
+                    self?.willDismiss()
+                    self?.dismiss(animated: true)
+                }
+            }
+        }
+    }
+    
+    func setupController() {
+        setupAudioSession()
+        setupView()
+        setupPiPController()
+        addPeriodicTimeObserver()
+        model.delegate = self
+        model.start()
+        setNeedsUpdateOfHomeIndicatorAutoHidden()
+        setupRemoteCommandCenterController()
+    }
+    
     func setupAudioSession() {
         do {
             try audioSession.setCategory(.playback, mode: .moviePlayback)
@@ -281,19 +325,19 @@ private extension VideoPlayerController {
     }
     
     func getCurrentImage() -> UIImage? {
-            guard let currentItem = player.currentItem else { return nil }
-
-            let time = currentItem.currentTime()
-            guard let buffer = videoOutput.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil) else { return nil }
-
-            let ciImage = CIImage(cvPixelBuffer: buffer)
-            let context = CIContext()
-            guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return nil }
-
-            let image = UIImage(cgImage: cgImage)
-
-            return image
-        }
+        guard let currentItem = player.currentItem else { return nil }
+        
+        let time = currentItem.currentTime()
+        guard let buffer = videoOutput.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil) else { return nil }
+        
+        let ciImage = CIImage(cvPixelBuffer: buffer)
+        let context = CIContext()
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return nil }
+        
+        let image = UIImage(cgImage: cgImage)
+        
+        return image
+    }
     
     func playerItemSubscriptions(playerItem: AVPlayerItem) {
         playerItem.publisher(for: \.status)

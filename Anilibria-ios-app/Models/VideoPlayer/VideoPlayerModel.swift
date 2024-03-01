@@ -192,3 +192,12 @@ extension VideoPlayerModel {
         return animeItem.playlist[currentPlaylistNumber].hls
     }
 }
+
+// MARK: - Static func
+
+extension VideoPlayerModel {
+    static func requestAnimeData(id: Int) async throws -> AnimeItem {
+        let titleApiModel = try await PublicApiService().title(id: String(id))
+        return AnimeItem(fromTitleApiModel: titleApiModel, image: nil)
+    }
+}

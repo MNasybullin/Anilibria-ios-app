@@ -12,7 +12,7 @@ protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
     func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel])
     func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?)
-    func didSelectWatchingItem(data: AnimeItem, currentPlaylist: Int)
+    func didSelectWatchingItem(animeId: Int, numberOfEpisode: Float)
     func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?)
     func didSelectYoutubeItem(_ rawData: YouTubeAPIModel?)
 }
@@ -366,13 +366,9 @@ extension HomeContentController: UICollectionViewDelegate {
                     todayModel.getRawData(row: row),
                     image: todayData[row].image)
             case .watching:
-                Task {
-                    let id = watchingData[row].id
-                    guard let data = try? await watchingModel.requestAnimeData(id: id) else {
-                        print("fail request watching anime data")
-                        return
-                    }
-                    delegate?.didSelectWatchingItem(data: data, currentPlaylist: 0)
+                guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+                if case .watching(let data, _) = item {
+                    delegate?.didSelectWatchingItem(animeId: data.id, numberOfEpisode: data.numberOfEpisode)
                 }
             case .updates:
                 delegate?.didSelectUpdatesItem(

@@ -34,6 +34,11 @@ extension VideoPlayerNavigator: Navigator {
             currentPlaylist: Int,
             presentatingController: UIViewController
         )
+        case playerNoData(
+            animeId: Int,
+            numberOfEpisode: Float,
+            presentatingController: UIViewController
+        )
         case episodes(
             data: AnimeItem,
             currentPlaylistNumber: Int,
@@ -57,6 +62,12 @@ extension VideoPlayerNavigator: Navigator {
                     currentPlaylist: currentPlaylist,
                     presentatingController: presentatingController
                 )
+            case .playerNoData(let animeId, let numberOfEpisode, let presentatingController):
+                setupAndShowPlayerNoData(
+                    animeId: animeId,
+                    numberOfEpisode: numberOfEpisode,
+                    presentatingController: presentatingController
+                )
             case .episodes(let data, let currentPlaylistNumber, let completionBlock, let presentatingController):
                 setupAndShowEpisodes(
                     data: data,
@@ -78,6 +89,18 @@ private extension VideoPlayerNavigator {
         let player = VideoPlayerController(
             animeItem: item,
             currentPlaylist: currentPlaylist
+        )
+        player.navigator = self
+        player.modalPresentationStyle = .fullScreen
+        player.modalPresentationCapturesStatusBarAppearance = true
+        presentatingController.present(player, animated: true)
+    }
+    
+    func setupAndShowPlayerNoData(animeId: Int, numberOfEpisode: Float, presentatingController: UIViewController) {
+        dissmisPlayerController()
+        let player = VideoPlayerController(
+            animeId: animeId,
+            numberOfEpisode: numberOfEpisode
         )
         player.navigator = self
         player.modalPresentationStyle = .fullScreen
