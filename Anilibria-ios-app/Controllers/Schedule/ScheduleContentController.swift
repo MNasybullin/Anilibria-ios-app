@@ -23,7 +23,6 @@ final class ScheduleContentController: NSObject {
     
     private lazy var model: ScheduleModel = {
         let model = ScheduleModel()
-        model.imageModelDelegate = self
         model.scheduleModelOutput = self
         return model
     }()
@@ -83,9 +82,15 @@ extension ScheduleContentController: UICollectionViewDataSource {
         let row = indexPath.row
         let item = data[section].animePosterItems[row]
         if item.image == nil {
-            model.requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[section].animePosterItems[row].image = image
-                cell.setImage(image, urlString: item.imageUrlString)
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let image = try await self.model.requestImage(fromUrlString: item.imageUrlString)
+                    self.data[section].animePosterItems[row].image = image
+                    cell.setImage(image, urlString: item.imageUrlString)
+                } catch {
+                    cell.stopSkeletonAnimation()
+                }
             }
         }
         cell.configureCell(item: item)
@@ -121,8 +126,10 @@ extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
             guard item.image == nil else {
                 return
             }
-            model.requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[section].animePosterItems[row].image = image
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                self.data[section].animePosterItems[row].image = image
             }
         }
     }
@@ -140,14 +147,6 @@ extension ScheduleContentController: ScheduleModelOutput {
     }
     
     func failedRequestData(error: Error) {
-        print(#function, error)
-    }
-}
-
-// MARK: - AnimePosterModelOutput
-
-extension ScheduleContentController: ImageModelDelegate {
-    func failedRequestImage(error: Error) {
         print(#function, error)
     }
 }

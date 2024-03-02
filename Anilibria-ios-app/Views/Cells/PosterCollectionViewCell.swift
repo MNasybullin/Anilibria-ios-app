@@ -39,7 +39,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private (set) lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
                                        weight: .medium)
@@ -131,5 +131,9 @@ extension PosterCollectionViewCell {
             imageView.image = image
             imageView.hideSkeleton(reloadDataAfter: false)
         }
+    }
+    
+    func imageViewStopSkeletonAnimation() {
+        imageView.stopSkeletonAnimation()
     }
 }

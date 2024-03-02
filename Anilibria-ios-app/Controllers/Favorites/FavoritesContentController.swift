@@ -91,9 +91,15 @@ private extension FavoritesContentController {
                     for: indexPath) as? PosterCollectionViewCell
                 guard let item = self?.data[indexPath.row] else { return cell }
                 if item.image == nil {
-                    self?.model.requestImage(from: item.imageUrlString) { image in
-                        self?.data[indexPath.row].image = image
-                        cell?.setImage(image, urlString: item.imageUrlString)
+                    Task { [weak self] in
+                        guard let self else { return }
+                        do {
+                            let image = try await self.model.requestImage(fromUrlString: item.imageUrlString)
+                            self.data[indexPath.row].image = image
+                            cell?.setImage(image, urlString: item.imageUrlString)
+                        } catch {
+                            cell?.imageViewStopSkeletonAnimation()
+                        }
                     }
                 }
                 cell?.configureCell(item: item)
@@ -177,8 +183,10 @@ extension FavoritesContentController: UICollectionViewDataSourcePrefetching {
                 return
             }
             if item.image == nil {
-                model.requestImage(from: item.imageUrlString) { [weak self] image in
-                    self?.data[indexPath.row].image = image
+                Task { [weak self] in
+                    guard let self else { return }
+                    let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                    self.data[indexPath.row].image = image
                 }
             }
         }

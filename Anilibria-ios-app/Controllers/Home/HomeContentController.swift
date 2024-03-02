@@ -35,7 +35,7 @@ final class HomeContentController: NSObject {
         case watching(HomeWatchingItem, Section)
         case updates(HomePosterItem, Section)
         case youtube(HomePosterItem, Section)
-                
+        
         var section: Section {
             switch self {
                 case .today(_, let section):
@@ -94,7 +94,7 @@ final class HomeContentController: NSObject {
     
     func requestRefreshWatchingData() {
         guard isLoadingData == false &&
-        customView.collectionView.sk.isSkeletonActive == false else {
+                customView.collectionView.sk.isSkeletonActive == false else {
             return
         }
         do {
@@ -114,11 +114,7 @@ private extension HomeContentController {
         customView.homeCollectionViewLayout.dataSource = dataSource
     }
     
-    func setupModels() {
-        [todayModel, updatesModel, youtubeModel].forEach {
-            $0.imageModelDelegate = self
-        }
-        
+    func setupModels() {        
         youtubeModel.downsampleSize = .init(width: 396, height: 222)
     }
     
@@ -134,9 +130,15 @@ private extension HomeContentController {
             }
             
             if item.image == nil {
-                self?.todayModel.requestImage(from: item.imageUrlString) { image in
-                    self?.todayData[indexPath.row].image = image
-                    cell.setImage(image, urlString: item.imageUrlString)
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.todayModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.todayData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
                 }
             }
             cell.configureCell(item: item)
@@ -159,9 +161,15 @@ private extension HomeContentController {
             }
             
             if item.image == nil {
-                self?.updatesModel.requestImage(from: item.imageUrlString) { image in
-                    self?.updatesData[indexPath.row].image = image
-                    cell.setImage(image, urlString: item.imageUrlString)
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.updatesModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.updatesData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
                 }
             }
             cell.configureCell(item: item)
@@ -175,9 +183,15 @@ private extension HomeContentController {
             }
             
             if item.image == nil {
-                self?.youtubeModel.requestImage(from: item.imageUrlString) { image in
-                    self?.youtubeData[indexPath.row].image = image
-                    cell.setImage(image, urlString: item.imageUrlString)
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.youtubeModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.youtubeData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
                 }
             }
             cell.configureCell(item: item)
@@ -394,8 +408,10 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
                     guard !todayData.isEmpty,
                           todayData[row].image == nil else { return }
                     let item = todayData[row]
-                    todayModel.requestImage(from: item.imageUrlString) { [weak self] image in
-                        self?.todayData[row].image = image
+                    Task { [weak self] in
+                        guard let self else { return }
+                        let image = try? await todayModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.todayData[row].image = image
                     }
                 case .watching:
                     break
@@ -403,25 +419,21 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
                     guard !updatesData.isEmpty,
                           updatesData[row].image == nil else { return }
                     let item = updatesData[row]
-                    updatesModel.requestImage(from: item.imageUrlString) { [weak self] image in
-                        self?.updatesData[row].image = image
+                    Task { [weak self] in
+                        guard let self else { return }
+                        let image = try? await updatesModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.updatesData[row].image = image
                     }
                 case .youtube:
                     guard !youtubeData.isEmpty,
                           youtubeData[row].image == nil else { return }
                     let item = youtubeData[row]
-                    youtubeModel.requestImage(from: item.imageUrlString) { [weak self] image in
-                        self?.youtubeData[row].image = image
+                    Task { [weak self] in
+                        guard let self else { return }
+                        let image = try? await youtubeModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.youtubeData[row].image = image
                     }
             }
         }
-    }
-}
-
-// MARK: - AnimePosterModelOutput
-
-extension HomeContentController: ImageModelDelegate {
-    func failedRequestImage(error: Error) {
-        print(#function, error)
     }
 }

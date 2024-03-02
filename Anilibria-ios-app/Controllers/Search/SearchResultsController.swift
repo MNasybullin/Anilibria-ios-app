@@ -119,9 +119,15 @@ extension SearchResultsController: UITableViewDataSource {
             loadMoreData()
         }
         if item.image == nil {
-            model.requestImage(from: item.imageUrlString) { image in
-                self.data[indexPath.row].image = image
-                cell.setImage(image, urlString: item.imageUrlString)
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let image = try await self.model.requestImage(fromUrlString: item.imageUrlString)
+                    self.data[indexPath.row].image = image
+                    cell.setImage(image, urlString: item.imageUrlString)
+                } catch {
+                    cell.imageViewStopSkeletonAnimation()
+                }
             }
         }
         cell.configureCell(item: item)
@@ -150,7 +156,9 @@ extension SearchResultsController: UITableViewDataSourcePrefetching {
             guard item.image == nil else {
                 return
             }
-            model.requestImage(from: item.imageUrlString) { image in
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
                 self.data[indexPath.row].image = image
             }
         }

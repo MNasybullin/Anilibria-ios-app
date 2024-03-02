@@ -19,6 +19,7 @@
 
 // MARK: - Image Error
 "ImageError.failedToInitialize" = "Не удалось инициализировать изображение из загруженных данных.";
+"ImageError.invalidURL" = "Неверная ссылка изображения";
 
 // MARK: - Internal Error
 "InternalError.failedToFetchURLFromData" = "Не удалось получить URL из данных";

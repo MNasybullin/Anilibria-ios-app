@@ -75,9 +75,15 @@ private extension FranchiseContentController {
                 let row = indexPath.row
                 guard let item = self?.data[section][row] else { return cell }
                 if item.image == nil {
-                    self?.model.requestImage(from: item.imageUrlString) { image in
-                        self?.data[section][row].image = image
-                        cell?.setImage(image, urlString: item.imageUrlString)
+                    Task { [weak self] in
+                        guard let self else { return }
+                        do {
+                            let image = try await self.model.requestImage(fromUrlString: item.imageUrlString)
+                            self.data[section][row].image = image
+                            cell?.setImage(image, urlString: item.imageUrlString)
+                        } catch {
+                            cell?.stopSkeletonAnimation()
+                        }
                     }
                 }
                 cell?.configureCell(item: item)
@@ -171,8 +177,10 @@ extension FranchiseContentController: UICollectionViewDataSourcePrefetching {
             let section = indexPath.section
             let row = indexPath.row
             if item.image == nil {
-                model.requestImage(from: item.imageUrlString) { [weak self] image in
-                    self?.data[section][row].image = image
+                Task { [weak self] in
+                    guard let self else { return }
+                    let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                    self.data[section][row].image = image
                 }
             }
         }

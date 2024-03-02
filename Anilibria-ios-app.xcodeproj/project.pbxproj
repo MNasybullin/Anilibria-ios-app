@@ -161,6 +161,7 @@
 		27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88582B2343E0004DC558 /* NetworkConstants.swift */; };
 		27CE885B2B237FB2004DC558 /* HomeYouTubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */; };
 		27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */; };
+		27D73AA12B93651300AAB30E /* SynchronizedLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D73AA02B93651300AAB30E /* SynchronizedLock.swift */; };
 		27E1BA072B7AB70A00A9C73C /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA062B7AB70A00A9C73C /* ProfileModel.swift */; };
 		27E1BA092B7B82F300A9C73C /* TeamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA082B7B82F300A9C73C /* TeamController.swift */; };
 		27E1BA0B2B7B834100A9C73C /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA0A2B7B834100A9C73C /* TeamView.swift */; };
@@ -385,6 +386,7 @@
 		27CE88582B2343E0004DC558 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYouTubeModel.swift; sourceTree = "<group>"; };
 		27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOrientation.swift; sourceTree = "<group>"; };
+		27D73AA02B93651300AAB30E /* SynchronizedLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedLock.swift; sourceTree = "<group>"; };
 		27E1BA062B7AB70A00A9C73C /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		27E1BA082B7B82F300A9C73C /* TeamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamController.swift; sourceTree = "<group>"; };
 		27E1BA0A2B7B834100A9C73C /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
@@ -900,6 +902,7 @@
 				27A66E5129771D4500369EAF /* Alert.swift */,
 				27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */,
 				276880C02B46DDAE00F5FD06 /* ExpiredDateManager.swift */,
+				27D73AA02B93651300AAB30E /* SynchronizedLock.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1585,6 +1588,7 @@
 				27B98C412B89E9AF00B1ABC4 /* AmbientPlayerView.swift in Sources */,
 				27E1BA162B822A4800A9C73C /* SettingsController.swift in Sources */,
 				275EFF3C2B14F7DC00C281B1 /* UserItem.swift in Sources */,
+				27D73AA12B93651300AAB30E /* SynchronizedLock.swift in Sources */,
 				275EFF3E2B15C38000C281B1 /* UserView.swift in Sources */,
 				2758A4392B30B7020089E475 /* WatchingEntity+CoreDataClass.swift in Sources */,
 				2733B2032B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift in Sources */,

@@ -22,7 +22,6 @@ final class EpisodesContentController: NSObject {
         self.model = EpisodesModel(animeItem: data)
         super.init()
         
-        model.imageModelDelegate = self
         self.playlists = model.getPlaylists()
     }
 }
@@ -71,8 +70,10 @@ extension EpisodesContentController: UITableViewDataSource {
         let row = indexPath.row
         let item = playlists[row]
         if item.image == nil {
-            model.requestImage(from: item.previewUrl) { [weak self] image in
-                self?.playlists[row].image = image
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try await self.model.requestImage(fromUrlString: item.previewUrl)
+                self.playlists[row].image = image
                 cell.setImage(image, urlString: item.previewUrl)
             }
         }
@@ -94,15 +95,11 @@ extension EpisodesContentController: UITableViewDataSourcePrefetching {
             guard playlists[row].image == nil else {
                 return
             }
-            model.requestImage(from: playlists[row].previewUrl) { [weak self] image in
-                self?.playlists[row].image = image
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: playlists[row].previewUrl)
+                self.playlists[row].image = image
             }
         }
-    }
-}
-
-extension EpisodesContentController: ImageModelDelegate {
-    func failedRequestImage(error: Error) {
-        print(#function, error)
     }
 }

@@ -37,7 +37,6 @@ final class YouTubeContentController: NSObject {
 
 private extension YouTubeContentController {
     func setupModel() {
-        model.imageModelDelegate = self
         model.delegate = self
         model.downsampleSize = .init(width: 396, height: 222)
     }
@@ -93,9 +92,15 @@ extension YouTubeContentController: UICollectionViewDataSource {
             loadMoreData()
         }
         if item.image == nil {
-            model.requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[row].image = image
-                cell.setImage(image, urlString: item.imageUrlString)
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let image = try await self.model.requestImage(fromUrlString: item.imageUrlString)
+                    self.data[row].image = image
+                    cell.setImage(image, urlString: item.imageUrlString)
+                } catch {
+                    cell.imageViewStopSkeletonAnimation()
+                }
             }
         }
         cell.configureCell(item: item)
@@ -113,8 +118,10 @@ extension YouTubeContentController: UICollectionViewDataSourcePrefetching {
             guard item.image == nil else {
                 return
             }
-            model.requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[row].image = image
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                self.data[row].image = image
             }
         }
     }
@@ -140,14 +147,6 @@ extension YouTubeContentController: YouTubeModelDelegate {
             self.status = .loadingMoreFail
             print(error)
         }
-    }
-}
-
-// MARK: - ImageModelDelegate
-
-extension YouTubeContentController: ImageModelDelegate {
-    func failedRequestImage(error: Error) {
-        print(#function, error)
     }
 }
 
