@@ -54,6 +54,17 @@ extension AnimeModel {
         return AnimeItem(fromTitleApiModel: rawData, image: image)
     }
     
+    func getSharedText() -> String {
+        let item = getAnimeItem()
+        let releaseUrl = "/release/" + item.code + ".html"
+        let textToShare = """
+            \(item.ruName)
+            \(NetworkConstants.anilibriaURL + releaseUrl)
+            Зеркало: \(NetworkConstants.mirrorAnilibriaURL + releaseUrl)
+            """
+        return textToShare
+    }
+    
     func isFavorite() async throws -> Bool {
         return try await favoriteModel.isFavorite(title: rawData)
     }

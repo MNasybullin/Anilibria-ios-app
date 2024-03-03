@@ -10,6 +10,8 @@ import XCTest
 
 class ImageLoaderServiceTests: XCTestCase {
     let networkMonitor = NetworkMonitor.shared
+    let errorProcessing = ErrorProcessing.shared
+    
     func testGetImage() async throws {
         try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
         
@@ -17,9 +19,7 @@ class ImageLoaderServiceTests: XCTestCase {
         do {
             _ = try await ImageLoaderService.shared.getImageData(fromURLString: urlString)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
 }

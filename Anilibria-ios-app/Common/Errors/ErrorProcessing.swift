@@ -13,8 +13,8 @@ class ErrorProcessing {
     static let shared: ErrorProcessing = ErrorProcessing()
     private init() { }
     
-    func handle(error: Error, showErrorAlertWith: (_ message: String) -> Void) {
-        var message: String?
+    func getMessageFrom(error: Error) -> String {
+        var message: String
         switch error {
             case let networkError as MyNetworkError:
                 message = networkError.description
@@ -27,18 +27,15 @@ class ErrorProcessing {
             default:
                 message = error.localizedDescription
         }
-        guard let message = message else {
-            return
-        }
-        showErrorAlertWith(message)
+        return message
     }
     
-    private func getMessageFrom(nsError: NSError) -> String? {
+    private func getMessageFrom(nsError: NSError) -> String {
         switch nsError.code {
             case -1020:
                 // No Connected To Internet
                 MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
-                return nil
+                return Strings.OtherError.noConnectedToInternet
             default:
                 return nsError.localizedDescription + " Code = \(nsError.code)."
         }

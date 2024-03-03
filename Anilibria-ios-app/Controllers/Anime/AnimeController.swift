@@ -9,12 +9,14 @@ import UIKit
 
 final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     typealias CustomView = AnimeView
+    typealias Localization = Strings.AnimeModule
     weak var navigator: AnimeNavigator?
     
     private var franchiseController: FranchiseController?
     private let model: AnimeModel
     private (set) var interactiveTransitionController: PopSwipeInteractiveTransitionController?
     private let hasInteractiveTransitionController: Bool
+    private let errorProcessing = ErrorProcessing.shared
     
     // MARK: LifeCycle
     init(rawData: TitleAPIModel, image: UIImage?, hasInteractiveTransitionController: Bool = false) {
@@ -178,8 +180,13 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
             try await model.addFavorite()
         } catch {
             customView.favoriteButtonIsSelected = false
-            // TODO: Если пользователь не авторизован вывести ошибки: "Необходимо авторизоваться"
-            print("addFavorite error", error.localizedDescription, error)
+            
+            let bannerData = NotificationBannerView.BannerData(
+                title: Localization.Error.addFavorite,
+                detail: errorProcessing.getMessageFrom(error: error),
+                type: .error)
+            NotificationBannerView(data: bannerData)
+                .show()
         }
     }
     
@@ -188,18 +195,18 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
             try await model.delFavorite()
         } catch {
             customView.favoriteButtonIsSelected = true
-            print("delFavorite error", error.localizedDescription, error)
+            
+            let bannerData = NotificationBannerView.BannerData(
+                title: Localization.Error.delFavorite,
+                detail: errorProcessing.getMessageFrom(error: error),
+                type: .error)
+            NotificationBannerView(data: bannerData)
+                .show()
         }
     }
     
     func shareButtonClicked() {
-        let item = model.getAnimeItem()
-        let releaseUrl = "/release/" + item.code + ".html"
-        let textToShare = """
-            \(item.ruName)
-            \(NetworkConstants.anilibriaURL + releaseUrl)
-            Зеркало: \(NetworkConstants.mirrorAnilibriaURL + releaseUrl)
-            """
+        let textToShare = model.getSharedText()
         
         let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
         activityViewController.excludedActivityTypes = [UIActivity.ActivityType.airDrop]

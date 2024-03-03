@@ -11,6 +11,7 @@ import XCTest
 class PublicApiServiceTests: XCTestCase {
     var publicApiService: PublicApiService!
     let networkMonitor = NetworkMonitor.shared
+    let errorProcessing = ErrorProcessing.shared
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -29,9 +30,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.title(id: id)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -42,9 +41,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleList(ids: ids)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -55,9 +52,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleUpdates(page: 1, itemsPerPage: limit)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -68,9 +63,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleChanges(page: 1, itemsPerPage: limit)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -80,9 +73,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleSchedule(withDays: DaysOfTheWeek.allCases)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -92,9 +83,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleRandom()
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -105,9 +94,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.youTube(page: 1, itemsPerPage: limit)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -117,9 +104,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.years()
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -129,9 +114,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.genres()
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -141,9 +124,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.team()
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -153,9 +134,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleSearch(withSearchText: "Песнь", page: 1)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -165,9 +144,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleFranchises(id: 8500)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
     
@@ -177,9 +154,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.franchiseList(page: 1)
         } catch {
-            ErrorProcessing.shared.handle(error: error) { message in
-                XCTFail(message)
-            }
+            XCTFail(errorProcessing.getMessageFrom(error: error))
         }
     }
 }
