@@ -114,7 +114,7 @@ private extension HomeContentController {
         customView.homeCollectionViewLayout.dataSource = dataSource
     }
     
-    func setupModels() {        
+    func setupModels() {
         youtubeModel.downsampleSize = .init(width: 396, height: 222)
     }
     
@@ -359,6 +359,29 @@ private extension HomeContentController {
             }
         }
     }
+    
+    func cancelRequestImage(indexPath: IndexPath) {
+        guard let section = dataSource.sectionIdentifier(for: indexPath.section) else {
+            return
+        }
+        let row = indexPath.row
+        switch section {
+            case .today:
+                cancelImageTaskIfNeeded(data: todayData, model: todayModel, row: row)
+            case .watching:
+                break
+            case .updates:
+                cancelImageTaskIfNeeded(data: updatesData, model: updatesModel, row: row)
+            case .youtube:
+                cancelImageTaskIfNeeded(data: youtubeData, model: youtubeModel, row: row)
+        }
+    }
+    
+    private func cancelImageTaskIfNeeded(data: [HomePosterItem], model: ImageModel, row: Int) {
+        guard !data.isEmpty, data[row].image == nil else { return }
+        let item = data[row]
+        model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -392,10 +415,15 @@ extension HomeContentController: UICollectionViewDelegate {
                 delegate?.didSelectYoutubeItem(youtubeModel.getRawData(row: row))
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
+    }
 }
 
 // MARK: - UICollectionViewDataSourcePrefetching
 
+// swiftlint: disable cyclomatic_complexity
 extension HomeContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
@@ -434,6 +462,12 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
                         self.youtubeData[row].image = image
                     }
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }

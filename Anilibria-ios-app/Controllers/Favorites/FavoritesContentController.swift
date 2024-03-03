@@ -123,6 +123,16 @@ private extension FavoritesContentController {
             self.dataSource.apply(noImageSnapshot)
         }
     }
+    
+    func cancelRequestImage(indexPath: IndexPath) {
+        guard data.isEmpty == false else {
+            return
+        }
+        let row = indexPath.row
+        let item = data[row]
+        guard item.image == nil else { return }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
 }
 
 // MARK: - Internal methods
@@ -172,23 +182,35 @@ extension FavoritesContentController: UICollectionViewDelegate {
         selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(data: data, image: item.image)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
+    }
 }
 
 // MARK: - UICollectionViewDataSourcePrefetching
 
 extension FavoritesContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard data.isEmpty == false else {
+            return
+        }
         indexPaths.forEach { indexPath in
-            guard let item = dataSource.itemIdentifier(for: indexPath) else {
-                return
-            }
+            let row = indexPath.row
+            let item = data[row]
             if item.image == nil {
                 Task { [weak self] in
                     guard let self else { return }
                     let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
-                    self.data[indexPath.row].image = image
+                    self.data[row].image = image
                 }
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }

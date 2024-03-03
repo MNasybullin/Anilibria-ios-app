@@ -54,6 +54,12 @@ private extension YouTubeContentController {
         footerView.configureView(status: status)
         collectionView?.collectionViewLayout.invalidateLayout()
     }
+    
+    func cancelRequestImage(indexPath: IndexPath) {
+        let item = data[indexPath.row]
+        guard item.image == nil else { return }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -63,6 +69,10 @@ extension YouTubeContentController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
         let rawData = model.getRawData(row: indexPath.row)
         delegate?.didSelectItem(rawdata: rawData)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
     }
 }
 
@@ -123,6 +133,12 @@ extension YouTubeContentController: UICollectionViewDataSourcePrefetching {
                 let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
                 self.data[row].image = image
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }

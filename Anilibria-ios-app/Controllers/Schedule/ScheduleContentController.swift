@@ -39,6 +39,21 @@ final class ScheduleContentController: NSObject {
     }
 }
 
+// MARK: - Private methods
+
+private extension ScheduleContentController {
+    func cancelRequestImage(indexPath: IndexPath) {
+        guard data.isEmpty == false else {
+            return
+        }
+        let row = indexPath.row
+        let section = indexPath.section
+        let item = data[section].animePosterItems[row]
+        guard item.image == nil else { return }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
+}
+
 // MARK: - UICollectionViewDelegate
 
 extension ScheduleContentController: UICollectionViewDelegate {
@@ -50,6 +65,10 @@ extension ScheduleContentController: UICollectionViewDelegate {
         selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
         selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(rawData, image: image)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
     }
 }
 
@@ -131,6 +150,13 @@ extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
                 let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
                 self.data[section].animePosterItems[row].image = image
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        guard !data.isEmpty else { return }
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }

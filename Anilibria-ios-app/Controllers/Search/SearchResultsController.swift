@@ -63,6 +63,18 @@ private extension SearchResultsController {
         status = .loadingMore
         model.searchTitles(searchText: searchText, after: data.count)
     }
+    
+    func cancelRequestImage(indexPath: IndexPath) {
+        guard status != .skeleton, data.isEmpty == false else {
+            return
+        }
+        
+        let item = data[indexPath.row]
+        guard item.image == nil else {
+            return
+        }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
 }
 
 // MARK: - Internal methods
@@ -100,6 +112,10 @@ extension SearchResultsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.bounds.height * 0.2
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
     }
 }
 
@@ -151,6 +167,9 @@ extension SearchResultsController: SkeletonTableViewDataSource {
 
 extension SearchResultsController: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard status != .skeleton else {
+            return
+        }
         indexPaths.forEach { indexPath in
             let item = data[indexPath.row]
             guard item.image == nil else {
@@ -161,6 +180,12 @@ extension SearchResultsController: UITableViewDataSourcePrefetching {
                 let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
                 self.data[indexPath.row].image = image
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }
@@ -200,10 +225,6 @@ extension SearchResultsController: SearchResultsModelDelegate {
                 print(error)
             }
         }
-    }
-    
-    func failedRequestImage(error: Error) {
-        print(#function)
     }
 }
 

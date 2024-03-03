@@ -26,6 +26,18 @@ final class EpisodesContentController: NSObject {
     }
 }
 
+// MARK: - Private methods
+
+private extension EpisodesContentController {
+    func cancelRequestImage(indexPath: IndexPath) {
+        guard playlists.isEmpty == false else { return }
+        let row = indexPath.row
+        let item = playlists[row]
+        guard item.image == nil else { return }
+        model.cancelImageTask(forUrlString: item.previewUrl)
+    }
+}
+
 // MARK: - Internal methods
 
 extension EpisodesContentController {
@@ -44,6 +56,10 @@ extension EpisodesContentController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let animeItem = model.getAnimeItem()
         delegate?.didSelectItem(animeItem: animeItem, currentPlaylist: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
     }
 }
 
@@ -100,6 +116,12 @@ extension EpisodesContentController: UITableViewDataSourcePrefetching {
                 let image = try? await self.model.requestImage(fromUrlString: playlists[row].previewUrl)
                 self.playlists[row].image = image
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }

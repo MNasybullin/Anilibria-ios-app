@@ -10,7 +10,6 @@ import UIKit
 protocol SearchResultsModelDelegate: AnyObject {
     func update(newData: [SearchResultsItem], afterValue: Int)
     func failedRequestData(error: Error, afterValue: Int)
-    func failedRequestImage(error: Error)
 }
 
 final class SearchResultsModel: ImageModel {

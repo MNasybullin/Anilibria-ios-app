@@ -50,7 +50,8 @@ extension EpisodesModel {
         return animeItem.episodes?.string
     }
     
-    func getWatchingInfo(forEpisode episode: Float) -> (duration: Double, playbackTime: Double)? {
+    func getWatchingInfo(forEpisode episode: Float?) -> (duration: Double, playbackTime: Double)? {
+        guard let episode else { return nil }
         guard let episodesEntities = watchingEntity?.episodes as? Set<EpisodesEntity>, episodesEntities.isEmpty == false else { return nil }
         
         guard let result = episodesEntities.filter({ $0.numberOfEpisode == episode }).first else { return nil }

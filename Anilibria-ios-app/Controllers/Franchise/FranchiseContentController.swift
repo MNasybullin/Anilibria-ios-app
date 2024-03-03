@@ -144,6 +144,17 @@ private extension FranchiseContentController {
             return headerView
         }
     }
+    
+    func cancelRequestImage(indexPath: IndexPath) {
+        guard status == .normal else {
+            return
+        }
+        let row = indexPath.row
+        let section = indexPath.section
+        let item = data[section][row]
+        guard item.image == nil else { return }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -170,12 +181,13 @@ extension FranchiseContentController: UICollectionViewDelegate {
 
 extension FranchiseContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard status == .normal else {
+            return
+        }
         indexPaths.forEach { indexPath in
-            guard let item = dataSource.itemIdentifier(for: indexPath) else {
-                return
-            }
             let section = indexPath.section
             let row = indexPath.row
+            let item = data[section][row]
             if item.image == nil {
                 Task { [weak self] in
                     guard let self else { return }
@@ -183,6 +195,12 @@ extension FranchiseContentController: UICollectionViewDataSourcePrefetching {
                     self.data[section][row].image = image
                 }
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }
