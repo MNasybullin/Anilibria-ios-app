@@ -9,11 +9,10 @@ import UIKit
 import SkeletonView
 
 protocol ScheduleContentControllerDelegate: AnyObject {
-    func hideSkeletonCollectionView()
-    func reloadData()
     func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?)
 }
 
+@MainActor
 final class ScheduleContentController: NSObject {
     weak var delegate: ScheduleContentControllerDelegate?
     
@@ -21,21 +20,37 @@ final class ScheduleContentController: NSObject {
     private (set) var selectedCell: PosterCollectionViewCell?
     private (set) var selectedCellImageViewSnapshot: UIView?
     
-    private lazy var model: ScheduleModel = {
-        let model = ScheduleModel()
-        model.scheduleModelOutput = self
-        return model
-    }()
+    private lazy var model = ScheduleModel()
     
+    private let customView: ScheduleView
     private var data: [ScheduleItem] = []
     
-    init(delegate: ScheduleContentControllerDelegate? = nil) {
+    init(customView: ScheduleView, delegate: ScheduleContentControllerDelegate?) {
+        self.customView = customView
         self.delegate = delegate
         super.init()
+        
+        setupCollectionView()
+        requestData()
+    }
+    
+    func setupCollectionView() {
+        customView.collectionView.delegate = self
+        customView.collectionView.dataSource = self
+        customView.collectionView.prefetchDataSource = self
     }
     
     func requestData() {
-        model.requestData()
+        customView.collectionView.showAnimatedSkeleton()
+        Task {
+            do {
+                data = try await model.requestData()
+                customView.collectionView.hideSkeleton(reloadDataAfter: false)
+                customView.collectionView.reloadData()
+            } catch {
+                print(#function, error)
+            }
+        }
     }
 }
 
@@ -158,21 +173,5 @@ extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
         indexPaths.forEach { indexPath in
             cancelRequestImage(indexPath: indexPath)
         }
-    }
-}
-
-// MARK: - ScheduleModelOutput
-
-extension ScheduleContentController: ScheduleModelOutput {
-    func update(data: [ScheduleItem]) {
-        self.data = data
-        DispatchQueue.main.async {
-            self.delegate?.hideSkeletonCollectionView()
-            self.delegate?.reloadData()
-        }
-    }
-    
-    func failedRequestData(error: Error) {
-        print(#function, error)
     }
 }

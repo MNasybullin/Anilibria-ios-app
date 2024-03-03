@@ -11,21 +11,20 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
     typealias CustomView = ScheduleView
     weak var navigator: HomeNavigator?
     
-    private lazy var contentController = ScheduleContentController(delegate: self)
+    private var contentController: ScheduleContentController!
     
     override func loadView() {
-        view = ScheduleView(collectionViewDelegate: contentController)
+        view = ScheduleView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        requestData()
+        setupContentController()
     }
     
-    private func requestData() {
-        customView.showSkeletonCollectionView()
-        contentController.requestData()
+    private func setupContentController() {
+        contentController = ScheduleContentController(customView: customView, delegate: self)
     }
 }
 
@@ -34,14 +33,6 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
 extension ScheduleController: ScheduleContentControllerDelegate {
     func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?) {
         navigator?.show(.anime(data: rawData, image: image))
-    }
-    
-    func hideSkeletonCollectionView() {
-        customView.hideSkeletonCollectionView()
-    }
-    
-    func reloadData() {
-        customView.reloadData()
     }
 }
 
