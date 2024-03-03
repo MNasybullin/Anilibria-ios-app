@@ -13,6 +13,7 @@ protocol WatchAndDownloadButtonsViewDelegate: AnyObject {
 }
 
 final class WatchAndDownloadButtonsView: UIView {
+    typealias Localization = Strings.AnimeModule.AnimeView
     weak var delegate: WatchAndDownloadButtonsViewDelegate?
     
     private lazy var vStack: UIStackView = {
@@ -40,7 +41,7 @@ final class WatchAndDownloadButtonsView: UIView {
         config.imagePadding = 10
         config.imagePlacement = .leading
         
-        config.title = Strings.AnimeView.watchButton
+        config.title = Localization.watchButton
         let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in

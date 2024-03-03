@@ -13,6 +13,7 @@ protocol FavoriteAndShareButtonsViewDelegate: AnyObject {
 }
 
 final class FavoriteAndShareButtonsView: UIView {
+    typealias Localization = Strings.AnimeModule.AnimeView
     weak var delegate: FavoriteAndShareButtonsViewDelegate?
     
     private let imagePadding: CGFloat = 5
@@ -43,7 +44,7 @@ final class FavoriteAndShareButtonsView: UIView {
         config.baseBackgroundColor = .clear
         config.imagePadding = imagePadding
         config.imagePlacement = .top
-        config.title = Strings.AnimeView.favoriteButton
+        config.title = Localization.favoriteButton
         
         let button = UIButton(configuration: config)
         button.setImage(favoriteButtonImage, for: .normal)
@@ -66,7 +67,7 @@ final class FavoriteAndShareButtonsView: UIView {
         config.imagePadding = imagePadding
         config.imagePlacement = .top
         
-        config.title = Strings.AnimeView.shareButton
+        config.title = Localization.shareButton
         let button = UIButton(configuration: config)
         
         button.addAction(UIAction { [weak self] _ in

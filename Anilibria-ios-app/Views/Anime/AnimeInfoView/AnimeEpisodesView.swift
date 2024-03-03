@@ -12,6 +12,7 @@ protocol AnimeEpisodesViewDelegate: AnyObject {
 }
 
 final class AnimeEpisodesView: UIView {
+    typealias Localization = Strings.AnimeModule.AnimeEpisodesView
     weak var delegate: AnimeEpisodesViewDelegate?
     
     private lazy var hStack: UIStackView = {
@@ -30,7 +31,7 @@ final class AnimeEpisodesView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Strings.AnimeEpisodesView.episodesTitle
+        label.text = Localization.episodesTitle
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.textColor = .label
         return label
@@ -45,7 +46,7 @@ final class AnimeEpisodesView: UIView {
     
     private lazy var allButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.title = Strings.AnimeEpisodesView.allButton
+        config.title = Localization.allButton
         config.baseForegroundColor = .systemRed
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
