@@ -68,6 +68,7 @@ final class WatchAndDownloadButtonsView: UIView {
         }, for: .touchUpInside)
         
         button.isEnabled = false
+        button.isHidden = true
         
         return button
     }()
