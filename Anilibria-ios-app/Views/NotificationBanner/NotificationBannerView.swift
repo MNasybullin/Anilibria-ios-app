@@ -23,6 +23,14 @@ final class NotificationBannerView: UIView {
                     UIColor.systemRed
             }
         }
+        
+        var feedbackType: UINotificationFeedbackGenerator.FeedbackType {
+            switch self {
+                case .success: .success
+                case .info, .warning: .warning
+                case .error: .error
+            }
+        }
     }
     
     struct BannerData {
@@ -56,6 +64,7 @@ final class NotificationBannerView: UIView {
     
     private var data: BannerData
     private var gestureIsBegan = false
+    private var feedbackGenerator: UINotificationFeedbackGenerator?
     
     init(data: BannerData) {
         self.data = data
@@ -64,6 +73,7 @@ final class NotificationBannerView: UIView {
         setupView()
         setupGestureRecognizer()
         setupLayout()
+        feedbackGenerator = UINotificationFeedbackGenerator()
     }
     
     required init?(coder: NSCoder) {
@@ -162,6 +172,9 @@ extension NotificationBannerView {
         ])
         
         transform = CGAffineTransform(translationX: 0, y: -250)
+        
+        feedbackGenerator?.notificationOccurred(data.type.feedbackType)
+        
         UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseInOut]) {
             self.transform = .identity
         } completion: { _ in

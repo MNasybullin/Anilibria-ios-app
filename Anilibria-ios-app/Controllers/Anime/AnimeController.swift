@@ -165,6 +165,9 @@ extension AnimeController: WatchAndDownloadButtonsViewDelegate {
 
 extension AnimeController: FavoriteAndShareButtonsViewDelegate {
     func favoriteButtonClicked(button: UIButton) {
+        let feedbackGenerator = UISelectionFeedbackGenerator()
+        feedbackGenerator.selectionChanged()
+        
         button.isSelected = !button.isSelected
         Task(priority: .utility) {
             if button.isSelected == true {
