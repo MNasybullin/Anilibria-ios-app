@@ -124,8 +124,8 @@ extension YouTubeContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             let row = indexPath.row
-            let item = data[row]
-            guard item.image == nil else {
+            guard let item = data[safe: row], 
+                    item.image == nil else {
                 return
             }
             Task { [weak self] in

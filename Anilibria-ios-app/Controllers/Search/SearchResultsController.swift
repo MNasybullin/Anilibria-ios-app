@@ -65,11 +65,12 @@ private extension SearchResultsController {
     }
     
     func cancelRequestImage(indexPath: IndexPath) {
-        guard status != .skeleton, data.isEmpty == false else {
+        let row = indexPath.row
+        guard status != .skeleton, row < data.count else {
             return
         }
         
-        let item = data[indexPath.row]
+        let item = data[row]
         guard item.image == nil else {
             return
         }

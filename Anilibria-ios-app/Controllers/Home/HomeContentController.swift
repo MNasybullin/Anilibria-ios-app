@@ -378,8 +378,10 @@ private extension HomeContentController {
     }
     
     private func cancelImageTaskIfNeeded(data: [HomePosterItem], model: ImageModel, row: Int) {
-        guard !data.isEmpty, data[row].image == nil else { return }
-        let item = data[row]
+        guard let item = data[safe: row],
+                item.image == nil else {
+            return
+        }
         model.cancelImageTask(forUrlString: item.imageUrlString)
     }
 }
@@ -433,9 +435,10 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
             let row = indexPath.row
             switch section {
                 case .today:
-                    guard !todayData.isEmpty,
-                          todayData[row].image == nil else { return }
-                    let item = todayData[row]
+                    guard let item = todayData[safe: row], 
+                            item.image == nil else {
+                        return
+                    }
                     Task { [weak self] in
                         guard let self else { return }
                         let image = try? await todayModel.requestImage(fromUrlString: item.imageUrlString)
@@ -444,18 +447,20 @@ extension HomeContentController: UICollectionViewDataSourcePrefetching {
                 case .watching:
                     break
                 case .updates:
-                    guard !updatesData.isEmpty,
-                          updatesData[row].image == nil else { return }
-                    let item = updatesData[row]
+                    guard let item = updatesData[safe: row],
+                            item.image == nil else {
+                        return
+                    }
                     Task { [weak self] in
                         guard let self else { return }
                         let image = try? await updatesModel.requestImage(fromUrlString: item.imageUrlString)
                         self.updatesData[row].image = image
                     }
                 case .youtube:
-                    guard !youtubeData.isEmpty,
-                          youtubeData[row].image == nil else { return }
-                    let item = youtubeData[row]
+                    guard let item = youtubeData[safe: row],
+                            item.image == nil else {
+                        return
+                    }
                     Task { [weak self] in
                         guard let self else { return }
                         let image = try? await youtubeModel.requestImage(fromUrlString: item.imageUrlString)

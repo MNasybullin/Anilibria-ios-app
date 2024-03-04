@@ -19,8 +19,7 @@ final class HomeYouTubeModel: ImageModel {
     }
         
     func getRawData(row: Int) -> YouTubeAPIModel? {
-        guard rawData.isEmpty == false else { return nil }
-        return rawData[row]
+        return rawData[safe: row]
     }
     
     func getRawData() -> [YouTubeAPIModel] {

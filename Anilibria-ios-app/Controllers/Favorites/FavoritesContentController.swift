@@ -125,12 +125,11 @@ private extension FavoritesContentController {
     }
     
     func cancelRequestImage(indexPath: IndexPath) {
-        guard data.isEmpty == false else {
+        let row = indexPath.row
+        guard let item = data[safe: row], 
+                item.image == nil else {
             return
         }
-        let row = indexPath.row
-        let item = data[row]
-        guard item.image == nil else { return }
         model.cancelImageTask(forUrlString: item.imageUrlString)
     }
 }
@@ -192,18 +191,16 @@ extension FavoritesContentController: UICollectionViewDelegate {
 
 extension FavoritesContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard data.isEmpty == false else {
-            return
-        }
         indexPaths.forEach { indexPath in
             let row = indexPath.row
-            let item = data[row]
-            if item.image == nil {
-                Task { [weak self] in
-                    guard let self else { return }
-                    let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
-                    self.data[row].image = image
-                }
+            guard let item = data[safe: row], 
+                    item.image == nil else {
+                return
+            }
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                self.data[row].image = image
             }
         }
     }

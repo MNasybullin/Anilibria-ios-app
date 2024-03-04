@@ -58,13 +58,12 @@ final class ScheduleContentController: NSObject {
 
 private extension ScheduleContentController {
     func cancelRequestImage(indexPath: IndexPath) {
-        guard data.isEmpty == false else {
-            return
-        }
         let row = indexPath.row
         let section = indexPath.section
-        let item = data[section].animePosterItems[row]
-        guard item.image == nil else { return }
+        guard let item = data[safe: section]?.animePosterItems[safe: row],
+                item.image == nil else {
+            return
+        }
         model.cancelImageTask(forUrlString: item.imageUrlString)
     }
 }
@@ -152,12 +151,11 @@ extension ScheduleContentController: SkeletonCollectionViewDataSource {
 
 extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard !data.isEmpty else { return }
         indexPaths.forEach { indexPath in
             let section = indexPath.section
             let row = indexPath.row
-            let item = data[section].animePosterItems[row]
-            guard item.image == nil else {
+            guard let item = data[safe: section]?.animePosterItems[safe: row], 
+                    item.image == nil else {
                 return
             }
             Task { [weak self] in
@@ -169,7 +167,6 @@ extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
     }
     
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        guard !data.isEmpty else { return }
         indexPaths.forEach { indexPath in
             cancelRequestImage(indexPath: indexPath)
         }

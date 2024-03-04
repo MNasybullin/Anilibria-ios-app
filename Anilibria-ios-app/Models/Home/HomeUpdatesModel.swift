@@ -19,7 +19,6 @@ final class HomeUpdatesModel: ImageModel {
     }
         
     func getRawData(row: Int) -> TitleAPIModel? {
-        guard rawData.isEmpty == false else { return nil }
-        return rawData[row]
+        return rawData[safe: row]
     }
 }

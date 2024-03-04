@@ -59,6 +59,7 @@
 		2748DD0C2AEE5D7E00D53E9B /* AnimeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748DD0B2AEE5D7E00D53E9B /* AnimeItem.swift */; };
 		2748DD102AF177C400D53E9B /* EpisodesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748DD0F2AF177C400D53E9B /* EpisodesController.swift */; };
 		2748DD122AF1789E00D53E9B /* EpisodesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748DD112AF1789E00D53E9B /* EpisodesView.swift */; };
+		27490A232B96414C0059E183 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27490A222B96414C0059E183 /* Array+Extension.swift */; };
 		274BFB9828A260E900C3F9C9 /* MyImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274BFB9728A260E900C3F9C9 /* MyImageError.swift */; };
 		274EFEE02B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274EFEDF2B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift */; };
 		274EFEE22B8C80C20094804C /* HomeWatchingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274EFEE12B8C80C20094804C /* HomeWatchingItem.swift */; };
@@ -114,6 +115,7 @@
 		277513F92B63FF1400947AED /* FranchiseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277513F82B63FF1400947AED /* FranchiseModel.swift */; };
 		2775F1E129389E1000C7D079 /* MyInternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2775F1E029389E1000C7D079 /* MyInternalError.swift */; };
 		277841D72B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277841D62B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift */; };
+		277A73BA2B95BF0B009E1F8C /* Logger+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A73B92B95BF0B009E1F8C /* Logger+Extension.swift */; };
 		2786D5B82B8B3B4C009EF542 /* HomeDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2786D5B72B8B3B4C009EF542 /* HomeDiffableDataSource.swift */; };
 		27934FFB2B77845C00B7BD07 /* ProfileContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27934FFA2B77845C00B7BD07 /* ProfileContentController.swift */; };
 		27934FFE2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27934FFD2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift */; };
@@ -282,6 +284,7 @@
 		2748DD0B2AEE5D7E00D53E9B /* AnimeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeItem.swift; sourceTree = "<group>"; };
 		2748DD0F2AF177C400D53E9B /* EpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesController.swift; sourceTree = "<group>"; };
 		2748DD112AF1789E00D53E9B /* EpisodesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesView.swift; sourceTree = "<group>"; };
+		27490A222B96414C0059E183 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		274BFB9728A260E900C3F9C9 /* MyImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyImageError.swift; sourceTree = "<group>"; };
 		274EFEDF2B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchingHomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		274EFEE12B8C80C20094804C /* HomeWatchingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWatchingItem.swift; sourceTree = "<group>"; };
@@ -339,6 +342,7 @@
 		277513F82B63FF1400947AED /* FranchiseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FranchiseModel.swift; sourceTree = "<group>"; };
 		2775F1E029389E1000C7D079 /* MyInternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInternalError.swift; sourceTree = "<group>"; };
 		277841D62B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerEpisodesController.swift; sourceTree = "<group>"; };
+		277A73B92B95BF0B009E1F8C /* Logger+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extension.swift"; sourceTree = "<group>"; };
 		2786D5B72B8B3B4C009EF542 /* HomeDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDiffableDataSource.swift; sourceTree = "<group>"; };
 		27934FFA2B77845C00B7BD07 /* ProfileContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentController.swift; sourceTree = "<group>"; };
 		27934FFD2B77851B00B7BD07 /* ProfileCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -853,6 +857,8 @@
 				275865CE2ADC117700F98884 /* UserDefaults+Extension.swift */,
 				2704619F2AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift */,
 				27EA508C2B00140F00A1B987 /* UIImage+Extension.swift */,
+				277A73B92B95BF0B009E1F8C /* Logger+Extension.swift */,
+				27490A222B96414C0059E183 /* Array+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1427,6 +1433,7 @@
 				2704E40A2B0E216B0082507F /* VideoPlayerRemoteCommandCenterController.swift in Sources */,
 				275956E42B861FE7004B31CF /* VideoPlayerDismissAnimator.swift in Sources */,
 				27E1BA262B837B4A00A9C73C /* AboutAppContentController.swift in Sources */,
+				27490A232B96414C0059E183 /* Array+Extension.swift in Sources */,
 				27F70CF62B2CB680004036FD /* UIImageTransformer.swift in Sources */,
 				2748DD0C2AEE5D7E00D53E9B /* AnimeItem.swift in Sources */,
 				275865AF2AD9C97700F98884 /* TabBarController.swift in Sources */,
@@ -1452,6 +1459,7 @@
 				271A0E1F2AE7EBA4005958CB /* HomeTodayModel.swift in Sources */,
 				2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
+				277A73BA2B95BF0B009E1F8C /* Logger+Extension.swift in Sources */,
 				276880CC2B49359400F5FD06 /* FavoritesDiffableDataSource.swift in Sources */,
 				275865CF2ADC117700F98884 /* UserDefaults+Extension.swift in Sources */,
 				27103DC32B681D6F00B4CA49 /* FranchiseHeaderSupplementaryView.swift in Sources */,

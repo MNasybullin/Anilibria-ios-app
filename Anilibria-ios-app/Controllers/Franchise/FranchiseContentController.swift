@@ -181,19 +181,17 @@ extension FranchiseContentController: UICollectionViewDelegate {
 
 extension FranchiseContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard status == .normal else {
-            return
-        }
         indexPaths.forEach { indexPath in
             let section = indexPath.section
             let row = indexPath.row
-            let item = data[section][row]
-            if item.image == nil {
-                Task { [weak self] in
-                    guard let self else { return }
-                    let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
-                    self.data[section][row].image = image
-                }
+            guard let item = data[safe: section]?[safe: row], 
+                    item.image == nil else {
+                return
+            }
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                self.data[section][row].image = image
             }
         }
     }

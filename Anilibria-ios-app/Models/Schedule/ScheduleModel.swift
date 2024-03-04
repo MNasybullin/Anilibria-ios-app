@@ -20,7 +20,6 @@ final class ScheduleModel: ImageModel {
     }
     
     func getRawData(indexPath: IndexPath) -> TitleAPIModel? {
-        guard rawData.isEmpty == false else { return nil }
-        return rawData[indexPath.section].list[indexPath.row]
+        return rawData[safe: indexPath.section]?.list[safe: indexPath.row]
     }
 }
