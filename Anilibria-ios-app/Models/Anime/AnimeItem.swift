@@ -20,6 +20,7 @@ struct AnimeItem {
     let host: String?
     let episodes: GTEpisodes?
     let playlist: [Playlist]
+    let blocked: Bool
 }
 
 extension AnimeItem {
@@ -37,7 +38,9 @@ extension AnimeItem {
             description: Self.getDescriptionText(item.description),
             host: item.player?.host,
             episodes: item.player?.episodes.data,
-            playlist: playlist ?? [Playlist]())
+            playlist: playlist ?? [Playlist](),
+            blocked: Self.getBlocked(from: item.blocked)
+        )
     }
     
     private static func getSeasonAndTypeText(_ model: TitleAPIModel) -> String {
@@ -75,5 +78,12 @@ extension AnimeItem {
             teams.append(.timing(timing))
         }
         return teams
+    }
+    
+    private static func getBlocked(from data: GTBlocked?) -> Bool {
+        guard let data else {
+            return false
+        }
+        return data.blocked ?? false || data.bakanim ?? false
     }
 }

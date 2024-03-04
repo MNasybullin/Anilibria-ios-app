@@ -85,6 +85,14 @@ extension VideoPlayerNavigator: Navigator {
 
 private extension VideoPlayerNavigator {
     func setupAndShowPlayer(item: AnimeItem, currentPlaylist: Int, presentatingController: UIViewController) {
+        guard item.blocked == false else {
+            NotificationBannerView(data: .init(
+                title: Strings.VideoPlayer.playbackIsNotPossible,
+                detail: Strings.VideoPlayer.animeIsBlocked,
+                type: .error))
+                .show()
+            return
+        }
         dissmisPlayerController()
         let player = VideoPlayerController(
             animeItem: item,

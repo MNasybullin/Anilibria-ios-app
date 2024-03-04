@@ -108,8 +108,12 @@
 
 // MARK: - Video Player
 "VideoPlayerView.skipButton" = "Пропустить";
-"VideoPlayerView.error" = "Ошибка";
 "VideoPlayerView.episodeIsNotFound" = "Серия не найдена";
+
+"VideoPlayer.error" = "Ошибка";
+"VideoPlayer.playbackError" = "Ошибка воспроизведения";
+"VideoPlayer.playbackIsNotPossible" = "Воспроизведение невозможно";
+"VideoPlayer.animeIsBlocked!" = "Аниме заблокировано!";
 
 // MARK: - Video Player Settings
 "VideoPlayerSettings.settings" = "Настройки";
