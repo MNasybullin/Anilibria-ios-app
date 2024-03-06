@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol YouTubeContentControllerDelegate: AnyObject {
     func insertItems(at indexPaths: [IndexPath])
@@ -161,7 +162,8 @@ extension YouTubeContentController: YouTubeModelDelegate {
     func failedRequestData(error: Error) {
         DispatchQueue.main.async {
             self.status = .loadingMoreFail
-            print(error)
+            let logger = Logger(subsystem: .youtube, category: .data)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
 }

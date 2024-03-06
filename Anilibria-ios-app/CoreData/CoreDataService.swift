@@ -7,15 +7,17 @@
 
 import Foundation
 import CoreData
+import OSLog
 
 final class CoreDataService {
     static let shared = CoreDataService()
+    private let logger = Logger(subsystem: .coreData, category: .empty)
     
     lazy var persistantContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Anilibria-ios-app")
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                print("Unresolved error \(error), \(error.userInfo)")
+                self.logger.error("Unresolved error \(error, privacy: .auto), \(error.userInfo)")
             }
         }
         return container
@@ -32,8 +34,8 @@ final class CoreDataService {
         do {
             try viewContext.save()
         } catch {
-            let nserror = error as NSError
-            print("Unresolved error \(nserror), \(nserror.userInfo)")
+            let error = error as NSError
+            logger.error("Unresolved error \(error), \(error.userInfo)")
         }
     }
 }

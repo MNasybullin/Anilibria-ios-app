@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import OSLog
 
 protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
@@ -101,7 +102,8 @@ final class HomeContentController: NSObject {
             watchingData = try watchingModel.requestData()
             applyWatchingSnapshot()
         } catch {
-            print(error)
+            let logger = Logger(subsystem: .home, category: .data)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
 }
@@ -355,7 +357,8 @@ private extension HomeContentController {
                 customView.hideSkeletonCollectionView()
                 applySnapshot()
             } catch {
-                print(error)
+                let logger = Logger(subsystem: .home, category: .data)
+                logger.error("\(Logger.logInfo()) \(error)")
             }
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 final class UserController: UIViewController, HasCustomView {
     typealias CustomView = UserView
@@ -77,7 +78,8 @@ extension UserController: UserModelDelegate {
     func authorizationFailure(error: Error) {
         DispatchQueue.main.async {
             self.isAuthorizationProgress = false
-            print(#function, error)
+            let logger = Logger(subsystem: .user, category: .empty)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
     
@@ -91,7 +93,8 @@ extension UserController: UserModelDelegate {
     
     func requestFromCoreDataFailure(error: Error) {
         DispatchQueue.main.async {
-            print(#function, error)
+            let logger = Logger(subsystem: .user, category: .coreData)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
     
@@ -105,7 +108,8 @@ extension UserController: UserModelDelegate {
     func logoutFailure(error: Error) {
         DispatchQueue.main.async {
             self.customView.userInfoView.logoutButton(isEnabled: true)
-            print(#function, error)
+            let logger = Logger(subsystem: .user, category: .empty)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
 }

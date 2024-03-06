@@ -6,17 +6,20 @@
 //
 
 import UIKit
+import OSLog
 
 protocol VideoPlayerModelDelegate: AnyObject {
     func configurePlayerItem(url: URL)
     func configurePlayerItem(url: URL, playbackPostition: Double)
     func configurePlayerItemWithCurrentPlaybackTime(url: URL)
+    func closePlayerWithAlert(title: String, message: String)
 }
 
 final class VideoPlayerModel {
     weak var delegate: VideoPlayerModelDelegate?
     
     private let publicApiService = PublicApiService()
+    private let logger = Logger(subsystem: .videoPlayer, category: .empty)
     
     private var animeItem: AnimeItem
     private (set) var currentPlaylistNumber: Int
@@ -83,7 +86,8 @@ extension VideoPlayerModel {
             let episodes = watchingEntity?.episodes as? Set<EpisodesEntity>
             currentEpisodeEntity = episodes?.filter({ $0.numberOfEpisode == animeItem.playlist[currentPlaylistNumber].episode }).first
         } catch {
-            print(error)
+            let coreDataLogger = Logger(subsystem: .videoPlayer, category: .coreData)
+            coreDataLogger.error("\(Logger.logInfo()) \(error)")
         }
     }
     
@@ -137,7 +141,8 @@ extension VideoPlayerModel {
                 self.delegate?.configurePlayerItem(url: url)
             }
         } catch {
-            print(error)
+            logger.error("\(Logger.logInfo()) \(error)")
+            delegate?.closePlayerWithAlert(title: Strings.VideoPlayer.error, message: "\(error)")
         }
     }
     
@@ -158,11 +163,11 @@ extension VideoPlayerModel {
     func changeCurrentHLS(_ hls: HLS) {
         currentHLS = hls
         guard let host = animeItem.host else {
-            print(MyInternalError.failedToFetchData)
+            logger.error("\(Logger.logInfo()) \(MyInternalError.failedToFetchData)")
             return
         }
         guard let url = URL(string: "https://" + host + hls.url) else {
-            print(MyInternalError.failedToFetchURLFromData)
+            logger.error("\(Logger.logInfo()) \(MyInternalError.failedToFetchURLFromData)")
             return
         }
         delegate?.configurePlayerItemWithCurrentPlaybackTime(url: url)

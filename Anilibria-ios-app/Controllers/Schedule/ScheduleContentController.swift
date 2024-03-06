@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import OSLog
 
 protocol ScheduleContentControllerDelegate: AnyObject {
     func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?)
@@ -48,7 +49,8 @@ final class ScheduleContentController: NSObject {
                 customView.collectionView.hideSkeleton(reloadDataAfter: false)
                 customView.collectionView.reloadData()
             } catch {
-                print(#function, error)
+                let logger = Logger(subsystem: .schedule, category: .data)
+                logger.error("\(Logger.logInfo()) \(error)")
             }
         }
     }

@@ -10,6 +10,7 @@
 import AVKit
 import Combine
 import MediaPlayer
+import OSLog
 
 final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomView {
     typealias CustomView = VideoPlayerView
@@ -20,6 +21,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     
     weak var navigator: VideoPlayerNavigator?
     
+    private let logger = Logger(subsystem: .videoPlayer, category: .empty)
     private var interactiveTransitionController: VideoPlayerInteractiveTransitionController!
     
     private let audioSession = AVAudioSession.sharedInstance()
@@ -140,10 +142,8 @@ private extension VideoPlayerController {
                 setupController()
                 customView.showOverlay()
             } catch {
-                Alert.showErrorAlert(on: self, title: Strings.VideoPlayerView.error, message: error.localizedDescription) { [weak self] in
-                    self?.willDismiss()
-                    self?.dismiss(animated: true)
-                }
+                closePlayerWithAlert(title: Strings.VideoPlayer.error,
+                                     message: error.localizedDescription)
             }
         }
     }
@@ -164,7 +164,7 @@ private extension VideoPlayerController {
             try audioSession.setCategory(.playback, mode: .moviePlayback)
             try audioSession.setActive(true)
         } catch {
-            print("Setting category to AVAudioSessionCategoryPlayback failed.")
+            logger.fault("\(Logger.logInfo()) Setting category to AVAudioSessionCategoryPlayback failed.")
         }
     }
     
@@ -352,9 +352,11 @@ private extension VideoPlayerController {
                         setupInfoCenter(duration: duration)
                         playVideo()
                     case .failed:
-                        print("STATUS = failed")
-                        print(playerItem.errorLog() ?? "")
-                        print(playerItem.error ?? "")
+                        let failedMessage = "\(String(describing: playerItem.errorLog())) \(String(describing: playerItem.error))"
+                        logger.fault("\(Logger.logInfo()) \(failedMessage)")
+                        
+                        closePlayerWithAlert(title: Strings.VideoPlayer.playbackError,
+                                             message: failedMessage)
                     default:
                         break
                 }
@@ -447,6 +449,13 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
         
         player.seek(to: currentPlaybackTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
+    
+    func closePlayerWithAlert(title: String, message: String) {
+        Alert.showErrorAlert(on: self, title: title, message: message) { [weak self] in
+            self?.willDismiss()
+            self?.dismiss(animated: true)
+        }
+    }
 }
 
 // MARK: - VideoPlayerViewDelegate
@@ -493,7 +502,7 @@ extension VideoPlayerController: TopOverlayViewDelegate {
         let currentHLS = model.currentHLS
         let rate = model.currentRate
         guard let currentHLS, let playerRate = PlayerRate(rawValue: rate) else {
-            print("Video Player current HLS is nil or playerRate is init failed")
+            logger.error("\(Logger.logInfo()) Current HLS is nil or playerRate is init failed")
             return
         }
         navigator?.show(.settings(hls: hls, currentHLS: currentHLS, rate: playerRate, presentatingController: self, delegate: self))

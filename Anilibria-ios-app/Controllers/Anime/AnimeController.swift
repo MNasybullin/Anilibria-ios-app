@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     typealias CustomView = AnimeView
@@ -94,9 +95,11 @@ private extension AnimeController {
                 customView.favoriteButtonIsSelected = try await model.isFavorite()
                 customView.favoriteButtonShowActivityIndicator = false
             } catch {
-                print(error, error.localizedDescription)
                 customView.favoriteButtonIsSelected = false
                 customView.favoriteButtonShowActivityIndicator = false
+                
+                let logger = Logger(subsystem: .anime, category: .empty)
+                logger.error("\(Logger.logInfo()) \(error)")
             }
         }
     }

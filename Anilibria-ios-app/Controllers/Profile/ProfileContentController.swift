@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol ProfileContentControllerDelegate: AnyObject {
     func showSite(url: URL)
@@ -176,7 +177,8 @@ extension ProfileContentController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         guard let item = dataSource.itemIdentifier(for: indexPath) else {
-            print("item is not found", #function)
+            let logger = Logger(subsystem: .profile, category: .data)
+            logger.error("\(Logger.logInfo()) item is not found")
             return
         }
         switch item {
@@ -186,7 +188,8 @@ extension ProfileContentController: UICollectionViewDelegate {
                     didSelectTeamRow(indexPath: indexPath)
                 } else {
                     guard let url = model.getUrl(forAnilibriaItem: type) else {
-                        print("url is nil", #function)
+                        let logger = Logger(subsystem: .profile, category: .data)
+                        logger.error("\(Logger.logInfo()) url is nil")
                         return
                     }
                     delegate?.showSite(url: url)
@@ -198,7 +201,8 @@ extension ProfileContentController: UICollectionViewDelegate {
     
     private func didSelectTeamRow(indexPath: IndexPath) {
         guard let cell = customView.collectionView.cellForItem(at: indexPath) as? UICollectionViewListCell else {
-            print("selected cell For Item not found", #function)
+            let logger = Logger(subsystem: .profile, category: .empty)
+            logger.error("\(Logger.logInfo()) selected cell For Item not found")
             return
         }
         
@@ -217,8 +221,10 @@ extension ProfileContentController: UICollectionViewDelegate {
                 cell.accessories = [.disclosureIndicator()]
                 delegate?.showTeam(data: team)
             } catch {
-                print("Error = ", error, #function)
                 cell.accessories = [.disclosureIndicator()]
+                
+                let logger = Logger(subsystem: .profile, category: .data)
+                logger.error("\(Logger.logInfo()) \(error)")
             }
         }
     }

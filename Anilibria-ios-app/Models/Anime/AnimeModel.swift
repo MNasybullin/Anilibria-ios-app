@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol AnimeModelOutput: AnyObject {
     func update(image: UIImage)
@@ -38,7 +39,8 @@ private extension AnimeModel {
                 self.image = image
                 delegate?.update(image: image)
             } catch {
-                print(#function, error)
+                let logger = Logger(subsystem: .anime, category: .image)
+                logger.error("\(Logger.logInfo()) \(error)")
             }
         }
     }

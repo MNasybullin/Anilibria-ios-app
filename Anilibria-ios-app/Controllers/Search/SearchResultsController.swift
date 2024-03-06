@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import OSLog
 
 protocol SearchResultsControllerDelegate: AnyObject {
     func didSelectedItem(item: TitleAPIModel, image: UIImage?)
@@ -222,9 +223,9 @@ extension SearchResultsController: SearchResultsModelDelegate {
         DispatchQueue.main.async {
             if afterValue != 0 {
                 self.status = .loadingMoreFail
-            } else {
-                print(error)
             }
+            let logger = Logger(subsystem: .search, category: .data)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
 }

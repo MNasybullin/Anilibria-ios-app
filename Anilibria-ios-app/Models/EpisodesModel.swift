@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 final class EpisodesModel: ImageModel {
     private var animeItem: AnimeItem
@@ -34,7 +35,8 @@ extension EpisodesModel {
             let userEntity = try UserEntity.find(userLogin: userLogin, context: coreDataService.viewContext)
             watchingEntity = try WatchingEntity.find(forUser: userEntity, animeId: animeItem.id, context: coreDataService.viewContext)
         } catch {
-            print(error)
+            let coreDataLogger = Logger(subsystem: .episode, category: .coreData)
+            coreDataLogger.error("\(Logger.logInfo()) \(error)")
         }
     }
     

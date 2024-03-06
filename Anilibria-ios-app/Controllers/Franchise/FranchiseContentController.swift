@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol FranchiseContentControllerDelegate: AnyObject {
     func didSelectItem(data: TitleAPIModel, image: UIImage?)
@@ -129,7 +130,8 @@ private extension FranchiseContentController {
                 status = .normal
             } catch {
                 status = .normal
-                print(error)
+                let logger = Logger(subsystem: .franchise, category: .data)
+                logger.error("\(Logger.logInfo()) \(error)")
             }
         }
     }
@@ -168,7 +170,8 @@ extension FranchiseContentController: UICollectionViewDelegate {
         let posterItem = data[section][row]
         
         guard let item = model.getTitleAPIModel(forID: posterItem.id) else {
-            print("Selected item is not found")
+            let logger = Logger(subsystem: .franchise, category: .data)
+            logger.error("\(Logger.logInfo()) Selected item is not found")
             return
         }
         selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell

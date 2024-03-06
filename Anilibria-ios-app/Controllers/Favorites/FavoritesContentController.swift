@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol FavoritesContentControllerDelegate: AnyObject {
     func didSelectItem(data: TitleAPIModel, image: UIImage?)
@@ -174,7 +175,8 @@ extension FavoritesContentController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = data[indexPath.row]
         guard let data = model.getTitleModel(fromName: item.name) else {
-            print("not found data in model")
+            let logger = Logger(subsystem: .favorites, category: .data)
+            logger.error("\(Logger.logInfo()) not found data in model")
             return
         }
         selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
