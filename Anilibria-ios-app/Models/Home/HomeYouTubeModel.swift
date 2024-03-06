@@ -7,36 +7,22 @@
 
 import Foundation
 
-final class HomeYouTubeModel: ImageModel, HomeModelInput {
-    weak var homeModelOutput: HomeModelOutput?
-    
+final class HomeYouTubeModel: ImageModel {
     private let publicApiService = PublicApiService()
-    
     private var rawData: [YouTubeAPIModel] = []
-    var isDataTaskLoading = false
     
-    func requestData() {
-        guard isDataTaskLoading == false else { return }
-        isDataTaskLoading = true
-        Task(priority: .userInitiated) {
-            defer { isDataTaskLoading = false }
-            do {
-                let data = try await publicApiService.getYouTube(withLimit: 10)
-                rawData = data
-                let homePosters = data.map { HomePosterItem(fromYouTubeAPIModel: $0) }
-                homeModelOutput?.updateData(items: homePosters, section: .youtube)
-            } catch {
-                homeModelOutput?.failedRequestData(error: error)
-            }
-        }
+    func requestData() async throws -> [HomePosterItem] {
+        let data = try await publicApiService.youTube(page: 1, itemsPerPage: 10)
+        rawData = data.list
+        let homePosters = data.list.map { HomePosterItem(fromYouTubeAPIModel: $0) }
+        return homePosters
     }
         
-    func getRawData(row: Int) -> Any? {
-        guard rawData.isEmpty == false else { return nil }
-        return rawData[row]
+    func getRawData(row: Int) -> YouTubeAPIModel? {
+        return rawData[safe: row]
     }
     
-    func getRawData() -> [Any] {
+    func getRawData() -> [YouTubeAPIModel] {
         return rawData
     }
 }

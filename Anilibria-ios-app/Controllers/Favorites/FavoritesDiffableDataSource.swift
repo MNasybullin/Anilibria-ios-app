@@ -15,7 +15,7 @@ final class FavoritesDiffableDataSource: UICollectionViewDiffableDataSource<Favo
 
 extension FavoritesDiffableDataSource: SkeletonCollectionViewDataSource {
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return HomePosterCollectionViewCell.reuseIdentifier
+        return PosterCollectionViewCell.reuseIdentifier
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

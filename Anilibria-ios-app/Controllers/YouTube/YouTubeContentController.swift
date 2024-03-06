@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol YouTubeContentControllerDelegate: AnyObject {
     func insertItems(at indexPaths: [IndexPath])
@@ -29,14 +30,18 @@ final class YouTubeContentController: NSObject {
         self.model = YouTubeModel(rawData: rawData)
         super.init()
         
-        model.imageModelDelegate = self
-        model.delegate = self
+        setupModel()
     }
 }
 
 // MARK: Private methods
 
 private extension YouTubeContentController {
+    func setupModel() {
+        model.delegate = self
+        model.downsampleSize = .init(width: 396, height: 222)
+    }
+    
     func loadMoreData() {
         guard model.needLoadMoreData == true,
               status == .normal else { return }
@@ -50,6 +55,12 @@ private extension YouTubeContentController {
         footerView.configureView(status: status)
         collectionView?.collectionViewLayout.invalidateLayout()
     }
+    
+    func cancelRequestImage(indexPath: IndexPath) {
+        let item = data[indexPath.row]
+        guard item.image == nil else { return }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -59,6 +70,10 @@ extension YouTubeContentController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
         let rawData = model.getRawData(row: indexPath.row)
         delegate?.didSelectItem(rawdata: rawData)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
     }
 }
 
@@ -88,9 +103,15 @@ extension YouTubeContentController: UICollectionViewDataSource {
             loadMoreData()
         }
         if item.image == nil {
-            model.requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[row].image = image
-                cell.setImage(image, urlString: item.imageUrlString)
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let image = try await self.model.requestImage(fromUrlString: item.imageUrlString)
+                    self.data[row].image = image
+                    cell.setImage(image, urlString: item.imageUrlString)
+                } catch {
+                    cell.imageViewStopSkeletonAnimation()
+                }
             }
         }
         cell.configureCell(item: item)
@@ -104,13 +125,21 @@ extension YouTubeContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             let row = indexPath.row
-            let item = data[row]
-            guard item.image == nil else {
+            guard let item = data[safe: row], 
+                    item.image == nil else {
                 return
             }
-            model.requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[row].image = image
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                self.data[row].image = image
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }
@@ -133,15 +162,9 @@ extension YouTubeContentController: YouTubeModelDelegate {
     func failedRequestData(error: Error) {
         DispatchQueue.main.async {
             self.status = .loadingMoreFail
+            let logger = Logger(subsystem: .youtube, category: .data)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
-    }
-}
-
-// MARK: - ImageModelDelegate
-
-extension YouTubeContentController: ImageModelDelegate {
-    func failedRequestImage(error: Error) {
-        print(#function, error)
     }
 }
 

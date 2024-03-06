@@ -46,13 +46,7 @@ final class AuthorizationService: NetworkQuery {
     
     // Тихая авторизация
     func relogin() async throws -> LoginAPIModel {
-        let credentials: Credentials
-        
-        do {
-            credentials = try securityStorage.getCredentials()
-        } catch KeychainError.itemNotFound {
-            throw MyNetworkError.userIsNotAuthorized
-        }
+        let credentials = try securityStorage.getCredentials()
         
         return try await login(email: credentials.login, password: credentials.password)
     }
@@ -69,38 +63,33 @@ final class AuthorizationService: NetworkQuery {
     /// Получить список избранных тайтлов пользователя
     /// - Parameters:
     ///     - withlimit: Количество запрашиваемых объектов (По умолчанию -1 (Все))
-    func getFavorites(withLimit limit: Int = -1) async throws -> [TitleAPIModel] {
-        let sessionId: String
-        
-        do {
-            sessionId = try securityStorage.getSession()
-        } catch KeychainError.itemNotFound {
-            throw MyNetworkError.userIsNotAuthorized
+    func getUserFavorites(withLimit limit: Int = -1) async throws -> ListAPIModel<TitleAPIModel> {
+        if UserDefaults.standard.isUserAuthorized == false {
+            throw MyInternalError.userIsNotFoundInUserDefaults
         }
+        let sessionId = try securityStorage.getSession()
         
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getFavorites)
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getUserFavorites)
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
             URLQueryItem(name: "playlist_type", value: "array"),
-            URLQueryItem(name: "limit", value: String(limit))
+            URLQueryItem(name: "limit", value: String(limit)),
+            NetworkConstants.removeTorrents
         ]
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
-        let decoded = try jsonDecoder.decode([TitleAPIModel].self, from: data)
+        let decoded = try jsonDecoder.decode(ListAPIModel<TitleAPIModel>.self, from: data)
         return decoded
     }
     
     /// Добавить тайтл в список избранных
-    func addFavorite(from titleId: Int) async throws {
-        let sessionId: String
-        
-        do {
-            sessionId = try securityStorage.getSession()
-        } catch KeychainError.itemNotFound {
-            throw MyNetworkError.userIsNotAuthorized
+    func putUserFavorites(from titleId: Int) async throws {
+        if UserDefaults.standard.isUserAuthorized == false {
+            throw MyInternalError.userIsNotFoundInUserDefaults
         }
+        let sessionId = try securityStorage.getSession()
         
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.addFavorite)
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.putUserFavorites)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -116,16 +105,14 @@ final class AuthorizationService: NetworkQuery {
     }
     
     /// Удалить тайтл из списка избранных
-    func delFavorite(from titleId: Int) async throws {
-        let sessionId: String
-        
-        do {
-            sessionId = try securityStorage.getSession()
-        } catch KeychainError.itemNotFound {
-            throw MyNetworkError.userIsNotAuthorized
+    func delUserFavorite(from titleId: Int) async throws {
+        if UserDefaults.standard.isUserAuthorized == false {
+            throw MyInternalError.userIsNotFoundInUserDefaults
         }
         
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.delFavorite)
+        let sessionId = try securityStorage.getSession()
+        
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.delUserFavorites)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -141,27 +128,17 @@ final class AuthorizationService: NetworkQuery {
     }
     
     /// Получить информацию о пользователе
-    func profileInfo() async throws -> ProfileAPIModel {
-        guard let url = URL(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.profile) else {
-            throw MyNetworkError.invalidURLComponents
-        }
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = HTTPMethods.post.rawValue
-        var body = URLComponents()
-        body.queryItems = [
-            URLQueryItem(name: "query", value: "user")
-        ]
-        urlRequest.httpBody = body.query?.data(using: .utf8)
+    func user() async throws -> UserAPIModel {
+        let sessionId = try securityStorage.getSession()
         
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 /* OK */ else {
-            throw errorHandling(for: response)
-        }
-        let decoded = try jsonDecoder.decode(ProfileAPIModel.self, from: data)
-        guard let error = decoded.error else {
-            return decoded
-        }
-        throw error as Error
+        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.user)
+        
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "session", value: sessionId)
+        ]
+        
+        let data = try await dataRequest(with: urlComponents, httpMethod: .get)
+        let decoded = try jsonDecoder.decode(UserAPIModel.self, from: data)
+        return decoded
     }
 }

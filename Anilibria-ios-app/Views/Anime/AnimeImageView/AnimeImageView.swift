@@ -8,13 +8,13 @@
 import UIKit
 
 final class AnimeImageView: UIView {
-    private lazy var backgroundImageView: UIImageView = {
+    private (set) lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(asset: Asset.Assets.blankImage)
         return imageView
     }()
     
-    private lazy var imageView: UIImageView = {
+    private (set) lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(asset: Asset.Assets.blankImage)
         return imageView
@@ -70,7 +70,9 @@ final class AnimeImageView: UIView {
     }
     
     func configureView(with image: UIImage?) {
-        backgroundImageView.image = image
-        imageView.image = image
+        if image != nil {
+            backgroundImageView.image = image
+            imageView.image = image
+        }
     }
 }

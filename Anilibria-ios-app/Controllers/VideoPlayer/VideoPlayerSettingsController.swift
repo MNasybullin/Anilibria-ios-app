@@ -10,6 +10,7 @@ import UIKit
 protocol VideoPlayerSettingsControllerDelegate: AnyObject {
     func setRate(_ rate: Float)
     func setHLS(_ hls: HLS)
+    func updateAmbientModeStatus()
 }
 
 final class VideoPlayerSettingsController: UITableViewController {
@@ -21,6 +22,7 @@ final class VideoPlayerSettingsController: UITableViewController {
     private var currentHLS: HLS
     private var currentRate: PlayerRate
     private let data = PlayerSettingsRow.allCases
+    private let userDefaults = UserDefaults.standard
     
     weak var delegate: VideoPlayerSettingsControllerDelegate?
     
@@ -80,6 +82,10 @@ extension VideoPlayerSettingsController {
                     self?.delegate?.setRate(selectedRate.rawValue)
                 }
                 navigationController?.pushViewController(rateController, animated: true)
+            case .ambientMode:
+                let cell = tableView.cellForRow(at: indexPath)
+                let switchView = cell?.accessoryView as? UISwitch
+                switchView?.sendActions(for: .valueChanged)
         }
     }
     
@@ -92,14 +98,28 @@ extension VideoPlayerSettingsController {
         let item = data[indexPath.row]
         var configuration = UIListContentConfiguration.valueCell()
         configuration.text = item.description
+        cell.accessoryView = nil
         switch item {
             case .quality:
                 configuration.secondaryText = currentHLS.description
+                cell.accessoryType = .disclosureIndicator
             case .rate:
                 configuration.secondaryText = currentRate.description
+                cell.accessoryType = .disclosureIndicator
+            case .ambientMode:
+                let switchView = UISwitch()
+                switchView.addAction(UIAction(handler: { [weak self] action in
+                    guard let self else { return }
+                    userDefaults.ambientMode.toggle()
+                    let switchView = action.sender as? UISwitch
+                    switchView?.setOn(userDefaults.ambientMode, animated: true)
+                    self.delegate?.updateAmbientModeStatus()
+                }), for: .valueChanged)
+                
+                switchView.isOn = userDefaults.ambientMode
+                cell.accessoryView = switchView
         }
         cell.contentConfiguration = configuration
-        cell.accessoryType = .disclosureIndicator
         return cell
     }
 }

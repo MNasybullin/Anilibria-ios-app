@@ -2,12 +2,13 @@
 //  WatchingEntity+CoreDataProperties.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 16.12.2023.
+//  Created by Mansur Nasybullin on 26.02.2024.
 //
 //
 
 import Foundation
 import CoreData
+import UIKit
 
 extension WatchingEntity {
 
@@ -16,25 +17,27 @@ extension WatchingEntity {
     }
 
     @NSManaged public var animeId: Int64
+    @NSManaged public var animeImage: UIImage?
+    @NSManaged public var animeName: String
+    @NSManaged public var episodes: NSSet?
     @NSManaged public var user: UserEntity?
-    @NSManaged public var series: NSSet?
 
 }
 
-// MARK: Generated accessors for series
+// MARK: Generated accessors for episodes
 extension WatchingEntity {
 
-    @objc(addSeriesObject:)
-    @NSManaged public func addToSeries(_ value: SeriesEntity)
+    @objc(addEpisodesObject:)
+    @NSManaged public func addToEpisodes(_ value: EpisodesEntity)
 
-    @objc(removeSeriesObject:)
-    @NSManaged public func removeFromSeries(_ value: SeriesEntity)
+    @objc(removeEpisodesObject:)
+    @NSManaged public func removeFromEpisodes(_ value: EpisodesEntity)
 
-    @objc(addSeries:)
-    @NSManaged public func addToSeries(_ values: NSSet)
+    @objc(addEpisodes:)
+    @NSManaged public func addToEpisodes(_ values: NSSet)
 
-    @objc(removeSeries:)
-    @NSManaged public func removeFromSeries(_ values: NSSet)
+    @objc(removeEpisodes:)
+    @NSManaged public func removeFromEpisodes(_ values: NSSet)
 
 }
 

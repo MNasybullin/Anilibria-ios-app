@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 final class UserController: UIViewController, HasCustomView {
     typealias CustomView = UserView
@@ -69,7 +70,7 @@ extension UserController: UserModelDelegate {
         DispatchQueue.main.async {
             self.isAuthorizationProgress = false
             self.customView.userInfoView.set(image: user.image)
-            self.customView.userInfoView.set(userName: user.name)
+            self.customView.userInfoView.set(userName: user.login)
             self.customView.hideSignInView(animated: true)
         }
     }
@@ -77,21 +78,23 @@ extension UserController: UserModelDelegate {
     func authorizationFailure(error: Error) {
         DispatchQueue.main.async {
             self.isAuthorizationProgress = false
-            print(#function, error)
+            let logger = Logger(subsystem: .user, category: .empty)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
     
     func requestFromCoreDataSuccessful(user: UserItem) {
         DispatchQueue.main.async {
             self.customView.userInfoView.set(image: user.image)
-            self.customView.userInfoView.set(userName: user.name)
+            self.customView.userInfoView.set(userName: user.login)
             self.customView.hideSignInView(animated: false)
         }
     }
     
     func requestFromCoreDataFailure(error: Error) {
         DispatchQueue.main.async {
-            print(#function, error)
+            let logger = Logger(subsystem: .user, category: .coreData)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
     
@@ -105,7 +108,8 @@ extension UserController: UserModelDelegate {
     func logoutFailure(error: Error) {
         DispatchQueue.main.async {
             self.customView.userInfoView.logoutButton(isEnabled: true)
-            print(#function, error)
+            let logger = Logger(subsystem: .user, category: .empty)
+            logger.error("\(Logger.logInfo()) \(error)")
         }
     }
 }

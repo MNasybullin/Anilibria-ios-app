@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 
-final class PlayerView: UIView {
+class PlayerView: UIView {
     // Override the property to make AVPlayerLayer the view's backing layer.
     override static var layerClass: AnyClass {
         return AVPlayerLayer.self

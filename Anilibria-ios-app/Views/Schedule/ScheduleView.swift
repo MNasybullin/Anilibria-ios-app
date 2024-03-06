@@ -13,13 +13,14 @@ final class ScheduleView: UIView {
         static let sectionHeader = "section-header-element-kind"
     }
     
-    private var collectionView: UICollectionView!
+    private lazy var layout = ScheduleCollectionViewLayout().createLayout()
+    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     
-    init(collectionViewDelegate: ScheduleContentController) {
+    init() {
         super.init(frame: .zero)
         
         configureView()
-        configureCollectionView(delegate: collectionViewDelegate)
+        configureCollectionView()
         configureLayout()
     }
     
@@ -35,22 +36,16 @@ private extension ScheduleView {
         backgroundColor = .systemBackground
     }
     
-    func configureCollectionView(delegate: ScheduleContentController) {
-        let layout = ScheduleCollectionViewLayout().createLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    func configureCollectionView() {
         collectionView.register(
-            HomePosterCollectionViewCell.self,
-            forCellWithReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier)
+            PosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: PosterCollectionViewCell.reuseIdentifier)
         collectionView.register(
             ScheduleHeaderSupplementaryView.self,
             forSupplementaryViewOfKind: ElementKind.sectionHeader,
             withReuseIdentifier: ScheduleHeaderSupplementaryView.reuseIdentifier)
         
         collectionView.isSkeletonable = true
-        
-        collectionView.delegate = delegate
-        collectionView.dataSource = delegate
-        collectionView.prefetchDataSource = delegate
     }
     
     func configureLayout() {
@@ -63,21 +58,5 @@ private extension ScheduleView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-}
-
-// MARK: - Internal methods
-
-extension ScheduleView {
-    func showSkeletonCollectionView() {
-        collectionView.showAnimatedSkeleton()
-    }
-    
-    func hideSkeletonCollectionView() {
-        collectionView.hideSkeleton(reloadDataAfter: false)
-    }
-    
-    func reloadData() {
-        collectionView.reloadData()
     }
 }

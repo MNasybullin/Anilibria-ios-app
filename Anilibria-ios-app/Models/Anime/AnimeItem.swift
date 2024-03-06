@@ -17,25 +17,30 @@ struct AnimeItem {
     let genres: String?
     let team: [Team]
     let description: String?
-    let series: GTSeries?
+    let host: String?
+    let episodes: GTEpisodes?
     let playlist: [Playlist]
+    let blocked: Bool
 }
 
 extension AnimeItem {
     init(fromTitleApiModel item: TitleAPIModel, image: UIImage?) {
-        let playlist = item.player?.playlist?.map { Playlist(fromGTPlaylist: $0) }
+        let playlist = item.player?.list?.map { Playlist(fromGTPlaylist: $0) }
         self.init(
             id: item.id,
             image: image,
             ruName: item.names.ru,
             code: item.code,
             engName: item.names.en,
-            seasonAndType: AnimeItem.getSeasonAndTypeText(item),
-            genres: AnimeItem.getgenresText(item.genres),
-            team: AnimeItem.convertToTeam(from: item.team),
-            description: AnimeItem.getDescriptionText(item.description),
-            series: item.player?.series,
-            playlist: playlist ?? [Playlist]())
+            seasonAndType: Self.getSeasonAndTypeText(item),
+            genres: Self.getgenresText(item.genres),
+            team: Self.convertToTeam(from: item.team),
+            description: Self.getDescriptionText(item.description),
+            host: item.player?.host,
+            episodes: item.player?.episodes.data,
+            playlist: playlist ?? [Playlist](),
+            blocked: Self.getBlocked(from: item.blocked)
+        )
     }
     
     private static func getSeasonAndTypeText(_ model: TitleAPIModel) -> String {
@@ -73,5 +78,12 @@ extension AnimeItem {
             teams.append(.timing(timing))
         }
         return teams
+    }
+    
+    private static func getBlocked(from data: GTBlocked?) -> Bool {
+        guard let data else {
+            return false
+        }
+        return data.blocked ?? false || data.bakanim ?? false
     }
 }

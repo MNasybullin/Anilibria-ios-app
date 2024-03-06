@@ -8,8 +8,10 @@
 import UIKit
 
 struct Playlist {
-    let serie: Double?
-    let serieString: String
+    let episode: Float?
+    let name: String?
+    let uuid: String?
+    let episodeString: String
     let createdTimestamp: Int?
     let createdDateString: String
     let previewUrl: String
@@ -21,8 +23,10 @@ struct Playlist {
 extension Playlist {
     init(fromGTPlaylist item: GTPlaylist) {
         self.init(
-            serie: item.serie,
-            serieString: Playlist.getSerieString(from: item.serie),
+            episode: item.episode,
+            name: item.name,
+            uuid: item.uuid,
+            episodeString: Playlist.getEpisodeString(from: item.episode),
             createdTimestamp: item.createdTimestamp,
             createdDateString: Playlist.getCreatedDateString(from: item.createdTimestamp),
             previewUrl: Playlist.getPreviewUrl(fromPreview: item.preview),
@@ -31,14 +35,14 @@ extension Playlist {
         )
     }
     
-    private static func getSerieString(from serie: Double?) -> String {
-        var serieString = ""
-        if serie != nil {
-            let int = Int(exactly: serie!)
-            let numberString: String = int == nil ? serie!.description : int!.description
-            serieString = numberString + " " + "серия"
+    private static func getEpisodeString(from episode: Float?) -> String {
+        var episodeString = ""
+        if episode != nil {
+            let int = Int(exactly: episode!)
+            let numberString: String = int == nil ? episode!.description : int!.description
+            episodeString = numberString + " " + "серия"
         }
-        return serieString
+        return episodeString
     }
     
     private static func getCreatedDateString(from createdTimestamp: Int?) -> String {

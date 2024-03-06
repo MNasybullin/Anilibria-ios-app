@@ -8,14 +8,14 @@
 import UIKit
 import AVKit
 
-protocol VideoPlayerViewDelegate: AnyObject, TopOverlayViewDelegate, MiddleOverlayViewDelegate, BottomOverlayViewDelegate, AVRoutePickerViewDelegate {
+protocol VideoPlayerViewDelegate: AnyObject {
     func statusBarAppearanceUpdate(isHidden: Bool)
     func skipButtonDidTapped()
 }
 
 final class VideoPlayerView: UIView {
     private enum Constants {
-        static let backgroundColor = UIColor.black.withAlphaComponent(0.65)
+        static let overlayBackgroundColor = UIColor.black.withAlphaComponent(0.65)
     }
     
     enum Orientation {
@@ -23,10 +23,12 @@ final class VideoPlayerView: UIView {
     }
     
     let playerView = PlayerView()
-    private let backgroundView = UIView()
-    private let topView = TopOverlayView()
-    private let middleView = MiddleOverlayView()
-    private let bottomView = BottomOverlayView()
+    let ambientPlayerView = AmbientPlayerView()
+    
+    private let overlayBackgroundView = UIView()
+    let topView = TopOverlayView()
+    let middleView = MiddleOverlayView()
+    let bottomView = BottomOverlayView()
     private lazy var skipButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.cornerStyle = .capsule
@@ -34,7 +36,7 @@ final class VideoPlayerView: UIView {
         config.baseForegroundColor = .white
         config.baseBackgroundColor = .systemRed
         config.title = Strings.VideoPlayerView.skipButton
-
+        
         let button = UIButton(configuration: config)
         button.addAction(UIAction { [weak self] _ in
             self?.delegate?.skipButtonDidTapped()
@@ -60,14 +62,7 @@ final class VideoPlayerView: UIView {
     
     private (set) var isOverlaysHidden = false
     
-    weak var delegate: VideoPlayerViewDelegate? {
-        didSet {
-            topView.delegate = delegate
-            topView.routePickerViewDelegate = delegate
-            middleView.delegate = delegate
-            bottomView.delegate = delegate
-        }
-    }
+    weak var delegate: VideoPlayerViewDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -86,7 +81,7 @@ final class VideoPlayerView: UIView {
 private extension VideoPlayerView {
     func configureView() {
         backgroundColor = .black
-        backgroundView.backgroundColor = Constants.backgroundColor
+        overlayBackgroundView.backgroundColor = Constants.overlayBackgroundColor
         
         topView.isHidden = false
         middleView.isHidden = true
@@ -96,7 +91,7 @@ private extension VideoPlayerView {
     }
     
     func configureLayout() {
-        [playerView, backgroundView, topView, middleView, bottomView, activityIndicator, skipButton].forEach {
+        [ambientPlayerView, playerView, overlayBackgroundView, topView, middleView, bottomView, activityIndicator, skipButton].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -118,15 +113,20 @@ private extension VideoPlayerView {
         
         // MARK: Common constraints
         NSLayoutConstraint.activate([
+            ambientPlayerView.topAnchor.constraint(equalTo: topAnchor),
+            ambientPlayerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            ambientPlayerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            ambientPlayerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             playerView.topAnchor.constraint(equalTo: topAnchor),
             playerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             playerView.trailingAnchor.constraint(equalTo: trailingAnchor),
             playerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            backgroundView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            overlayBackgroundView.topAnchor.constraint(equalTo: topAnchor),
+            overlayBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            overlayBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            overlayBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             topView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -183,7 +183,7 @@ extension VideoPlayerView {
                 $0.alpha = 1
             }
             
-            backgroundView.backgroundColor = Constants.backgroundColor
+            overlayBackgroundView.backgroundColor = Constants.overlayBackgroundColor
             
             NSLayoutConstraint.deactivate(hideConstraints)
             NSLayoutConstraint.activate(showConstraints)
@@ -195,7 +195,7 @@ extension VideoPlayerView {
     func hideOverlay() {
         isOverlaysHidden = true
         UIView.animate(withDuration: 0.35) { [self] in
-            backgroundView.backgroundColor = UIColor.clear
+            overlayBackgroundView.backgroundColor = UIColor.clear
             
             [topView, middleView, bottomView].forEach {
                 $0.alpha = 0
@@ -222,38 +222,6 @@ extension VideoPlayerView {
     func hideActivityIndicator() {
         activityIndicator.stopAnimating()
         middleView.showPlayPauseButton()
-    }
-    
-    func setTitle(_ text: String) {
-        topView.setTitle(text)
-    }
-    
-    func setSubtitle(_ text: String) {
-        topView.setSubtitle(text)
-    }
-    
-    func setPlaybackSlider(duration: Float) {
-        bottomView.setSlider(duration: duration)
-    }
-    
-    func setPlaybackSlider(value: Float) {
-        bottomView.setSlider(value: value)
-    }
-    
-    func setLeftTime(text: String) {
-        bottomView.setLeftTimeTitle(text)
-    }
-    
-    func setRightTime(text: String) {
-        bottomView.setRightTimeTitle(text)
-    }
-    
-    func setPIPButton(isHidden: Bool) {
-        topView.setPIPButton(isHidden: isHidden)
-    }
-    
-    func playPauseButton(isSelected: Bool) {
-        middleView.playPauseButton(isSelected: isSelected)
     }
     
     func skipButton(isHidden: Bool) {

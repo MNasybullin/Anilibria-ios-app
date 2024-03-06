@@ -5,9 +5,12 @@
 //  Created by Mansur Nasybullin on 08.11.2023.
 //
 
+// swiftlint: disable file_length
+
 import AVKit
 import Combine
 import MediaPlayer
+import OSLog
 
 final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomView {
     typealias CustomView = VideoPlayerView
@@ -18,9 +21,14 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     
     weak var navigator: VideoPlayerNavigator?
     
+    private let logger = Logger(subsystem: .videoPlayer, category: .empty)
+    private var interactiveTransitionController: VideoPlayerInteractiveTransitionController!
+    
+    private let audioSession = AVAudioSession.sharedInstance()
     private let player = AVPlayer()
+    private var videoOutput: AVPlayerItemVideoOutput!
     private var pipController: VideoPlayerPiPController?
-    private let model: VideoPlayerModel
+    private var model: VideoPlayerModel!
     private let remoteCommandCenterController = VideoPlayerRemoteCommandCenterController()
     private let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
     
@@ -46,13 +54,28 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
         }
     }
     
+    private let needDownloadAnimeData: Bool
+    private var animeId: Int
+    private var numberOfEpisode: Float?
+    
     // MARK: LifeCycle
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         model = VideoPlayerModel(
             animeItem: animeItem,
             currentPlaylist: currentPlaylist
         )
+        needDownloadAnimeData = false
+        self.animeId = animeItem.id
         super.init(nibName: nil, bundle: nil)
+        interactiveTransitionController = VideoPlayerInteractiveTransitionController(viewController: self)
+    }
+    
+    init(animeId: Int, numberOfEpisode: Float) {
+        needDownloadAnimeData = true
+        self.animeId = animeId
+        self.numberOfEpisode = numberOfEpisode
+        super.init(nibName: nil, bundle: nil)
+        interactiveTransitionController = VideoPlayerInteractiveTransitionController(viewController: self)
     }
     
     required init?(coder: NSCoder) {
@@ -62,19 +85,17 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     override func loadView() {
         let videoPlayerView = VideoPlayerView()
         videoPlayerView.playerView.player = player
+        videoPlayerView.ambientPlayerView.player = player
         view = videoPlayerView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupView()
-        setupPiPController()
-        addPeriodicTimeObserver()
-        model.delegate = self
-        model.requestCachingNodes()
-        setNeedsUpdateOfHomeIndicatorAutoHidden()
-        setupRemoteCommandCenterController()
+        if needDownloadAnimeData {
+            setupControllerNoData()
+        } else {
+            setupController()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -98,6 +119,7 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
     }
     
     deinit {
+        try? audioSession.setActive(false)
         nowPlayingInfoCenter.nowPlayingInfo = nil
     }
 }
@@ -105,11 +127,56 @@ final class VideoPlayerController: UIViewController, VideoPlayerFlow, HasCustomV
 // MARK: - Setup methods
 
 private extension VideoPlayerController {
+    func setupControllerNoData() {
+        customView.hideOverlay()
+        Task(priority: .userInitiated) {
+            do {
+                let data = try await VideoPlayerModel.requestAnimeData(id: animeId)
+                guard let currentPlaylist = data.playlist.firstIndex(where: { $0.episode == numberOfEpisode }) else {
+                    throw NSError(domain: Strings.VideoPlayerView.episodeIsNotFound, code: 0)
+                }
+                model = VideoPlayerModel(
+                    animeItem: data,
+                    currentPlaylist: currentPlaylist
+                )
+                setupController()
+                customView.showOverlay()
+            } catch {
+                closePlayerWithAlert(title: Strings.VideoPlayer.error,
+                                     message: error.localizedDescription)
+            }
+        }
+    }
+    
+    func setupController() {
+        setupAudioSession()
+        setupView()
+        setupPiPController()
+        addPeriodicTimeObserver()
+        model.delegate = self
+        model.start()
+        setNeedsUpdateOfHomeIndicatorAutoHidden()
+        setupRemoteCommandCenterController()
+    }
+    
+    func setupAudioSession() {
+        do {
+            try audioSession.setCategory(.playback, mode: .moviePlayback)
+            try audioSession.setActive(true)
+        } catch {
+            logger.fault("\(Logger.logInfo()) Setting category to AVAudioSessionCategoryPlayback failed.")
+        }
+    }
+    
     func setupView() {
         customView.delegate = self
+        customView.topView.delegate = self
+        customView.topView.routePickerViewDelegate = self
+        customView.middleView.delegate = self
+        customView.bottomView.delegate = self
         
-        customView.setTitle(model.getTitle())
-        customView.setSubtitle(model.getSubtitle())
+        customView.topView.setTitle(model.getTitle())
+        customView.topView.setSubtitle(model.getSubtitle())
         
         setupGestures()
     }
@@ -176,7 +243,7 @@ extension VideoPlayerController {
     
     func configurePlayerTime(time: Float) {
         configureLeftRightTime(time: time)
-        customView.setPlaybackSlider(value: time)
+        customView.bottomView.setPlaybackSlider(value: time)
         
         nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = Double(time)
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0
@@ -185,12 +252,12 @@ extension VideoPlayerController {
     
     private func configureLeftRightTime(time: Float) {
         let leftTime = stringFromTimeInterval(interval: TimeInterval(time))
-        customView.setLeftTime(text: leftTime)
+        customView.bottomView.setLeftTimeTitle(leftTime)
         
         if let duration = player.currentItem?.duration {
             let interval = duration.seconds - Double(time)
             let rightTime = stringFromTimeInterval(interval: interval)
-            customView.setRightTime(text: "-" + rightTime)
+            customView.bottomView.setRightTimeTitle("-" + rightTime)
         }
     }
     
@@ -209,7 +276,7 @@ extension VideoPlayerController {
     private func playVideo() {
         customView.showOverlay()
         customView.hideActivityIndicator()
-        customView.playPauseButton(isSelected: true)
+        customView.middleView.playPauseButton(isSelected: true)
         player.play()
         player.rate = model.currentRate
     }
@@ -250,11 +317,26 @@ private extension VideoPlayerController {
                 return
             }
             let floatTime = Float(time.seconds)
-            customView.setPlaybackSlider(value: floatTime)
-            configureLeftRightTime(time: floatTime)
+            configurePlayerTime(time: floatTime)
             checkSkips(time: time.seconds)
-            model.configureWatchingInfo(duration: currentItem.duration.seconds, playbackPosition: time.seconds)
+            
+            model.configureWatchingInfo(duration: currentItem.duration.seconds, playbackPosition: time.seconds, image: getCurrentImage())
         }
+    }
+    
+    func getCurrentImage() -> UIImage? {
+        guard let currentItem = player.currentItem else { return nil }
+        
+        let time = currentItem.currentTime()
+        guard let buffer = videoOutput.copyPixelBuffer(forItemTime: time, itemTimeForDisplay: nil) else { return nil }
+        
+        let ciImage = CIImage(cvPixelBuffer: buffer)
+        let context = CIContext()
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return nil }
+        
+        let image = UIImage(cgImage: cgImage)
+        
+        return image
     }
     
     func playerItemSubscriptions(playerItem: AVPlayerItem) {
@@ -266,13 +348,15 @@ private extension VideoPlayerController {
                 switch status {
                     case .readyToPlay:
                         let duration = Float(playerItem.duration.seconds)
-                        customView.setPlaybackSlider(duration: duration)
+                        customView.bottomView.setPlaybackSlider(duration: duration)
                         setupInfoCenter(duration: duration)
                         playVideo()
                     case .failed:
-                        print("STATUS = failed")
-                        print(playerItem.errorLog() ?? "")
-                        print(playerItem.error ?? "")
+                        let failedMessage = "\(String(describing: playerItem.errorLog())) \(String(describing: playerItem.error))"
+                        logger.fault("\(Logger.logInfo()) \(failedMessage)")
+                        
+                        closePlayerWithAlert(title: Strings.VideoPlayer.playbackError,
+                                             message: failedMessage)
                     default:
                         break
                 }
@@ -297,7 +381,7 @@ private extension VideoPlayerController {
             .sink { [weak self] _ in
                 guard let self else { return }
                 customView.showOverlay()
-                customView.playPauseButton(isSelected: false)
+                customView.middleView.playPauseButton(isSelected: false)
             }
             .store(in: &subscriptions)
     }
@@ -335,14 +419,20 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
         subscriptions.removeAll()
         
         let asset = AVAsset(url: url)
-        let playerItem = AVPlayerItem(
-            asset: asset,
-            automaticallyLoadedAssetKeys: [.tracks, .duration, .commonMetadata]
-        )
+        let playerItem = AVPlayerItem(asset: asset)
         player.replaceCurrentItem(with: playerItem)
         
+        setupVideoOutput()
         playerSubscriptions()
         playerItemSubscriptions(playerItem: playerItem)
+    }
+    
+    private func setupVideoOutput() {
+        let pixelBufferAttributes: [String: Any] = [
+            String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)
+        ]
+        videoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: pixelBufferAttributes)
+        player.currentItem?.add(videoOutput)
     }
     
     func configurePlayerItem(url: URL, playbackPostition: Double) {
@@ -358,6 +448,13 @@ extension VideoPlayerController: VideoPlayerModelDelegate {
         configurePlayerItem(url: url)
         
         player.seek(to: currentPlaybackTime, toleranceBefore: .zero, toleranceAfter: .zero)
+    }
+    
+    func closePlayerWithAlert(title: String, message: String) {
+        Alert.showErrorAlert(on: self, title: title, message: message) { [weak self] in
+            self?.willDismiss()
+            self?.dismiss(animated: true)
+        }
     }
 }
 
@@ -386,8 +483,11 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
     func statusBarAppearanceUpdate(isHidden: Bool) {
         isStatusBarHidden = isHidden
     }
-    
-    // MARK: TopView
+}
+
+// MARK: - TopOverlayViewDelegate
+
+extension VideoPlayerController: TopOverlayViewDelegate {
     func closeButtonDidTapped() {
         willDismiss()
         dismiss(animated: true)
@@ -402,13 +502,16 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
         let currentHLS = model.currentHLS
         let rate = model.currentRate
         guard let currentHLS, let playerRate = PlayerRate(rawValue: rate) else {
-            print("Video Player current HLS is nil or playerRate is init failed")
+            logger.error("\(Logger.logInfo()) Current HLS is nil or playerRate is init failed")
             return
         }
         navigator?.show(.settings(hls: hls, currentHLS: currentHLS, rate: playerRate, presentatingController: self, delegate: self))
     }
-    
-    // MARK: MiddleView
+}
+
+// MARK: - MiddleOverlayViewDelegate
+
+extension VideoPlayerController: MiddleOverlayViewDelegate {
     func backwardButtonDidTapped() {
         guard let duration = player.currentItem?.duration else { return }
         forwardBackwardTargetSeconds -= 10
@@ -440,8 +543,11 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
             self?.forwardBackwardTargetSeconds = 0
         }
     }
-    
-    // MARK: BottomView
+}
+
+// MARK: - BottomOverlayViewDelegate
+
+extension VideoPlayerController: BottomOverlayViewDelegate {
     @objc func playbackSliderDidChanged(_ slider: UISlider, event: UIEvent) {
         configurePlayerTime(time: slider.value)
         
@@ -460,17 +566,22 @@ extension VideoPlayerController: VideoPlayerViewDelegate {
         }
     }
     
-    func seriesButtonDidTapped() {
+    func episodesButtonDidTapped() {
         let data = model.getData()
         let currentPlaylistNumber = model.currentPlaylistNumber
         let completionBlock: (Int) -> Void = { [weak self] newPlaylistNumber in
             guard let self else { return }
             self.model.replaceCurrentPlaylist(newPlaylistNumber: newPlaylistNumber)
-            self.customView.setTitle(self.model.getTitle())
-            self.customView.setSubtitle(self.model.getSubtitle())
+            self.customView.topView.setTitle(self.model.getTitle())
+            self.customView.topView.setSubtitle(self.model.getSubtitle())
         }
-        navigator?.show(.series(data: data, currentPlaylistNumber: currentPlaylistNumber, completionBlock: completionBlock, presentatingController: self))
+        navigator?.show(.episodes(data: data, currentPlaylistNumber: currentPlaylistNumber, completionBlock: completionBlock, presentatingController: self))
     }
+}
+
+// MARK: - AVRoutePickerViewDelegate
+
+extension VideoPlayerController: AVRoutePickerViewDelegate {
 }
 
 // MARK: - VideoPlayerSettingsControllerDelegate
@@ -486,5 +597,9 @@ extension VideoPlayerController: VideoPlayerSettingsControllerDelegate {
     
     func setHLS(_ hls: HLS) {
         model.changeCurrentHLS(hls)
+    }
+    
+    func updateAmbientModeStatus() {
+        customView.ambientPlayerView.updateStatus()
     }
 }

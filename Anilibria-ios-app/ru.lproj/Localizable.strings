@@ -19,10 +19,13 @@
 
 // MARK: - Image Error
 "ImageError.failedToInitialize" = "Не удалось инициализировать изображение из загруженных данных.";
+"ImageError.invalidURL" = "Неверная ссылка изображения";
+"ImageError.failedToDownSampling" = "Ошибка при сжатии изображения";
 
 // MARK: - Internal Error
 "InternalError.failedToFetchURLFromData" = "Не удалось получить URL из данных";
 "InternalError.failedToFetchData" = "Не удалось извлечь данные";
+"InternalError.userIsNotFoundInUserDefaults" = "Пользователь не авторизован (UserDefaults)";
 
 // MARK: - Other Error
 "OtherError.noConnectedToInternet" = "Нет подключения к Интернету.";
@@ -53,6 +56,7 @@
 
 // MARK: - Home Module
 "HomeModule.title.today" = "Сегодня";
+"HomeModule.title.watching" = "Продолжить просмотр";
 "HomeModule.title.updates" = "Обновления";
 "HomeModule.title.youTube" = "YouTube";
 
@@ -68,6 +72,16 @@
 // MARK: - YouTube Module
 "YouTubeModule.ErrorFooterView.titleLabel" = "Ошибка загрузки";
 "YouTubeModule.ErrorFooterView.refreshButton" = "Обновить";
+
+// MARK: - Favorites Module
+"FavoritesModule.NavTitle" = "Избранное";
+"FavoritesModule.ErrorView.title" = "Ошибка";
+"FavoritesModule.ErrorView.actionButton" = "Обновить";
+"FavoritesModule.FavoritesEmptyView.title" = "Ой, а тут пусто...";
+"FavoritesModule.FavoritesEmptyView.message" = "Скорее добавляй любимые аниме в избранное!";
+"FavoritesModule.NoUserView.title" = "Необходима авторизация";
+"FavoritesModule.NoUserView.message" = "Пожалуйста, войдите в свой профиль";
+"FavoritesModule.NoUserView.actionButton" = "Войти";
 
 // MARK: - Screen Titles
 "ScreenTitles.home" = "Главное";
@@ -92,39 +106,82 @@
 // MARK: - User Info View
 "UserInfoView.logoutButton" = "Выйти";
 
-// MARK: - Anime View
-"AnimeView.watchButton" = "Смотреть";
-"AnimeView.favoriteButton" = "Избранное";
-"AnimeView.shareButton" = "Поделиться";
-
-// MARK: - Anime Series View
-"AnimeSeriesView.seriesTitle" = "Серии";
-"AnimeSeriesView.allButton" = "Все";
-
 // MARK: - Video Player
 "VideoPlayerView.skipButton" = "Пропустить";
+"VideoPlayerView.episodeIsNotFound" = "Серия не найдена";
+
+"VideoPlayer.error" = "Ошибка";
+"VideoPlayer.playbackError" = "Ошибка воспроизведения";
+"VideoPlayer.playbackIsNotPossible" = "Воспроизведение невозможно";
+"VideoPlayer.animeIsBlocked!" = "Аниме заблокировано!";
 
 // MARK: - Video Player Settings
 "VideoPlayerSettings.settings" = "Настройки";
 "VideoPlayerSettings.quality" = "Качество";
 "VideoPlayerSettings.rate" = "Скорость";
 "VideoPlayerSettings.defaultRate" = "Обычная";
+"VideoPlayerSettings.ambientMode" = "Фоновая подсветка";
 
-// MARK: - Series Module
-"SeriesModule.seriesTitle" = "Серии";
-"SeriesModule.series" = "серий";
+// MARK: - Episodes Module
+"EpisodesModule.episodesTitle" = "Серии";
+"EpisodesModule.episodes" = "серий";
 
 // MARK: - RandomAnime Module
 "RandomAnimeModule.title.randomAnime" = "Случайное аниме";
 "RandomAnimeModule.image.refresh" = "arrow.clockwise";
 
+// MARK: - Franchise Module
+"FranchiseModule.headerTitle.franchiseViewingOrder" = "Порядок просмотра франшизы:";
+
 
 // MARK: - Skeleton Text Placeholder
 "SkeletonTextPlaceholder" = "Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder Skeleton Text Placeholder";
 
+// MARK: - Team Module
+"TeamModule.title" = "Команда";
+ 
 // MARK: - Team
 "Team.voice" = "Озвучка";
 "Team.translator" = "Перевод";
 "Team.editing" = "Редактор";
 "Team.decor" = "Оформление";
 "Team.timing" = "Тайминг";
+
+// MARK: - Profile AniLibria
+"ProfileModule.Anilibria.site" = "Сайт";
+"ProfileModule.Anilibria.team" = "Команда";
+"ProfileModule.Anilibria.vk" = "ВКонтакте";
+"ProfileModule.Anilibria.telegram" = "Telegram";
+"ProfileModule.Anilibria.youtube" = "YouTube";
+"ProfileModule.Anilibria.discord" = "Discord";
+
+// MARK: - Profile App
+"ProfileModule.App.settings" = "Настройки";
+"ProfileModule.App.aboutApp" = "О приложении";
+
+// MARK: - Settings Module
+"SettingsModule.title" = "Настройки";
+"SettingsModule.HeaderText.appearance" = "Тема оформления";
+"SettingsModule.HeaderText.videoPlayer" = "Видеоплеер";
+"SettingsModule.VideoPlayer.ambientMode" = "Фоновая подсветка";
+"SettingsModule.Appearance.title.unspecified" = "Системная";
+"SettingsModule.Appearance.title.light" = "Светлая";
+"SettingsModule.Appearance.title.dark" = "Тёмная";
+"SettingsModule.Appearance.subtitle.unspecified" = "Такая же, как на устройстве";
+
+// MARK: - AboutApp Module
+"AboutAppModule.title" = "О приложении";
+"AboutAppModule.disclaimer" = "Весь материал в приложении представлен исключительно для домашнего ознакомительного просмотра.";
+"AboutAppModule.version" = "Версия";
+"AboutAppModule.github" = "GitHub";
+
+// MARK: - AnimeModule
+"AnimeModule.AnimeView.watchButton" = "Смотреть";
+"AnimeModule.AnimeView.favoriteButton" = "Избранное";
+"AnimeModule.AnimeView.shareButton" = "Поделиться";
+
+"AnimeModule.AnimeEpisodesView.episodesTitle" = "Серии";
+"AnimeModule.AnimeEpisodesView.allButton" = "Все";
+
+"AnimeModule.error.addFavorite" = "Ошибка добавления в избранное";
+"AnimeModule.error.delFavorite" = "Ошибка удаления избранного";

@@ -65,9 +65,8 @@ final class UserInfoView: UIView {
 
 private extension UserInfoView {
     func setupView() {
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .secondarySystemGroupedBackground
         layer.cornerRadius = Constants.cornerRadius
-        layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }
     
     func setupLayout() {
@@ -76,18 +75,20 @@ private extension UserInfoView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        preservesSuperviewLayoutMargins = true
+        
         NSLayoutConstraint.activate([
-            logoutButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            logoutButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            logoutButton.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            logoutButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             
-            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            imageView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 20),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
             imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.25),
             
             userNameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            userNameLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            userNameLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+            userNameLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            userNameLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
         ])
     }
 }

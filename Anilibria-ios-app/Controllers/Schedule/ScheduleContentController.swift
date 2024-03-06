@@ -7,32 +7,66 @@
 
 import UIKit
 import SkeletonView
+import OSLog
 
 protocol ScheduleContentControllerDelegate: AnyObject {
-    func hideSkeletonCollectionView()
-    func reloadData()
     func didSelectItem(_ rawData: TitleAPIModel, image: UIImage?)
 }
 
+@MainActor
 final class ScheduleContentController: NSObject {
     weak var delegate: ScheduleContentControllerDelegate?
     
-    private lazy var model: ScheduleModel = {
-        let model = ScheduleModel()
-        model.imageModelDelegate = self
-        model.scheduleModelOutput = self
-        return model
-    }()
+    // MARK: Transition properties
+    private (set) var selectedCell: PosterCollectionViewCell?
+    private (set) var selectedCellImageViewSnapshot: UIView?
     
+    private lazy var model = ScheduleModel()
+    
+    private let customView: ScheduleView
     private var data: [ScheduleItem] = []
     
-    init(delegate: ScheduleContentControllerDelegate? = nil) {
+    init(customView: ScheduleView, delegate: ScheduleContentControllerDelegate?) {
+        self.customView = customView
         self.delegate = delegate
         super.init()
+        
+        setupCollectionView()
+        requestData()
+    }
+    
+    func setupCollectionView() {
+        customView.collectionView.delegate = self
+        customView.collectionView.dataSource = self
+        customView.collectionView.prefetchDataSource = self
     }
     
     func requestData() {
-        model.requestData()
+        customView.collectionView.showAnimatedSkeleton()
+        Task {
+            do {
+                data = try await model.requestData()
+                customView.collectionView.hideSkeleton(reloadDataAfter: false)
+                customView.collectionView.reloadData()
+            } catch {
+                let logger = Logger(subsystem: .schedule, category: .data)
+                logger.error("\(Logger.logInfo()) \(error)")
+            }
+        }
+    }
+}
+
+// MARK: - Private methods
+
+private extension ScheduleContentController {
+    func cancelRequestImage(indexPath: IndexPath) {
+        let row = indexPath.row
+        let section = indexPath.section
+        guard let item = data[safe: section]?.animePosterItems[safe: row],
+                item.image == nil else {
+            return
+        }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
     }
 }
 
@@ -44,7 +78,13 @@ extension ScheduleContentController: UICollectionViewDelegate {
             return
         }
         let image = data[indexPath.section].animePosterItems[indexPath.row].image
+        selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
+        selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(rawData, image: image)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
     }
 }
 
@@ -70,16 +110,22 @@ extension ScheduleContentController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier, for: indexPath) as? HomePosterCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.reuseIdentifier, for: indexPath) as? PosterCollectionViewCell else {
             fatalError("Can`t create new cell")
         }
         let section = indexPath.section
         let row = indexPath.row
         let item = data[section].animePosterItems[row]
         if item.image == nil {
-            model.requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[section].animePosterItems[row].image = image
-                cell.setImage(image, urlString: item.imageUrlString)
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let image = try await self.model.requestImage(fromUrlString: item.imageUrlString)
+                    self.data[section].animePosterItems[row].image = image
+                    cell.setImage(image, urlString: item.imageUrlString)
+                } catch {
+                    cell.stopSkeletonAnimation()
+                }
             }
         }
         cell.configureCell(item: item)
@@ -95,7 +141,7 @@ extension ScheduleContentController: SkeletonCollectionViewDataSource {
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return HomePosterCollectionViewCell.reuseIdentifier
+        return PosterCollectionViewCell.reuseIdentifier
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -110,37 +156,21 @@ extension ScheduleContentController: UICollectionViewDataSourcePrefetching {
         indexPaths.forEach { indexPath in
             let section = indexPath.section
             let row = indexPath.row
-            let item = data[section].animePosterItems[row]
-            guard item.image == nil else {
+            guard let item = data[safe: section]?.animePosterItems[safe: row], 
+                    item.image == nil else {
                 return
             }
-            model.requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[section].animePosterItems[row].image = image
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                self.data[section].animePosterItems[row].image = image
             }
-        }
-    }
-}
-
-// MARK: - ScheduleModelOutput
-
-extension ScheduleContentController: ScheduleModelOutput {
-    func update(data: [ScheduleItem]) {
-        self.data = data
-        DispatchQueue.main.async {
-            self.delegate?.hideSkeletonCollectionView()
-            self.delegate?.reloadData()
         }
     }
     
-    func failedRequestData(error: Error) {
-        print(#function, error)
-    }
-}
-
-// MARK: - AnimePosterModelOutput
-
-extension ScheduleContentController: ImageModelDelegate {
-    func failedRequestImage(error: Error) {
-        print(#function, error)
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
+        }
     }
 }

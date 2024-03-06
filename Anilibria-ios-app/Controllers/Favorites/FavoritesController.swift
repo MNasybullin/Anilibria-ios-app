@@ -24,6 +24,7 @@ final class FavoritesController: UIViewController, FavoritesFlow, HasCustomView 
         super.viewDidLoad()
         
         contentController = FavoritesContentController(customView: customView, delegate: self)
+        configureActionButtons()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,6 +49,16 @@ private extension FavoritesController {
             }
             .store(in: &subscriptions)
     }
+    
+    func configureActionButtons() {
+        customView.setActionForNoUserView(action: UIAction(handler: { _ in
+            MainNavigator.shared.rootViewController.selectTabBarItem(.profile)
+        }), for: .touchUpInside)
+        
+        customView.setActionForErrorView(action: UIAction(handler: { [weak self] _ in
+            self?.contentController.loadData()
+        }), for: .touchUpInside)
+    }
 }
 
 // MARK: - FavoritesContentControllerDelegate
@@ -55,5 +66,17 @@ private extension FavoritesController {
 extension FavoritesController: FavoritesContentControllerDelegate {
     func didSelectItem(data: TitleAPIModel, image: UIImage?) {
         navigator?.show(.anime(data: data, image: image))
+    }
+}
+
+// MARK: - HasPosterCellAnimatedTransitioning
+
+extension FavoritesController: HasPosterCellAnimatedTransitioning {
+    var selectedCell: PosterCollectionViewCell? {
+        contentController.selectedCell
+    }
+    
+    var selectedCellImageViewSnapshot: UIView? {
+        contentController.selectedCellImageViewSnapshot
     }
 }

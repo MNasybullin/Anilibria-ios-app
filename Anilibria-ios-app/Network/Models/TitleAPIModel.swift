@@ -8,12 +8,13 @@
 import Foundation
 
 /// Возвращается в запросах:
-/// getTitle, getTitles, getUpdates, getChanges, getRandomTitle, getFavorites
+/// title, title/list, title/random
 /// - Prefix `GT` = GetTitle
 struct TitleAPIModel: Decodable {
     let id: Int
     let code: String
     let names: GTNames
+    let franchises: [FranchisesAPIModel]
     let announce: String?
     let status: GTStatus?
     let posters: GTPosters
@@ -54,7 +55,7 @@ struct GTType: Decodable {
     let fullString: String?
     let code: Int?
     let string: String?
-    let series: Int?
+    let episodes: Int?
     let length: Int?
 }
 
@@ -81,18 +82,45 @@ struct GTBlocked: Decodable {
 struct GTPlayer: Decodable {
     let alternativePlayer: String?
     let host: String?
-    let series: GTSeries?
-    let playlist: [GTPlaylist]?
+    let episodes: GTEpisodesResponse
+    let list: [GTPlaylist]?
 }
 
-struct GTSeries: Decodable {
+// Так как иногда с сервера может прийти массив, вместо объекта :/
+enum GTEpisodesResponse: Decodable {
+    case singleEpisode(GTEpisodes?)
+    case episodeArray([GTEpisodes])
+    
+    var data: GTEpisodes? {
+        switch self {
+            case .singleEpisode(let data):
+                return data
+            case .episodeArray(let data):
+                return data.first
+        }
+    }
+
+    init(from decoder: Decoder) throws {
+        if let singleEpisode = try? GTEpisodes(from: decoder) {
+            self = .singleEpisode(singleEpisode)
+        } else if let episodeArray = try? [GTEpisodes](from: decoder) {
+            self = .episodeArray(episodeArray)
+        } else {
+            throw DecodingError.typeMismatch(GTEpisodesResponse.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Failed to decode GTEpisodesResponse"))
+        }
+    }
+}
+
+struct GTEpisodes: Decodable {
     let first: Double?
     let last: Double?
     let string: String?
 }
 
 struct GTPlaylist: Decodable {
-    let serie: Double?
+    let episode: Float?
+    let name: String?
+    let uuid: String?
     let createdTimestamp: Int?
     let preview: String?
     let skips: GTSkips

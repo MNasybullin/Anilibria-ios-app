@@ -8,19 +8,40 @@
 import UIKit
 
 struct UserItem {
-    let id: Int
-    let name: String
-    let image: UIImage?
+    let login: String
+    let nickname: String?
+    let email: String
+    let vkId: String?
+    let patreonId: String?
+    var image: UIImage?
     let imageUrl: String
 }
 
 extension UserItem {
     init(userEntity model: UserEntity) {
-        self.init(
-            id: Int(model.id),
-            name: model.name,
-            image: model.image,
-            imageUrl: model.imageUrl
+        self.init(login: model.login,
+                  nickname: model.nickname,
+                  email: model.email,
+                  vkId: model.vkId,
+                  patreonId: model.patreonId,
+                  image: model.image,
+                  imageUrl: NetworkConstants.mirrorBaseImagesURL + model.imageUrl
+        )
+    }
+    
+    init(userApiModel model: UserAPIModel) {
+        var imageUrl: String
+        if model.avatar != nil {
+            imageUrl = NetworkConstants.mirrorBaseImagesURL + model.avatarOriginal
+        } else {
+            imageUrl = NetworkConstants.mirrorBaseImagesURL + NetworkConstants.noAvatarSuffix
+        }
+        self.init(login: model.login,
+                  nickname: model.nickname,
+                  email: model.email,
+                  vkId: model.vkId,
+                  patreonId: model.patreonId,
+                  imageUrl: imageUrl
         )
     }
 }

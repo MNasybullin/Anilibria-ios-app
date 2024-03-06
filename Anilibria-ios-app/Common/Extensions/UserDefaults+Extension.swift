@@ -5,11 +5,16 @@
 //  Created by Mansur Nasybullin on 15.10.2023.
 //
 
-import Foundation
+import UIKit
 
 enum UserDefaultsKeys: String {
     case isUserAuthorized
-    case userId
+    case userLogin
+    
+    case appearance
+    
+    // VideoPlayer
+    case ambientMode
 }
 
 extension UserDefaults {
@@ -18,19 +23,38 @@ extension UserDefaults {
             bool(forKey: UserDefaultsKeys.isUserAuthorized.rawValue)
         }
         set {
-            set(newValue, 
-                forKey: UserDefaultsKeys.isUserAuthorized.rawValue)
+            set(newValue, forKey: UserDefaultsKeys.isUserAuthorized.rawValue)
         }
     }
     
-    var userId: Int? {
+    var userLogin: String? {
         get {
-            let value = integer(forKey: UserDefaultsKeys.userId.rawValue)
-            return value != 0 ? value : nil
+            string(forKey: UserDefaultsKeys.userLogin.rawValue)
         }
         set {
-            set(newValue ?? 0,
-                forKey: UserDefaultsKeys.userId.rawValue)
+            set(newValue, forKey: UserDefaultsKeys.userLogin.rawValue)
+        }
+    }
+    
+    var appearance: UIUserInterfaceStyle {
+        get {
+            UIUserInterfaceStyle(rawValue: integer(forKey: UserDefaultsKeys.appearance.rawValue)) ?? .unspecified
+        }
+        set {
+            set(newValue.rawValue, forKey: UserDefaultsKeys.appearance.rawValue)
+        }
+    }
+}
+
+// MARK: - VideoPlayer
+
+extension UserDefaults {
+    var ambientMode: Bool {
+        get {
+            bool(forKey: UserDefaultsKeys.ambientMode.rawValue)
+        }
+        set {
+            set(newValue, forKey: UserDefaultsKeys.ambientMode.rawValue)
         }
     }
 }

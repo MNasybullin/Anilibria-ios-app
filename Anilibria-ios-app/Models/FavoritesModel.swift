@@ -22,12 +22,12 @@ final class FavoritesModel: ImageModel {
 // MARK: - Internal methods
 extension FavoritesModel {
     func addFavorite(title: TitleAPIModel) async throws {
-        try await authorizationService.addFavorite(from: title.id)
+        try await authorizationService.putUserFavorites(from: title.id)
         titles?.append(title)
     }
     
     func delFavorite(title: TitleAPIModel) async throws {
-        try await authorizationService.delFavorite(from: title.id)
+        try await authorizationService.delUserFavorite(from: title.id)
         titles?.removeAll { $0.id == title.id }
     }
     
@@ -35,10 +35,10 @@ extension FavoritesModel {
         if let titles, forceUpdate == false, expiredDateManager.isExpired() == false {
             return titles
         }
-        let favorites = try await authorizationService.getFavorites()
-        titles = favorites
+        let favoritesList = try await authorizationService.getUserFavorites()
+        titles = favoritesList.list
         expiredDateManager.start()
-        return favorites
+        return favoritesList.list
     }
     
     func isFavorite(title: TitleAPIModel) async throws -> Bool {

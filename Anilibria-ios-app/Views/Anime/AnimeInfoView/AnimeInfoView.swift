@@ -70,8 +70,8 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    private (set) lazy var animeSeriesView = AnimeSeriesView()
     private lazy var animeTeamInfoView = AnimeTeamInfoView()
+    private (set) lazy var animeEpisodesView = AnimeEpisodesView()
     
     init() {
         super.init(frame: .zero)
@@ -79,7 +79,7 @@ final class AnimeInfoView: UIView {
         
         [ruNameLabel, engNameAndSeasonAndTypeVStack, watchAndDownloadButtonsView,
          genresLabel, favoriteAndShareButtonsView, descriptionLabel, animeTeamInfoView,
-         animeSeriesView]
+         animeEpisodesView]
             .forEach { contentVStack.addArrangedSubview($0) }
         
         [engNameLabel, seasonAndTypeLabel].forEach {
@@ -111,7 +111,7 @@ final class AnimeInfoView: UIView {
         descriptionLabel.text = item.description
         animeTeamInfoView.configureView(withData: item.team)
         
-        let subtitleText = (item.series?.string ?? "") + " " + "серий"
-        animeSeriesView.setSubtitle(text: subtitleText)
+        let subtitleText = (item.episodes?.string ?? "0") + " " + "серий"
+        animeEpisodesView.setSubtitle(text: subtitleText)
     }
 }

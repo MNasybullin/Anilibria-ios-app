@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol FavoritesContentControllerDelegate: AnyObject {
     func didSelectItem(data: TitleAPIModel, image: UIImage?)
@@ -16,6 +17,10 @@ final class FavoritesContentController: NSObject {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, HomePosterItem>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, HomePosterItem>
     
+    // MARK: Transition properties
+    private (set) var selectedCell: PosterCollectionViewCell?
+    private (set) var selectedCellImageViewSnapshot: UIView?
+    
     enum Section: Int {
         case main
     }
@@ -23,11 +28,17 @@ final class FavoritesContentController: NSObject {
     enum Status {
         case normal
         case loading
-        case error(message: String)
+        case favoritesIsEmpty
+        case userIsNotAuthorized
+        case error(Error)
                 
         static func == (lhs: Status, rhs: Status) -> Bool {
             switch (lhs, rhs) {
-                case (.normal, .normal), (.loading, .loading), (.error, .error):
+                case (.normal, .normal), 
+                    (.loading, .loading),
+                    (.favoritesIsEmpty, .favoritesIsEmpty),
+                    (.userIsNotAuthorized, .userIsNotAuthorized),
+                    (.error, .error):
                     return true
                 default:
                     return false
@@ -40,14 +51,18 @@ final class FavoritesContentController: NSObject {
     }
     
     weak var delegate: FavoritesContentControllerDelegate?
-    weak var customView: FavoritesView!
+    let customView: FavoritesView
     
     private lazy var dataSource = makeDataSource()
     private let model = FavoritesModel.shared
     
     private var data: [HomePosterItem] = []
+    
     private var status: Status = .normal {
         didSet {
+            if status != .normal && status != .loading {
+                customView.showCollectionViewSkeleton()
+            }
             customView.updateView(withStatus: status)
         }
     }
@@ -73,13 +88,19 @@ private extension FavoritesContentController {
             collectionView: customView.collectionView,
             cellProvider: { [weak self] (collectionView, indexPath, _) -> UICollectionViewCell? in
                 let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier,
-                    for: indexPath) as? HomePosterCollectionViewCell
+                    withReuseIdentifier: PosterCollectionViewCell.reuseIdentifier,
+                    for: indexPath) as? PosterCollectionViewCell
                 guard let item = self?.data[indexPath.row] else { return cell }
                 if item.image == nil {
-                    self?.model.requestImage(from: item.imageUrlString) { image in
-                        self?.data[indexPath.row].image = image
-                        cell?.setImage(image, urlString: item.imageUrlString)
+                    Task { [weak self] in
+                        guard let self else { return }
+                        do {
+                            let image = try await self.model.requestImage(fromUrlString: item.imageUrlString)
+                            self.data[indexPath.row].image = image
+                            cell?.setImage(image, urlString: item.imageUrlString)
+                        } catch {
+                            cell?.imageViewStopSkeletonAnimation()
+                        }
                     }
                 }
                 cell?.configureCell(item: item)
@@ -92,12 +113,25 @@ private extension FavoritesContentController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(data)
+                
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         
         // for skeletonView. (Иначе пропадает skeleton на image)
         let noImageData = data.filter { $0.image == nil }
-        snapshot.reconfigureItems(noImageData)
-        
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        if !noImageData.isEmpty {
+            var noImageSnapshot = self.dataSource.snapshot()
+            noImageSnapshot.reconfigureItems(noImageData)
+            self.dataSource.apply(noImageSnapshot)
+        }
+    }
+    
+    func cancelRequestImage(indexPath: IndexPath) {
+        let row = indexPath.row
+        guard let item = data[safe: row], 
+                item.image == nil else {
+            return
+        }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
     }
 }
 
@@ -106,10 +140,10 @@ private extension FavoritesContentController {
 extension FavoritesContentController {
     func loadData() {
         guard status != .loading else { return }
-        if data.isEmpty {
-            customView.collectionView.showAnimatedSkeleton()
-        }
         status = .loading
+        if data.isEmpty {
+            customView.showCollectionViewSkeleton()
+        }
         Task(priority: .userInitiated) {
             do {
                 let models = try await self.model.getFavorites(withForceUpdate: true)
@@ -123,13 +157,13 @@ extension FavoritesContentController {
                 }
                 data = newData.reversed()
                 
-                if customView.collectionView.sk.isSkeletonActive {
-                    customView.collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
-                }
+                customView.hideCollectionViewSkeleton()
                 applySnapshot()
-                status = .normal
+                status = data.isEmpty ? .favoritesIsEmpty : .normal
+            } catch let error as MyInternalError {
+                status = error == .userIsNotFoundInUserDefaults ? .userIsNotAuthorized : .error(error)
             } catch {
-                status = .error(message: error.localizedDescription)
+                status = .error(error)
             }
         }
     }
@@ -141,10 +175,17 @@ extension FavoritesContentController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = data[indexPath.row]
         guard let data = model.getTitleModel(fromName: item.name) else {
-            print("not found data in model")
+            let logger = Logger(subsystem: .favorites, category: .data)
+            logger.error("\(Logger.logInfo()) not found data in model")
             return
         }
+        selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
+        selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(data: data, image: item.image)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
     }
 }
 
@@ -153,14 +194,22 @@ extension FavoritesContentController: UICollectionViewDelegate {
 extension FavoritesContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            guard let item = dataSource.itemIdentifier(for: indexPath) else {
+            let row = indexPath.row
+            guard let item = data[safe: row], 
+                    item.image == nil else {
                 return
             }
-            if item.image == nil {
-                model.requestImage(from: item.imageUrlString) { [weak self] image in
-                    self?.data[indexPath.row].image = image
-                }
+            Task { [weak self] in
+                guard let self else { return }
+                let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
+                self.data[row].image = image
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
     }
 }

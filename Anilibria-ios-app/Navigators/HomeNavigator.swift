@@ -12,14 +12,16 @@ protocol HomeFlow: AnyObject {
     var navigator: HomeNavigator? { get set }
 }
 
-final class HomeNavigator {
+final class HomeNavigator: NSObject {
     private let navigationController: UINavigationController
     private var subNavigators: [BasicNavigator] = []
     
-    init() {
+    override init() {
         let rootViewController = HomeController()
         
         navigationController = HomeNavigator.createNavigationController(for: rootViewController)
+        super.init()
+        navigationController.delegate = self
         
         rootViewController.navigator = self
     }
@@ -61,33 +63,47 @@ extension HomeNavigator: Navigator {
         case schedule
         case anime(data: TitleAPIModel, image: UIImage?)
         case youTube(data: [HomePosterItem], rawData: [YouTubeAPIModel])
+        case videoPlayer(animeId: Int, numberOfEpisode: Float)
     }
     
     func show(_ destination: Destinition) {
-        let viewController = makeViewController(destination)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-    
-    private func makeViewController(_ destination: Destinition) -> UIViewController {
-        let viewController: UIViewController
         switch destination {
             case .schedule:
                 let scheduleController = ScheduleController()
                 scheduleController.title = Strings.ScreenTitles.schedule
                 scheduleController.navigator = self
-                viewController = scheduleController
+                navigationController.pushViewController(scheduleController, animated: true)
             case .anime(let rawData, let image):
-                let animeController = AnimeController(rawData: rawData, image: image)
+                let animeController = AnimeController(rawData: rawData, image: image, hasInteractiveTransitionController: true)
                 let animeNavigator = AnimeNavigator(navigationController: navigationController)
                 subNavigators.append(animeNavigator)
                 animeController.navigator = animeNavigator
-                viewController = animeController
+                navigationController.pushViewController(animeController, animated: true)
             case .youTube(let data, let rawData):
                 let youTubeController = YouTubeController(data: data, rawData: rawData)
                 youTubeController.title = Strings.ScreenTitles.youTube
                 youTubeController.navigator = self
-                viewController = youTubeController
+                navigationController.pushViewController(youTubeController, animated: true)
+            case .videoPlayer(let animeId, let numberOfEpisode):
+                let playerNavigator = VideoPlayerNavigator.shared
+                playerNavigator.show(.playerNoData(animeId: animeId, numberOfEpisode: numberOfEpisode, presentatingController: navigationController))
         }
-        return viewController
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+
+extension HomeNavigator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        AnimeAnimator(type: operation, from: fromVC, to: toVC)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard let animeAnimator = animationController as? AnimeAnimator,
+              let interactiveTransitionController = animeAnimator.interactionController,
+              interactiveTransitionController.interactionInProgress else {
+            return nil
+        }
+        return interactiveTransitionController
     }
 }

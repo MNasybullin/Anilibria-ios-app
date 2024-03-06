@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AVFoundation
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,21 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        setupAudioSession()
-        
-        NetworkMonitor.shared.startMonitoring()
+        // Starting network monitor
+        _ = NetworkMonitor.shared
         
         return true
-    }
-    
-    func setupAudioSession() {
-        do {
-            let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.playback, mode: .moviePlayback)
-            try audioSession.setActive(true)
-        } catch {
-            print("Setting category to AVAudioSessionCategoryPlayback failed.")
-        }
     }
 
     // MARK: UISceneSession Lifecycle

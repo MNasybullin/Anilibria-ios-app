@@ -32,7 +32,12 @@ final class ProfileNavigator {
                                                 tag: TabBarItemTags.profile.rawValue)
         rootViewController.navigationItem.title = title
         let navigationController = UINavigationController(rootViewController: rootViewController)
+        
+        // Configure navigationBar
+        navigationController.navigationBar.standardAppearance.configureWithOpaqueBackground()
+        navigationController.navigationBar.standardAppearance.shadowColor = .clear
         navigationController.navigationBar.tintColor = .systemRed
+        
         return navigationController
     }
 }
@@ -49,18 +54,28 @@ extension ProfileNavigator: BasicNavigator {
 
 extension ProfileNavigator: Navigator {
     enum Destinition {
+        case team(rawData: TeamAPIModel)
+        case settings
+        case aboutApp
     }
     
     func show(_ destination: Destinition) {
-//        let viewController: UIViewController
-//        switch destination {
-//            case .profile:
-//                viewController = ProfileViewController()
-//        }
-//        navigationController.pushViewController(viewController, animated: true)
-//
-//        if let navProtocol = viewController as? ProfileFlow {
-//            navProtocol.navigator = self
-//        }
+        let viewController: UIViewController
+        switch destination {
+            case .team(let rawData):
+                viewController = TeamController(rawData: rawData)
+                viewController.title = Strings.TeamModule.title
+            case .settings:
+                viewController = SettingsController()
+                viewController.title = Strings.SettingsModule.title
+            case .aboutApp:
+                viewController = AboutAppController()
+                viewController.title = Strings.AboutAppModule.title
+        }
+        navigationController.pushViewController(viewController, animated: true)
+
+        if let navProtocol = viewController as? ProfileFlow {
+            navProtocol.navigator = self
+        }
     }
 }

@@ -45,7 +45,7 @@ final class ImageLoaderService: NetworkQuery {
         
         let (data, response) = try await session.data(for: urlRequest)
         guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 /* OK */ else {
+              httpResponse.statusCode == 200 else {
             throw errorHandling(for: response)
         }
         return data

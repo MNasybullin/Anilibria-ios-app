@@ -34,7 +34,12 @@ extension VideoPlayerNavigator: Navigator {
             currentPlaylist: Int,
             presentatingController: UIViewController
         )
-        case series(
+        case playerNoData(
+            animeId: Int,
+            numberOfEpisode: Float,
+            presentatingController: UIViewController
+        )
+        case episodes(
             data: AnimeItem,
             currentPlaylistNumber: Int,
             completionBlock: (Int) -> Void,
@@ -57,8 +62,14 @@ extension VideoPlayerNavigator: Navigator {
                     currentPlaylist: currentPlaylist,
                     presentatingController: presentatingController
                 )
-            case .series(let data, let currentPlaylistNumber, let completionBlock, let presentatingController):
-                setupAndShowSeries(
+            case .playerNoData(let animeId, let numberOfEpisode, let presentatingController):
+                setupAndShowPlayerNoData(
+                    animeId: animeId,
+                    numberOfEpisode: numberOfEpisode,
+                    presentatingController: presentatingController
+                )
+            case .episodes(let data, let currentPlaylistNumber, let completionBlock, let presentatingController):
+                setupAndShowEpisodes(
                     data: data,
                     currentPlaylistNumber: currentPlaylistNumber,
                     completionBlock: completionBlock,
@@ -74,6 +85,14 @@ extension VideoPlayerNavigator: Navigator {
 
 private extension VideoPlayerNavigator {
     func setupAndShowPlayer(item: AnimeItem, currentPlaylist: Int, presentatingController: UIViewController) {
+        guard item.blocked == false else {
+            NotificationBannerView(data: .init(
+                title: Strings.VideoPlayer.playbackIsNotPossible,
+                detail: Strings.VideoPlayer.animeIsBlocked,
+                type: .error))
+                .show()
+            return
+        }
         dissmisPlayerController()
         let player = VideoPlayerController(
             animeItem: item,
@@ -85,13 +104,25 @@ private extension VideoPlayerNavigator {
         presentatingController.present(player, animated: true)
     }
     
-    func setupAndShowSeries(data: AnimeItem, currentPlaylistNumber: Int, completionBlock: @escaping (Int) -> Void, presentatingController: UIViewController) {
-        let series = VideoPlayerSeriesController(
+    func setupAndShowPlayerNoData(animeId: Int, numberOfEpisode: Float, presentatingController: UIViewController) {
+        dissmisPlayerController()
+        let player = VideoPlayerController(
+            animeId: animeId,
+            numberOfEpisode: numberOfEpisode
+        )
+        player.navigator = self
+        player.modalPresentationStyle = .fullScreen
+        player.modalPresentationCapturesStatusBarAppearance = true
+        presentatingController.present(player, animated: true)
+    }
+    
+    func setupAndShowEpisodes(data: AnimeItem, currentPlaylistNumber: Int, completionBlock: @escaping (Int) -> Void, presentatingController: UIViewController) {
+        let episodes = VideoPlayerEpisodesController(
             data: data,
             currentPlaylistNumber: currentPlaylistNumber,
             completionBlock: completionBlock
         )
-        let navigationController = UINavigationController(rootViewController: series)
+        let navigationController = UINavigationController(rootViewController: episodes)
         navigationController.navigationBar.standardAppearance.configureWithOpaqueBackground()
         if let sheetController = navigationController.sheetPresentationController {
             sheetController.detents = [.large()]

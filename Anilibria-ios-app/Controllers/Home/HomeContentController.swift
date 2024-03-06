@@ -7,61 +7,385 @@
 
 import UIKit
 import SkeletonView
+import OSLog
 
 protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
     func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel])
-    func refreshControlEndRefreshing()
-    func showSkeletonCollectionView()
-    func hideSkeletonCollectionView()
-    func reloadSection(numberOfSection: Int)
-    func didSelectItem(_ rawData: Any, image: UIImage?, section: HomeView.Section)
+    func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?)
+    func didSelectWatchingItem(animeId: Int, numberOfEpisode: Float)
+    func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?)
+    func didSelectYoutubeItem(_ rawData: YouTubeAPIModel?)
 }
 
+@MainActor
 final class HomeContentController: NSObject {
-    typealias Section = HomeView.Section
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+    typealias SectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>
+    
+    enum Section: Int, CaseIterable {
+        case today
+        case watching
+        case updates
+        case youtube
+    }
+    
+    enum Item: Hashable {
+        case today(HomePosterItem, Section)
+        case watching(HomeWatchingItem, Section)
+        case updates(HomePosterItem, Section)
+        case youtube(HomePosterItem, Section)
+        
+        var section: Section {
+            switch self {
+                case .today(_, let section):
+                    return section
+                case .watching(_, let section):
+                    return section
+                case .updates(_, let section):
+                    return section
+                case .youtube(_, let section):
+                    return section
+            }
+        }
+    }
+    
+    // MARK: Transition properties
+    private (set) var selectedCell: PosterCollectionViewCell?
+    private (set) var selectedCellImageViewSnapshot: UIView?
     
     weak var delegate: HomeContentControllerDelegate?
     
-    private var data: [[HomePosterItem]] = .init(repeating: [], count: Section.allCases.count)
-    private lazy var models: [HomeModelInput] = {
-        let todayModel = HomeTodayModel()
-        todayModel.imageModelDelegate = self
-        todayModel.homeModelOutput = self
-        
-        let updatesModel = HomeUpdatesModel()
-        updatesModel.imageModelDelegate = self
-        updatesModel.homeModelOutput = self
-        
-        let youTubeModel = HomeYouTubeModel()
-        youTubeModel.imageModelDelegate = self
-        youTubeModel.homeModelOutput = self
-        
-        return [todayModel, updatesModel, youTubeModel]
-    }()
+    private lazy var dataSource = makeDataSource()
     
-    private var isSkeletonView: Bool
+    private let todayModel = HomeTodayModel()
+    private let watchingModel = HomeWatchingModel()
+    private let updatesModel = HomeUpdatesModel()
+    private let youtubeModel = HomeYouTubeModel()
     
-    init(delegate: HomeContentControllerDelegate?) {
+    private var todayData: [HomePosterItem] = []
+    private var watchingData: [HomeWatchingItem] = []
+    private var updatesData: [HomePosterItem] = []
+    private var youtubeData: [HomePosterItem] = []
+    
+    private var isSkeletonView = true
+    private var isLoadingData = false
+    let customView: HomeView
+    
+    init(customView: HomeView, delegate: HomeContentControllerDelegate?) {
+        self.customView = customView
         self.delegate = delegate
-        isSkeletonView = true
         super.init()
-    }
-    
-    func requestInitialData() {
-        isSkeletonView = true
-        delegate?.showSkeletonCollectionView()
-        models.forEach {
-            $0.requestData()
-        }
+        
+        setupCollectionView()
+        setupModels()
+        applyInitialSnapshot()
+        customView.showSkeletonCollectionView()
+        requestData()
     }
     
     func requestRefreshData() {
-        guard models[Section.today.rawValue].isDataTaskLoading == false && models[Section.updates.rawValue].isDataTaskLoading == false else {
-            delegate?.refreshControlEndRefreshing()
+        guard isLoadingData == false else {
+            customView.refreshControlEndRefreshing()
             return
         }
-        models.forEach { $0.requestData() }
+        requestData()
+    }
+    
+    func requestRefreshWatchingData() {
+        guard isLoadingData == false &&
+                customView.collectionView.sk.isSkeletonActive == false else {
+            return
+        }
+        do {
+            watchingData = try watchingModel.requestData()
+            applyWatchingSnapshot()
+        } catch {
+            let logger = Logger(subsystem: .home, category: .data)
+            logger.error("\(Logger.logInfo()) \(error)")
+        }
+    }
+}
+
+// MARK: - Private methods
+private extension HomeContentController {
+    func setupCollectionView() {
+        customView.collectionView.delegate = self
+        customView.collectionView.prefetchDataSource = self
+        customView.homeCollectionViewLayout.dataSource = dataSource
+    }
+    
+    func setupModels() {
+        youtubeModel.downsampleSize = .init(width: 396, height: 222)
+    }
+    
+    func applyInitialSnapshot() {
+        let snapshot = Snapshot()
+        dataSource.apply(snapshot)
+    }
+    
+    func todayCellRegistration() -> UICollectionView.CellRegistration<TodayHomePosterCollectionCell, Item> {
+        UICollectionView.CellRegistration<TodayHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
+            guard let item = self?.todayData[indexPath.row] else {
+                return
+            }
+            
+            if item.image == nil {
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.todayModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.todayData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
+                }
+            }
+            cell.configureCell(item: item)
+        }
+    }
+    
+    func watchingCellRegistration() -> UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> {
+        UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> { cell, _, item in
+            guard case .watching(let data, _) = item else {
+                return
+            }
+            cell.configureCell(item: data)
+        }
+    }
+    
+    func updatesCellRegistration() -> UICollectionView.CellRegistration<UpdatesHomePosterCollectionCell, Item> {
+        UICollectionView.CellRegistration<UpdatesHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
+            guard let item = self?.updatesData[indexPath.row] else {
+                return
+            }
+            
+            if item.image == nil {
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.updatesModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.updatesData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
+                }
+            }
+            cell.configureCell(item: item)
+        }
+    }
+    
+    func youtubeCellRegistration() -> UICollectionView.CellRegistration<YouTubeHomePosterCollectionCell, Item> {
+        UICollectionView.CellRegistration<YouTubeHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
+            guard let item = self?.youtubeData[indexPath.row] else {
+                return
+            }
+            
+            if item.image == nil {
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.youtubeModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.youtubeData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
+                }
+            }
+            cell.configureCell(item: item)
+        }
+    }
+    
+    func makeDataSource() -> DataSource {
+        let todayCellRegistration = todayCellRegistration()
+        let watchingCellRegistration = watchingCellRegistration()
+        let updatesCellRegistration = updatesCellRegistration()
+        let youtubeCellRegistration = youtubeCellRegistration()
+        
+        let dataSource = HomeDiffableDataSource(
+            collectionView: customView.collectionView,
+            cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+                let section = itemIdentifier.section
+                
+                switch section {
+                    case .today:
+                        return collectionView.dequeueConfiguredReusableCell(using: todayCellRegistration, for: indexPath, item: itemIdentifier)
+                    case .watching:
+                        return collectionView.dequeueConfiguredReusableCell(using: watchingCellRegistration, for: indexPath, item: itemIdentifier)
+                    case .updates:
+                        return collectionView.dequeueConfiguredReusableCell(using: updatesCellRegistration, for: indexPath, item: itemIdentifier)
+                    case .youtube:
+                        return collectionView.dequeueConfiguredReusableCell(using: youtubeCellRegistration, for: indexPath, item: itemIdentifier)
+                }
+            })
+        
+        makeSupplementaryViewProvider(dataSource: dataSource)
+        return dataSource
+    }
+    
+    func makeSupplementaryViewProvider(dataSource: DataSource) {
+        dataSource.supplementaryViewProvider = { [weak self, weak dataSource] collectionView, kind, indexPath in
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier, for: indexPath) as? HomeHeaderSupplementaryView else {
+                fatalError("Can`t create header view")
+            }
+            
+            guard let section = dataSource?.sectionIdentifier(for: indexPath.section) else {
+                fatalError("Section is not found in HomeContentController")
+            }
+            switch section {
+                case .today:
+                    headerView.configureView(
+                        titleLabelText: Strings.HomeModule.Title.today,
+                        titleButtonText: Strings.HomeModule.ButtonTitle.allDays) { [weak self] in
+                            self?.delegate?.todayHeaderButtonTapped()
+                        }
+                case .watching:
+                    headerView.configureView(titleLabelText: Strings.HomeModule.Title.watching)
+                case .updates:
+                    headerView.configureView(titleLabelText: Strings.HomeModule.Title.updates)
+                case .youtube:
+                    headerView.configureView(
+                        titleLabelText: Strings.HomeModule.Title.youTube,
+                        titleButtonText: Strings.HomeModule.ButtonTitle.all) { [weak self] in
+                            guard let self else { return }
+                            let rawData = youtubeModel.getRawData()
+                            self.delegate?.youTubeHeaderButtonTapped(data: youtubeData, rawData: rawData)
+                        }
+            }
+            return headerView
+        }
+    }
+    
+    func applySnapshot(animatingDifferences: Bool = true) {
+        var snapshot = Snapshot()
+        
+        let watchingArray = watchingData.map {
+            Item.watching($0, .watching)
+        }
+        
+        var noImageData = [Item]()
+        var todayArray = [Item]()
+        todayData.forEach {
+            let item = Item.today($0, .today)
+            todayArray.append(item)
+            if $0.image == nil {
+                noImageData.append(item)
+            }
+        }
+        var updatesArray = [Item]()
+        updatesData.forEach {
+            let item = Item.updates($0, .updates)
+            updatesArray.append(item)
+            if $0.image == nil {
+                noImageData.append(item)
+            }
+        }
+        var youtubeArray = [Item]()
+        youtubeData.forEach {
+            let item = Item.youtube($0, .youtube)
+            youtubeArray.append(item)
+            if $0.image == nil {
+                noImageData.append(item)
+            }
+        }
+        snapshot.appendSections(Section.allCases)
+        snapshot.appendItems(todayArray, toSection: .today)
+        if !watchingArray.isEmpty {
+            snapshot.appendItems(watchingArray, toSection: .watching)
+        } else {
+            snapshot.deleteSections([.watching])
+        }
+        snapshot.appendItems(updatesArray, toSection: .updates)
+        snapshot.appendItems(youtubeArray, toSection: .youtube)
+        
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        
+        // for skeletonView. (Иначе пропадает skeleton на image)
+        if !noImageData.isEmpty {
+            var noImageSnapshot = dataSource.snapshot()
+            noImageSnapshot.reconfigureItems(noImageData)
+            dataSource.apply(noImageSnapshot)
+        }
+    }
+    
+    func applyWatchingSnapshot() {
+        var snapshot = dataSource.snapshot()
+        
+        guard !watchingData.isEmpty else {
+            if snapshot.sectionIdentifiers.contains(where: { $0 == .watching }) {
+                snapshot.deleteSections([.watching])
+                dataSource.apply(snapshot)
+            }
+            return
+        }
+        
+        let watchingArray = watchingData.map { Item.watching($0, .watching) }
+        
+        if snapshot.sectionIdentifiers.contains(where: { $0 == .watching }) {
+            var sectionSnapshot = SectionSnapshot()
+            sectionSnapshot.append(watchingArray)
+            dataSource.apply(sectionSnapshot, to: .watching)
+        } else {
+            snapshot.insertSections([.watching], afterSection: .today)
+            snapshot.appendItems(watchingArray, toSection: .watching)
+            dataSource.apply(snapshot)
+        }
+    }
+    
+    func requestData() {
+        guard isLoadingData == false else { return }
+        isLoadingData = true
+        Task(priority: .userInitiated) {
+            defer {
+                customView.refreshControlEndRefreshing()
+                isLoadingData = false
+            }
+            do {
+                async let today = todayModel.requestData()
+                async let updates = updatesModel.requestData()
+                async let youtube = youtubeModel.requestData()
+                
+                await todayData = try today
+                await updatesData = try updates
+                await youtubeData = try youtube
+                watchingData = try watchingModel.requestData()
+                
+                customView.hideSkeletonCollectionView()
+                applySnapshot()
+            } catch {
+                let logger = Logger(subsystem: .home, category: .data)
+                logger.error("\(Logger.logInfo()) \(error)")
+            }
+        }
+    }
+    
+    func cancelRequestImage(indexPath: IndexPath) {
+        guard let section = dataSource.sectionIdentifier(for: indexPath.section) else {
+            return
+        }
+        let row = indexPath.row
+        switch section {
+            case .today:
+                cancelImageTaskIfNeeded(data: todayData, model: todayModel, row: row)
+            case .watching:
+                break
+            case .updates:
+                cancelImageTaskIfNeeded(data: updatesData, model: updatesModel, row: row)
+            case .youtube:
+                cancelImageTaskIfNeeded(data: youtubeData, model: youtubeModel, row: row)
+        }
+    }
+    
+    private func cancelImageTaskIfNeeded(data: [HomePosterItem], model: ImageModel, row: Int) {
+        guard let item = data[safe: row],
+                item.image == nil else {
+            return
+        }
+        model.cancelImageTask(forUrlString: item.imageUrlString)
     }
 }
 
@@ -69,152 +393,89 @@ final class HomeContentController: NSObject {
 
 extension HomeContentController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let section = indexPath.section
+        collectionView.deselectItem(at: indexPath, animated: true)
+        guard let section = dataSource.sectionIdentifier(for: indexPath.section) else {
+            fatalError("Section is not found in HomeContentController")
+        }
+        
+        selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
+        selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
+        
         let row = indexPath.row
-        guard let rawData = models[section].getRawData(row: row) else {
-            return
-        }
-        let image = data[section][row].image
-        delegate?.didSelectItem(rawData, image: image, section: .init(rawValue: section)!)
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension HomeContentController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeaderSupplementaryView.reuseIdentifier, for: indexPath) as? HomeHeaderSupplementaryView else {
-            fatalError("Header is not HomeHeaderSupplementaryView")
-        }
-        guard let section = Section(rawValue: indexPath.section) else {
-            fatalError("Section is not found")
-        }
         switch section {
             case .today:
-                header.configureView(
-                    titleLabelText: Strings.HomeModule.Title.today,
-                    titleButtonText: Strings.HomeModule.ButtonTitle.allDays) { [weak self] in
-                        self?.delegate?.todayHeaderButtonTapped()
-                    }
+                delegate?.didSelectTodayItem(
+                    todayModel.getRawData(row: row),
+                    image: todayData[row].image)
+            case .watching:
+                guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+                if case .watching(let data, _) = item {
+                    delegate?.didSelectWatchingItem(animeId: data.id, numberOfEpisode: data.numberOfEpisode)
+                }
             case .updates:
-                header.configureView(titleLabelText: Strings.HomeModule.Title.updates)
+                delegate?.didSelectUpdatesItem(
+                    updatesModel.getRawData(row: row),
+                    image: updatesData[row].image)
             case .youtube:
-                header.configureView(
-                    titleLabelText: Strings.HomeModule.Title.youTube,
-                    titleButtonText: Strings.HomeModule.ButtonTitle.all) { [weak self] in
-                        guard let self else { return }
-                        let section = indexPath.section
-                        guard let rawData = models[section].getRawData() as? [YouTubeAPIModel] else { return }
-                        self.delegate?.youTubeHeaderButtonTapped(data: self.data[section], rawData: rawData)
-                    }
-                header.titleButton(isEnabled: !data[indexPath.section].isEmpty)
+                delegate?.didSelectYoutubeItem(youtubeModel.getRawData(row: row))
         }
-        return header
     }
     
-    // For Skeleton
-    func numSections(in collectionSkeletonView: UICollectionView) -> Int {
-        return data.count
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return data.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let items: Int
-        if data[section].isEmpty {
-            items = 5
-        } else {
-            items = data[section].count
-        }
-        return items
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let sectionType = Section(rawValue: indexPath.section) else {
-            fatalError("Section is not found")
-        }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: sectionType.reuseIdentifier, for: indexPath) as? HomePosterCollectionViewCell else {
-            fatalError("Can`t create new cell")
-        }
-        let section = indexPath.section
-        let row = indexPath.row
-        guard data[section].isEmpty == false else {
-            cell.configureSkeletonCell()
-            return cell
-        }
-        let item = data[section][row]
-        if item.image == nil {
-            models[section].requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[section][row].image = image
-                cell.setImage(image, urlString: item.imageUrlString)
-            }
-        }
-        cell.configureCell(item: item)
-        return cell
-    }
-}
-
-// MARK: - SkeletonCollectionViewDataSource
-
-extension HomeContentController: SkeletonCollectionViewDataSource {
-    func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-        return HomeHeaderSupplementaryView.reuseIdentifier
-    }
-    
-    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return HomePosterCollectionViewCell.reuseIdentifier
-    }
-    
-    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelRequestImage(indexPath: indexPath)
     }
 }
 
 // MARK: - UICollectionViewDataSourcePrefetching
 
+// swiftlint: disable cyclomatic_complexity
 extension HomeContentController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            let section = indexPath.section
+            guard let section = dataSource.sectionIdentifier(for: indexPath.section) else {
+                return
+            }
             let row = indexPath.row
-            guard data[section].isEmpty == false,
-                    data[section][row].image == nil else { return }
-            let item = data[section][row]
-            models[section].requestImage(from: item.imageUrlString) { [weak self] image in
-                self?.data[section][row].image = image
+            switch section {
+                case .today:
+                    guard let item = todayData[safe: row], 
+                            item.image == nil else {
+                        return
+                    }
+                    Task { [weak self] in
+                        guard let self else { return }
+                        let image = try? await todayModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.todayData[row].image = image
+                    }
+                case .watching:
+                    break
+                case .updates:
+                    guard let item = updatesData[safe: row],
+                            item.image == nil else {
+                        return
+                    }
+                    Task { [weak self] in
+                        guard let self else { return }
+                        let image = try? await updatesModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.updatesData[row].image = image
+                    }
+                case .youtube:
+                    guard let item = youtubeData[safe: row],
+                            item.image == nil else {
+                        return
+                    }
+                    Task { [weak self] in
+                        guard let self else { return }
+                        let image = try? await youtubeModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.youtubeData[row].image = image
+                    }
             }
-        }
-    }
-}
-
-// MARK: - HomeModelOutput
-
-extension HomeContentController: HomeModelOutput {
-    func updateData(items: [HomePosterItem], section: HomeView.Section) {
-        DispatchQueue.main.async { [self] in
-            data[section.rawValue] = items
-            if isSkeletonView {
-                delegate?.hideSkeletonCollectionView()
-                isSkeletonView = false
-            }
-            delegate?.reloadSection(numberOfSection: section.rawValue)
-            delegate?.refreshControlEndRefreshing()
         }
     }
     
-    func failedRequestData(error: Error) {
-        DispatchQueue.main.async {
-            self.delegate?.refreshControlEndRefreshing()
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cancelRequestImage(indexPath: indexPath)
         }
-    }
-}
-
-// MARK: - AnimePosterModelOutput
-
-extension HomeContentController: ImageModelDelegate {
-    func failedRequestImage(error: Error) {
-        print(#function, error)
     }
 }

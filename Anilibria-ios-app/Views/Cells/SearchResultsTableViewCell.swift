@@ -138,9 +138,12 @@ private extension SearchResultsTableViewCell {
 
 extension SearchResultsTableViewCell {
     func configureCell(item: SearchResultsItem) {
-        animeImageView.image = item.image
+        
         if item.image == nil {
             animeImageView.showAnimatedSkeleton(transition: .none)
+        } else {
+            animeImageView.image = item.image
+            animeImageView.hideSkeleton(reloadDataAfter: false)
         }
         
         ruNameLabel.text = item.ruName
@@ -151,8 +154,12 @@ extension SearchResultsTableViewCell {
     
     func setImage(_ image: UIImage, urlString: String) {
         if urlString == imageUrlString {
-            animeImageView.hideSkeleton(reloadDataAfter: false)
             animeImageView.image = image
+            animeImageView.hideSkeleton(reloadDataAfter: false)
         }
+    }
+    
+    func imageViewStopSkeletonAnimation() {
+        animeImageView.stopSkeletonAnimation()
     }
 }

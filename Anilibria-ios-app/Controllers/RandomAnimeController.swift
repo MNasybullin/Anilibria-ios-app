@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol RandomAnimeControllerDelegate: AnyObject {
     func randomAnimeViewDidTapped(data: TitleAPIModel, image: UIImage?)
@@ -68,6 +69,7 @@ extension RandomAnimeController: RandomAnimeModelDelegate {
         DispatchQueue.main.async {
             self.customView.refreshButton(isEnabled: true)
         }
-        print(#function)
+        let logger = Logger(subsystem: .anime, category: .data)
+        logger.error("\(Logger.logInfo()) \(error)")
     }
 }

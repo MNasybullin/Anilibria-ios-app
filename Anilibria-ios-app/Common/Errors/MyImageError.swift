@@ -10,6 +10,8 @@ import Foundation
 enum MyImageError: Error {
     /// Ошибка инициализации изображения из data
     case failedToInitialize
+    case invalidURL
+    case failedToDownSampling
 }
 
 extension MyImageError: CustomStringConvertible {
@@ -17,6 +19,10 @@ extension MyImageError: CustomStringConvertible {
         switch self {
             case .failedToInitialize:
                 return Strings.ImageError.failedToInitialize
+            case .invalidURL:
+                return Strings.ImageError.invalidURL
+            case .failedToDownSampling:
+                return Strings.ImageError.failedToDownSampling
         }
     }
 }

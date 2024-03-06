@@ -8,14 +8,16 @@
 import UIKit
 
 final class FavoritesView: UIView {
+    typealias LocalizableString = Strings.FavoritesModule
+    
     private let layout = FavoritesCollectionViewLayout().createLayout()
     private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     
     private let navigationTitleView = UIView()
     
-    private lazy var titleLabel: UILabel = {
+    private lazy var navTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Избранное"
+        label.text = LocalizableString.navTitle
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.textColor = .label
         return label
@@ -27,6 +29,35 @@ final class FavoritesView: UIView {
         return activityIndicatorView
     }()
     
+    private lazy var errorView: StatusAlertView = {
+        let statusView = StatusAlertView()
+        let image = UIImage(systemName: "exclamationmark.triangle")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+        statusView.setImage(image)
+        statusView.setTitle(text: LocalizableString.ErrorView.title)
+        statusView.setActionButton(title: LocalizableString.ErrorView.actionButton, for: .normal)
+        return statusView
+    }()
+    
+    private lazy var favoritesEmptyView: StatusAlertView = {
+        let statusView = StatusAlertView()
+        let image = UIImage(systemName: "heart.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+        statusView.setImage(image)
+        statusView.setTitle(text: LocalizableString.FavoritesEmptyView.title)
+        statusView.setMessage(text: LocalizableString.FavoritesEmptyView.message)
+        statusView.actionButtonIsHidden = true
+        return statusView
+    }()
+    
+    private lazy var noUserView: StatusAlertView = {
+        let statusView = StatusAlertView()
+        let image = UIImage(systemName: "person.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+        statusView.setImage(image)
+        statusView.setTitle(text: LocalizableString.NoUserView.title)
+        statusView.setMessage(text: LocalizableString.NoUserView.message)
+        statusView.setActionButton(title: LocalizableString.NoUserView.actionButton, for: .normal)
+        return statusView
+    }()
+    
     init(navigationItem: UINavigationItem) {
         super.init(frame: .zero)
         
@@ -34,6 +65,7 @@ final class FavoritesView: UIView {
         setupNavigationTitleView(navigationItem: navigationItem)
         setupCollectionView()
         setupLayout()
+        updateView(withStatus: .normal)
     }
     
     required init?(coder: NSCoder) {
@@ -49,44 +81,58 @@ private extension FavoritesView {
     }
     
     func setupNavigationTitleView(navigationItem: UINavigationItem) {
-        navigationTitleView.addSubview(titleLabel)
+        navigationTitleView.addSubview(navTitleLabel)
         navigationTitleView.addSubview(activityIndicatorView)
         
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        navTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: navigationTitleView.topAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: navigationTitleView.bottomAnchor),
-            titleLabel.centerXAnchor.constraint(equalTo: navigationTitleView.centerXAnchor),
-            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: navigationTitleView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: navigationTitleView.trailingAnchor),
+            navTitleLabel.topAnchor.constraint(equalTo: navigationTitleView.topAnchor),
+            navTitleLabel.bottomAnchor.constraint(equalTo: navigationTitleView.bottomAnchor),
+            navTitleLabel.centerXAnchor.constraint(equalTo: navigationTitleView.centerXAnchor),
+            navTitleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: navigationTitleView.leadingAnchor),
+            navTitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: navigationTitleView.trailingAnchor),
 
-            activityIndicatorView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 8),
+            activityIndicatorView.leadingAnchor.constraint(equalTo: navTitleLabel.trailingAnchor, constant: 8),
             activityIndicatorView.trailingAnchor.constraint(equalTo: navigationTitleView.trailingAnchor),
-            activityIndicatorView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
+            activityIndicatorView.centerYAnchor.constraint(equalTo: navTitleLabel.centerYAnchor)
         ])
         navigationItem.titleView = navigationTitleView
     }
     
     func setupCollectionView() {
         collectionView.register(
-            HomePosterCollectionViewCell.self,
-            forCellWithReuseIdentifier: HomePosterCollectionViewCell.reuseIdentifier)
+            PosterCollectionViewCell.self,
+            forCellWithReuseIdentifier: PosterCollectionViewCell.reuseIdentifier)
         
         collectionView.isSkeletonable = true
     }
     
     func setupLayout() {
         addSubview(collectionView)
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        [errorView, favoritesEmptyView, noUserView].forEach {
+            addSubview($0)
+            $0.setupFullScreenConstraints(to: self)
+        }
+    }
+    
+    func showOnly(view: UIView) {
+        view.isHidden = false
+        subviews.forEach {
+            if $0 != view {
+                $0.isHidden = true
+            }
+        }
     }
 }
 
@@ -97,10 +143,38 @@ extension FavoritesView {
         switch status {
             case .normal:
                 activityIndicatorView.stopAnimating()
+                showOnly(view: collectionView)
             case .loading:
                 activityIndicatorView.startAnimating()
-            case .error(let message):
-                print(message)
+                showOnly(view: collectionView)
+            case .favoritesIsEmpty:
+                activityIndicatorView.stopAnimating()
+                showOnly(view: favoritesEmptyView)
+            case .userIsNotAuthorized:
+                activityIndicatorView.stopAnimating()
+                showOnly(view: noUserView)
+            case .error(let error):
+                activityIndicatorView.stopAnimating()
+                errorView.setMessage(text: (error as NSError).description + error.localizedDescription)
+                showOnly(view: errorView)
+        }
+    }
+    
+    func setActionForErrorView(action: UIAction, for event: UIControl.Event) {
+        errorView.setActionButton(action: action, for: event)
+    }
+    
+    func setActionForNoUserView(action: UIAction, for event: UIControl.Event) {
+        noUserView.setActionButton(action: action, for: event)
+    }
+    
+    func showCollectionViewSkeleton() {
+        collectionView.showAnimatedSkeleton()
+    }
+    
+    func hideCollectionViewSkeleton() {
+        if collectionView.sk.isSkeletonActive {
+            collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
         }
     }
 }

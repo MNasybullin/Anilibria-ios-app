@@ -15,7 +15,7 @@ final class AnimeView: UIView {
     private lazy var navigationBar = UINavigationBar()
     private lazy var navBarItem = UINavigationItem()
     private lazy var scrollView = UIScrollView()
-    private lazy var animeImageView = AnimeImageView()
+    private (set) lazy var animeImageView = AnimeImageView()
     private lazy var contentVStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -37,7 +37,6 @@ final class AnimeView: UIView {
     
     private lazy var topSafeAreaHeight: CGFloat = currentWindow?.safeAreaInsets.top ?? 0.0
     
-    private var lastContentOffsetY: Double = 0
     private var animeHeightConstraint: NSLayoutConstraint!
     private var animeTopConstraint: NSLayoutConstraint!
     
@@ -96,7 +95,7 @@ private extension AnimeView {
     }
     
     func configureAnimeInfoView(item: AnimeItem, delegate: AnimeController) {
-        animeInfoView.animeSeriesView.delegate = delegate
+        animeInfoView.animeEpisodesView.delegate = delegate
         animeInfoView.watchAndDownloadButtonsView.delegate = delegate
         animeInfoView.favoriteAndShareButtonsView.delegate = delegate
         
@@ -169,6 +168,10 @@ extension AnimeView {
         get { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator }
         set { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator = newValue }
     }
+    
+    func appendFranchiseView(_ franchiseView: FranchiseView) {
+        contentVStack.addArrangedSubview(franchiseView)
+    }
 }
 
 // MARK: - UINavigationBarDelegate
@@ -183,20 +186,22 @@ extension AnimeView: UINavigationBarDelegate {
 
 extension AnimeView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        setupNavBar(scrollView)
-        if -scrollView.contentOffset.y >= animeImageViewSmallHeight {
+        let offsetY = scrollView.contentOffset.y
+        setupNavBar(offsetY)
+        
+        if -offsetY >= animeImageViewSmallHeight {
             if animeTopConstraint.constant != 0 {
                 animeTopConstraint.constant = 0
             }
-            animeHeightConstraint.constant = -scrollView.contentOffset.y
+            animeHeightConstraint.constant = -offsetY
         } else {
-            animeTopConstraint.constant -= scrollView.contentOffset.y - lastContentOffsetY
+            animeHeightConstraint.constant = animeImageViewSmallHeight
+            animeTopConstraint.constant = -(offsetY + animeImageViewSmallHeight)
         }
-        lastContentOffsetY = scrollView.contentOffset.y
     }
     
-    private func setupNavBar(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y + topSafeAreaHeight <= 0 {
+    private func setupNavBar(_ offsetY: CGFloat) {
+        if offsetY + topSafeAreaHeight <= 0 {
             navBarItem.title = ""
             navigationBar.isTranslucent = true
         } else {

@@ -6,30 +6,32 @@
 //
 
 import UIKit
+import OSLog
 
 protocol VideoPlayerModelDelegate: AnyObject {
     func configurePlayerItem(url: URL)
     func configurePlayerItem(url: URL, playbackPostition: Double)
     func configurePlayerItemWithCurrentPlaybackTime(url: URL)
+    func closePlayerWithAlert(title: String, message: String)
 }
 
 final class VideoPlayerModel {
     weak var delegate: VideoPlayerModelDelegate?
     
     private let publicApiService = PublicApiService()
+    private let logger = Logger(subsystem: .videoPlayer, category: .empty)
     
     private var animeItem: AnimeItem
     private (set) var currentPlaylistNumber: Int
     private (set) var currentHLS: HLS?
     private (set) var skips: [(Double, Double)] = []
     private (set) var currentRate: Float = 1.0
-    private var cachingNodes: [String] = []
     
     // CoreData Properties
     private let coreDataService = CoreDataService.shared
     private var userEntity: UserEntity?
     private var watchingEntity: WatchingEntity?
-    private var currentSerieEntity: SeriesEntity?
+    private var currentEpisodeEntity: EpisodesEntity?
     
     init(animeItem: AnimeItem, currentPlaylist: Int) {
         self.animeItem = animeItem
@@ -37,7 +39,7 @@ final class VideoPlayerModel {
         let hls = animeItem.playlist[currentPlaylist].hls
         setCurrentHLS(hls: hls)
         configureSkips()
-        setupCurrentSerieEntity()
+        setupCurrentEpisodeEntity()
     }
     
     deinit {
@@ -72,47 +74,52 @@ private extension VideoPlayerModel {
 
 // MARK: - CoreData methods
 extension VideoPlayerModel {
-    private func setupCurrentSerieEntity() {
-        guard let userId = UserDefaults.standard.userId else { return }
+    private func setupCurrentEpisodeEntity() {
+        guard let userLogin = UserDefaults.standard.userLogin else { return }
         do {
             if userEntity == nil {
-                userEntity = try UserEntity.find(userId: userId, context: coreDataService.viewContext)
+                userEntity = try UserEntity.find(userLogin: userLogin, context: coreDataService.viewContext)
             }
             if watchingEntity == nil {
                 watchingEntity = try WatchingEntity.find(forUser: userEntity!, animeId: animeItem.id, context: coreDataService.viewContext)
             }
-            let series = watchingEntity?.series as? Set<SeriesEntity>
-            currentSerieEntity = series?.filter({ $0.numberOfSerie == animeItem.playlist[currentPlaylistNumber].serie }).first
+            let episodes = watchingEntity?.episodes as? Set<EpisodesEntity>
+            currentEpisodeEntity = episodes?.filter({ $0.numberOfEpisode == animeItem.playlist[currentPlaylistNumber].episode }).first
         } catch {
-            print(error)
+            let coreDataLogger = Logger(subsystem: .videoPlayer, category: .coreData)
+            coreDataLogger.error("\(Logger.logInfo()) \(error)")
         }
     }
     
-    private func createWatchingEntity(animeId: Int) {
+    private func createWatchingEntity() {
         watchingEntity = WatchingEntity(context: coreDataService.viewContext)
         watchingEntity?.animeId = Int64(animeItem.id)
+        watchingEntity?.animeName = animeItem.ruName
+        watchingEntity?.animeImage = animeItem.image
         watchingEntity?.user = userEntity
     }
     
-    private func createCurrentSerieEntity(duration: Double, playbackPosition: Double) {
-        currentSerieEntity = SeriesEntity(context: coreDataService.viewContext)
-        currentSerieEntity?.duration = duration
-        currentSerieEntity?.numberOfSerie = animeItem.playlist[currentPlaylistNumber].serie ?? 0
-        currentSerieEntity?.playbackPosition = playbackPosition
-        currentSerieEntity?.watchingDate = Date()
-        currentSerieEntity?.watching = watchingEntity
+    private func createCurrentEpisodeEntity(duration: Double, playbackPosition: Double, image: UIImage?) {
+        currentEpisodeEntity = EpisodesEntity(context: coreDataService.viewContext)
+        currentEpisodeEntity?.duration = duration
+        currentEpisodeEntity?.numberOfEpisode = animeItem.playlist[currentPlaylistNumber].episode ?? 0
+        currentEpisodeEntity?.playbackPosition = playbackPosition
+        currentEpisodeEntity?.watchingDate = Date()
+        currentEpisodeEntity?.watching = watchingEntity
+        currentEpisodeEntity?.watching?.animeImage = image
     }
     
-    func configureWatchingInfo(duration: Double, playbackPosition: Double) {
-        if let currentSerieEntity {
-            currentSerieEntity.duration = duration
-            currentSerieEntity.playbackPosition = playbackPosition
-            currentSerieEntity.watchingDate = Date()
+    func configureWatchingInfo(duration: Double, playbackPosition: Double, image: UIImage?) {
+        if let currentEpisodeEntity {
+            currentEpisodeEntity.duration = duration
+            currentEpisodeEntity.playbackPosition = playbackPosition
+            currentEpisodeEntity.watchingDate = Date()
+            currentEpisodeEntity.watching?.animeImage = image
         } else if userEntity != nil {
             if watchingEntity == nil {
-                createWatchingEntity(animeId: animeItem.id)
+                createWatchingEntity()
             }
-            createCurrentSerieEntity(duration: duration, playbackPosition: playbackPosition)
+            createCurrentEpisodeEntity(duration: duration, playbackPosition: playbackPosition, image: image)
         }
     }
 }
@@ -120,26 +127,22 @@ extension VideoPlayerModel {
 // MARK: - Internal methods
 
 extension VideoPlayerModel {
-    func requestCachingNodes() {
-        Task(priority: .userInitiated) {
-            do {
-                cachingNodes = try await publicApiService.getCachingNodes()
-                guard let cachingNode = cachingNodes.first, let currentHLS else {
-                    throw MyInternalError.failedToFetchData
-                }
-                guard let url = URL(string: "https://" + cachingNode + currentHLS.url) else {
-                    throw MyInternalError.failedToFetchURLFromData
-                }
-                DispatchQueue.main.async {
-                    if let currentSerie = self.currentSerieEntity {
-                        self.delegate?.configurePlayerItem(url: url, playbackPostition: currentSerie.playbackPosition)
-                    } else {
-                        self.delegate?.configurePlayerItem(url: url)
-                    }
-                }
-            } catch {
-                print(error)
+    func start() {
+        do {
+            guard let host = animeItem.host, let currentHLS = currentHLS?.url else {
+                throw MyInternalError.failedToFetchData
             }
+            guard let url = URL(string: "https://" + host + currentHLS) else {
+                throw MyInternalError.failedToFetchURLFromData
+            }
+            if let currentEpisode = self.currentEpisodeEntity {
+                self.delegate?.configurePlayerItem(url: url, playbackPostition: currentEpisode.playbackPosition)
+            } else {
+                self.delegate?.configurePlayerItem(url: url)
+            }
+        } catch {
+            logger.error("\(Logger.logInfo()) \(error)")
+            delegate?.closePlayerWithAlert(title: Strings.VideoPlayer.error, message: "\(error)")
         }
     }
     
@@ -152,19 +155,19 @@ extension VideoPlayerModel {
         } else {
             currentHLS = hlsFiltered.first
         }
-        setupCurrentSerieEntity()
-        requestCachingNodes()
+        setupCurrentEpisodeEntity()
         configureSkips()
+        start()
     }
     
     func changeCurrentHLS(_ hls: HLS) {
         currentHLS = hls
-        guard let cachingNode = cachingNodes.first else {
-            print(MyInternalError.failedToFetchData)
+        guard let host = animeItem.host else {
+            logger.error("\(Logger.logInfo()) \(MyInternalError.failedToFetchData)")
             return
         }
-        guard let url = URL(string: "https://" + cachingNode + hls.url) else {
-            print(MyInternalError.failedToFetchURLFromData)
+        guard let url = URL(string: "https://" + host + hls.url) else {
+            logger.error("\(Logger.logInfo()) \(MyInternalError.failedToFetchURLFromData)")
             return
         }
         delegate?.configurePlayerItemWithCurrentPlaybackTime(url: url)
@@ -179,7 +182,7 @@ extension VideoPlayerModel {
     }
     
     func getSubtitle() -> String {
-        return animeItem.playlist[currentPlaylistNumber].serieString
+        return animeItem.playlist[currentPlaylistNumber].episodeString
     }
     
     func getAnimeImage() -> UIImage? {
@@ -192,5 +195,14 @@ extension VideoPlayerModel {
     
     func getHLS() -> [HLS] {
         return animeItem.playlist[currentPlaylistNumber].hls
+    }
+}
+
+// MARK: - Static func
+
+extension VideoPlayerModel {
+    static func requestAnimeData(id: Int) async throws -> AnimeItem {
+        let titleApiModel = try await PublicApiService().title(id: String(id))
+        return AnimeItem(fromTitleApiModel: titleApiModel, image: nil)
     }
 }
