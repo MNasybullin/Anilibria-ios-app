@@ -13,7 +13,7 @@ final class RootViewController: UIViewController, HasCustomView {
     
     private let tabBar: UITabBarController
     
-    private var cancellable: AnyCancellable!
+    private var subscriptions = Set<AnyCancellable>()
     
     // MARK: LifeCycle
     init(tabBarController: UITabBarController) {
@@ -42,11 +42,13 @@ final class RootViewController: UIViewController, HasCustomView {
 
 private extension RootViewController {
     func subscribeToNetworkMonitor() {
-        cancellable = NetworkMonitor.shared.isConnectedPublisher
+        NetworkMonitor.shared.isConnectedPublisher
+            .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isConnected in
                 self?.updateView(status: isConnected)
             }
+            .store(in: &subscriptions)
     }
     
     func updateView(status isConnected: Bool) {

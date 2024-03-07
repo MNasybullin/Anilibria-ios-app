@@ -16,16 +16,16 @@ final class NetworkMonitor {
     private let monitor = NWPathMonitor()
     
     var isConnectedPublisher: AnyPublisher<Bool, Never> {
-        isConnectedSubject.eraseToAnyPublisher()
+        isConnectedSubject
+            .share()
+            .eraseToAnyPublisher()
     }
     
-    private let isConnectedSubject = PassthroughSubject<Bool, Never>()
+    private let isConnectedSubject = CurrentValueSubject<Bool, Never>(false)
     
     private(set) var isConnected: Bool = false {
         didSet {
-            if oldValue != isConnected {
-                isConnectedSubject.send(isConnected)
-            }
+            isConnectedSubject.send(isConnected)
         }
     }
     private(set) var connectionType: ConnectionType = .unknown
