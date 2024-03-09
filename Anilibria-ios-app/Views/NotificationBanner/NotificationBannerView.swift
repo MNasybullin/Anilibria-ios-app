@@ -158,17 +158,14 @@ private extension NotificationBannerView {
 // MARK: - Internal methods
 
 extension NotificationBannerView {
-    func show() {
-        let rootVC = MainNavigator.shared.rootViewController
-        let rootView = rootVC.customView
-        
-        rootView.addSubview(self)
+    func show(onView view: UIView = MainNavigator.shared.rootViewController.customView) {
+        view.addSubview(self)
         
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.topAnchor.constraint(equalTo: rootView.safeAreaLayoutGuide.topAnchor),
-            self.leadingAnchor.constraint(equalTo: rootView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            self.trailingAnchor.constraint(equalTo: rootView.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            self.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            self.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            self.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
         
         transform = CGAffineTransform(translationX: 0, y: -250)
