@@ -103,7 +103,7 @@ final class HomeContentController: NSObject {
             applyWatchingSnapshot()
         } catch {
             let logger = Logger(subsystem: .home, category: .data)
-            logger.error("\(Logger.logInfo()) \(error)")
+            logger.error("\(Logger.logInfo(error: error))")
         }
     }
 }
@@ -358,7 +358,12 @@ private extension HomeContentController {
                 applySnapshot()
             } catch {
                 let logger = Logger(subsystem: .home, category: .data)
-                logger.error("\(Logger.logInfo()) \(error)")
+                logger.error("\(Logger.logInfo(error: error))")
+                
+                let data = NotificationBannerView.BannerData(title: Strings.HomeModule.Error.failedRequestData,
+                                                             detail: error.localizedDescription,
+                                                             type: .error)
+                NotificationBannerView(data: data).show(onView: customView)
             }
         }
     }

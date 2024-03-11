@@ -14,8 +14,8 @@ enum MyImageError: Error {
     case failedToDownSampling
 }
 
-extension MyImageError: CustomStringConvertible {
-    var description: String {
+extension MyImageError: LocalizedError {
+    var errorDescription: String? {
         switch self {
             case .failedToInitialize:
                 return Strings.ImageError.failedToInitialize

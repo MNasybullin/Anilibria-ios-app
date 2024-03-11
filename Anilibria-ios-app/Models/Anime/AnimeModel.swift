@@ -17,7 +17,9 @@ final class AnimeModel {
     private var image: UIImage?
     
     weak var delegate: AnimeModelOutput?
+    
     private let favoriteModel = FavoritesModel.shared
+    private let userDefaults = UserDefaults.standard
     
     init(rawData: TitleAPIModel, image: UIImage?) {
         self.rawData = rawData
@@ -40,7 +42,7 @@ private extension AnimeModel {
                 delegate?.update(image: image)
             } catch {
                 let logger = Logger(subsystem: .anime, category: .image)
-                logger.error("\(Logger.logInfo()) \(error)")
+                logger.error("\(Logger.logInfo(error: error))")
             }
         }
     }
@@ -81,5 +83,9 @@ extension AnimeModel {
     
     func getFranchises() -> [FranchisesAPIModel] {
         rawData.franchises
+    }
+    
+    func isAuthorized() -> Bool {
+        userDefaults.isUserAuthorized
     }
 }

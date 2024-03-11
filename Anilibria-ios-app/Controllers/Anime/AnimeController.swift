@@ -17,7 +17,6 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     private let model: AnimeModel
     private (set) var interactiveTransitionController: PopSwipeInteractiveTransitionController?
     private let hasInteractiveTransitionController: Bool
-    private let errorProcessing = ErrorProcessing.shared
     
     // MARK: LifeCycle
     init(rawData: TitleAPIModel, image: UIImage?, hasInteractiveTransitionController: Bool = false) {
@@ -88,6 +87,9 @@ private extension AnimeController {
     }
     
     func checkFavoriteStatus() {
+        guard model.isAuthorized() == true else {
+            return
+        }
         Task(priority: .userInitiated) {
             do {
                 customView.favoriteButtonIsSelected = true
@@ -99,7 +101,12 @@ private extension AnimeController {
                 customView.favoriteButtonShowActivityIndicator = false
                 
                 let logger = Logger(subsystem: .anime, category: .empty)
-                logger.error("\(Logger.logInfo()) \(error)")
+                logger.error("\(Logger.logInfo(error: error))")
+                
+                let data = NotificationBannerView.BannerData(title: Strings.AnimeModule.Error.checkFavorite,
+                                                             detail: error.localizedDescription,
+                                                             type: .error)
+                NotificationBannerView(data: data).show(onView: customView)
             }
         }
     }
@@ -187,9 +194,12 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
         } catch {
             customView.favoriteButtonIsSelected = false
             
+            let logger = Logger(subsystem: .anime, category: .empty)
+            logger.error("\(Logger.logInfo(error: error))")
+            
             let bannerData = NotificationBannerView.BannerData(
                 title: Localization.Error.addFavorite,
-                detail: errorProcessing.getMessageFrom(error: error),
+                detail: error.localizedDescription,
                 type: .error)
             NotificationBannerView(data: bannerData)
                 .show()
@@ -202,9 +212,12 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
         } catch {
             customView.favoriteButtonIsSelected = true
             
+            let logger = Logger(subsystem: .anime, category: .empty)
+            logger.error("\(Logger.logInfo(error: error))")
+            
             let bannerData = NotificationBannerView.BannerData(
                 title: Localization.Error.delFavorite,
-                detail: errorProcessing.getMessageFrom(error: error),
+                detail: error.localizedDescription,
                 type: .error)
             NotificationBannerView(data: bannerData)
                 .show()

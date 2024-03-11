@@ -70,6 +70,11 @@ extension RandomAnimeController: RandomAnimeModelDelegate {
             self.customView.refreshButton(isEnabled: true)
         }
         let logger = Logger(subsystem: .anime, category: .data)
-        logger.error("\(Logger.logInfo()) \(error)")
+        logger.error("\(Logger.logInfo(error: error))")
+        
+        let data = NotificationBannerView.BannerData(title: Strings.RandomAnimeModule.Error.failedRequestData,
+                                                     detail: error.localizedDescription,
+                                                     type: .error)
+        NotificationBannerView(data: data).show(onView: customView)
     }
 }

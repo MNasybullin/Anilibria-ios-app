@@ -164,7 +164,7 @@ private extension VideoPlayerController {
             try audioSession.setCategory(.playback, mode: .moviePlayback)
             try audioSession.setActive(true)
         } catch {
-            logger.fault("\(Logger.logInfo()) Setting category to AVAudioSessionCategoryPlayback failed.")
+            logger.fault("\(Logger.logInfo(error: error)) Setting category to AVAudioSessionCategoryPlayback failed.")
         }
     }
     

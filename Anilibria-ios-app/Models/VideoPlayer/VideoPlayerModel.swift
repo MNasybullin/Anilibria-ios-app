@@ -87,7 +87,7 @@ extension VideoPlayerModel {
             currentEpisodeEntity = episodes?.filter({ $0.numberOfEpisode == animeItem.playlist[currentPlaylistNumber].episode }).first
         } catch {
             let coreDataLogger = Logger(subsystem: .videoPlayer, category: .coreData)
-            coreDataLogger.error("\(Logger.logInfo()) \(error)")
+            coreDataLogger.error("\(Logger.logInfo(error: error))")
         }
     }
     
@@ -141,7 +141,7 @@ extension VideoPlayerModel {
                 self.delegate?.configurePlayerItem(url: url)
             }
         } catch {
-            logger.error("\(Logger.logInfo()) \(error)")
+            logger.error("\(Logger.logInfo(error: error))")
             delegate?.closePlayerWithAlert(title: Strings.VideoPlayer.error, message: "\(error)")
         }
     }
@@ -163,11 +163,11 @@ extension VideoPlayerModel {
     func changeCurrentHLS(_ hls: HLS) {
         currentHLS = hls
         guard let host = animeItem.host else {
-            logger.error("\(Logger.logInfo()) \(MyInternalError.failedToFetchData)")
+            logger.error("\(Logger.logInfo(error: MyInternalError.failedToFetchData))")
             return
         }
         guard let url = URL(string: "https://" + host + hls.url) else {
-            logger.error("\(Logger.logInfo()) \(MyInternalError.failedToFetchURLFromData)")
+            logger.error("\(Logger.logInfo(error: MyInternalError.failedToFetchURLFromData))")
             return
         }
         delegate?.configurePlayerItemWithCurrentPlaybackTime(url: url)

@@ -17,7 +17,7 @@ final class CoreDataService {
         let container = NSPersistentContainer(name: "Anilibria-ios-app")
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                self.logger.error("Unresolved error \(error, privacy: .auto), \(error.userInfo)")
+                self.logger.error("\(Logger.logInfo(error: error)) Unresolved error \(error, privacy: .auto), \(error.userInfo)")
             }
         }
         return container
@@ -35,7 +35,7 @@ final class CoreDataService {
             try viewContext.save()
         } catch {
             let error = error as NSError
-            logger.error("Unresolved error \(error), \(error.userInfo)")
+            logger.error("\(Logger.logInfo(error: error)) Unresolved error \(error), \(error.userInfo)")
         }
     }
 }

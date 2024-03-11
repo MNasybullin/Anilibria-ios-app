@@ -16,8 +16,8 @@ enum MyInternalError: Error {
     case userIsNotFoundInUserDefaults
 }
 
-extension MyInternalError: CustomStringConvertible {
-    var description: String {
+extension MyInternalError: LocalizedError {
+    var errorDescription: String? {
         switch self {
             case .failedToFetchURLFromData:
                 return Strings.InternalError.failedToFetchURLFromData

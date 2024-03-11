@@ -224,7 +224,12 @@ extension ProfileContentController: UICollectionViewDelegate {
                 cell.accessories = [.disclosureIndicator()]
                 
                 let logger = Logger(subsystem: .profile, category: .data)
-                logger.error("\(Logger.logInfo()) \(error)")
+                logger.error("\(Logger.logInfo(error: error))")
+                
+                let data = NotificationBannerView.BannerData(title: Strings.ProfileModule.Error.failedRequestTeam,
+                                                             detail: error.localizedDescription,
+                                                             type: .error)
+                NotificationBannerView(data: data).show(onView: customView)
             }
         }
     }

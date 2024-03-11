@@ -220,12 +220,18 @@ extension SearchResultsController: SearchResultsModelDelegate {
     }
     
     func failedRequestData(error: Error, afterValue: Int) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             if afterValue != 0 {
                 self.status = .loadingMoreFail
             }
             let logger = Logger(subsystem: .search, category: .data)
-            logger.error("\(Logger.logInfo()) \(error)")
+            logger.error("\(Logger.logInfo(error: error))")
+            
+            let data = NotificationBannerView.BannerData(title: Strings.SearchModule.Error.searchError,
+                                                         detail: error.localizedDescription,
+                                                         type: .error)
+            NotificationBannerView(data: data).show(onView: self.customView)
         }
     }
 }

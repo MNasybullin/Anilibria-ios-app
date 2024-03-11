@@ -12,23 +12,22 @@ import Combine
 final class NetworkMonitor {
     static let shared = NetworkMonitor()
     
-    private let queue = DispatchQueue.global()
+    private let queue = DispatchQueue(label: "com.anilibria.networkMonitorQueue")
     private let monitor = NWPathMonitor()
     
     var isConnectedPublisher: AnyPublisher<Bool, Never> {
         isConnectedSubject
-            .share()
             .eraseToAnyPublisher()
     }
     
-    private let isConnectedSubject = CurrentValueSubject<Bool, Never>(false)
+    private let isConnectedSubject = PassthroughSubject<Bool, Never>()
     
-    private(set) var isConnected: Bool = false {
+    private (set) var isConnected: Bool = true {
         didSet {
             isConnectedSubject.send(isConnected)
         }
     }
-    private(set) var connectionType: ConnectionType = .unknown
+    private (set) var connectionType: ConnectionType = .unknown
     
     enum ConnectionType {
         case wifi
@@ -37,9 +36,7 @@ final class NetworkMonitor {
         case unknown
     }
     
-    private init() {
-        startMonitoring()
-    }
+    private init() { }
     
     private func getConnectionType(_ path: NWPath) {
         if path.usesInterfaceType(.wifi) {

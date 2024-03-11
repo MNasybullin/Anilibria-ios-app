@@ -11,7 +11,6 @@ import XCTest
 class AuthorizationServiceTests: XCTestCase {
     var authorizationService: AuthorizationService!
     let networkMonitor = NetworkMonitor.shared
-    let errorProcessing = ErrorProcessing.shared
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -33,7 +32,7 @@ class AuthorizationServiceTests: XCTestCase {
             _ = try await authorizationService.login(email: email, password: password)
             UserDefaults.standard.isUserAuthorized = true
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -44,7 +43,7 @@ class AuthorizationServiceTests: XCTestCase {
             try await authorizationService.logout()
             UserDefaults.standard.isUserAuthorized = false
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -55,7 +54,7 @@ class AuthorizationServiceTests: XCTestCase {
             try await testLogin()
             _ = try await authorizationService.getUserFavorites()
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -67,7 +66,7 @@ class AuthorizationServiceTests: XCTestCase {
             try await testLogin()
             _ = try await authorizationService.delUserFavorite(from: titleID)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -80,7 +79,7 @@ class AuthorizationServiceTests: XCTestCase {
             try await testDelUserFavorite()
             _ = try await authorizationService.putUserFavorites(from: titleID)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -91,7 +90,7 @@ class AuthorizationServiceTests: XCTestCase {
             try await testLogin()
             _ = try await authorizationService.user()
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
 }

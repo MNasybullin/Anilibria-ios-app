@@ -11,7 +11,6 @@ import XCTest
 class PublicApiServiceTests: XCTestCase {
     var publicApiService: PublicApiService!
     let networkMonitor = NetworkMonitor.shared
-    let errorProcessing = ErrorProcessing.shared
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -30,7 +29,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.title(id: id)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -41,7 +40,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleList(ids: ids)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -52,7 +51,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleUpdates(page: 1, itemsPerPage: limit)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -63,7 +62,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleChanges(page: 1, itemsPerPage: limit)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -73,7 +72,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleSchedule(withDays: DaysOfTheWeek.allCases)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -83,7 +82,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleRandom()
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -94,7 +93,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.youTube(page: 1, itemsPerPage: limit)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -104,7 +103,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.years()
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -114,7 +113,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.genres()
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -124,7 +123,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.team()
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -134,7 +133,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleSearch(withSearchText: "Песнь", page: 1)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -144,7 +143,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.titleFranchises(id: 8500)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -154,7 +153,7 @@ class PublicApiServiceTests: XCTestCase {
         do {
             _ = try await publicApiService.franchiseList(page: 1)
         } catch {
-            XCTFail(errorProcessing.getMessageFrom(error: error))
+            XCTFail(error.localizedDescription)
         }
     }
 }
