@@ -122,7 +122,6 @@
 		279E4F30289C4C70008038FF /* LoginAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F2F289C4C70008038FF /* LoginAPIModel.swift */; };
 		279E4F35289D0304008038FF /* FavoriteAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F34289D0304008038FF /* FavoriteAPIModel.swift */; };
 		279E4F37289D2CA7008038FF /* UserAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E4F36289D2CA7008038FF /* UserAPIModel.swift */; };
-		27A66E502976ACEE00369EAF /* ErrorProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E4F2976ACEE00369EAF /* ErrorProcessing.swift */; };
 		27A66E5229771D4500369EAF /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E5129771D4500369EAF /* Alert.swift */; };
 		27A66E6F298BCFC600369EAF /* TeamAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E6E298BCFC600369EAF /* TeamAPIModel.swift */; };
 		27A66E75298E93FC00369EAF /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A66E74298E93FC00369EAF /* RootViewController.swift */; };
@@ -349,7 +348,6 @@
 		279E4F2F289C4C70008038FF /* LoginAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPIModel.swift; sourceTree = "<group>"; };
 		279E4F34289D0304008038FF /* FavoriteAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAPIModel.swift; sourceTree = "<group>"; };
 		279E4F36289D2CA7008038FF /* UserAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIModel.swift; sourceTree = "<group>"; };
-		27A66E4F2976ACEE00369EAF /* ErrorProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorProcessing.swift; sourceTree = "<group>"; };
 		27A66E5129771D4500369EAF /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		27A66E6E298BCFC600369EAF /* TeamAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamAPIModel.swift; sourceTree = "<group>"; };
 		27A66E74298E93FC00369EAF /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -650,7 +648,6 @@
 				272D6542288EC75600FA4F60 /* MyNetworkError.swift */,
 				2775F1E029389E1000C7D079 /* MyInternalError.swift */,
 				274BFB9728A260E900C3F9C9 /* MyImageError.swift */,
-				27A66E4F2976ACEE00369EAF /* ErrorProcessing.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -1475,7 +1472,6 @@
 				27E1BA292B837B9300A9C73C /* AboutAppView.swift in Sources */,
 				2758A4382B30B7020089E475 /* WatchingEntity+CoreDataProperties.swift in Sources */,
 				27A66E5229771D4500369EAF /* Alert.swift in Sources */,
-				27A66E502976ACEE00369EAF /* ErrorProcessing.swift in Sources */,
 				277513EB2B63E1CE00947AED /* FranchisesAPIModel.swift in Sources */,
 				271A0E472AEA6F66005958CB /* RootView.swift in Sources */,
 				27AB03F82B2851010007E750 /* YouTubeContentController.swift in Sources */,

@@ -131,7 +131,12 @@ private extension FranchiseContentController {
             } catch {
                 status = .normal
                 let logger = Logger(subsystem: .franchise, category: .data)
-                logger.error("\(Logger.logInfo()) \(error)")
+                logger.error("\(Logger.logInfo(error: error))")
+                
+                let data = NotificationBannerView.BannerData(title: Strings.FranchiseModule.Error.errorLoadingFranchises,
+                                                             detail: error.localizedDescription,
+                                                             type: .error)
+                NotificationBannerView(data: data).show(onView: customView)
             }
         }
     }

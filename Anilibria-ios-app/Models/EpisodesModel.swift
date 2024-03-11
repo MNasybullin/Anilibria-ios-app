@@ -36,7 +36,7 @@ extension EpisodesModel {
             watchingEntity = try WatchingEntity.find(forUser: userEntity, animeId: animeItem.id, context: coreDataService.viewContext)
         } catch {
             let coreDataLogger = Logger(subsystem: .episode, category: .coreData)
-            coreDataLogger.error("\(Logger.logInfo()) \(error)")
+            coreDataLogger.error("\(Logger.logInfo(error: error))")
         }
     }
     

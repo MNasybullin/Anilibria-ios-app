@@ -34,10 +34,10 @@ extension Logger {
         self.init(subsystem: subsystem.rawValue, category: category.rawValue)
     }
     
-    static func logInfo(file: StaticString = #file, function: StaticString = #function, line: Int = #line) -> String {
+    static func logInfo(error: Error? = nil, file: StaticString = #file, function: StaticString = #function, line: Int = #line) -> String {
         let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
         let source = [fileName.description, function.description, String(line)].joined(separator: ":")
-        let formattedMessage = source + "\n\n"
+        let formattedMessage = source + "\n\n" + (error?.localizedDescription ?? "")
         return formattedMessage
     }
 }

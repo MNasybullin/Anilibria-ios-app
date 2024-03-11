@@ -163,7 +163,7 @@ extension YouTubeContentController: YouTubeModelDelegate {
         DispatchQueue.main.async {
             self.status = .loadingMoreFail
             let logger = Logger(subsystem: .youtube, category: .data)
-            logger.error("\(Logger.logInfo()) \(error)")
+            logger.error("\(Logger.logInfo(error: error))")
         }
     }
 }

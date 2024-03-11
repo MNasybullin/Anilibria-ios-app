@@ -39,7 +39,7 @@ final class UserModel {
                     try? await authorizationService.logout()
                     authorization(email: email, password: password)
                 } else {
-                    let error = NSError(domain: loginModel.key, code: 0)
+                    let error = NSError(domain: loginModel.mes, code: 0)
                     UserDefaults.standard.isUserAuthorized = false
                     UserDefaults.standard.userLogin = nil
                     delegate?.authorizationFailure(error: error)

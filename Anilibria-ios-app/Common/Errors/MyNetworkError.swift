@@ -36,8 +36,8 @@ enum MyNetworkError: Error {
     case useVPN
 }
 
-extension MyNetworkError: CustomStringConvertible {
-    var description: String {
+extension MyNetworkError: LocalizedError {
+    var errorDescription: String? {
         switch self {
             case .unknown:
                 return Strings.NetworkError.unknown

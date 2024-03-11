@@ -50,7 +50,13 @@ final class ScheduleContentController: NSObject {
                 customView.collectionView.reloadData()
             } catch {
                 let logger = Logger(subsystem: .schedule, category: .data)
-                logger.error("\(Logger.logInfo()) \(error)")
+                logger.error("\(Logger.logInfo(error: error))")
+                
+                let data = NotificationBannerView.BannerData(title: Strings.ScheduleModule.Error.errorLoadingSchedule,
+                                                             detail: error.localizedDescription,
+                                                             type: .error)
+                NotificationBannerView(data: data).show(onView: customView)
+                
             }
         }
     }

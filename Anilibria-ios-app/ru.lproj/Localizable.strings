@@ -63,11 +63,14 @@
 "HomeModule.buttonTitle.allDays" = "Все дни";
 "HomeModule.buttonTitle.all" = "Все";
 
+"HomeModule.error.failedRequestData" = "Ошибка загрузки данных";
+
 // MARK: - Search Module
 "SearchModule.searchBar.placeholder" = "Поиск";
 "SearchModule.HeaderView.notFound" = "Ничего не нашлось";
 "SearchModule.ErrorFooterView.titleLabel" = "Ошибка загрузки";
 "SearchModule.ErrorFooterView.refreshButton" = "Обновить";
+"SearchModule.error.searchError" = "Ошибка поиска";
 
 // MARK: - YouTube Module
 "YouTubeModule.ErrorFooterView.titleLabel" = "Ошибка загрузки";
@@ -129,9 +132,11 @@
 // MARK: - RandomAnime Module
 "RandomAnimeModule.title.randomAnime" = "Случайное аниме";
 "RandomAnimeModule.image.refresh" = "arrow.clockwise";
+"RandomAnimeModule.error.failedRequestData" = "Ошибка загрузки случайного аниме";
 
 // MARK: - Franchise Module
 "FranchiseModule.headerTitle.franchiseViewingOrder" = "Порядок просмотра франшизы:";
+"FranchiseModule.error.errorLoadingFranchises" = "Ошибка загрузки франшиз";
 
 
 // MARK: - Skeleton Text Placeholder
@@ -147,7 +152,9 @@
 "Team.decor" = "Оформление";
 "Team.timing" = "Тайминг";
 
-// MARK: - Profile AniLibria
+// MARK: - Profile Module
+"ProfileModule.error.failedRequestTeam" = "Ошибка загрузки списка команды";
+
 "ProfileModule.Anilibria.site" = "Сайт";
 "ProfileModule.Anilibria.team" = "Команда";
 "ProfileModule.Anilibria.vk" = "ВКонтакте";
@@ -155,7 +162,6 @@
 "ProfileModule.Anilibria.youtube" = "YouTube";
 "ProfileModule.Anilibria.discord" = "Discord";
 
-// MARK: - Profile App
 "ProfileModule.App.settings" = "Настройки";
 "ProfileModule.App.aboutApp" = "О приложении";
 
@@ -175,7 +181,7 @@
 "AboutAppModule.version" = "Версия";
 "AboutAppModule.github" = "GitHub";
 
-// MARK: - AnimeModule
+// MARK: - Anime Module
 "AnimeModule.AnimeView.watchButton" = "Смотреть";
 "AnimeModule.AnimeView.favoriteButton" = "Избранное";
 "AnimeModule.AnimeView.shareButton" = "Поделиться";
@@ -185,3 +191,11 @@
 
 "AnimeModule.error.addFavorite" = "Ошибка добавления в избранное";
 "AnimeModule.error.delFavorite" = "Ошибка удаления избранного";
+"AnimeModule.error.checkFavorite" = "Ошибка проверки избранного аниме";
+
+// MARK: - User Module
+"UserModule.error.authorizationFailure" = "Ошибка авторизации";
+"UserModule.error.logoutFailure" = "Ошибка выхода";
+
+// MARK: - Schedule Module
+"ScheduleModule.error.errorLoadingSchedule" = "Ошибка загрузки расписания";

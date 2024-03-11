@@ -79,7 +79,12 @@ extension UserController: UserModelDelegate {
         DispatchQueue.main.async {
             self.isAuthorizationProgress = false
             let logger = Logger(subsystem: .user, category: .empty)
-            logger.error("\(Logger.logInfo()) \(error)")
+            logger.error("\(Logger.logInfo(error: error))")
+            
+            let data = NotificationBannerView.BannerData(title: Strings.UserModule.Error.authorizationFailure,
+                                                         detail: error.localizedDescription,
+                                                         type: .error)
+            NotificationBannerView(data: data).show()
         }
     }
     
@@ -94,7 +99,7 @@ extension UserController: UserModelDelegate {
     func requestFromCoreDataFailure(error: Error) {
         DispatchQueue.main.async {
             let logger = Logger(subsystem: .user, category: .coreData)
-            logger.error("\(Logger.logInfo()) \(error)")
+            logger.error("\(Logger.logInfo(error: error))")
         }
     }
     
@@ -109,7 +114,12 @@ extension UserController: UserModelDelegate {
         DispatchQueue.main.async {
             self.customView.userInfoView.logoutButton(isEnabled: true)
             let logger = Logger(subsystem: .user, category: .empty)
-            logger.error("\(Logger.logInfo()) \(error)")
+            logger.error("\(Logger.logInfo(error: error))")
+            
+            let data = NotificationBannerView.BannerData(title: Strings.UserModule.Error.logoutFailure,
+                                                         detail: error.localizedDescription,
+                                                         type: .error)
+            NotificationBannerView(data: data).show()
         }
     }
 }
