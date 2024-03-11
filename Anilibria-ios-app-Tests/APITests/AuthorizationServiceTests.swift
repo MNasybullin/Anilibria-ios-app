@@ -10,7 +10,8 @@ import XCTest
 
 class AuthorizationServiceTests: XCTestCase {
     var authorizationService: AuthorizationService!
-    let networkMonitor = NetworkMonitor.shared
+    private let networkMonitor = NetworkMonitor.shared
+    private let userDefaults = UserDefaults.standard
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -30,7 +31,7 @@ class AuthorizationServiceTests: XCTestCase {
         
         do {
             _ = try await authorizationService.login(email: email, password: password)
-            UserDefaults.standard.isUserAuthorized = true
+            userDefaults.isUserAuthorized = true
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -41,7 +42,7 @@ class AuthorizationServiceTests: XCTestCase {
         
         do {
             try await authorizationService.logout()
-            UserDefaults.standard.isUserAuthorized = false
+            userDefaults.isUserAuthorized = false
         } catch {
             XCTFail(error.localizedDescription)
         }

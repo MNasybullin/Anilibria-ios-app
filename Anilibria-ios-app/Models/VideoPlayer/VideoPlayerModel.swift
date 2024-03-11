@@ -29,6 +29,7 @@ final class VideoPlayerModel {
     
     // CoreData Properties
     private let coreDataService = CoreDataService.shared
+    private let userDefaults = UserDefaults.standard
     private var userEntity: UserEntity?
     private var watchingEntity: WatchingEntity?
     private var currentEpisodeEntity: EpisodesEntity?
@@ -75,7 +76,7 @@ private extension VideoPlayerModel {
 // MARK: - CoreData methods
 extension VideoPlayerModel {
     private func setupCurrentEpisodeEntity() {
-        guard let userLogin = UserDefaults.standard.userLogin else { return }
+        guard let userLogin = userDefaults.userLogin else { return }
         do {
             if userEntity == nil {
                 userEntity = try UserEntity.find(userLogin: userLogin, context: coreDataService.viewContext)

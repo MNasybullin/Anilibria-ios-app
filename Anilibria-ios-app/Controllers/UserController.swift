@@ -12,6 +12,7 @@ final class UserController: UIViewController, HasCustomView {
     typealias CustomView = UserView
     
     private let model = UserModel()
+    private let userDefaults = UserDefaults.standard
     
     private var isAuthorizationProgress: Bool = false {
         didSet {
@@ -39,7 +40,7 @@ final class UserController: UIViewController, HasCustomView {
 
 private extension UserController {
     func setupFlow() {
-        if UserDefaults.standard.isUserAuthorized {
+        if userDefaults.isUserAuthorized {
             model.getUserInfo()
         }
     }
