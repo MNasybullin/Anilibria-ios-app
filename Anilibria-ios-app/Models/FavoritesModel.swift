@@ -12,6 +12,7 @@ final class FavoritesModel: ImageModel {
     
     private let authorizationService = AuthorizationService()
     private let expiredDateManager = ExpiredDateManager(expireTimeInMinutes: 1)
+    private let userDefaults = UserDefaults.standard
     
     private var titles: [TitleAPIModel]?
     
@@ -48,5 +49,9 @@ extension FavoritesModel {
     
     func getTitleModel(fromName name: String) -> TitleAPIModel? {
         return titles?.first { $0.names.ru == name }
+    }
+    
+    func isAuthorized() -> Bool {
+        userDefaults.isUserAuthorized
     }
 }
