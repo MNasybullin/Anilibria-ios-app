@@ -12,6 +12,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
     enum Constants {
         static let stackSpacing: CGFloat = 6
         static let imageViewCornerRadius: CGFloat = 12
+        static let titleFont = UIFont.systemFont(ofSize: 16, weight: .medium)
         static let titleLabelFontSize: CGFloat = 16
         static let titleLabelNumberOfLines: Int = 2
         static let titleLabelLinesCornerRadius: Int = 5
@@ -39,10 +40,18 @@ class PosterCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    // Для выравнивание текста, если в titleLabel текст помещается в 1 строке.
+    private lazy var labelStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.isSkeletonable = true
+        stack.alignment = .top
+        return stack
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
-                                       weight: .medium)
+        label.font = Constants.titleFont
         label.numberOfLines = Constants.titleLabelNumberOfLines
         label.textColor = .secondaryLabel
         label.textAlignment = .left
@@ -78,7 +87,8 @@ private extension PosterCollectionViewCell {
     func configureConstraints() {
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(imageView)
-        contentStackView.addArrangedSubview(titleLabel)
+        contentStackView.addArrangedSubview(labelStackView)
+        labelStackView.addArrangedSubview(titleLabel)
         
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false

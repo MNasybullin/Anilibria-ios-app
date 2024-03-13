@@ -13,12 +13,17 @@ final class HomeCollectionViewLayout {
     
     enum Constants {
         static let headerPinToVisibleBounds = false
+        static var headerHeight: CGFloat {
+            let titleHeight = HomeHeaderSupplementaryView.Constants.titleFont.lineHeight
+            let headerHeight = titleHeight + HomeHeaderSupplementaryView.Constants.layoutConstants.top - HomeHeaderSupplementaryView.Constants.layoutConstants.bottom
+            return headerHeight
+        }
     }
     
     weak var dataSource: DataSource?
     
     func createLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, environment in
             let item = self.dataSource?.itemIdentifier(for: IndexPath(row: 0, section: sectionIndex))
             guard let section: Section = item?.section ?? Section(rawValue: sectionIndex) else {
                 fatalError("Layout section is not found.")
@@ -26,23 +31,23 @@ final class HomeCollectionViewLayout {
             
             switch section {
                 case .today:
-                    return self.configureTodaySection()
+                    return self.configureTodaySection(environment: environment)
                 case .watching:
-                    return self.configureWatchingSection()
+                    return self.configureWatchingSection(environment: environment)
                 case .updates:
-                    return self.configureUpdateSection()
+                    return self.configureUpdateSection(environment: environment)
                 case .youtube:
-                    return self.configureYouTubeSection()
+                    return self.configureYouTubeSection(environment: environment)
             }
         }
         return layout
     }
     
     // MARK: Today Section
-    func configureTodaySection() -> NSCollectionLayoutSection {
+    func configureTodaySection(environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(350))
+            heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
@@ -50,9 +55,17 @@ final class HomeCollectionViewLayout {
             bottom: 0,
             trailing: 8)
         
+        let groupWidth = 0.7 * environment.container.contentSize.width
+        let imageViewRatio = TodayHomePosterCollectionCell().imageViewRatio
+        let imageHeight = (groupWidth - item.contentInsets.leading - item.contentInsets.trailing) / imageViewRatio
+        let labelHeight = TodayHomePosterCollectionCell.Constants.titleFont.lineHeight * CGFloat(TodayHomePosterCollectionCell.Constants.titleLabelNumberOfLines)
+        let gap = 1.0
+        let spacing = UpdatesHomePosterCollectionCell.Constants.stackSpacing
+        let groupHeight = imageHeight + spacing + labelHeight + gap + item.contentInsets.top + item.contentInsets.bottom
+        
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.7),
-            heightDimension: .estimated(350))
+            widthDimension: .absolute(groupWidth),
+            heightDimension: .absolute(groupHeight))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item])
@@ -67,24 +80,34 @@ final class HomeCollectionViewLayout {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(40))
+            heightDimension: .absolute(Constants.headerHeight))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         sectionHeader.pinToVisibleBounds = Constants.headerPinToVisibleBounds
-        sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
         
+        section.visibleItemsInvalidationHandler = { (items, offset, environment) in
+            let screenWidth = environment.container.contentSize.width
+            let minScale: CGFloat = 0.95
+            let maxScale: CGFloat = 1.0
+            items.forEach { item in
+                guard item.representedElementCategory == .cell else { return }
+                let distanceFromCenter = abs((item.frame.midX - offset.x) - screenWidth / 2.0)
+                let scale = max(maxScale - (distanceFromCenter / screenWidth), minScale)
+                item.transform = CGAffineTransform(scaleX: scale, y: scale)
+            }
+        }
         return section
     }
     
     // MARK: Watching Section
-    func configureWatchingSection() -> NSCollectionLayoutSection {
+    func configureWatchingSection(environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
+            heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
@@ -92,9 +115,18 @@ final class HomeCollectionViewLayout {
             bottom: 0,
             trailing: 8)
         
+        let groupWidth = 0.7 * environment.container.contentSize.width
+        let imageViewRatio = WatchingHomeCollectionViewCell().imageViewRatio
+        let imageHeight = (groupWidth - item.contentInsets.leading - item.contentInsets.trailing) / imageViewRatio
+        let titleHeight = WatchingHomeCollectionViewCell.Constants.titleFont.lineHeight
+        let subtitleHeight = WatchingHomeCollectionViewCell.Constants.subtitleFont.lineHeight
+        let gap = 1.0
+        let spacing = WatchingHomeCollectionViewCell.Constants.stackSpacing
+        let groupHeight = imageHeight + spacing + titleHeight + spacing + subtitleHeight + gap + item.contentInsets.top + item.contentInsets.bottom
+        
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.70),
-            heightDimension: .estimated(200))
+            widthDimension: .absolute(groupWidth),
+            heightDimension: .absolute(groupHeight))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item])
@@ -109,13 +141,12 @@ final class HomeCollectionViewLayout {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(40))
+            heightDimension: .absolute(Constants.headerHeight))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         sectionHeader.pinToVisibleBounds = Constants.headerPinToVisibleBounds
-        sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
         
@@ -123,10 +154,10 @@ final class HomeCollectionViewLayout {
     }
     
     // MARK: Update Section
-    func configureUpdateSection() -> NSCollectionLayoutSection {
+    func configureUpdateSection(environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
+            heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
@@ -134,9 +165,17 @@ final class HomeCollectionViewLayout {
             bottom: 0,
             trailing: 8)
         
+        let groupWidth = 0.45 * environment.container.contentSize.width
+        let imageViewRatio = UpdatesHomePosterCollectionCell().imageViewRatio
+        let imageHeight = (groupWidth - item.contentInsets.leading - item.contentInsets.trailing) / imageViewRatio
+        let labelHeight = UpdatesHomePosterCollectionCell.Constants.titleFont.lineHeight * CGFloat(UpdatesHomePosterCollectionCell.Constants.titleLabelNumberOfLines)
+        let gap = 1.0
+        let spacing = UpdatesHomePosterCollectionCell.Constants.stackSpacing
+        let groupHeight = imageHeight + spacing + labelHeight + gap + item.contentInsets.top + item.contentInsets.bottom
+        
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.45),
-            heightDimension: .estimated(200))
+            widthDimension: .absolute(groupWidth),
+            heightDimension: .absolute(groupHeight))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item])
@@ -151,13 +190,12 @@ final class HomeCollectionViewLayout {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(40))
+            heightDimension: .absolute(Constants.headerHeight))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         sectionHeader.pinToVisibleBounds = Constants.headerPinToVisibleBounds
-        sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
         
@@ -165,10 +203,10 @@ final class HomeCollectionViewLayout {
     }
     
     // MARK: YouTube Section
-    func configureYouTubeSection() -> NSCollectionLayoutSection {
+    func configureYouTubeSection(environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
+            heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
@@ -176,9 +214,17 @@ final class HomeCollectionViewLayout {
             bottom: 0,
             trailing: 8)
         
+        let groupWidth = 0.9 * environment.container.contentSize.width
+        let imageViewRatio = YouTubeHomePosterCollectionCell().imageViewRatio
+        let imageHeight = (groupWidth - item.contentInsets.leading - item.contentInsets.trailing) / imageViewRatio
+        let labelHeight = YouTubeHomePosterCollectionCell.Constants.titleFont.lineHeight * CGFloat(YouTubeHomePosterCollectionCell.Constants.titleLabelNumberOfLines)
+        let gap = 1.0
+        let spacing = YouTubeHomePosterCollectionCell.Constants.stackSpacing
+        let groupHeight = imageHeight + spacing + labelHeight + gap + item.contentInsets.top + item.contentInsets.bottom
+        
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.90),
-            heightDimension: .estimated(200))
+            widthDimension: .absolute(groupWidth),
+            heightDimension: .absolute(groupHeight))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item])
@@ -193,13 +239,12 @@ final class HomeCollectionViewLayout {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(40))
+            heightDimension: .absolute(Constants.headerHeight))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         sectionHeader.pinToVisibleBounds = Constants.headerPinToVisibleBounds
-        sectionHeader.zIndex = 2
         
         section.boundarySupplementaryItems = [sectionHeader]
         

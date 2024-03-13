@@ -12,8 +12,8 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
     enum Constants {
         static let stackSpacing: CGFloat = 2
         static let imageViewCornerRadius: CGFloat = 12
-        static let titleLabelFontSize: CGFloat = 16
-        static let subtitleLabelFontSize: CGFloat = 14
+        static let titleFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+        static let subtitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
         static let titleLabelLinesCornerRadius: Int = 5
     }
     
@@ -37,12 +37,11 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let imageViewRatio: CGFloat = 1920 / 1080
+    let imageViewRatio: CGFloat = 1920 / 1080
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
-                                       weight: .medium)
+        label.font = Constants.titleFont
         label.textColor = .secondaryLabel
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
@@ -53,8 +52,7 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: Constants.subtitleLabelFontSize,
-                                       weight: .medium)
+        label.font = Constants.subtitleFont
         label.textColor = .tertiaryLabel
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius

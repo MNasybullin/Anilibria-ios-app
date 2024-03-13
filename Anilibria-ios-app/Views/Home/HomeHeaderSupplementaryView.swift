@@ -9,9 +9,10 @@ import UIKit
 import SkeletonView
 
 final class HomeHeaderSupplementaryView: UICollectionReusableView {
-    private enum Constants {
+    enum Constants {
         static let stackViewSpacing: CGFloat = 6
-        static let labelFontSize: CGFloat = 24
+        static let titleFont: UIFont = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        static let layoutConstants: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: -8, trailing: -8)
         static let buttonFontSize: CGFloat = 18
         static let linesCornerRadius: Int = 5
         static let skeletonCornerRadius: Float = 5
@@ -27,8 +28,7 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: Constants.labelFontSize, 
-                                       weight: .semibold)
+        label.font = Constants.titleFont
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.linesCornerRadius
         return label
@@ -84,9 +84,9 @@ final class HomeHeaderSupplementaryView: UICollectionReusableView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.layoutConstants.leading),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.layoutConstants.trailing),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Constants.layoutConstants.bottom)
         ])
 
         titleButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
