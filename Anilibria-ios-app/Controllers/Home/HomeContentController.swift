@@ -429,6 +429,14 @@ extension HomeContentController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cancelRequestImage(indexPath: indexPath)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        collectionView.animateCellHighlight(at: indexPath, highlighted: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        collectionView.animateCellHighlight(at: indexPath, highlighted: false)
+    }
 }
 
 // MARK: - UICollectionViewDataSourcePrefetching
