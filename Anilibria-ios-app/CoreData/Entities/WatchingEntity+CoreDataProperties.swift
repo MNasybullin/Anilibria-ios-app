@@ -2,7 +2,7 @@
 //  WatchingEntity+CoreDataProperties.swift
 //  Anilibria-ios-app
 //
-//  Created by Mansur Nasybullin on 26.02.2024.
+//  Created by Mansur Nasybullin on 13.03.2024.
 //
 //
 
@@ -19,6 +19,7 @@ extension WatchingEntity {
     @NSManaged public var animeId: Int64
     @NSManaged public var animeImage: UIImage?
     @NSManaged public var animeName: String
+    @NSManaged public var isHidden: Bool
     @NSManaged public var episodes: NSSet?
     @NSManaged public var user: UserEntity?
 

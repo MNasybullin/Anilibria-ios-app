@@ -98,6 +98,7 @@ extension VideoPlayerModel {
         watchingEntity?.animeName = animeItem.ruName
         watchingEntity?.animeImage = animeItem.image
         watchingEntity?.user = userEntity
+        watchingEntity?.isHidden = false
     }
     
     private func createCurrentEpisodeEntity(duration: Double, playbackPosition: Double, image: UIImage?) {
@@ -116,6 +117,7 @@ extension VideoPlayerModel {
             currentEpisodeEntity.playbackPosition = playbackPosition
             currentEpisodeEntity.watchingDate = Date()
             currentEpisodeEntity.watching?.animeImage = image
+            currentEpisodeEntity.watching?.isHidden = false
         } else if userEntity != nil {
             if watchingEntity == nil {
                 createWatchingEntity()

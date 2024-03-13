@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23D60" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23D60" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="EpisodesEntity" representedClassName=".EpisodesEntity" syncable="YES">
         <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="numberOfEpisode" attributeType="Float" defaultValueString="0" usesScalarValueType="YES"/>
@@ -21,6 +21,7 @@
         <attribute name="animeId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="animeImage" optional="YES" attributeType="Transformable" valueTransformerName="UIImageTransformer" defaultValueString="" customClassName=".UIImage"/>
         <attribute name="animeName" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="isHidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <relationship name="episodes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EpisodesEntity" inverseName="watching" inverseEntity="EpisodesEntity"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserEntity" inverseName="watching" inverseEntity="UserEntity"/>
     </entity>
