@@ -112,12 +112,20 @@ extension SearchResultsController: UITableViewDelegate {
         delegate?.didSelectedItem(item: item, image: image)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.bounds.height * 0.2
-    }
-    
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cancelRequestImage(indexPath: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let screenSize = UIScreen.main.bounds.size
+        let isPhone = UIDevice.current.userInterfaceIdiom == .phone
+        let imageRatio: CGFloat = 350/500
+        
+        if screenSize.width < screenSize.height {
+            return (screenSize.width * (isPhone ? 0.25 : 0.2)) / imageRatio
+        } else {
+            return (screenSize.height * 0.2) / imageRatio
+        }
     }
 }
 
