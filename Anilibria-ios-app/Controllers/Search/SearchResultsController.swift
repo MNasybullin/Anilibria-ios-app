@@ -180,7 +180,9 @@ extension SearchResultsController: UITableViewDataSourcePrefetching {
             Task { [weak self] in
                 guard let self else { return }
                 let image = try? await self.model.requestImage(fromUrlString: item.imageUrlString)
-                self.data[indexPath.row].image = image
+                if data.indices.contains(indexPath.row) {
+                    self.data[indexPath.row].image = image
+                }
             }
         }
     }
