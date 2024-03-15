@@ -19,6 +19,6 @@ extension FavoritesDiffableDataSource: SkeletonCollectionViewDataSource {
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return 16
     }
 }
