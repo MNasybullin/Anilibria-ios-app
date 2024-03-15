@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 final class YouTubeHomePosterCollectionCell: PosterCollectionViewCell {
-    override var imageViewRatio: CGFloat {
+    override class var imageViewRatio: CGFloat {
         480 / 270
     }
     

@@ -18,7 +18,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
         static let titleLabelLinesCornerRadius: Int = 5
     }
     
-    var imageViewRatio: CGFloat {
+    class var imageViewRatio: CGFloat {
         350 / 500
     }
         
@@ -101,7 +101,7 @@ private extension PosterCollectionViewCell {
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             contentStackViewBottomAnchor,
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: imageViewRatio)
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: Self.imageViewRatio)
         ])
     }
 }
@@ -130,5 +130,16 @@ extension PosterCollectionViewCell {
     
     func imageViewStopSkeletonAnimation() {
         imageView.stopSkeletonAnimation()
+    }
+}
+
+// MARK: - HomeCollectionViewLayoutCellConfigurable
+
+extension PosterCollectionViewCell: HomeCollectionViewLayoutCellConfigurable {
+    static var cellHeightWithoutImage: CGFloat {
+        let labelHeight = Constants.titleFont.lineHeight * CGFloat(Constants.titleLabelNumberOfLines)
+        let spacing = Constants.stackSpacing
+        let gap = 1.0
+        return spacing + labelHeight + gap
     }
 }

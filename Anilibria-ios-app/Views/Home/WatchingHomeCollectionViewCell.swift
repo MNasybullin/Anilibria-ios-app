@@ -37,7 +37,9 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    let imageViewRatio: CGFloat = 1920 / 1080
+    class var imageViewRatio: CGFloat {
+        1920 / 1080
+    }
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -93,7 +95,7 @@ private extension WatchingHomeCollectionViewCell {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: imageViewRatio)
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: Self.imageViewRatio)
         ])
     }
 }
@@ -106,5 +108,17 @@ extension WatchingHomeCollectionViewCell {
         subtitleLabel.text = item.subtitle
         imageView.image = item.image
         imageView.setupWatchingProgress(withDuration: item.duration, playbackTime: item.playbackPosition)
+    }
+}
+
+// MARK: - HomeCollectionViewLayoutCellConfigurable
+
+extension WatchingHomeCollectionViewCell: HomeCollectionViewLayoutCellConfigurable {
+    static var cellHeightWithoutImage: CGFloat {
+        let titleHeight = Constants.titleFont.lineHeight
+        let subtitleHeight = Constants.subtitleFont.lineHeight
+        let gap = 1.0
+        let spacing = Constants.stackSpacing
+        return spacing + titleHeight + spacing + subtitleHeight + gap
     }
 }
