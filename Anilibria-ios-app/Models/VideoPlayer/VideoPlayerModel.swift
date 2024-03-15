@@ -189,7 +189,7 @@ extension VideoPlayerModel {
     }
     
     func getAnimeImage() -> UIImage? {
-        return animeItem.image
+        return animeItem.image ?? watchingEntity?.animeImage
     }
     
     func setCurrentRate(_ rate: Float) {
