@@ -13,9 +13,11 @@ protocol UserInfoViewDelegate: AnyObject {
 
 final class UserInfoView: UIView {
     private enum Constants {
-        static let cornerRadius: CGFloat = 25
+        static let viewCornerRadius: CGFloat = 25
         static let userNameLabelFontSize: CGFloat = 26
-        static let imagePadding: CGFloat = 8
+        static let emailLabelFontSize: CGFloat = 16
+        static let logoutButtonImagePadding: CGFloat = 8
+        static let stackSpacing: CGFloat = 8
     }
     
     private lazy var logoutButton: UIButton = {
@@ -23,7 +25,7 @@ final class UserInfoView: UIView {
         config.buttonSize = .mini
         config.baseForegroundColor = .systemRed
         config.title = Strings.UserInfoView.logoutButton
-        config.imagePadding = Constants.imagePadding
+        config.imagePadding = Constants.logoutButtonImagePadding
 
         let button = UIButton(configuration: config)
         button.addAction(UIAction { [weak self] _ in
@@ -33,16 +35,33 @@ final class UserInfoView: UIView {
         return button
     }()
     
-    private lazy var imageView: UIImageView = {
+    private lazy var contentStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = Constants.stackSpacing
+        return stack
+    }()
+    
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.clipsToBounds = true
+        imageView.image = Asset.Assets.noAvatar.image
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: Constants.userNameLabelFontSize, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: Constants.userNameLabelFontSize, weight: .medium)
         label.textColor = .label
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var emailLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: Constants.emailLabelFontSize, weight: .regular)
+        label.textColor = .secondaryLabel
         label.textAlignment = .center
         return label
     }()
@@ -66,13 +85,16 @@ final class UserInfoView: UIView {
 private extension UserInfoView {
     func setupView() {
         backgroundColor = .secondarySystemGroupedBackground
-        layer.cornerRadius = Constants.cornerRadius
+        layer.cornerRadius = Constants.viewCornerRadius
     }
     
     func setupLayout() {
-        [logoutButton, imageView, userNameLabel].forEach {
+        [contentStack, logoutButton].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        [imageView, userNameLabel, emailLabel].forEach {
+            contentStack.addArrangedSubview($0)
         }
         
         preservesSuperviewLayoutMargins = true
@@ -81,14 +103,12 @@ private extension UserInfoView {
             logoutButton.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             logoutButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             
-            imageView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 20),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
-            imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.25),
-            
-            userNameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            userNameLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            userNameLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
+            contentStack.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            contentStack.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+
+            imageView.heightAnchor.constraint(lessThanOrEqualTo: heightAnchor, multiplier: 0.5),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
     }
 }
@@ -96,17 +116,21 @@ private extension UserInfoView {
 // MARK: - Internal methods
 
 extension UserInfoView {
-    func set(image: UIImage?) {
-        imageView.image = image
-        imageView.layer.cornerRadius = imageView.bounds.width / 2
-    }
-    
-    func set(userName: String) {
-        userNameLabel.text = userName
+    func configure(item: UserItem) {
+        if let image = item.image {
+            imageView.image = image
+            updateImageCornerRadius()
+        }
+        userNameLabel.text = item.login
+        emailLabel.text = item.email
     }
     
     func logoutButton(isEnabled: Bool) {
         logoutButton.isEnabled = isEnabled
         logoutButton.configuration?.showsActivityIndicator = !isEnabled
+    }
+    
+    func updateImageCornerRadius() {
+        imageView.layer.cornerRadius = imageView.bounds.width / 2.0
     }
 }

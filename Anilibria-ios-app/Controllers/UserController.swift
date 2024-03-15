@@ -34,6 +34,12 @@ final class UserController: UIViewController, HasCustomView {
         customView.userInfoView.delegate = self
         setupFlow()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.layoutIfNeeded()
+        customView.userInfoView.updateImageCornerRadius()
+    }
 }
 
 // MARK: - Private methods
@@ -70,8 +76,7 @@ extension UserController: UserModelDelegate {
     func authorizationSuccessful(user: UserItem) {
         DispatchQueue.main.async {
             self.isAuthorizationProgress = false
-            self.customView.userInfoView.set(image: user.image)
-            self.customView.userInfoView.set(userName: user.login)
+            self.customView.userInfoView.configure(item: user)
             self.customView.hideSignInView(animated: true)
         }
     }
@@ -91,8 +96,7 @@ extension UserController: UserModelDelegate {
     
     func requestFromCoreDataSuccessful(user: UserItem) {
         DispatchQueue.main.async {
-            self.customView.userInfoView.set(image: user.image)
-            self.customView.userInfoView.set(userName: user.login)
+            self.customView.userInfoView.configure(item: user)
             self.customView.hideSignInView(animated: false)
         }
     }
