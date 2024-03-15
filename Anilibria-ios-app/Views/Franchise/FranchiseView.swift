@@ -21,8 +21,8 @@ final class FranchiseView: UIView {
         return label
     }()
     
-    private let layout = FranchiseCollectionViewLayout().createLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private let layout = FranchiseCollectionViewLayout()
+    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
     
     private var heightConstraint: NSLayoutConstraint!
     
@@ -81,9 +81,6 @@ private extension FranchiseView {
     
     func updateHeightConstraint() {
         let size = collectionView.collectionViewLayout.collectionViewContentSize
-        guard heightConstraint.constant < size.height else {
-            return
-        }
         self.heightConstraint.constant = size.height
     }
 }
