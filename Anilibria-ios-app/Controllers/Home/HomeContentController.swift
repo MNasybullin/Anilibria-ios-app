@@ -9,6 +9,7 @@ import UIKit
 import SkeletonView
 import OSLog
 
+// swiftlint: disable file_length
 protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
     func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel])
