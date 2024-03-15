@@ -145,6 +145,7 @@ private extension SettingsContentController {
         cell.backgroundConfiguration = backgroundConfig
         
         let switchView = UISwitch()
+        switchView.onTintColor = .systemRed
         switchView.addAction(UIAction(handler: { [weak self] action in
             guard let self else { return }
             model.ambientMode.toggle()

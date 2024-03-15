@@ -108,6 +108,7 @@ extension VideoPlayerSettingsController {
                 cell.accessoryType = .disclosureIndicator
             case .ambientMode:
                 let switchView = UISwitch()
+                switchView.onTintColor = .systemRed
                 switchView.addAction(UIAction(handler: { [weak self] action in
                     guard let self else { return }
                     userDefaults.ambientMode.toggle()
