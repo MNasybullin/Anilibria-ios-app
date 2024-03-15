@@ -11,32 +11,46 @@ final class ScheduleCollectionViewLayout {
     typealias ElementKind = ScheduleView.ElementKind
     
     func createLayout() -> UICollectionViewLayout {
-        let section = configureSection()
-        let layout = UICollectionViewCompositionalLayout(section: section)
+        let layout = UICollectionViewCompositionalLayout { [weak self] _, environment in
+            guard let self else { fatalError("Layout instance is nil.") }
+            return self.configureSection(environment: environment)
+        }
         return layout
     }
     
-    func configureSection() -> NSCollectionLayoutSection {
+    private func configureSection(environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        let isPhone = environment.traitCollection.userInterfaceIdiom == .phone
+        let isPortrait = UIDevice.current.orientation.isPortrait
+        let sectionContentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 16,
+            bottom: 0,
+            trailing: 16)
+        
+        let screenWidth = environment.container.contentSize.width - sectionContentInsets.leading - sectionContentInsets.trailing
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
+            heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-      
+        
+        let groupWidthFraction = isPhone ? 0.5 : (isPortrait ? 0.25 : 0.2)
+        let groupWidth = groupWidthFraction * screenWidth
+        let imageViewRatio = PosterCollectionViewCell.imageViewRatio
+        let imageHeight = (groupWidth - item.contentInsets.leading - item.contentInsets.trailing) / imageViewRatio
+        let groupHeight = imageHeight + PosterCollectionViewCell.cellHeightWithoutImage + item.contentInsets.top + item.contentInsets.bottom
+        
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
+            heightDimension: .absolute(groupHeight))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitem: item,
-            count: 2)
+            count: isPhone ? 2 : (isPortrait ? 4 : 5))
         group.interItemSpacing = .fixed(8)
       
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
-            leading: 16,
-            bottom: 16,
-            trailing: 16)
+        section.contentInsets = sectionContentInsets
         section.interGroupSpacing = 8
         
         let headerSize = NSCollectionLayoutSize(

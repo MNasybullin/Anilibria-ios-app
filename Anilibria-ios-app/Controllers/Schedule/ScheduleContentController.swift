@@ -159,7 +159,11 @@ extension ScheduleContentController: SkeletonCollectionViewDataSource {
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return 9
+    }
+    
+    func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+        3
     }
 }
 

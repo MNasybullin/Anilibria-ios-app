@@ -13,8 +13,8 @@ final class ScheduleView: UIView {
         static let sectionHeader = "section-header-element-kind"
     }
     
-    private lazy var layout = ScheduleCollectionViewLayout().createLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private lazy var layout = ScheduleCollectionViewLayout()
+    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
     
     init() {
         super.init(frame: .zero)
