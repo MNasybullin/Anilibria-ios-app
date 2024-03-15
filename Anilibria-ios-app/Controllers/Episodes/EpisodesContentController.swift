@@ -61,6 +61,17 @@ extension EpisodesContentController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cancelRequestImage(indexPath: indexPath)
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let screenSize = UIScreen.main.bounds.size
+        let imageRatio: CGFloat = 1920/1080
+        
+        if screenSize.width < screenSize.height {
+            return (screenSize.width * 0.5) / imageRatio
+        } else {
+            return (screenSize.height * 0.5) / imageRatio
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
