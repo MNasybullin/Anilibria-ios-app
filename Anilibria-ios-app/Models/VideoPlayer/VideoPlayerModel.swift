@@ -145,7 +145,7 @@ extension VideoPlayerModel {
             }
         } catch {
             logger.error("\(Logger.logInfo(error: error))")
-            delegate?.closePlayerWithAlert(title: Strings.VideoPlayer.error, message: "\(error)")
+            delegate?.closePlayerWithAlert(title: Strings.VideoPlayer.error, message: error.localizedDescription)
         }
     }
     
