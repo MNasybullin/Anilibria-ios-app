@@ -60,9 +60,6 @@ final class FavoritesContentController: NSObject {
     
     private var status: Status = .normal {
         didSet {
-            if status != .normal && status != .loading {
-                customView.showCollectionViewSkeleton()
-            }
             customView.updateView(withStatus: status)
         }
     }
@@ -140,6 +137,10 @@ private extension FavoritesContentController {
 extension FavoritesContentController {
     func loadData() {
         guard status != .loading else { return }
+        guard model.isAuthorized() else {
+            status = .userIsNotAuthorized
+            return
+        }
         status = .loading
         if data.isEmpty {
             customView.showCollectionViewSkeleton()
@@ -186,6 +187,14 @@ extension FavoritesContentController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cancelRequestImage(indexPath: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        collectionView.animateCellHighlight(at: indexPath, highlighted: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        collectionView.animateCellHighlight(at: indexPath, highlighted: false)
     }
 }
 

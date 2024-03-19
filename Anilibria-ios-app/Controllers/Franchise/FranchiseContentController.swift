@@ -183,6 +183,14 @@ extension FranchiseContentController: UICollectionViewDelegate {
         selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         delegate?.didSelectItem(data: item, image: posterItem.image)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        collectionView.animateCellHighlight(at: indexPath, highlighted: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        collectionView.animateCellHighlight(at: indexPath, highlighted: false)
+    }
 }
 
 // MARK: - UICollectionViewDataSourcePrefetching

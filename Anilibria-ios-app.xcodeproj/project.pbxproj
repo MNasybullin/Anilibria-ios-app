@@ -162,6 +162,7 @@
 		27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88582B2343E0004DC558 /* NetworkConstants.swift */; };
 		27CE885B2B237FB2004DC558 /* HomeYouTubeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */; };
 		27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */; };
+		27D491022BA1BCFA0016CCAF /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D491012BA1BCFA0016CCAF /* UICollectionView+Extension.swift */; };
 		27D73AA32B937B8000AAB30E /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D73AA22B937B8000AAB30E /* ThreadSafeDictionary.swift */; };
 		27E1BA072B7AB70A00A9C73C /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA062B7AB70A00A9C73C /* ProfileModel.swift */; };
 		27E1BA092B7B82F300A9C73C /* TeamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA082B7B82F300A9C73C /* TeamController.swift */; };
@@ -388,6 +389,7 @@
 		27CE88582B2343E0004DC558 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		27CE885A2B237FB2004DC558 /* HomeYouTubeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYouTubeModel.swift; sourceTree = "<group>"; };
 		27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOrientation.swift; sourceTree = "<group>"; };
+		27D491012BA1BCFA0016CCAF /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		27D73AA22B937B8000AAB30E /* ThreadSafeDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionary.swift; sourceTree = "<group>"; };
 		27E1BA062B7AB70A00A9C73C /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		27E1BA082B7B82F300A9C73C /* TeamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamController.swift; sourceTree = "<group>"; };
@@ -856,6 +858,7 @@
 				27EA508C2B00140F00A1B987 /* UIImage+Extension.swift */,
 				277A73B92B95BF0B009E1F8C /* Logger+Extension.swift */,
 				27490A222B96414C0059E183 /* Array+Extension.swift */,
+				27D491012BA1BCFA0016CCAF /* UICollectionView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1487,6 +1490,7 @@
 				271A0E342AE90291005958CB /* ScheduleItem.swift in Sources */,
 				276880CE2B49BB7400F5FD06 /* FavoritesContentController.swift in Sources */,
 				275B1AF229DECF50006A00EA /* AnimeEpisodesView.swift in Sources */,
+				27D491022BA1BCFA0016CCAF /* UICollectionView+Extension.swift in Sources */,
 				2744C87729BC71A700105F11 /* SearchResultsLoadingFooterView.swift in Sources */,
 				27E1BA0B2B7B834100A9C73C /* TeamView.swift in Sources */,
 				27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */,

@@ -12,8 +12,8 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
     enum Constants {
         static let stackSpacing: CGFloat = 2
         static let imageViewCornerRadius: CGFloat = 12
-        static let titleLabelFontSize: CGFloat = 16
-        static let subtitleLabelFontSize: CGFloat = 14
+        static let titleFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+        static let subtitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
         static let titleLabelLinesCornerRadius: Int = 5
     }
     
@@ -37,12 +37,13 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let imageViewRatio: CGFloat = 1920 / 1080
+    class var imageViewRatio: CGFloat {
+        1920 / 1080
+    }
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
-                                       weight: .medium)
+        label.font = Constants.titleFont
         label.textColor = .secondaryLabel
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
@@ -53,8 +54,7 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: Constants.subtitleLabelFontSize,
-                                       weight: .medium)
+        label.font = Constants.subtitleFont
         label.textColor = .tertiaryLabel
         label.isSkeletonable = true
         label.linesCornerRadius = Constants.titleLabelLinesCornerRadius
@@ -62,12 +62,6 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
         label.text = "Skeleton"
         return label
     }()
-    
-    override var isHighlighted: Bool {
-        didSet {
-            toggleIsHighlighted()
-        }
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -83,15 +77,6 @@ final class WatchingHomeCollectionViewCell: UICollectionViewCell {
 // MARK: - Private methods
 
 private extension WatchingHomeCollectionViewCell {
-    func toggleIsHighlighted() {
-        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseOut], animations: {
-            self.alpha = self.isHighlighted ? 0.9 : 1.0
-            self.transform = self.isHighlighted ?
-            CGAffineTransform.identity.scaledBy(x: 0.97, y: 0.97) :
-            CGAffineTransform.identity
-        })
-    }
-    
     func setupView() {
         backgroundColor = .systemBackground
         isSkeletonable = true
@@ -110,7 +95,7 @@ private extension WatchingHomeCollectionViewCell {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: imageViewRatio)
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: Self.imageViewRatio)
         ])
     }
 }
@@ -123,5 +108,17 @@ extension WatchingHomeCollectionViewCell {
         subtitleLabel.text = item.subtitle
         imageView.image = item.image
         imageView.setupWatchingProgress(withDuration: item.duration, playbackTime: item.playbackPosition)
+    }
+}
+
+// MARK: - HomeCollectionViewLayoutCellConfigurable
+
+extension WatchingHomeCollectionViewCell: HomeCollectionViewLayoutCellConfigurable {
+    static var cellHeightWithoutImage: CGFloat {
+        let titleHeight = Constants.titleFont.lineHeight
+        let subtitleHeight = Constants.subtitleFont.lineHeight
+        let gap = 1.0
+        let spacing = Constants.stackSpacing
+        return spacing + titleHeight + spacing + subtitleHeight + gap
     }
 }

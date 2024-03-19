@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        updateSkeletonAppearance()
         
         return true
     }
@@ -36,4 +39,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return currentOrientationMode
     }
 
+}
+
+// MARK: - Private methods
+
+private extension AppDelegate {
+    func updateSkeletonAppearance() {
+        SkeletonAppearance.default.tintColor = .mySkeleton
+    }
 }

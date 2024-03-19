@@ -12,6 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     private let networkMonitor = NetworkMonitor.shared
+    private let userDefaults = UserDefaults.standard
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -54,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 extension SceneDelegate {
     func applyAppearance() {
-        let style = UserDefaults.standard.appearance
+        let style = userDefaults.appearance
         window?.overrideUserInterfaceStyle = style
     }
 }

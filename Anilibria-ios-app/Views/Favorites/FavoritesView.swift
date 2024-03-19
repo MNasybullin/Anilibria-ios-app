@@ -10,8 +10,8 @@ import UIKit
 final class FavoritesView: UIView {
     typealias LocalizableString = Strings.FavoritesModule
     
-    private let layout = FavoritesCollectionViewLayout().createLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private let layout = FavoritesCollectionViewLayout()
+    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
     
     private let navigationTitleView = UIView()
     

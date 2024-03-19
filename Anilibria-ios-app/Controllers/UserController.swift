@@ -12,6 +12,7 @@ final class UserController: UIViewController, HasCustomView {
     typealias CustomView = UserView
     
     private let model = UserModel()
+    private let userDefaults = UserDefaults.standard
     
     private var isAuthorizationProgress: Bool = false {
         didSet {
@@ -33,13 +34,19 @@ final class UserController: UIViewController, HasCustomView {
         customView.userInfoView.delegate = self
         setupFlow()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.layoutIfNeeded()
+        customView.userInfoView.updateImageCornerRadius()
+    }
 }
 
 // MARK: - Private methods
 
 private extension UserController {
     func setupFlow() {
-        if UserDefaults.standard.isUserAuthorized {
+        if userDefaults.isUserAuthorized {
             model.getUserInfo()
         }
     }
@@ -69,8 +76,7 @@ extension UserController: UserModelDelegate {
     func authorizationSuccessful(user: UserItem) {
         DispatchQueue.main.async {
             self.isAuthorizationProgress = false
-            self.customView.userInfoView.set(image: user.image)
-            self.customView.userInfoView.set(userName: user.login)
+            self.customView.userInfoView.configure(item: user)
             self.customView.hideSignInView(animated: true)
         }
     }
@@ -90,8 +96,7 @@ extension UserController: UserModelDelegate {
     
     func requestFromCoreDataSuccessful(user: UserItem) {
         DispatchQueue.main.async {
-            self.customView.userInfoView.set(image: user.image)
-            self.customView.userInfoView.set(userName: user.login)
+            self.customView.userInfoView.configure(item: user)
             self.customView.hideSignInView(animated: false)
         }
     }

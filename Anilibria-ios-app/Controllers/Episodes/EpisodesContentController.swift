@@ -61,6 +61,14 @@ extension EpisodesContentController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cancelRequestImage(indexPath: indexPath)
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let minScreenSize = min(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
+        let imageRatio: CGFloat = 1920/1080
+        let isPhone = UIDevice.current.userInterfaceIdiom == .phone
+        let fraction = isPhone ? 0.5 : 0.3
+        return (minScreenSize * fraction) / imageRatio
+    }
 }
 
 // MARK: - UITableViewDataSource

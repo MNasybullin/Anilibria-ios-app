@@ -125,8 +125,7 @@ private extension EpisodesTableViewCell {
         
         episodeImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            episodeImageView.widthAnchor.constraint(equalTo: episodeImageView.heightAnchor, multiplier: (1920/1080)),
-            episodeImageView.widthAnchor.constraint(lessThanOrEqualTo: hStack.widthAnchor, multiplier: 0.4)
+            episodeImageView.widthAnchor.constraint(equalTo: episodeImageView.heightAnchor, multiplier: (1920/1080))
         ])
     }
 }

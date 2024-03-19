@@ -50,7 +50,7 @@ private extension UserView {
         signInViewTopAnchor = signInView.topAnchor.constraint(equalTo: topAnchor)
         signInViewBottomAnchor = signInView.bottomAnchor.constraint(equalTo: bottomAnchor)
         
-        directionalLayoutMargins = NSDirectionalEdgeInsets(top: currentWindow?.safeAreaInsets.top ?? 16, leading: 16, bottom: 16, trailing: 16)
+        directionalLayoutMargins = NSDirectionalEdgeInsets(top: currentWindow?.safeAreaInsets.top ?? 16, leading: 16, bottom: -16, trailing: -16)
         
         NSLayoutConstraint.activate([
             userInfoView.topAnchor.constraint(equalTo: topAnchor),

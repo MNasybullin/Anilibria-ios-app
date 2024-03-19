@@ -9,6 +9,7 @@ import UIKit
 import SkeletonView
 import OSLog
 
+// swiftlint: disable file_length
 protocol HomeContentControllerDelegate: AnyObject {
     func todayHeaderButtonTapped()
     func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel])
@@ -23,6 +24,7 @@ final class HomeContentController: NSObject {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     typealias SectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>
+    typealias Localization = Strings.HomeModule
     
     enum Section: Int, CaseIterable {
         case today
@@ -239,18 +241,18 @@ private extension HomeContentController {
             switch section {
                 case .today:
                     headerView.configureView(
-                        titleLabelText: Strings.HomeModule.Title.today,
-                        titleButtonText: Strings.HomeModule.ButtonTitle.allDays) { [weak self] in
+                        titleLabelText: Localization.Title.today,
+                        titleButtonText: Localization.ButtonTitle.allDays) { [weak self] in
                             self?.delegate?.todayHeaderButtonTapped()
                         }
                 case .watching:
-                    headerView.configureView(titleLabelText: Strings.HomeModule.Title.watching)
+                    headerView.configureView(titleLabelText: Localization.Title.watching)
                 case .updates:
-                    headerView.configureView(titleLabelText: Strings.HomeModule.Title.updates)
+                    headerView.configureView(titleLabelText: Localization.Title.updates)
                 case .youtube:
                     headerView.configureView(
-                        titleLabelText: Strings.HomeModule.Title.youTube,
-                        titleButtonText: Strings.HomeModule.ButtonTitle.all) { [weak self] in
+                        titleLabelText: Localization.Title.youTube,
+                        titleButtonText: Localization.ButtonTitle.all) { [weak self] in
                             guard let self else { return }
                             let rawData = youtubeModel.getRawData()
                             self.delegate?.youTubeHeaderButtonTapped(data: youtubeData, rawData: rawData)
@@ -360,7 +362,7 @@ private extension HomeContentController {
                 let logger = Logger(subsystem: .home, category: .data)
                 logger.error("\(Logger.logInfo(error: error))")
                 
-                let data = NotificationBannerView.BannerData(title: Strings.HomeModule.Error.failedRequestData,
+                let data = NotificationBannerView.BannerData(title: Localization.Error.failedRequestData,
                                                              detail: error.localizedDescription,
                                                              type: .error)
                 NotificationBannerView(data: data).show(onView: customView)
@@ -391,6 +393,39 @@ private extension HomeContentController {
             return
         }
         model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
+    
+    func getWatchingContextMenu(at indexPath: IndexPath) -> UIContextMenuConfiguration? {
+        guard let item = dataSource.itemIdentifier(for: indexPath),
+                case .watching(let data, _) = item else {
+            return nil
+        }
+        
+        let hideAction = UIAction(title: Localization.WatchingMenu.hideTitle,
+                                  image: UIImage(systemName: Localization.WatchingMenu.hideImageName),
+                                  identifier: nil) { [weak self] _ in
+            self?.hideWatchingItem(id: data.id, at: indexPath)
+        }
+        let actionProvider: UIContextMenuActionProvider = { _ in
+            return UIMenu(children: [hideAction])
+        }
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: actionProvider)
+    }
+    
+    func hideWatchingItem(id: Int, at indexPath: IndexPath) {
+        do {
+            try watchingModel.hideWatchingEntity(id: id)
+            watchingData.remove(at: indexPath.row)
+            applyWatchingSnapshot()
+        } catch {
+            let logger = Logger(subsystem: .home, category: .coreData)
+            logger.error("\(Logger.logInfo(error: error))")
+            
+            let data = NotificationBannerView.BannerData(title: Localization.Error.failedHidingWatched,
+                                                         detail: error.localizedDescription,
+                                                         type: .error)
+            NotificationBannerView(data: data).show()
+        }
     }
 }
 
@@ -428,6 +463,26 @@ extension HomeContentController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cancelRequestImage(indexPath: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        collectionView.animateCellHighlight(at: indexPath, highlighted: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        collectionView.animateCellHighlight(at: indexPath, highlighted: false)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let section = dataSource.sectionIdentifier(for: indexPath.section) else {
+            return nil
+        }
+        switch section {
+            case .watching:
+                return getWatchingContextMenu(at: indexPath)
+            default:
+                return nil
+        }
     }
 }
 

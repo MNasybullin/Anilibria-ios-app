@@ -12,6 +12,7 @@ final class AuthorizationService: NetworkQuery {
     typealias Credentials = SecurityStorage.Credentials
     
     private let securityStorage = SecurityStorage()
+    private let userDefaults = UserDefaults.standard
     
     /// Авторизация
     func login(email: String, password: String) async throws -> LoginAPIModel {
@@ -64,7 +65,7 @@ final class AuthorizationService: NetworkQuery {
     /// - Parameters:
     ///     - withlimit: Количество запрашиваемых объектов (По умолчанию -1 (Все))
     func getUserFavorites(withLimit limit: Int = -1) async throws -> ListAPIModel<TitleAPIModel> {
-        if UserDefaults.standard.isUserAuthorized == false {
+        if userDefaults.isUserAuthorized == false {
             throw MyInternalError.userIsNotFoundInUserDefaults
         }
         let sessionId = try securityStorage.getSession()
@@ -84,7 +85,7 @@ final class AuthorizationService: NetworkQuery {
     
     /// Добавить тайтл в список избранных
     func putUserFavorites(from titleId: Int) async throws {
-        if UserDefaults.standard.isUserAuthorized == false {
+        if userDefaults.isUserAuthorized == false {
             throw MyInternalError.userIsNotFoundInUserDefaults
         }
         let sessionId = try securityStorage.getSession()
@@ -106,7 +107,7 @@ final class AuthorizationService: NetworkQuery {
     
     /// Удалить тайтл из списка избранных
     func delUserFavorite(from titleId: Int) async throws {
-        if UserDefaults.standard.isUserAuthorized == false {
+        if userDefaults.isUserAuthorized == false {
             throw MyInternalError.userIsNotFoundInUserDefaults
         }
         

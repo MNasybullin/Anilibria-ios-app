@@ -13,6 +13,7 @@ final class EpisodesModel: ImageModel {
     
     // MARK: CoreData Properties
     private let coreDataService = CoreDataService.shared
+    private let userDefaults = UserDefaults.standard
     private var watchingEntity: WatchingEntity?
     
     var hasWatchingEntity: Bool {
@@ -30,7 +31,7 @@ final class EpisodesModel: ImageModel {
 
 extension EpisodesModel {
     func requestWatchingEntity() {
-        guard let userLogin = UserDefaults.standard.userLogin else { return }
+        guard let userLogin = userDefaults.userLogin else { return }
         do {
             let userEntity = try UserEntity.find(userLogin: userLogin, context: coreDataService.viewContext)
             watchingEntity = try WatchingEntity.find(forUser: userEntity, animeId: animeItem.id, context: coreDataService.viewContext)

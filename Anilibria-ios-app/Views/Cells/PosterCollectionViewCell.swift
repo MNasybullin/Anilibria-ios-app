@@ -12,12 +12,13 @@ class PosterCollectionViewCell: UICollectionViewCell {
     enum Constants {
         static let stackSpacing: CGFloat = 6
         static let imageViewCornerRadius: CGFloat = 12
+        static let titleFont = UIFont.systemFont(ofSize: 16, weight: .medium)
         static let titleLabelFontSize: CGFloat = 16
         static let titleLabelNumberOfLines: Int = 2
         static let titleLabelLinesCornerRadius: Int = 5
     }
     
-    var imageViewRatio: CGFloat {
+    class var imageViewRatio: CGFloat {
         350 / 500
     }
         
@@ -39,10 +40,18 @@ class PosterCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    // Для выравнивание текста, если в titleLabel текст помещается в 1 строке.
+    private lazy var labelStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.isSkeletonable = true
+        stack.alignment = .top
+        return stack
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: Constants.titleLabelFontSize,
-                                       weight: .medium)
+        label.font = Constants.titleFont
         label.numberOfLines = Constants.titleLabelNumberOfLines
         label.textColor = .secondaryLabel
         label.textAlignment = .left
@@ -64,12 +73,6 @@ class PosterCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var isHighlighted: Bool {
-        didSet {
-            toggleIsHighlighted()
-        }
-    }
-    
     func imageViewAdditionallyConfigure(_ imageView: UIImageView) { }
 }
 
@@ -84,7 +87,8 @@ private extension PosterCollectionViewCell {
     func configureConstraints() {
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(imageView)
-        contentStackView.addArrangedSubview(titleLabel)
+        contentStackView.addArrangedSubview(labelStackView)
+        labelStackView.addArrangedSubview(titleLabel)
         
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -97,17 +101,8 @@ private extension PosterCollectionViewCell {
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             contentStackViewBottomAnchor,
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: imageViewRatio)
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: Self.imageViewRatio)
         ])
-    }
-    
-    func toggleIsHighlighted() {
-        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseOut], animations: {
-            self.alpha = self.isHighlighted ? 0.9 : 1.0
-            self.transform = self.isHighlighted ?
-            CGAffineTransform.identity.scaledBy(x: 0.97, y: 0.97) :
-            CGAffineTransform.identity
-        })
     }
 }
 
@@ -135,5 +130,16 @@ extension PosterCollectionViewCell {
     
     func imageViewStopSkeletonAnimation() {
         imageView.stopSkeletonAnimation()
+    }
+}
+
+// MARK: - HomeCollectionViewLayoutCellConfigurable
+
+extension PosterCollectionViewCell: HomeCollectionViewLayoutCellConfigurable {
+    static var cellHeightWithoutImage: CGFloat {
+        let labelHeight = Constants.titleFont.lineHeight * CGFloat(Constants.titleLabelNumberOfLines)
+        let spacing = Constants.stackSpacing
+        let gap = 1.0
+        return spacing + labelHeight + gap
     }
 }

@@ -63,7 +63,11 @@
 "HomeModule.buttonTitle.allDays" = "Все дни";
 "HomeModule.buttonTitle.all" = "Все";
 
+"HomeModule.watchingMenu.hideTitle" = "Скрыть из подборки";
+"HomeModule.watchingMenu.hideImageName" = "minus.circle";
+
 "HomeModule.error.failedRequestData" = "Ошибка загрузки данных";
+"HomeModule.error.failedHidingWatched" = "Не удалось скрыть просмотренное";
 
 // MARK: - Search Module
 "SearchModule.searchBar.placeholder" = "Поиск";

@@ -29,6 +29,7 @@ final class VideoPlayerModel {
     
     // CoreData Properties
     private let coreDataService = CoreDataService.shared
+    private let userDefaults = UserDefaults.standard
     private var userEntity: UserEntity?
     private var watchingEntity: WatchingEntity?
     private var currentEpisodeEntity: EpisodesEntity?
@@ -75,7 +76,7 @@ private extension VideoPlayerModel {
 // MARK: - CoreData methods
 extension VideoPlayerModel {
     private func setupCurrentEpisodeEntity() {
-        guard let userLogin = UserDefaults.standard.userLogin else { return }
+        guard let userLogin = userDefaults.userLogin else { return }
         do {
             if userEntity == nil {
                 userEntity = try UserEntity.find(userLogin: userLogin, context: coreDataService.viewContext)
@@ -97,6 +98,7 @@ extension VideoPlayerModel {
         watchingEntity?.animeName = animeItem.ruName
         watchingEntity?.animeImage = animeItem.image
         watchingEntity?.user = userEntity
+        watchingEntity?.isHidden = false
     }
     
     private func createCurrentEpisodeEntity(duration: Double, playbackPosition: Double, image: UIImage?) {
@@ -115,6 +117,7 @@ extension VideoPlayerModel {
             currentEpisodeEntity.playbackPosition = playbackPosition
             currentEpisodeEntity.watchingDate = Date()
             currentEpisodeEntity.watching?.animeImage = image
+            currentEpisodeEntity.watching?.isHidden = false
         } else if userEntity != nil {
             if watchingEntity == nil {
                 createWatchingEntity()
@@ -142,7 +145,7 @@ extension VideoPlayerModel {
             }
         } catch {
             logger.error("\(Logger.logInfo(error: error))")
-            delegate?.closePlayerWithAlert(title: Strings.VideoPlayer.error, message: "\(error)")
+            delegate?.closePlayerWithAlert(title: Strings.VideoPlayer.error, message: error.localizedDescription)
         }
     }
     
@@ -186,7 +189,7 @@ extension VideoPlayerModel {
     }
     
     func getAnimeImage() -> UIImage? {
-        return animeItem.image
+        return animeItem.image ?? watchingEntity?.animeImage
     }
     
     func setCurrentRate(_ rate: Float) {
