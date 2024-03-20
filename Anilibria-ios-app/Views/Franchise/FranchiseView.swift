@@ -8,10 +8,6 @@
 import UIKit
 
 final class FranchiseView: UIView {
-    enum ElementKind {
-        static let sectionHeader = "section-header-element-kind"
-    }
-    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = Strings.FranchiseModule.HeaderTitle.franchiseViewingOrder
@@ -52,7 +48,7 @@ private extension FranchiseView {
             forCellWithReuseIdentifier: PosterCollectionViewCell.reuseIdentifier)
         collectionView.register(
             FranchiseHeaderSupplementaryView.self,
-            forSupplementaryViewOfKind: ElementKind.sectionHeader,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: FranchiseHeaderSupplementaryView.reuseIdentifier)
         
         collectionView.isSkeletonable = true

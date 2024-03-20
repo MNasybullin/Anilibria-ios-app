@@ -51,7 +51,7 @@ private extension YouTubeContentController {
     
     func updateFooterView() {
         let indexPath = IndexPath(row: 0, section: 0)
-        guard let footerView = collectionView?.supplementaryView(forElementKind: YouTubeView.ElementKind.sectionFooter, at: indexPath) as? YouTubeFooterSupplementaryView else { return }
+        guard let footerView = collectionView?.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: indexPath) as? YouTubeFooterSupplementaryView else { return }
         footerView.configureView(status: status)
         collectionView?.collectionViewLayout.invalidateLayout()
     }
