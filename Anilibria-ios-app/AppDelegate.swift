@@ -15,13 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var currentOrientationMode: UIInterfaceOrientationMask = .portrait
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         
         updateSkeletonAppearance()
-        
-        FirebaseApp.configure()
-        
-        _ = AppRemoteConfig.shared
+        firebaseConfigure()
         
         return true
     }
@@ -51,5 +47,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 private extension AppDelegate {
     func updateSkeletonAppearance() {
         SkeletonAppearance.default.tintColor = .mySkeleton
+    }
+    
+    func firebaseConfigure() {
+        FirebaseApp.configure()
+        _ = AppRemoteConfig.shared
     }
 }
