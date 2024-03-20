@@ -56,7 +56,7 @@ private extension AppRemoteConfig {
     
     func activateReleseMode() {
         let settings = RemoteConfigSettings()
-        settings.minimumFetchInterval = 43200
+        settings.minimumFetchInterval = 1 * 60 * 60 // 1 Hour
         RemoteConfig.remoteConfig().configSettings = settings
     }
     
