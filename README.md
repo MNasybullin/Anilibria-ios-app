@@ -18,6 +18,10 @@ pod install
 - SwiftLint (https://github.com/realm/SwiftLint)
 - SkeletonView (https://github.com/Juanpe/SkeletonView.git)
 - FDFullscreenPopGesture (https://github.com/forkingdog/FDFullscreenPopGesture)
+- Google Firebase (https://firebase.google.com)
+    - FirebaseAnalytics
+    - FirebaseCrashlytics
+    - FirebaseRemoteConfig
 
 ## AniLibria API – v3.0.14
 - https://github.com/anilibria/docs/blob/master/api_v3.md

@@ -31,14 +31,14 @@ extension HomePosterItem {
         self.init(
             id: model.id,
             name: model.names.ru,
-            imageUrlString: NetworkConstants.mirrorBaseImagesURL + model.posters.original.url
+            imageUrlString: AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + model.posters.original.url
         )
     }
     
     init(fromYouTubeAPIModel model: YouTubeAPIModel) {
         var imageUrlString = ""
         if let previewUrl = model.preview.src {
-            imageUrlString = NetworkConstants.mirrorBaseImagesURL + previewUrl
+            imageUrlString = AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + previewUrl
         }
         self.init(id: model.id, name: model.title, imageUrlString: imageUrlString)
     }

@@ -20,6 +20,7 @@ final class AnimeModel {
     
     private let favoriteModel = FavoritesModel.shared
     private let userDefaults = UserDefaults.standard
+    private let remoteConfig = AppRemoteConfig.shared
     
     init(rawData: TitleAPIModel, image: UIImage?) {
         self.rawData = rawData
@@ -33,7 +34,7 @@ private extension AnimeModel {
     func requestImage() {
         Task(priority: .userInitiated) {
             do {
-                let url = NetworkConstants.mirrorBaseImagesURL + rawData.posters.original.url
+                let url = remoteConfig.string(forKey: .mirrorBaseImagesURL) + rawData.posters.original.url
                 let imageData = try await ImageLoaderService.shared.getImageData(fromURLString: url)
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
@@ -63,8 +64,8 @@ extension AnimeModel {
         let releaseUrl = "/release/" + item.code + ".html"
         let textToShare = """
             \(item.ruName)
-            \(NetworkConstants.anilibriaURL + releaseUrl)
-            Зеркало: \(NetworkConstants.mirrorAnilibriaURL + releaseUrl)
+            \(remoteConfig.string(forKey: .anilibriaURL) + releaseUrl)
+            Зеркало: \(remoteConfig.string(forKey: .mirrorAnilibriaURL) + releaseUrl)
             """
         return textToShare
     }

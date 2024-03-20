@@ -66,15 +66,15 @@ extension RandomAnimeController: RandomAnimeModelDelegate {
     }
     
     func failedRequestData(error: Error) {
-        DispatchQueue.main.async {
-            self.customView.refreshButton(isEnabled: true)
-        }
         let logger = Logger(subsystem: .anime, category: .data)
         logger.error("\(Logger.logInfo(error: error))")
         
         let data = NotificationBannerView.BannerData(title: Strings.RandomAnimeModule.Error.failedRequestData,
                                                      detail: error.localizedDescription,
                                                      type: .error)
-        NotificationBannerView(data: data).show(onView: customView)
+        DispatchQueue.main.async {
+            self.customView.refreshButton(isEnabled: true)
+            NotificationBannerView(data: data).show(onView: self.customView)
+        }
     }
 }

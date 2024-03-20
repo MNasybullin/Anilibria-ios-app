@@ -9,11 +9,17 @@ import Foundation
 
 final class PublicApiService: NetworkQuery {
     
+    private let remoteConfig = AppRemoteConfig.shared
+    
+    private var apiAnilibria: String {
+        remoteConfig.string(forKey: .apiAnilibriaURL)
+    }
+    
     /// Получить информацию о тайтле по id
     /// - Parameters:
     ///     - id: ID тайтла
     func title(id: String) async throws -> TitleAPIModel {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.title)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.title)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id", value: id),
             URLQueryItem(name: "playlist_type", value: "array"),
@@ -29,7 +35,7 @@ final class PublicApiService: NetworkQuery {
     /// - Parameters:
     ///     - ids: IDs тайтлов через запятую. Пример ("8500,8644")
     func titleList(ids: String) async throws -> [TitleAPIModel] {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.titleList)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.titleList)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id_list", value: ids),
             URLQueryItem(name: "playlist_type", value: "array"),
@@ -47,7 +53,7 @@ final class PublicApiService: NetworkQuery {
     ///     - itemsPerPage: Количество запрашиваемых объектов на странице (По умолчанию 14)
     func titleUpdates(page: Int,
                       itemsPerPage: Int = 14) async throws -> ListAPIModel<TitleAPIModel> {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.titleUpdates)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.titleUpdates)
         urlComponents?.queryItems = [
             URLQueryItem(name: "playlist_type", value: "array"),
             URLQueryItem(name: "page", value: String(page)),
@@ -66,7 +72,7 @@ final class PublicApiService: NetworkQuery {
     ///     - itemsPerPage: Количество запрашиваемых объектов на странице (По умолчанию 5)
     func titleChanges(page: Int,
                       itemsPerPage: Int = 5) async throws -> ListAPIModel<TitleAPIModel> {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.titleChanges)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.titleChanges)
         urlComponents?.queryItems = [
             URLQueryItem(name: "playlist_type", value: "array"),
             URLQueryItem(name: "page", value: String(page)),
@@ -83,7 +89,7 @@ final class PublicApiService: NetworkQuery {
     /// - Parameters:
     ///     - withDays days: Список дней недели на которые нужно расписание
     func titleSchedule(withDays days: [DaysOfTheWeek]) async throws -> [ScheduleAPIModel] {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.titleSchedule)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.titleSchedule)
         let daysString = days.reduce("", {$0 + String($1.rawValue) + ","})
         urlComponents?.queryItems = [
             URLQueryItem(name: "days", value: daysString),
@@ -98,7 +104,7 @@ final class PublicApiService: NetworkQuery {
     
     /// Получить случайный тайтл из базы
     func titleRandom() async throws -> TitleAPIModel {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.titleRandom)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.titleRandom)
         urlComponents?.queryItems = [
             URLQueryItem(name: "playlist_type", value: "array"),
             NetworkConstants.removeTorrents
@@ -115,7 +121,7 @@ final class PublicApiService: NetworkQuery {
     ///     - itemsPerPage: Количество запрашиваемых объектов на странице (По умолчанию 5)
     func youTube(page: Int,
                  itemsPerPage: Int = 5) async throws -> ListAPIModel<YouTubeAPIModel> {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.youtube)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.youtube)
         urlComponents?.queryItems = [
             URLQueryItem(name: "page", value: String(page)),
             URLQueryItem(name: "items_per_page", value: String(itemsPerPage))
@@ -128,7 +134,7 @@ final class PublicApiService: NetworkQuery {
     
     /// Получить список годов выхода доступных тайтлов отсортированный по возрастанию
     func years() async throws -> [Int] {
-        let urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.years)
+        let urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.years)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try jsonDecoder.decode([Int].self, from: data)
@@ -142,7 +148,7 @@ final class PublicApiService: NetworkQuery {
     ///     1 - Сортировка по рейтингу
     ///     (По умолчанию 0)
     func genres(sortingType: Int = 0) async throws -> [String] {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.genres)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.genres)
         urlComponents?.queryItems = [
             URLQueryItem(name: "sorting_type", value: String(sortingType))
         ]
@@ -153,7 +159,7 @@ final class PublicApiService: NetworkQuery {
     
     /// Возвращает список участников команды когда-либо существовавших на проекте.
     func team() async throws -> TeamAPIModel {
-        let urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.team)
+        let urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.team)
         
         let data = try await dataRequest(with: urlComponents, httpMethod: .get)
         let decoded = try jsonDecoder.decode(TeamAPIModel.self, from: data)
@@ -174,7 +180,7 @@ final class PublicApiService: NetworkQuery {
                      genres: String = "",
                      page: Int,
                      itemsPerPage: Int = 10) async throws -> ListAPIModel<TitleAPIModel> {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.titleSearch)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.titleSearch)
         urlComponents?.queryItems = [
             URLQueryItem(name: "search", value: search),
             URLQueryItem(name: "year", value: year),
@@ -195,7 +201,7 @@ final class PublicApiService: NetworkQuery {
     /// - Parameters:
     ///     - id: ID тайтла
     func titleFranchises(id: Int) async throws -> [FranchisesAPIModel] {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.titleFranchises)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.titleFranchises)
         urlComponents?.queryItems = [
             URLQueryItem(name: "id", value: String(id))
         ]
@@ -211,7 +217,7 @@ final class PublicApiService: NetworkQuery {
     ///     - itemsPerPage: Количество запрашиваемых объектов на странице (По умолчанию 5)
     func franchiseList(page: Int,
                        itemsPerPage: Int = 5) async throws -> ListAPIModel<FranchisesAPIModel> {
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.franchiseList)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.franchiseList)
         urlComponents?.queryItems = [
             URLQueryItem(name: "page", value: String(page)),
             URLQueryItem(name: "items_per_page", value: String(itemsPerPage))

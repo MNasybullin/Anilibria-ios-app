@@ -15,6 +15,11 @@ target 'Anilibria-ios-app' do
     pod 'SwiftLint', '~> 0.54.0'
     pod 'SkeletonView', :inhibit_warnings => true, :git => 'https://github.com/MNasybullin/SkeletonView', :branch => 'anilibria'
     pod 'FDFullscreenPopGesture', '1.1'
+    
+    # Add the Firebase pod for Google Analytics
+    pod 'FirebaseAnalytics'
+    pod 'FirebaseCrashlytics'
+    pod 'FirebaseRemoteConfig'
 
   # Pods for Anilibria-ios-app
 

@@ -72,6 +72,6 @@ extension Playlist {
         guard let preview else {
             return ""
         }
-        return NetworkConstants.mirrorBaseImagesURL + preview
+        return AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + preview
     }
 }

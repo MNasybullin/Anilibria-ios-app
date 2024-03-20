@@ -10,6 +10,7 @@ import Foundation
 final class ProfileModel {
     
     private let publicApiService = PublicApiService()
+    private let remoteConfig = AppRemoteConfig.shared
     
     init() {
         
@@ -22,7 +23,7 @@ extension ProfileModel {
     func getUrl(forAnilibriaItem item: ProfileContentController.AnilibriaItem) -> URL? {
         switch item {
             case .discord: return URL(string: NetworkConstants.anilibriaDiscord)
-            case .site: return URL(string: NetworkConstants.anilibriaURL)
+            case .site: return URL(string: remoteConfig.string(forKey: .anilibriaURL))
             case .team: return nil
             case .telegram: return URL(string: NetworkConstants.anilibriaTelegram)
             case .vk: return URL(string: NetworkConstants.anilibriaVk)

@@ -17,6 +17,7 @@ final class RandomAnimeModel {
     weak var delegate: RandomAnimeModelDelegate?
     
     private let publicApiService = PublicApiService()
+    private let remoteConfig = AppRemoteConfig.shared
     
     private (set) var isDataTaskLoading = false
     private var rawData: TitleAPIModel?
@@ -29,7 +30,7 @@ final class RandomAnimeModel {
             defer { isDataTaskLoading = false }
             do {
                 let titleModel = try await publicApiService.titleRandom()
-                let imageURL = NetworkConstants.mirrorBaseImagesURL + titleModel.posters.original.url
+                let imageURL = remoteConfig.string(forKey: .mirrorBaseImagesURL) + titleModel.posters.original.url
                 let imageData = try await ImageLoaderService.shared.getImageData(fromURLString: imageURL)
                 guard let image = UIImage(data: imageData) else {
                     throw MyImageError.failedToInitialize
