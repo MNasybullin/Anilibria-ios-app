@@ -14,7 +14,7 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
     private var contentController: ScheduleContentController!
     
     override func loadView() {
-        view = ScheduleView()
+        view = ScheduleView(delegate: self)
     }
     
     override func viewDidLoad() {
@@ -22,9 +22,21 @@ final class ScheduleController: UIViewController, HomeFlow, HasCustomView {
         
         setupContentController()
     }
-    
-    private func setupContentController() {
+}
+
+// MARK: - Private methods
+
+private extension ScheduleController {
+    func setupContentController() {
         contentController = ScheduleContentController(customView: customView, delegate: self)
+    }
+}
+
+// MARK: - ScheduleViewDelegate
+
+extension ScheduleController: ScheduleViewDelegate {
+    func refreshButtonDidTapped() {
+        contentController.requestData()
     }
 }
 

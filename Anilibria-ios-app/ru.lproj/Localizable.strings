@@ -201,5 +201,10 @@
 "UserModule.error.authorizationFailure" = "Ошибка авторизации";
 "UserModule.error.logoutFailure" = "Ошибка выхода";
 
-// MARK: - Schedule Module
-"ScheduleModule.error.errorLoadingSchedule" = "Ошибка загрузки расписания";
+// MARK: Status Alert View
+"StatusAlertView.Error.image" = "exclamationmark.triangle";
+"StatusAlertView.Error.title" = "Ошибка";
+"StatusAlertView.Error.refreshButtonTitle" = "Обновить";
+
+
+

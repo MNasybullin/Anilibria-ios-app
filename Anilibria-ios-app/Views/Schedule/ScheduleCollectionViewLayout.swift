@@ -8,8 +8,6 @@
 import UIKit
 
 final class ScheduleCollectionViewLayout {
-    typealias ElementKind = ScheduleView.ElementKind
-    
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] _, environment in
             guard let self else { fatalError("Layout instance is nil.") }
@@ -58,7 +56,7 @@ final class ScheduleCollectionViewLayout {
             heightDimension: .estimated(40))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
-            elementKind: ElementKind.sectionHeader,
+            elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         sectionHeader.pinToVisibleBounds = true
         sectionHeader.zIndex = 2
