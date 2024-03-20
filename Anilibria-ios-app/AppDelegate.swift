@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         updateSkeletonAppearance()
+        
+        FirebaseApp.configure()
+        
+        _ = AppRemoteConfig.shared
         
         return true
     }
