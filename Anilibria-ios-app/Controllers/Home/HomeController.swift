@@ -37,7 +37,7 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
             contentController.requestRefreshWatchingData()
             return
         }
-        customView.programaticallyBeginRefreshing()
+        contentController.requestDataWithRefreshStatus()
         expiredDateManager.start()
     }
     
@@ -65,7 +65,7 @@ private extension HomeController {
                     self?.contentController.requestRefreshWatchingData()
                     return
                 }
-                self?.customView.programaticallyBeginRefreshing()
+                self?.contentController.requestDataWithRefreshStatus()
                 self?.expiredDateManager.start()
             }
             .store(in: &subscriptions)
@@ -76,12 +76,14 @@ private extension HomeController {
 
 extension HomeController: HomeViewOutput {
     func handleRefreshControl() {
-        guard NetworkMonitor.shared.isConnected == true else {
+        if NetworkMonitor.shared.isConnected == false {
             MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
-            customView.refreshControlEndRefreshing()
-            return
         }
-        contentController.requestRefreshData()
+        contentController.requestDataWithRefreshStatus()
+    }
+    
+    func refreshButtonDidTapped() {
+        contentController.requestDataWithLoadingStatus()
     }
 }
 

@@ -71,9 +71,17 @@ final class HomeContentController: NSObject {
     private var updatesData: [HomePosterItem] = []
     private var youtubeData: [HomePosterItem] = []
     
-    private var isSkeletonView = true
-    private var isLoadingData = false
     let customView: HomeView
+    
+    private var _status: HomeView.Status = .normal
+    
+    private var status: HomeView.Status {
+        get { _status }
+        set {
+            _status = newValue
+            customView.updateView(withStatus: status)
+        }
+    }
     
     init(customView: HomeView, delegate: HomeContentControllerDelegate?) {
         self.customView = customView
@@ -83,21 +91,19 @@ final class HomeContentController: NSObject {
         setupCollectionView()
         setupModels()
         applyInitialSnapshot()
-        customView.showSkeletonCollectionView()
-        requestData()
+        requestDataWithLoadingStatus()
     }
     
-    func requestRefreshData() {
-        guard isLoadingData == false else {
-            customView.refreshControlEndRefreshing()
-            return
-        }
-        requestData()
+    func requestDataWithRefreshStatus() {
+        requestData(status: .refresh)
+    }
+    
+    func requestDataWithLoadingStatus() {
+        requestData(status: .loading)
     }
     
     func requestRefreshWatchingData() {
-        guard isLoadingData == false &&
-                customView.collectionView.sk.isSkeletonActive == false else {
+        guard status == .normal else {
             return
         }
         do {
@@ -338,14 +344,10 @@ private extension HomeContentController {
         }
     }
     
-    func requestData() {
-        guard isLoadingData == false else { return }
-        isLoadingData = true
+    func requestData(status setStatus: HomeView.Status) {
+        guard status != .loading && status != .refresh else { return }
+        status = setStatus
         Task(priority: .userInitiated) {
-            defer {
-                customView.refreshControlEndRefreshing()
-                isLoadingData = false
-            }
             do {
                 async let today = todayModel.requestData()
                 async let updates = updatesModel.requestData()
@@ -356,16 +358,12 @@ private extension HomeContentController {
                 await youtubeData = try youtube
                 watchingData = try watchingModel.requestData()
                 
-                customView.hideSkeletonCollectionView()
+                status = .normal
                 applySnapshot()
             } catch {
                 let logger = Logger(subsystem: .home, category: .data)
                 logger.error("\(Logger.logInfo(error: error))")
-                
-                let data = NotificationBannerView.BannerData(title: Localization.Error.failedRequestData,
-                                                             detail: error.localizedDescription,
-                                                             type: .error)
-                NotificationBannerView(data: data).show(onView: customView)
+                status = .error(error)
             }
         }
     }
