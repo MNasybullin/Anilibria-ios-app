@@ -89,15 +89,15 @@ private extension HomeCollectionViewLayout {
                 cellConfigurable: TodayHomePosterCollectionCell.self),
             .watching: .init(
                 groupWidthFraction: 0.7,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: WatchingHomeCollectionViewCell.self),
             .updates: .init(
                 groupWidthFraction: 0.45,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: UpdatesHomePosterCollectionCell.self),
             .youtube: .init(
                 groupWidthFraction: 0.9,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: YouTubeHomePosterCollectionCell.self)
         ]
     }
@@ -105,20 +105,20 @@ private extension HomeCollectionViewLayout {
     func configurePadSectionConfigurations() -> [Section: SectionConfiguration] {
         return [
             .today: .init(
-                groupWidthFraction: 0.4,
+                groupWidthFraction: 0.3,
                 orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
                 cellConfigurable: TodayHomePosterCollectionCell.self),
             .watching: .init(
                 groupWidthFraction: 0.45,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: WatchingHomeCollectionViewCell.self),
             .updates: .init(
-                groupWidthFraction: 0.3,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                groupWidthFraction: 0.25,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: UpdatesHomePosterCollectionCell.self),
             .youtube: .init(
                 groupWidthFraction: 0.55,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: YouTubeHomePosterCollectionCell.self)
         ]
     }
