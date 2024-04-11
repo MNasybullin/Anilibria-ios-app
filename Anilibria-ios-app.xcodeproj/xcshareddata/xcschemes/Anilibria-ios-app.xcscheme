@@ -34,20 +34,9 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "27E283642B72991500651E0B"
-               BuildableName = "APITests.xctest"
-               BlueprintName = "APITests"
-               ReferencedContainer = "container:Anilibria-ios-app.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "27E283712B72992700651E0B"
-               BuildableName = "SecurityStorageTests.xctest"
-               BlueprintName = "SecurityStorageTests"
+               BlueprintIdentifier = "2726C1D32BC6E45800B0A94E"
+               BuildableName = "Anilibria-ios-app-Tests.xctest"
+               BlueprintName = "Anilibria-ios-app-Tests"
                ReferencedContainer = "container:Anilibria-ios-app.xcodeproj">
             </BuildableReference>
          </TestableReference>

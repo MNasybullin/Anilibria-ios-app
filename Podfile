@@ -23,12 +23,7 @@ target 'Anilibria-ios-app' do
 
   # Pods for Anilibria-ios-app
 
-  target 'SecurityStorageTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-  
-  target 'APITests' do
+  target 'Anilibria-ios-app-Tests' do
     inherit! :search_paths
     # Pods for testing
   end

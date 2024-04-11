@@ -10,11 +10,12 @@ import XCTest
 
 class ImageLoaderServiceTests: XCTestCase {
     let networkMonitor = NetworkMonitor.shared
+    let remoteConfig = AppRemoteConfig.shared
     
     func testGetImage() async throws {
         try XCTSkipUnless(networkMonitor.isConnected, "Network connectivity needed for this test.")
         
-        let urlString = NetworkConstants.mirrorBaseImagesURL + "/upload/avatars/noavatar.jpg"
+        let urlString = remoteConfig.string(forKey: .mirrorBaseImagesURL) + "/upload/avatars/noavatar.jpg"
         do {
             _ = try await ImageLoaderService.shared.getImageData(fromURLString: urlString)
         } catch {

@@ -22,6 +22,7 @@ final class AppRemoteConfig {
     }
     
     static let shared = AppRemoteConfig()
+    private let appVersionManager = AppVersionManager()
     
     private let logger = Logger(subsystem: .remoteConfig, category: .empty)
     
@@ -43,7 +44,7 @@ private extension AppRemoteConfig {
             Keys.anilibriaURL.rawValue: "https://www.anilibria.tv",
             Keys.baseImagesURL.rawValue: "https://static.anilibria.tv",
             
-            Keys.appVersion.rawValue: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+            Keys.appVersion.rawValue: appVersionManager.currentVersion ?? ""
         ]
         RemoteConfig.remoteConfig().setDefaults(appDefaults as? [String: NSObject])
     }
