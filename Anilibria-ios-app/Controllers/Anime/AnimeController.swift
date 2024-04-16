@@ -121,7 +121,8 @@ private extension AnimeController {
         let franchises = model.getFranchises()
         guard franchises.isEmpty == false else { return }
         franchiseController = FranchiseController(franchisesData: franchises)
-        franchiseController?.delegate = self
+        franchiseController!.delegate = self
+        franchiseController!.animeView = customView
         
         addChild(franchiseController!)
         

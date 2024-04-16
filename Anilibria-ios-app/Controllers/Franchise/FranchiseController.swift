@@ -16,6 +16,9 @@ final class FranchiseController: UIViewController, HasCustomView {
     
     weak var delegate: FranchiseControllerDelegate?
     
+    // for notification banner
+    weak var animeView: UIView?
+    
     private var contentController: FranchiseContentController!
     private let franchisesData: [FranchisesAPIModel]
     
@@ -56,6 +59,13 @@ private extension FranchiseController {
 extension FranchiseController: FranchiseContentControllerDelegate {
     func didSelectItem(data: TitleAPIModel, image: UIImage?) {
         delegate?.showAnime(data: data, image: image)
+    }
+    
+    func removeFranchiseFromParent() {
+        willMove(toParent: nil)
+        removeFromParent()
+        customView.removeFromSuperview()
+        didMove(toParent: nil)
     }
 }
 

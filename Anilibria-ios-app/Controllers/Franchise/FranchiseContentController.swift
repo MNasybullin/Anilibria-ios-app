@@ -9,7 +9,10 @@ import UIKit
 import OSLog
 
 protocol FranchiseContentControllerDelegate: AnyObject {
+    var animeView: UIView? { get }
+    
     func didSelectItem(data: TitleAPIModel, image: UIImage?)
+    func removeFranchiseFromParent()
 }
 
 @MainActor
@@ -24,10 +27,13 @@ final class FranchiseContentController: NSObject {
     enum Status {
         case normal
         case loading
+        case error
                 
         static func == (lhs: Status, rhs: Status) -> Bool {
             switch (lhs, rhs) {
-                case (.normal, .normal), (.loading, .loading):
+                case (.normal, .normal), 
+                    (.loading, .loading),
+                    (.error, .error):
                     return true
                 default:
                     return false
@@ -129,14 +135,16 @@ private extension FranchiseContentController {
                 applySnapshot()
                 status = .normal
             } catch {
-                status = .normal
+                status = .error
                 let logger = Logger(subsystem: .franchise, category: .data)
                 logger.error("\(Logger.logInfo(error: error))")
                 
                 let data = NotificationBannerView.BannerData(title: Strings.FranchiseModule.Error.errorLoadingFranchises,
                                                              detail: error.localizedDescription,
                                                              type: .error)
-                NotificationBannerView(data: data).show(onView: customView)
+                NotificationBannerView(data: data).show(onView: delegate?.animeView ?? customView)
+                
+                delegate?.removeFranchiseFromParent()
             }
         }
     }
