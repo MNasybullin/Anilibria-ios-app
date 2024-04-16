@@ -19,6 +19,7 @@ final class AppRemoteConfig {
         case baseImagesURL
         
         case appVersion
+        case appVersionNews
     }
     
     static let shared = AppRemoteConfig()
@@ -44,7 +45,8 @@ private extension AppRemoteConfig {
             Keys.anilibriaURL.rawValue: "https://www.anilibria.tv",
             Keys.baseImagesURL.rawValue: "https://static.anilibria.tv",
             
-            Keys.appVersion.rawValue: appVersionManager.currentVersion ?? ""
+            Keys.appVersion.rawValue: appVersionManager.currentVersion ?? "",
+            Keys.appVersionNews.rawValue: ""
         ]
         RemoteConfig.remoteConfig().setDefaults(appDefaults as? [String: NSObject])
     }

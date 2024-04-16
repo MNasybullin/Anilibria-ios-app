@@ -40,6 +40,8 @@
 		2726C1E02BC6E4A700B0A94E /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
 		2726C1E12BC6E4AA00B0A94E /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
 		2726C1E22BC6E4AC00B0A94E /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
+		2726C1E42BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E32BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift */; };
+		2726C1E62BCECA2100B0A94E /* AppUpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */; };
 		272D6532288AEF3800FA4F60 /* NetworkQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6531288AEF3800FA4F60 /* NetworkQuery.swift */; };
 		272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6534288C63E100FA4F60 /* YouTubeAPIModel.swift */; };
 		272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */; };
@@ -259,6 +261,8 @@
 		2726C1BD2BC6DBB300B0A94E /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
 		2726C1C02BC6DF3D00B0A94E /* AppVersionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManagerTests.swift; sourceTree = "<group>"; };
 		2726C1D42BC6E45800B0A94E /* Anilibria-ios-app-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-app-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2726C1E32BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateCollectionViewCell.swift; sourceTree = "<group>"; };
+		2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateModel.swift; sourceTree = "<group>"; };
 		272D6531288AEF3800FA4F60 /* NetworkQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkQuery.swift; sourceTree = "<group>"; };
 		272D6534288C63E100FA4F60 /* YouTubeAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeAPIModel.swift; sourceTree = "<group>"; };
 		272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IB-Segues+Generated.swift"; sourceTree = "<group>"; };
@@ -538,6 +542,7 @@
 				271072E22ADDD7AC0024530D /* PosterCollectionViewCell.swift */,
 				2758A44E2B4301090089E475 /* Episodes */,
 				2744762A29B8CCF60062F6D2 /* SearchResultsTableViewCell.swift */,
+				2726C1E32BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -781,6 +786,7 @@
 				27E1BA0F2B7B862E00A9C73C /* TeamModel.swift */,
 				27E1BA212B82613900A9C73C /* SettingsModel.swift */,
 				27E1BA2A2B83929300A9C73C /* AboutAppModel.swift */,
+				2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */,
 				27103DC62B68401900B4CA49 /* Franchise */,
 				273ECB012B20E96500402612 /* VideoPlayer */,
 				27B707232AF3E33900DD8DC6 /* SearchResults */,
@@ -1487,6 +1493,7 @@
 				271A0E1F2AE7EBA4005958CB /* HomeTodayModel.swift in Sources */,
 				2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
+				2726C1E42BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift in Sources */,
 				277A73BA2B95BF0B009E1F8C /* Logger+Extension.swift in Sources */,
 				276880CC2B49359400F5FD06 /* FavoritesDiffableDataSource.swift in Sources */,
 				275865CF2ADC117700F98884 /* UserDefaults+Extension.swift in Sources */,
@@ -1551,6 +1558,7 @@
 				27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */,
 				271A0E3C2AE97F10005958CB /* ScheduleModel.swift in Sources */,
 				270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */,
+				2726C1E62BCECA2100B0A94E /* AppUpdateModel.swift in Sources */,
 				27F8D8E529C2245900D8F4D1 /* SearchResultsHeaderView.swift in Sources */,
 				27E1BA072B7AB70A00A9C73C /* ProfileModel.swift in Sources */,
 				27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */,
@@ -1879,7 +1887,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 0.5.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1918,7 +1926,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 0.5.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";

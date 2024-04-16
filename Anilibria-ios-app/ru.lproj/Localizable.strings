@@ -206,5 +206,7 @@
 "StatusAlertView.Error.title" = "Ошибка";
 "StatusAlertView.Error.refreshButtonTitle" = "Обновить";
 
-
+// MARK: - AppUpdateCell
+"AppUpdateCell.title" = "Новая версия приложения";
+"AppUpdateCell.whatIsNew" = "Что нового?";
 
