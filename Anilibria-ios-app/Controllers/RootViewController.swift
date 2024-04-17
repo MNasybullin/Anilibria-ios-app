@@ -71,4 +71,10 @@ extension RootViewController {
     func selectTabBarItem(_ item: TabBarItemTags) {
         tabBar.selectedIndex = item.rawValue
     }
+    
+    func configureTabBarBadge(item: TabBarItemTags, badgeValue: String?) {
+        DispatchQueue.main.async { [weak self] in
+            self?.tabBar.tabBar.items?[item.rawValue].badgeValue = badgeValue
+        }
+    }
 }

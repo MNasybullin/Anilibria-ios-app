@@ -77,6 +77,10 @@ private extension AppRemoteConfig {
             }
             RemoteConfig.remoteConfig().activate { [weak self] _, _ in
                 self?.logger.debug("AppRemoteConfig is activate, values ​​received from the cloud!")
+                
+                if AppUpdateModel().isNeedUpdateApp() {
+                    MainNavigator.shared.rootViewController.configureTabBarBadge(item: .profile, badgeValue: "")
+                }
             }
         }
     }
