@@ -8,8 +8,8 @@
 import UIKit
 
 final class ProfileView: UIView {
-    private let layout = ProfileCollectionViewLayout().createLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    let layout = ProfileCollectionViewLayout()
+    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
     
     private lazy var currentWindow: UIWindow? = {
         let scenes = UIApplication.shared.connectedScenes
@@ -39,6 +39,7 @@ private extension ProfileView {
     }
     
     func setupCollectionView() {
+        collectionView.register(AppUpdateCollectionViewCell.self, forCellWithReuseIdentifier: AppUpdateCollectionViewCell.reuseIdentifier)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.reuseIdentifier)
         collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: UICollectionViewListCell.reuseIdentifier)
         

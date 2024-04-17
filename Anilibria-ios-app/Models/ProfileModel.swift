@@ -11,10 +11,6 @@ final class ProfileModel {
     
     private let publicApiService = PublicApiService()
     private let remoteConfig = AppRemoteConfig.shared
-    
-    init() {
-        
-    }
 }
 
 // MARK: - Internal methods

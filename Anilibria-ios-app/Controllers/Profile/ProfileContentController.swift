@@ -21,17 +21,20 @@ final class ProfileContentController: NSObject {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
     enum Section: Int, CaseIterable {
-        case user, anilibria, app
+        case user, appUpdate, anilibria, app
     }
     
     enum Item: Hashable {
         case user
+        case appUpdate
         case anilibria(AnilibriaItem)
         case app(AppItem)
         
         static func == (lhs: Item, rhs: Item) -> Bool {
             switch (lhs, rhs) {
                 case (.user, .user):
+                    return true
+                case (.appUpdate, .appUpdate):
                     return true
                 case (.anilibria(let leftAnilibriaItem), .anilibria(let rightAnilibriaItem)):
                     return leftAnilibriaItem == rightAnilibriaItem
@@ -46,6 +49,8 @@ final class ProfileContentController: NSObject {
             switch self {
                 case .user:
                     hasher.combine("user")
+                case .appUpdate:
+                    hasher.combine("appUpdate")
                 case .anilibria(let anilibriaItem):
                     hasher.combine("anilibria")
                     hasher.combine(anilibriaItem)
@@ -85,6 +90,7 @@ final class ProfileContentController: NSObject {
     private let customView: ProfileView
     private let userController = UserController()
     private let model = ProfileModel()
+    private let appUpdateModel = AppUpdateModel()
     private lazy var dataSource = makeDataSource()
     weak var delegate: ProfileContentControllerDelegate?
     
@@ -102,6 +108,7 @@ final class ProfileContentController: NSObject {
 private extension ProfileContentController {
     func setupCollectionView() {
         customView.collectionView.delegate = self
+        customView.layout.dataSource = dataSource
     }
     
     func makeDataSource() -> DataSource {
@@ -112,6 +119,8 @@ private extension ProfileContentController {
                 switch itemIdentifier {
                     case .user:
                         self?.configureUserCell(collectionView, indexPath: indexPath)
+                    case .appUpdate:
+                        self?.configureAppUpdateCell(collectionView, indexPath: indexPath)
                     case .anilibria(let type):
                         self?.configureListCell(collectionView, indexPath: indexPath, text: type.description)
                     case .app(let type):
@@ -126,6 +135,12 @@ private extension ProfileContentController {
         snapshot.appendSections(Section.allCases)
         
         snapshot.appendItems([.user], toSection: .user)
+        
+        if appUpdateModel.isNeedUpdateApp() {
+            snapshot.appendItems([Item.appUpdate], toSection: .appUpdate)
+        } else {
+            snapshot.deleteSections([.appUpdate])
+        }
         
         snapshot.appendItems([
             .anilibria(.site),
@@ -159,6 +174,17 @@ private extension ProfileContentController {
         return cell
     }
     
+    func configureAppUpdateCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppUpdateCollectionViewCell.reuseIdentifier, for: indexPath) as? AppUpdateCollectionViewCell else {
+            fatalError("Can`t create new appUpdate cell")
+        }
+        let appVersion = appUpdateModel.getAppVersion()
+        let news = appUpdateModel.getNews()
+        cell.configureCell(appVersion: appVersion, news: news)
+        cell.delegate = self
+        return cell
+    }
+    
     func configureListCell(_ collectionView: UICollectionView, indexPath: IndexPath, text: String) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewListCell.reuseIdentifier, for: indexPath) as? UICollectionViewListCell else {
             fatalError("Can`t create new list cell")
@@ -183,6 +209,13 @@ extension ProfileContentController: UICollectionViewDelegate {
         }
         switch item {
             case .user: break
+            case .appUpdate:
+                guard let url = appUpdateModel.getGitHubUrl() else {
+                    let logger = Logger(subsystem: .profile, category: .data)
+                    logger.error("\(Logger.logInfo()) url is nil")
+                    return
+                }
+                delegate?.showSite(url: url)
             case .anilibria(let type):
                 if type == .team {
                     didSelectTeamRow(indexPath: indexPath)
@@ -232,5 +265,13 @@ extension ProfileContentController: UICollectionViewDelegate {
                 NotificationBannerView(data: data).show(onView: customView)
             }
         }
+    }
+}
+
+// MARK: - AppUpdateCollectionViewCellDelegate
+
+extension ProfileContentController: AppUpdateCollectionViewCellDelegate {
+    func updateCellHeight() {
+        customView.collectionView.performBatchUpdates(nil, completion: nil)
     }
 }

@@ -28,4 +28,8 @@ final class AppUpdateModel {
     func getNews() -> String {
         appRemoteConfig.string(forKey: .appVersionNews)
     }
+    
+    func getGitHubUrl() -> URL? {
+        URL(string: NetworkConstants.github)
+    }
 }

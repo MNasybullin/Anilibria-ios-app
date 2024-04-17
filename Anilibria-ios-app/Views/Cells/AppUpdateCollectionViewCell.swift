@@ -128,7 +128,7 @@ final class AppUpdateCollectionViewCell: UICollectionViewCell {
 
 private extension AppUpdateCollectionViewCell {
     func setupView() {
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .secondarySystemGroupedBackground
         layer.cornerRadius = 8
         layer.masksToBounds = true
     }
