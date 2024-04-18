@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FranchiseControllerDelegate: AnyObject {
-    func showAnime(data: TitleAPIModel, image: UIImage?)
+    func didSelectItem(data: TitleAPIModel, image: UIImage?)
 }
 
 final class FranchiseController: UIViewController, HasCustomView {
@@ -58,7 +58,7 @@ private extension FranchiseController {
 
 extension FranchiseController: FranchiseContentControllerDelegate {
     func didSelectItem(data: TitleAPIModel, image: UIImage?) {
-        delegate?.showAnime(data: data, image: image)
+        delegate?.didSelectItem(data: data, image: image)
     }
     
     func removeFranchiseFromParent() {

@@ -172,6 +172,11 @@ extension AnimeView {
     func appendFranchiseView(_ franchiseView: FranchiseView) {
         contentVStack.addArrangedSubview(franchiseView)
     }
+    
+    func scrollToTop() {
+        let topOffset = CGPoint(x: 0, y: -scrollView.adjustedContentInset.top)
+        scrollView.setContentOffset(topOffset, animated: true)
+    }
 }
 
 // MARK: - UINavigationBarDelegate

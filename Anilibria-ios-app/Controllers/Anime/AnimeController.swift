@@ -237,8 +237,14 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
 // MARK: - FranchiseControllerDelegate
 
 extension AnimeController: FranchiseControllerDelegate {
-    func showAnime(data: TitleAPIModel, image: UIImage?) {
-        navigator?.show(.anime(data: data, image: image))
+    func didSelectItem(data: TitleAPIModel, image: UIImage?) {
+        let currentAnime = model.getAnimeItem()
+        
+        if data.id == currentAnime.id {
+            customView.scrollToTop()
+        } else {
+            navigator?.show(.anime(data: data, image: image))
+        }
     }
 }
 
