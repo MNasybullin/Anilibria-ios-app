@@ -9,6 +9,7 @@ import UIKit
 
 protocol AnimeViewOutput: AnyObject {
     func navBarBackButtonTapped()
+    func navBarCommentsButtonTapped()
 }
 
 final class AnimeView: UIView {
@@ -80,12 +81,20 @@ private extension AnimeView {
     
     func configureNavBarItem() {
         let backButtonImage = UIImage(systemName: "chevron.left")?.applyingSymbolConfiguration(.init(weight: .semibold))
-        let backBarButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(testBackBarButton))
+        let backBarButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(navBarBackButtonTapped))
         navBarItem.leftBarButtonItem = backBarButton
+        
+        let commentsButtonImage = UIImage(systemName: "message")?.applyingSymbolConfiguration(.init(weight: .semibold))
+        let commentsBarButton = UIBarButtonItem(image: commentsButtonImage, style: .plain, target: self, action: #selector(navBarCommentsButtonTapped))
+        navBarItem.rightBarButtonItem = commentsBarButton
     }
     
-    @objc func testBackBarButton() {
+    @objc func navBarBackButtonTapped() {
         delegate?.navBarBackButtonTapped()
+    }
+    
+    @objc func navBarCommentsButtonTapped() {
+        delegate?.navBarCommentsButtonTapped()
     }
     
     func configureScrollView() {

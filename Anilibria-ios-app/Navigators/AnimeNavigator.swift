@@ -35,6 +35,7 @@ extension AnimeNavigator: Navigator {
         case anime(data: TitleAPIModel, image: UIImage?)
         case episodes(data: AnimeItem)
         case videoPlayer(data: AnimeItem, currentPlaylist: Int)
+        case vkComments(data: AnimeItem)
     }
     
     func show(_ destination: Destinition) {
@@ -51,6 +52,10 @@ extension AnimeNavigator: Navigator {
             case .videoPlayer(let item, let currentPlaylist):
                 let playerNavigator = VideoPlayerNavigator.shared
                 playerNavigator.show(.player(data: item, currentPlaylist: currentPlaylist, presentatingController: navigationController))
+            case .vkComments(let data):
+                let vkComments = VKCommentsController(data: data)
+                vkComments.title = data.ruName
+                navigationController.pushViewController(vkComments, animated: true)
         }
     }
 }

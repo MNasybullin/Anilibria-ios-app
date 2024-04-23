@@ -42,6 +42,9 @@
 		2726C1E22BC6E4AC00B0A94E /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
 		2726C1E42BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E32BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift */; };
 		2726C1E62BCECA2100B0A94E /* AppUpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */; };
+		2726C1E82BD2501200B0A94E /* VKCommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E72BD2501200B0A94E /* VKCommentsController.swift */; };
+		2726C1EA2BD2508400B0A94E /* VKCommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E92BD2508400B0A94E /* VKCommentsView.swift */; };
+		2726C1EC2BD4105F00B0A94E /* VKCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1EB2BD4105F00B0A94E /* VKCommentsModel.swift */; };
 		272D6532288AEF3800FA4F60 /* NetworkQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6531288AEF3800FA4F60 /* NetworkQuery.swift */; };
 		272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6534288C63E100FA4F60 /* YouTubeAPIModel.swift */; };
 		272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */; };
@@ -263,6 +266,9 @@
 		2726C1D42BC6E45800B0A94E /* Anilibria-ios-app-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-app-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2726C1E32BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateCollectionViewCell.swift; sourceTree = "<group>"; };
 		2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateModel.swift; sourceTree = "<group>"; };
+		2726C1E72BD2501200B0A94E /* VKCommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKCommentsController.swift; sourceTree = "<group>"; };
+		2726C1E92BD2508400B0A94E /* VKCommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKCommentsView.swift; sourceTree = "<group>"; };
+		2726C1EB2BD4105F00B0A94E /* VKCommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKCommentsModel.swift; sourceTree = "<group>"; };
 		272D6531288AEF3800FA4F60 /* NetworkQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkQuery.swift; sourceTree = "<group>"; };
 		272D6534288C63E100FA4F60 /* YouTubeAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeAPIModel.swift; sourceTree = "<group>"; };
 		272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IB-Segues+Generated.swift"; sourceTree = "<group>"; };
@@ -729,6 +735,7 @@
 				27E1BA0A2B7B834100A9C73C /* TeamView.swift */,
 				27E1BA282B837B9300A9C73C /* AboutAppView.swift */,
 				27B98C422B89EC8100B1ABC4 /* ResizeInsidePointButton.swift */,
+				2726C1E92BD2508400B0A94E /* VKCommentsView.swift */,
 				27B98C462B8A11C500B1ABC4 /* NotificationBanner */,
 				27E1BA1C2B822C2000A9C73C /* Settings */,
 				27934FFF2B77852000B7BD07 /* Profile */,
@@ -755,6 +762,7 @@
 				275865AE2AD9C97700F98884 /* TabBarController.swift */,
 				275865BE2ADADBF400F98884 /* UserController.swift */,
 				27B7070A2AF290A900DD8DC6 /* RandomAnimeController.swift */,
+				2726C1E72BD2501200B0A94E /* VKCommentsController.swift */,
 				27E1BA272B837B4E00A9C73C /* AboutApp */,
 				27E1BA192B822A5D00A9C73C /* Settings */,
 				27E1BA0E2B7B836D00A9C73C /* Team */,
@@ -787,6 +795,7 @@
 				27E1BA212B82613900A9C73C /* SettingsModel.swift */,
 				27E1BA2A2B83929300A9C73C /* AboutAppModel.swift */,
 				2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */,
+				2726C1EB2BD4105F00B0A94E /* VKCommentsModel.swift */,
 				27103DC62B68401900B4CA49 /* Franchise */,
 				273ECB012B20E96500402612 /* VideoPlayer */,
 				27B707232AF3E33900DD8DC6 /* SearchResults */,
@@ -1459,6 +1468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27AB03F62B2850F40007E750 /* YouTubeController.swift in Sources */,
+				2726C1EC2BD4105F00B0A94E /* VKCommentsModel.swift in Sources */,
 				272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */,
 				276880C32B47E58A00F5FD06 /* FavoritesNavigator.swift in Sources */,
 				27E1BA242B837B3900A9C73C /* AboutAppController.swift in Sources */,
@@ -1571,6 +1581,7 @@
 				274EFEE42B8C85710094804C /* HomeWatchingModel.swift in Sources */,
 				271A0E3A2AE903F8005958CB /* ScheduleCollectionViewLayout.swift in Sources */,
 				271A0E212AE7EBBE005958CB /* HomeUpdatesModel.swift in Sources */,
+				2726C1EA2BD2508400B0A94E /* VKCommentsView.swift in Sources */,
 				277513E92B624DF300947AED /* ListAPIModel.swift in Sources */,
 				276880BF2B45649D00F5FD06 /* FavoritesModel.swift in Sources */,
 				275865B82ADA889F00F98884 /* ProfileController.swift in Sources */,
@@ -1602,6 +1613,7 @@
 				271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */,
 				27E1BA222B82613900A9C73C /* SettingsModel.swift in Sources */,
 				27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */,
+				2726C1E82BD2501200B0A94E /* VKCommentsController.swift in Sources */,
 				27B707062AF253DC00DD8DC6 /* EpisodesModel.swift in Sources */,
 				27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */,
 				2758A4372B30B7020089E475 /* UserEntity+CoreDataProperties.swift in Sources */,

@@ -138,6 +138,11 @@ extension AnimeController: AnimeViewOutput {
     func navBarBackButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+    
+    func navBarCommentsButtonTapped() {
+        let item = model.getAnimeItem()
+        navigator?.show(.vkComments(data: item))
+    }
 }
 
 // MARK: - AnimeModelOutput
