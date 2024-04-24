@@ -1,11 +1,11 @@
-# Anilibria
+# AniLibria
 
 Приложение доступно для iOS/iPadOS 15.0 и выше.
 
 ![gif](https://github.com/MNasybullin/README-Helper/blob/anilibria/dark-light.gif)
 
 ## Установка.
-Вы можете скачать готовый ipa файл тут или собрать проект сами в xcode.
+Вы можете скачать готовый ipa файл тут или собрать проект сами в xcode.  
 Файл ipa можно установить с помощью [AltStore](https://altstore.io)
 
 ## Инструкция по сборке проекта.
