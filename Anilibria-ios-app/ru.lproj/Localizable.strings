@@ -189,6 +189,7 @@
 "AnimeModule.AnimeView.watchButton" = "Смотреть";
 "AnimeModule.AnimeView.favoriteButton" = "Избранное";
 "AnimeModule.AnimeView.shareButton" = "Поделиться";
+"AnimeModule.AnimeView.statusLabel" = "Статус:";
 
 "AnimeModule.AnimeEpisodesView.episodesTitle" = "Серии";
 "AnimeModule.AnimeEpisodesView.allButton" = "Все";
@@ -210,3 +211,5 @@
 "AppUpdateCell.title" = "Новая версия приложения";
 "AppUpdateCell.whatIsNew" = "Что нового?";
 
+// MARK: - AnimeItem
+"AnimeItem.noData" = "Нет данных";
