@@ -27,9 +27,10 @@ final class VideoPlayerModel {
     private (set) var skips: [(Double, Double)] = []
     private (set) var currentRate: Float = 1.0
     
+    private let userDefaults = UserDefaults.standard
+    
     // CoreData Properties
     private let coreDataService = CoreDataService.shared
-    private let userDefaults = UserDefaults.standard
     private var userEntity: UserEntity?
     private var watchingEntity: WatchingEntity?
     private var currentEpisodeEntity: EpisodesEntity?

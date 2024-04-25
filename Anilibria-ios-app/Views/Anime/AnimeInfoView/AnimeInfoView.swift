@@ -120,11 +120,12 @@ private extension AnimeInfoView {
 // MARK: - Internal methods
 
 extension AnimeInfoView {
-    func configureView(item: AnimeItem) {
+    func configureView(item: AnimeItem, continueWatchingEpisodeNumber: Float?) {
         ruNameLabel.text = item.ruName
         engNameLabel.text = item.engName
         seasonAndTypeLabel.text = item.seasonAndType
         statusLabel.text = "\(Strings.AnimeModule.AnimeView.statusLabel) \(item.status)."
+        watchAndDownloadButtonsView.configureWatchButton(episodeNumber: continueWatchingEpisodeNumber)
         genresLabel.text = item.genres
         descriptionLabel.text = item.description
         animeTeamInfoView.configureView(withData: item.team)

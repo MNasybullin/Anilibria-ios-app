@@ -43,14 +43,14 @@ final class AnimeView: UIView {
     
     private weak var delegate: AnimeViewOutput?
     
-    init(delegate: AnimeController, item: AnimeItem) {
+    init(delegate: AnimeController, item: AnimeItem, continueWatchingEpisodeNumber episodeNumber: Float?) {
         self.delegate = delegate
         self.animeName = item.ruName
         super.init(frame: .zero)
         
         configureView()
         animeImageView.configureView(with: item.image)
-        configureAnimeInfoView(item: item, delegate: delegate)
+        configureAnimeInfoView(item: item, delegate: delegate, continueWatchingEpisodeNumber: episodeNumber)
         configureNavigationBar()
         configureScrollView()
         configureLayout()
@@ -103,12 +103,12 @@ private extension AnimeView {
         scrollView.showsVerticalScrollIndicator = false
     }
     
-    func configureAnimeInfoView(item: AnimeItem, delegate: AnimeController) {
+    func configureAnimeInfoView(item: AnimeItem, delegate: AnimeController, continueWatchingEpisodeNumber episodeNumber: Float?) {
         animeInfoView.animeEpisodesView.delegate = delegate
         animeInfoView.watchAndDownloadButtonsView.delegate = delegate
         animeInfoView.favoriteAndShareButtonsView.delegate = delegate
         
-        animeInfoView.configureView(item: item)
+        animeInfoView.configureView(item: item, continueWatchingEpisodeNumber: episodeNumber)
     }
     
     func configureLayout() {

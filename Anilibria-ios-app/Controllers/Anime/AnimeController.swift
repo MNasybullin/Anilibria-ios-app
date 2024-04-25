@@ -33,7 +33,8 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     override func loadView() {
         let item = model.getAnimeItem()
-        view = AnimeView(delegate: self, item: item)
+        let episodeNumber = model.getContinueWatchingEpisodeNumber()
+        view = AnimeView(delegate: self, item: item, continueWatchingEpisodeNumber: episodeNumber)
     }
     
     override func viewDidLoad() {
@@ -169,7 +170,11 @@ extension AnimeController: AnimeEpisodesViewDelegate {
 extension AnimeController: WatchAndDownloadButtonsViewDelegate {
     func watchButtonClicked() {
         let data = model.getAnimeItem()
-        navigator?.show(.episodes(data: data))
+        if let currentPlaylist = model.getContinueWatchingCurrentPlaylist() {
+            navigator?.show(.videoPlayer(data: data, currentPlaylist: currentPlaylist))
+        } else {
+            navigator?.show(.episodes(data: data))
+        }
     }
     
     func downloadButtonClicked() {

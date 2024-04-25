@@ -99,3 +99,14 @@ final class WatchAndDownloadButtonsView: UIView {
         ])
     }
 }
+
+// MARK: - Internal methods
+
+extension WatchAndDownloadButtonsView {
+    func configureWatchButton(episodeNumber: Float?) {
+        if let episodeNumber {
+            let episodeInt = Int(exactly: episodeNumber)
+            watchButton.configuration?.title = "\(episodeInt?.description ?? episodeNumber.description) серия"
+        }
+    }
+}
