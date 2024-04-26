@@ -93,25 +93,6 @@ extension VideoPlayerModel {
         }
     }
     
-    private func createWatchingEntity() {
-        watchingEntity = WatchingEntity(context: coreDataService.viewContext)
-        watchingEntity?.animeId = Int64(animeItem.id)
-        watchingEntity?.animeName = animeItem.ruName
-        watchingEntity?.animeImage = animeItem.image
-        watchingEntity?.user = userEntity
-        watchingEntity?.isHidden = false
-    }
-    
-    private func createCurrentEpisodeEntity(duration: Double, playbackPosition: Double, image: UIImage?) {
-        currentEpisodeEntity = EpisodesEntity(context: coreDataService.viewContext)
-        currentEpisodeEntity?.duration = duration
-        currentEpisodeEntity?.numberOfEpisode = animeItem.playlist[currentPlaylistNumber].episode ?? 0
-        currentEpisodeEntity?.playbackPosition = playbackPosition
-        currentEpisodeEntity?.watchingDate = Date()
-        currentEpisodeEntity?.watching = watchingEntity
-        currentEpisodeEntity?.watching?.animeImage = image
-    }
-    
     func configureWatchingInfo(duration: Double, playbackPosition: Double, image: UIImage?) {
         if let currentEpisodeEntity {
             currentEpisodeEntity.duration = duration
@@ -121,9 +102,16 @@ extension VideoPlayerModel {
             currentEpisodeEntity.watching?.isHidden = false
         } else if userEntity != nil {
             if watchingEntity == nil {
-                createWatchingEntity()
+                watchingEntity = WatchingEntity.create(forUser: userEntity!,
+                                                       animeItem: animeItem,
+                                                       context: coreDataService.viewContext)
             }
-            createCurrentEpisodeEntity(duration: duration, playbackPosition: playbackPosition, image: image)
+            currentEpisodeEntity = EpisodesEntity.create(forWatching: watchingEntity!,
+                                                         context: coreDataService.viewContext,
+                                                         duration: duration,
+                                                         playbackPosition: playbackPosition,
+                                                         numberOfEpisode: animeItem.playlist[currentPlaylistNumber].episode,
+                                                         image: image)
         }
     }
 }
