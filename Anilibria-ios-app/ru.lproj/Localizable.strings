@@ -132,6 +132,8 @@
 // MARK: - Episodes Module
 "EpisodesModule.episodesTitle" = "Серии";
 "EpisodesModule.episodes" = "серий";
+"EpisodesModule.swipeActions.removeFromWatching" = "Убрать из просмотренных";
+"EpisodesModule.swipeActions.MarkAsWatched" = "Отметить как просмотренное";
 
 // MARK: - RandomAnime Module
 "RandomAnimeModule.title.randomAnime" = "Случайное аниме";

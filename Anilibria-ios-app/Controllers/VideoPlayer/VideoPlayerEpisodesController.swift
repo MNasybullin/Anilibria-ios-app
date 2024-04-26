@@ -65,6 +65,11 @@ private extension VideoPlayerEpisodesController {
 // MARK: - EpisodesContentControllerDelegate
 
 extension VideoPlayerEpisodesController: EpisodesContentControllerDelegate {
+    var fdInteractivePopDisabled: Bool {
+        get { fd_interactivePopDisabled }
+        set { fd_interactivePopDisabled = newValue }
+    }
+    
     func didSelectItem(animeItem: AnimeItem, currentPlaylist: Int) {
         completionBlock(currentPlaylist)
         dismiss(animated: true)

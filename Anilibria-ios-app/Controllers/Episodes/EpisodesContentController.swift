@@ -8,6 +8,8 @@
 import UIKit
 
 protocol EpisodesContentControllerDelegate: AnyObject {
+    var fdInteractivePopDisabled: Bool { get set }
+    
     func didSelectItem(animeItem: AnimeItem, currentPlaylist: Int)
 }
 
@@ -69,6 +71,45 @@ extension EpisodesContentController: UITableViewDelegate {
         let fraction = isPhone ? 0.5 : 0.3
         return (minScreenSize * fraction) / imageRatio
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if !model.isUserAuthorized() {
+            return nil
+        }
+        let episode = playlists[indexPath.row].episode
+        
+        var title: String
+        var info: EpisodesModel.WatchingInfo
+        var image: UIImage?
+        
+        if model.getWatchingInfo(forEpisode: episode) != nil {
+            title = Strings.EpisodesModule.SwipeActions.removeFromWatching
+            info = .notWatched
+            image = UIImage(systemName: "rectangle.badge.xmark")
+        } else {
+            title = Strings.EpisodesModule.SwipeActions.markAsWatched
+            info = .fullWatched
+            image = UIImage(systemName: "rectangle.badge.checkmark")
+        }
+        
+        let action = UIContextualAction(style: .normal, title: title) { [weak self] _, _, completion in
+            self?.model.setWatchingInfo(forEpisode: self?.playlists[indexPath.row].episode, info: info)
+            tableView.reconfigureRows(at: [indexPath])
+            completion(true)
+        }
+        action.backgroundColor = .darkClouds
+        action.image = image
+        
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+    
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        delegate?.fdInteractivePopDisabled = true
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        delegate?.fdInteractivePopDisabled = false
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -101,7 +142,7 @@ extension EpisodesContentController: UITableViewDataSource {
                 cell.setImage(image, urlString: item.previewUrl)
             }
         }
-        let watchingInfo = model.getWatchingInfo(forEpisode: item.episode ?? -1)
+        let watchingInfo = model.getWatchingInfo(forEpisode: item.episode)
         cell.configureCell(
             item: playlists[row],
             duration: watchingInfo?.duration,
