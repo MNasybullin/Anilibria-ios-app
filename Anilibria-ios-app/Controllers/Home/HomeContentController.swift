@@ -73,6 +73,9 @@ final class HomeContentController: NSObject {
     
     let customView: HomeView
     
+    // Для правильной анимации нажатия ячеек
+    var lastTransform: CGAffineTransform?
+    
     private var _status: HomeView.Status = .normal
     
     private var status: HomeView.Status {
@@ -464,11 +467,13 @@ extension HomeContentController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        lastTransform = cell.transform
         collectionView.animateCellHighlight(at: indexPath, highlighted: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        collectionView.animateCellHighlight(at: indexPath, highlighted: false)
+        collectionView.animateCellHighlight(at: indexPath, highlighted: false, lastTransform: lastTransform)
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
