@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 protocol UserModelDelegate: AnyObject {
     func authorizationSuccessful(user: UserItem)
@@ -35,6 +36,9 @@ final class UserModel {
                     let user = try await requestUser()
                     userDefaults.isUserAuthorized = true
                     delegate?.authorizationSuccessful(user: user)
+                    Analytics.logEvent(AnalyticsEventLogin, parameters: [
+                        AnalyticsParameterMethod: "Email"
+                    ])
                 } else if loginModel.key == KeyLoginAPI.authorized.rawValue {
                     // Уже авторизован, Идет перелогин...
                     try? await authorizationService.logout()
