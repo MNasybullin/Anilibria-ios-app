@@ -28,7 +28,7 @@ final class VideoPlayerNavigator {
 // MARK: - Navigator
 
 extension VideoPlayerNavigator: Navigator {
-    enum Destinition {
+    enum Destination {
         case player(
             data: AnimeItem,
             currentPlaylist: Int,
@@ -54,7 +54,7 @@ extension VideoPlayerNavigator: Navigator {
         )
     }
     
-    func show(_ destination: Destinition) {
+    func show(_ destination: Destination) {
         switch destination {
             case .player(let item, let currentPlaylist, let presentatingController):
                 setupAndShowPlayer(

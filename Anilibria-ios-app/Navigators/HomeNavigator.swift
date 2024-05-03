@@ -59,14 +59,14 @@ extension HomeNavigator: BasicNavigator {
 // MARK: - Navigator
 
 extension HomeNavigator: Navigator {
-    enum Destinition {
+    enum Destination {
         case schedule
         case anime(data: TitleAPIModel, image: UIImage?)
         case youTube(data: [HomePosterItem], rawData: [YouTubeAPIModel])
         case videoPlayer(animeId: Int, numberOfEpisode: Float)
     }
     
-    func show(_ destination: Destinition) {
+    func show(_ destination: Destination) {
         switch destination {
             case .schedule:
                 let scheduleController = ScheduleController()

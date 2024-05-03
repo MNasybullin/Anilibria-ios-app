@@ -57,16 +57,16 @@ extension SearchNavigator: BasicNavigator {
 // MARK: - Navigator
 
 extension SearchNavigator: Navigator {
-    enum Destinition {
+    enum Destination {
         case anime(data: TitleAPIModel, image: UIImage?)
     }
     
-    func show(_ destination: Destinition) {
+    func show(_ destination: Destination) {
         let viewController = makeViewController(destination)
         navigationController.pushViewController(viewController, animated: true)
     }
     
-    private func makeViewController(_ destination: Destinition) -> UIViewController {
+    private func makeViewController(_ destination: Destination) -> UIViewController {
         let viewController: UIViewController
         switch destination {
             case .anime(let rawData, let image):
