@@ -156,13 +156,15 @@ private extension HomeCollectionViewLayout {
         }
         section.visibleItemsInvalidationHandler = { (items, offset, environment) in
             let screenWidth = environment.container.contentSize.width
-            let minScale: CGFloat = 0.95
+            let minScale: CGFloat = 0.9
             let maxScale: CGFloat = 1.0
             
             items.forEach { item in
                 guard item.representedElementCategory == .cell else { return }
-                let distanceFromCenter = abs((item.frame.midX - offset.x) - screenWidth / 2.0)
-                let scale = max(maxScale - (distanceFromCenter / screenWidth), minScale)
+                let cellCenterX = item.center.x - offset.x
+                let distanceFromCenter = abs(cellCenterX - screenWidth / 2.0)
+                let maxDistance = screenWidth / 2.0
+                let scale = max(maxScale - (distanceFromCenter / maxDistance) * (maxScale - minScale), minScale)
                 item.transform = CGAffineTransform(scaleX: scale, y: scale)
                 
                 if let offsetX = self.offsetX,
