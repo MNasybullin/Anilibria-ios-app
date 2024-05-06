@@ -74,12 +74,8 @@ final class HomeContentController: NSObject {
     // Для правильной анимации нажатия ячеек
     var lastTransform: CGAffineTransform?
     
-    private var _status: HomeView.Status = .normal
-    
-    private var status: HomeView.Status {
-        get { _status }
-        set {
-            _status = newValue
+    private var status: HomeView.Status = .normal {
+        didSet {
             customView.updateView(withStatus: status)
         }
     }
@@ -94,7 +90,11 @@ final class HomeContentController: NSObject {
         applyInitialSnapshot()
         requestDataWithLoadingStatus()
     }
-    
+}
+
+// MARK: - Internal methods
+
+extension HomeContentController {
     func requestDataWithRefreshStatus() {
         requestData(status: .refresh)
     }
@@ -132,81 +132,6 @@ private extension HomeContentController {
     func applyInitialSnapshot() {
         let snapshot = Snapshot()
         dataSource.apply(snapshot)
-    }
-    
-    func todayCellRegistration() -> UICollectionView.CellRegistration<TodayHomePosterCollectionCell, Item> {
-        UICollectionView.CellRegistration<TodayHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
-            guard let item = self?.todayData[indexPath.row] else {
-                return
-            }
-            
-            if item.image == nil {
-                Task { [weak self] in
-                    guard let self else { return }
-                    do {
-                        let image = try await self.todayModel.requestImage(fromUrlString: item.imageUrlString)
-                        self.todayData[indexPath.row].image = image
-                        cell.setImage(image, urlString: item.imageUrlString)
-                    } catch {
-                        cell.imageViewStopSkeletonAnimation()
-                    }
-                }
-            }
-            cell.configureCell(item: item)
-        }
-    }
-    
-    func watchingCellRegistration() -> UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> {
-        UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> { cell, _, item in
-            guard case .watching(let data, _) = item else {
-                return
-            }
-            cell.configureCell(item: data)
-        }
-    }
-    
-    func updatesCellRegistration() -> UICollectionView.CellRegistration<UpdatesHomePosterCollectionCell, Item> {
-        UICollectionView.CellRegistration<UpdatesHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
-            guard let item = self?.updatesData[indexPath.row] else {
-                return
-            }
-            
-            if item.image == nil {
-                Task { [weak self] in
-                    guard let self else { return }
-                    do {
-                        let image = try await self.updatesModel.requestImage(fromUrlString: item.imageUrlString)
-                        self.updatesData[indexPath.row].image = image
-                        cell.setImage(image, urlString: item.imageUrlString)
-                    } catch {
-                        cell.imageViewStopSkeletonAnimation()
-                    }
-                }
-            }
-            cell.configureCell(item: item)
-        }
-    }
-    
-    func youtubeCellRegistration() -> UICollectionView.CellRegistration<YouTubeHomePosterCollectionCell, Item> {
-        UICollectionView.CellRegistration<YouTubeHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
-            guard let item = self?.youtubeData[indexPath.row] else {
-                return
-            }
-            
-            if item.image == nil {
-                Task { [weak self] in
-                    guard let self else { return }
-                    do {
-                        let image = try await self.youtubeModel.requestImage(fromUrlString: item.imageUrlString)
-                        self.youtubeData[indexPath.row].image = image
-                        cell.setImage(image, urlString: item.imageUrlString)
-                    } catch {
-                        cell.imageViewStopSkeletonAnimation()
-                    }
-                }
-            }
-            cell.configureCell(item: item)
-        }
     }
     
     func makeDataSource() -> DataSource {
@@ -392,6 +317,85 @@ private extension HomeContentController {
             return
         }
         model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
+}
+
+// MARK: - Cell Registration
+
+private extension HomeContentController {
+    func todayCellRegistration() -> UICollectionView.CellRegistration<TodayHomePosterCollectionCell, Item> {
+        UICollectionView.CellRegistration<TodayHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
+            guard let item = self?.todayData[indexPath.row] else {
+                return
+            }
+            
+            if item.image == nil {
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.todayModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.todayData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
+                }
+            }
+            cell.configureCell(item: item)
+        }
+    }
+    
+    func watchingCellRegistration() -> UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> {
+        UICollectionView.CellRegistration<WatchingHomeCollectionViewCell, Item> { cell, _, item in
+            guard case .watching(let data, _) = item else {
+                return
+            }
+            cell.configureCell(item: data)
+        }
+    }
+    
+    func updatesCellRegistration() -> UICollectionView.CellRegistration<UpdatesHomePosterCollectionCell, Item> {
+        UICollectionView.CellRegistration<UpdatesHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
+            guard let item = self?.updatesData[indexPath.row] else {
+                return
+            }
+            
+            if item.image == nil {
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.updatesModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.updatesData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
+                }
+            }
+            cell.configureCell(item: item)
+        }
+    }
+    
+    func youtubeCellRegistration() -> UICollectionView.CellRegistration<YouTubeHomePosterCollectionCell, Item> {
+        UICollectionView.CellRegistration<YouTubeHomePosterCollectionCell, Item> { [weak self] cell, indexPath, _ in
+            guard let item = self?.youtubeData[indexPath.row] else {
+                return
+            }
+            
+            if item.image == nil {
+                Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let image = try await self.youtubeModel.requestImage(fromUrlString: item.imageUrlString)
+                        self.youtubeData[indexPath.row].image = image
+                        cell.setImage(image, urlString: item.imageUrlString)
+                    } catch {
+                        cell.imageViewStopSkeletonAnimation()
+                    }
+                }
+            }
+            cell.configureCell(item: item)
+        }
     }
 }
 
