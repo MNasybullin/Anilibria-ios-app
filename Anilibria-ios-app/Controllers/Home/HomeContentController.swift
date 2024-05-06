@@ -19,7 +19,6 @@ protocol HomeContentControllerDelegate: AnyObject {
 final class HomeContentController: NSObject {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
-    typealias SectionSnapshot = NSDiffableDataSourceSectionSnapshot<Item>
     typealias Localization = Strings.HomeModule
     
     enum Section: Int, CaseIterable {
@@ -260,14 +259,12 @@ private extension HomeContentController {
         let watchingArray = watchingData.map { Item.watching($0, .watching) }
         
         if snapshot.sectionIdentifiers.contains(where: { $0 == .watching }) {
-            var sectionSnapshot = SectionSnapshot()
-            sectionSnapshot.append(watchingArray)
-            dataSource.apply(sectionSnapshot, to: .watching)
+            snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .watching))
         } else {
             snapshot.insertSections([.watching], afterSection: .today)
-            snapshot.appendItems(watchingArray, toSection: .watching)
-            dataSource.apply(snapshot)
         }
+        snapshot.appendItems(watchingArray, toSection: .watching)
+        dataSource.apply(snapshot)
     }
     
     func requestData(status setStatus: HomeView.Status) {
