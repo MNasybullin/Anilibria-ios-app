@@ -70,4 +70,9 @@ extension HomeWatchingModel {
         }
         entity.isHidden = true
     }
+    
+    func requestAnimeData(forAnimeId animeId: Int) async throws -> TitleAPIModel {
+        let data = try await publicApiService.title(id: animeId.description)
+        return data
+    }
 }

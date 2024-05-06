@@ -90,6 +90,10 @@ extension HomeController: HomeViewOutput {
 // MARK: - HomeContentControllerDelegate
 
 extension HomeController: HomeContentControllerDelegate {
+    func show(_ destination: HomeNavigator.Destination) {
+        navigator?.show(destination)
+    }
+    
     func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?) {
         guard let rawData else { return }
         navigator?.show(.anime(data: rawData, image: image))

@@ -61,7 +61,8 @@ extension HomeNavigator: BasicNavigator {
 extension HomeNavigator: Navigator {
     enum Destination {
         case schedule
-        case anime(data: TitleAPIModel, image: UIImage?)
+        case anime(data: TitleAPIModel, image: UIImage?, hasInteractiveTransitionController: Bool = true)
+        case episodes(data: TitleAPIModel)
         case youTube(data: [HomePosterItem], rawData: [YouTubeAPIModel])
         case videoPlayer(animeId: Int, numberOfEpisode: Float)
     }
@@ -73,12 +74,17 @@ extension HomeNavigator: Navigator {
                 scheduleController.title = Strings.ScreenTitles.schedule
                 scheduleController.navigator = self
                 navigationController.pushViewController(scheduleController, animated: true)
-            case .anime(let rawData, let image):
-                let animeController = AnimeController(rawData: rawData, image: image, hasInteractiveTransitionController: true)
-                let animeNavigator = AnimeNavigator(navigationController: navigationController)
-                subNavigators.append(animeNavigator)
-                animeController.navigator = animeNavigator
+            case .anime(let rawData, let image, let hasInteractiveTransitionController):
+                let animeController = configureAnimeController(rawData: rawData,
+                                                        image: image,
+                                                        hasInteractiveTransitionController: hasInteractiveTransitionController)
                 navigationController.pushViewController(animeController, animated: true)
+            case .episodes(let rawData):
+                let animeController = configureAnimeController(rawData: rawData,
+                                                        image: nil,
+                                                        hasInteractiveTransitionController: false)
+                let navigator = animeController.navigator
+                navigator?.show(.episodes(data: AnimeItem(fromTitleApiModel: rawData, image: nil)))
             case .youTube(let data, let rawData):
                 let youTubeController = YouTubeController(data: data, rawData: rawData)
                 youTubeController.title = Strings.ScreenTitles.youTube
@@ -88,6 +94,18 @@ extension HomeNavigator: Navigator {
                 let playerNavigator = VideoPlayerNavigator.shared
                 playerNavigator.show(.playerNoData(animeId: animeId, numberOfEpisode: numberOfEpisode, presentatingController: navigationController))
         }
+    }
+}
+
+// MARK: - Private Methods
+
+private extension HomeNavigator {
+    func configureAnimeController(rawData: TitleAPIModel, image: UIImage?, hasInteractiveTransitionController: Bool) -> AnimeController {
+        let animeController = AnimeController(rawData: rawData, image: image, hasInteractiveTransitionController: hasInteractiveTransitionController)
+        let animeNavigator = AnimeNavigator(navigationController: navigationController)
+        subNavigators.append(animeNavigator)
+        animeController.navigator = animeNavigator
+        return animeController
     }
 }
 

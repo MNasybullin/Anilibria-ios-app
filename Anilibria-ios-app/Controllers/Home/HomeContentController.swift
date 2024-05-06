@@ -11,6 +11,7 @@ import OSLog
 
 // swiftlint: disable file_length
 protocol HomeContentControllerDelegate: AnyObject {
+    func show(_ destination: HomeNavigator.Destination)
     func todayHeaderButtonTapped()
     func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel])
     func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?)
@@ -70,6 +71,8 @@ final class HomeContentController: NSObject {
     private var watchingData: [HomeWatchingItem] = []
     private var updatesData: [HomePosterItem] = []
     private var youtubeData: [HomePosterItem] = []
+    
+    private var contextMenuTask: Task<(), Never>?
     
     let customView: HomeView
     
@@ -395,22 +398,95 @@ private extension HomeContentController {
         }
         model.cancelImageTask(forUrlString: item.imageUrlString)
     }
-    
-    func getWatchingContextMenu(at indexPath: IndexPath) -> UIContextMenuConfiguration? {
+}
+
+// MARK: - Context Menu in CollectionView
+
+private extension HomeContentController {
+    func configureWatchingContextMenu(at indexPath: IndexPath) -> UIContextMenuConfiguration? {
         guard let item = dataSource.itemIdentifier(for: indexPath),
                 case .watching(let data, _) = item else {
             return nil
         }
+        var children = [UIMenuElement]()
         
-        let hideAction = UIAction(title: Localization.WatchingMenu.hideTitle,
-                                  image: UIImage(systemName: Localization.WatchingMenu.hideImageName),
-                                  identifier: nil) { [weak self] _ in
+        if #available(iOS 16.0, *) {
+            let aboutAnimeAction = configureAboutAnimeAction(data: data)
+            children.append(aboutAnimeAction)
+            
+            let episodesAction = configureEpisodesAction(data: data)
+            children.append(episodesAction)
+        }
+        let hideAction = configureHideAction(data: data, indexPath: indexPath)
+        children.append(hideAction)
+        
+        let actionProvider: UIContextMenuActionProvider = { _ in
+            UIMenu(children: children)
+        }
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: actionProvider)
+    }
+    
+    @available(iOS 16.0, *)
+    func configureAboutAnimeAction(data: HomeWatchingItem) -> UIAction {
+        UIAction(title: Localization.WatchingMenu.aboutAnimeTitle,
+                 image: UIImage(systemName: Localization.WatchingMenu.aboutAnimeImageName),
+               attributes: [.keepsMenuPresented]) { [weak self] _ in
+            guard let self else { return }
+            self.updateContextMenuForLoading()
+            self.contextMenuRequestAnimeTask(animeId: data.id) { [weak self] data in
+                self?.delegate?.show(.anime(data: data, image: nil, hasInteractiveTransitionController: false))
+            }
+        }
+    }
+    
+    @available(iOS 16.0, *)
+    func configureEpisodesAction(data: HomeWatchingItem) -> UIAction {
+        UIAction(title: Localization.WatchingMenu.episodesTitle,
+                 image: UIImage(systemName: Localization.WatchingMenu.episodesImageName),
+               attributes: [.keepsMenuPresented]) { [weak self] _ in
+            guard let self else { return }
+            self.updateContextMenuForLoading()
+            self.contextMenuRequestAnimeTask(animeId: data.id) { [weak self] data in
+                self?.delegate?.show(.episodes(data: data))
+            }
+        }
+    }
+    
+    func configureHideAction(data: HomeWatchingItem, indexPath: IndexPath) -> UIAction {
+        UIAction(title: Localization.WatchingMenu.hideTitle,
+               image: UIImage(systemName: Localization.WatchingMenu.hideImageName),
+               attributes: [.destructive]) { [weak self] _ in
             self?.hideWatchingItem(id: data.id, at: indexPath)
         }
-        let actionProvider: UIContextMenuActionProvider = { _ in
-            return UIMenu(children: [hideAction])
+    }
+    
+    func contextMenuRequestAnimeTask(animeId: Int, completionBlock: @escaping (_ data: TitleAPIModel) -> Void) {
+        contextMenuTask = Task(priority: .userInitiated) {
+            do {
+                let data = try await self.watchingModel.requestAnimeData(forAnimeId: animeId)
+                customView.collectionView.contextMenuInteraction?.dismissMenu()
+                selectedCell = nil
+                selectedCellImageViewSnapshot = nil
+                completionBlock(data)
+            } catch {
+                let logger = Logger(subsystem: .home, category: .data)
+                logger.error("\(Logger.logInfo(error: error))")
+                let notificationData = NotificationBannerView.BannerData(title: "Ошибка загрузки",
+                                                                detail: error.localizedDescription,
+                                                                type: .error)
+                customView.collectionView.contextMenuInteraction?.dismissMenu()
+                NotificationBannerView(data: notificationData).show(onView: customView)
+            }
         }
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: actionProvider)
+    }
+    
+    func updateContextMenuForLoading() {
+        customView.collectionView.contextMenuInteraction?.updateVisibleMenu({ menu in
+            let action = UIAction(title: Localization.WatchingMenu.loadingDataTitle, attributes: [.disabled]) { _ in
+            }
+            return menu.replacingChildren([action])
+        })
     }
     
     func hideWatchingItem(id: Int, at indexPath: IndexPath) {
@@ -482,10 +558,14 @@ extension HomeContentController: UICollectionViewDelegate {
         }
         switch section {
             case .watching:
-                return getWatchingContextMenu(at: indexPath)
+                return configureWatchingContextMenu(at: indexPath)
             default:
                 return nil
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willEndContextMenuInteraction configuration: UIContextMenuConfiguration, animator: (any UIContextMenuInteractionAnimating)?) {
+        contextMenuTask?.cancel()
     }
 }
 

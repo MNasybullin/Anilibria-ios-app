@@ -63,8 +63,14 @@
 "HomeModule.buttonTitle.allDays" = "Все дни";
 "HomeModule.buttonTitle.all" = "Все";
 
+"HomeModule.watchingMenu.aboutAnimeTitle" = "О аниме";
+"HomeModule.watchingMenu.aboutAnimeImageName" = "rectangle.portrait.tophalf.inset.filled";
+"HomeModule.watchingMenu.episodesTitle" = "Серии";
+"HomeModule.watchingMenu.episodesImageName" = "rectangle.fill.on.rectangle.fill";
 "HomeModule.watchingMenu.hideTitle" = "Скрыть из подборки";
 "HomeModule.watchingMenu.hideImageName" = "minus.circle";
+
+"HomeModule.watchingMenu.loadingDataTitle" = "Идет загрузка данных...";
 
 "HomeModule.error.failedRequestData" = "Ошибка загрузки данных";
 "HomeModule.error.failedHidingWatched" = "Не удалось скрыть просмотренное";
