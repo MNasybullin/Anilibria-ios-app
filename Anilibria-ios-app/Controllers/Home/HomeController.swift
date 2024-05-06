@@ -94,33 +94,8 @@ extension HomeController: HomeContentControllerDelegate {
         navigator?.show(destination)
     }
     
-    func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?) {
-        guard let rawData else { return }
-        navigator?.show(.anime(data: rawData, image: image))
-    }
-    
-    func didSelectWatchingItem(animeId: Int, numberOfEpisode: Float) {
-        navigator?.show(.videoPlayer(animeId: animeId, numberOfEpisode: numberOfEpisode))
-    }
-    
-    func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?) {
-        guard let rawData else { return }
-        navigator?.show(.anime(data: rawData, image: image))
-    }
-    
-    func didSelectYoutubeItem(_ rawData: YouTubeAPIModel?) {
-        guard let rawData else { return }
-        let urlString = NetworkConstants.youTubeWatchURL + rawData.youtubeId
-        guard let url = URL(string: urlString) else { return }
+    func openURL(_ url: URL) {
         UIApplication.shared.open(url)
-    }
-    
-    func todayHeaderButtonTapped() {
-        navigator?.show(.schedule)
-    }
-    
-    func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel]) {
-        navigator?.show(.youTube(data: data, rawData: rawData))
     }
 }
 

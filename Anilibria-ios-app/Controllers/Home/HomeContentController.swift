@@ -12,12 +12,7 @@ import OSLog
 // swiftlint: disable file_length
 protocol HomeContentControllerDelegate: AnyObject {
     func show(_ destination: HomeNavigator.Destination)
-    func todayHeaderButtonTapped()
-    func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel])
-    func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?)
-    func didSelectWatchingItem(animeId: Int, numberOfEpisode: Float)
-    func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?)
-    func didSelectYoutubeItem(_ rawData: YouTubeAPIModel?)
+    func openURL(_ url: URL)
 }
 
 @MainActor
@@ -255,7 +250,7 @@ private extension HomeContentController {
                     headerView.configureView(
                         titleLabelText: Localization.Title.today,
                         titleButtonText: Localization.ButtonTitle.allDays) { [weak self] in
-                            self?.delegate?.todayHeaderButtonTapped()
+                            self?.delegate?.show(.schedule)
                         }
                 case .watching:
                     headerView.configureView(titleLabelText: Localization.Title.watching)
@@ -267,7 +262,7 @@ private extension HomeContentController {
                         titleButtonText: Localization.ButtonTitle.all) { [weak self] in
                             guard let self else { return }
                             let rawData = youtubeModel.getRawData()
-                            self.delegate?.youTubeHeaderButtonTapped(data: youtubeData, rawData: rawData)
+                            self.delegate?.show(.youTube(data: youtubeData, rawData: rawData))
                         }
             }
             return headerView
@@ -521,20 +516,13 @@ extension HomeContentController: UICollectionViewDelegate {
         let row = indexPath.row
         switch section {
             case .today:
-                delegate?.didSelectTodayItem(
-                    todayModel.getRawData(row: row),
-                    image: todayData[row].image)
+                didSelectTodayCell(indexPath: indexPath)
             case .watching:
-                guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
-                if case .watching(let data, _) = item {
-                    delegate?.didSelectWatchingItem(animeId: data.id, numberOfEpisode: data.numberOfEpisode)
-                }
+                didSelectWatchingCell(indexPath: indexPath)
             case .updates:
-                delegate?.didSelectUpdatesItem(
-                    updatesModel.getRawData(row: row),
-                    image: updatesData[row].image)
+                didSelectUpdatesCell(indexPath: indexPath)
             case .youtube:
-                delegate?.didSelectYoutubeItem(youtubeModel.getRawData(row: row))
+                didSelectYoutubeCell(indexPath: indexPath)
         }
     }
     
@@ -566,6 +554,38 @@ extension HomeContentController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willEndContextMenuInteraction configuration: UIContextMenuConfiguration, animator: (any UIContextMenuInteractionAnimating)?) {
         contextMenuTask?.cancel()
+    }
+}
+
+// MARK: - Did Select Cell
+
+private extension HomeContentController {
+    func didSelectTodayCell(indexPath: IndexPath) {
+        let row = indexPath.row
+        guard let rawData = todayModel.getRawData(row: row) else { return }
+        let image = todayData[row].image
+        delegate?.show(.anime(data: rawData, image: image))
+    }
+    
+    func didSelectWatchingCell(indexPath: IndexPath) {
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        if case .watching(let data, _) = item {
+            delegate?.show(.videoPlayer(animeId: data.id, numberOfEpisode: data.numberOfEpisode))
+        }
+    }
+    
+    func didSelectUpdatesCell(indexPath: IndexPath) {
+        let row = indexPath.row
+        guard let rawData = updatesModel.getRawData(row: row) else { return }
+        let image = updatesData[row].image
+        delegate?.show(.anime(data: rawData, image: image))
+    }
+    
+    func didSelectYoutubeCell(indexPath: IndexPath) {
+        guard let data = youtubeModel.getRawData(row: indexPath.row) else { return }
+        let urlString = NetworkConstants.youTubeWatchURL + data.youtubeId
+        guard let url = URL(string: urlString) else { return }
+        delegate?.openURL(url)
     }
 }
 
