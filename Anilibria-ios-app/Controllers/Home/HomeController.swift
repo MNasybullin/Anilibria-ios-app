@@ -31,14 +31,9 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        notificationCenterSubscription()
         
-        guard expiredDateManager.isExpired() == true else {
-            contentController.requestRefreshWatchingData()
-            return
-        }
-        contentController.requestDataWithRefreshStatus()
-        expiredDateManager.start()
+        notificationCenterSubscription()
+        checkRefreshData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -58,15 +53,19 @@ private extension HomeController {
         contentController = HomeContentController(customView: customView, delegate: self)
     }
     
+    func checkRefreshData() {
+        guard expiredDateManager.isExpired() == true else {
+            contentController.requestRefreshWatchingData()
+            return
+        }
+        contentController.requestDataWithRefreshStatus()
+        expiredDateManager.start()
+    }
+    
     func notificationCenterSubscription() {
         NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
             .sink { [weak self] _ in
-                guard self?.expiredDateManager.isExpired() == true else {
-                    self?.contentController.requestRefreshWatchingData()
-                    return
-                }
-                self?.contentController.requestDataWithRefreshStatus()
-                self?.expiredDateManager.start()
+                self?.checkRefreshData()
             }
             .store(in: &subscriptions)
     }
