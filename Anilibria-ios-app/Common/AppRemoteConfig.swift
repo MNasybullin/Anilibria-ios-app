@@ -45,7 +45,7 @@ final class AppRemoteConfig {
 private extension AppRemoteConfig {
     func loadDefaultValues() {
         let appDefaults: [String: Any?] = [
-            StringKeys.mirrorAnilibriaURL.rawValue: "https://anilibria-ios-app.anilib.moe",
+            StringKeys.mirrorAnilibriaURL.rawValue: "https://ios.anilib.moe",
             StringKeys.mirrorBaseImagesURL.rawValue: "https://static.anilib.moe",
             
             StringKeys.apiAnilibriaURL.rawValue: "https://api.anilibria.tv",

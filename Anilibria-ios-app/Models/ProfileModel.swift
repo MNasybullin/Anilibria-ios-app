@@ -19,7 +19,7 @@ extension ProfileModel {
     func getUrl(forAnilibriaItem item: ProfileContentController.AnilibriaItem) -> URL? {
         switch item {
             case .discord: return URL(string: NetworkConstants.anilibriaDiscord)
-            case .site: return URL(string: remoteConfig.string(forKey: .anilibriaURL))
+            case .site: return URL(string: remoteConfig.string(forKey: .mirrorAnilibriaURL))
             case .team: return nil
             case .telegram: return URL(string: NetworkConstants.anilibriaTelegram)
             case .vk: return URL(string: NetworkConstants.anilibriaVk)
