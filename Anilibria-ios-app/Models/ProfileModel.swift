@@ -30,4 +30,12 @@ extension ProfileModel {
     func getTeam() async throws -> TeamAPIModel {
         try await publicApiService.team()
     }
+    
+    func getAnilbriaDonateURL() -> URL? {
+        URL(string: remoteConfig.string(forKey: .mirrorAnilibriaURL) + NetworkConstants.donateURLPath)
+    }
+    
+    func getDeveloperDonateURL() -> URL? {
+        URL(string: remoteConfig.string(forKey: .myDonateURL))
+    }
 }

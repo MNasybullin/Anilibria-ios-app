@@ -22,7 +22,7 @@ final class ProfileCollectionViewLayout {
                     return self?.configureUserSection()
                 case .appUpdate:
                     return self?.configureAppUpdateSection()
-                case .anilibria, .app:
+                case .anilibria, .donate, .app:
                     return NSCollectionLayoutSection.list(using: .init(appearance: .insetGrouped), layoutEnvironment: layoutEnvironment)
             }
         }

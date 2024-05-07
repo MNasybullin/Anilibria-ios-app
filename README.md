@@ -5,7 +5,7 @@
 ![gif](https://github.com/MNasybullin/README-Helper/blob/anilibria/dark-light.gif)
 
 ## Установка
-Вы можете скачать готовый ipa файл [тут](https://github.com/MNasybullin/Anilibria-ios-app/releases) или собрать проект сами в xcode.  
+Вы можете скачать готовый ipa файл [тут](https://github.com/MNasybullin/Anilibria-ios-app/releases) или собрать проект самостоятельно в Xcode.  
 Файл ipa можно установить с помощью [AltStore](https://altstore.io)
 
 ## Инструкция по сборке проекта

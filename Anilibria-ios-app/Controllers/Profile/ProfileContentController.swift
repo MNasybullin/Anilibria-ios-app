@@ -12,6 +12,7 @@ protocol ProfileContentControllerDelegate: AnyObject {
     func showSite(url: URL)
     func showTeam(data: TeamAPIModel)
     func showAppItem(type: ProfileContentController.AppItem)
+    func showDonate(anilibriaURL: URL, developerURL: URL)
 }
 
 @MainActor
@@ -21,13 +22,14 @@ final class ProfileContentController: NSObject {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
     enum Section: Int, CaseIterable {
-        case user, appUpdate, anilibria, app
+        case user, appUpdate, anilibria, donate, app
     }
     
     enum Item: Hashable {
         case user
         case appUpdate
         case anilibria(AnilibriaItem)
+        case donate
         case app(AppItem)
         
         static func == (lhs: Item, rhs: Item) -> Bool {
@@ -38,6 +40,8 @@ final class ProfileContentController: NSObject {
                     return true
                 case (.anilibria(let leftAnilibriaItem), .anilibria(let rightAnilibriaItem)):
                     return leftAnilibriaItem == rightAnilibriaItem
+                case (.donate, .donate):
+                    return true
                 case (.app(let leftAppItem), .app(let rightAppItem)):
                     return leftAppItem == rightAppItem
                 default:
@@ -54,6 +58,8 @@ final class ProfileContentController: NSObject {
                 case .anilibria(let anilibriaItem):
                     hasher.combine("anilibria")
                     hasher.combine(anilibriaItem)
+                case .donate:
+                    hasher.combine("donate")
                 case .app(let appItem):
                     hasher.combine("app")
                     hasher.combine(appItem)
@@ -123,6 +129,8 @@ private extension ProfileContentController {
                         self?.configureAppUpdateCell(collectionView, indexPath: indexPath)
                     case .anilibria(let type):
                         self?.configureListCell(collectionView, indexPath: indexPath, text: type.description)
+                    case .donate:
+                        self?.configureListCell(collectionView, indexPath: indexPath, text: "Поддержать проект")
                     case .app(let type):
                         self?.configureListCell(collectionView, indexPath: indexPath, text: type.description)
                 }
@@ -150,6 +158,8 @@ private extension ProfileContentController {
             .anilibria(.youtube),
             .anilibria(.discord)
         ], toSection: .anilibria)
+        
+        snapshot.appendItems([.donate], toSection: .donate)
         
         snapshot.appendItems([
             .app(.settings),
@@ -227,6 +237,12 @@ extension ProfileContentController: UICollectionViewDelegate {
                     }
                     delegate?.showSite(url: url)
                 }
+            case .donate:
+                guard let anilibria = model.getAnilbriaDonateURL(),
+                      let developer = model.getDeveloperDonateURL() else {
+                    return
+                }
+                delegate?.showDonate(anilibriaURL: anilibria, developerURL: developer)
             case .app(let type):
                 delegate?.showAppItem(type: type)
         }

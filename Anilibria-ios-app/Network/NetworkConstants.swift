@@ -37,6 +37,7 @@ enum NetworkConstants {
     static let anilibriaTelegram = "https://t.me/anilibria_tv"
     static let anilibriaYouTube = "https://www.youtube.com/@anilibriatv"
     static let anilibriaDiscord = "https://discord.gg/anilibria"
+    static let donateURLPath = "/pages/donate.php"
     
     // VK
     static let vkCommentsURL = "https://vk.com/widget_comments.php"

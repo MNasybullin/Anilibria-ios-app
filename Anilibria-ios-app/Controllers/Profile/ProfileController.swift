@@ -10,6 +10,7 @@ import FDFullscreenPopGesture
 
 final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
     typealias CustomView = ProfileView
+    typealias DonateLocalization = Strings.ProfileModule.Donate
     
     weak var navigator: ProfileNavigator?
     
@@ -64,5 +65,21 @@ extension ProfileController: ProfileContentControllerDelegate {
             case .aboutApp:
                 navigator?.show(.aboutApp)
         }
+    }
+    
+    func showDonate(anilibriaURL: URL, developerURL: URL) {
+        let alertController = UIAlertController(title: DonateLocalization.alertTitle, message: nil, preferredStyle: .actionSheet)
+        
+        let anilibria = UIAlertAction(title: DonateLocalization.anilibria, style: .default) { [weak self] _ in
+            self?.showSite(url: anilibriaURL)
+        }
+        let developer = UIAlertAction(title: DonateLocalization.developer, style: .default) { [weak self] _ in
+            self?.showSite(url: developerURL)
+        }
+        
+        alertController.addAction(anilibria)
+        alertController.addAction(developer)
+        alertController.addAction(UIAlertAction(title: DonateLocalization.cancel, style: .cancel, handler: nil))
+        present(alertController, animated: true)
     }
 }

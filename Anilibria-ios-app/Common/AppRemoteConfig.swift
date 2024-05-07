@@ -20,6 +20,8 @@ final class AppRemoteConfig {
         
         case appVersion
         case appVersionNews
+        
+        case myDonateURL
     }
     
     enum NumberKeys: String {
@@ -52,6 +54,8 @@ private extension AppRemoteConfig {
             
             StringKeys.appVersion.rawValue: appVersionManager.currentVersion ?? "",
             StringKeys.appVersionNews.rawValue: "",
+            
+            StringKeys.myDonateURL.rawValue: "https://www.tinkoff.ru/rm/nasybullin.mansur1/kl1CO83559",
             
             NumberKeys.vkCommentsAnilibriaAppID.rawValue: 5315207
         ]
