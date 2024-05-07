@@ -17,7 +17,7 @@ protocol HomeViewOutput: AnyObject {
 final class HomeView: UIView {
     enum Status {
         case loading
-        case refresh
+        case refresh(animated: Bool = true)
         case normal
         case error(Error)
         
@@ -187,10 +187,12 @@ extension HomeView {
                 errorView.isHidden = true
                 collectionView.isHidden = false
                 showSkeletonCollectionView()
-            case .refresh:
+            case .refresh(let animated):
                 errorView.isHidden = true
                 collectionView.isHidden = false
-                beginRefreshing()
+                if animated {
+                    beginRefreshing()
+                }
             case .normal:
                 errorView.isHidden = true
                 collectionView.isHidden = false

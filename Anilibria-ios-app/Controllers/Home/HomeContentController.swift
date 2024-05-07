@@ -95,7 +95,7 @@ final class HomeContentController: NSObject {
 
 extension HomeContentController {
     func requestDataWithRefreshStatus() {
-        requestData(status: .refresh)
+        requestData(status: .refresh())
     }
     
     func requestDataWithLoadingStatus() {
@@ -106,6 +106,7 @@ extension HomeContentController {
         guard status == .normal else {
             return
         }
+        status = .refresh(animated: false)
         do {
             watchingData = try watchingModel.requestData()
             applyWatchingSnapshot()
@@ -113,6 +114,7 @@ extension HomeContentController {
             let logger = Logger(subsystem: .home, category: .data)
             logger.error("\(Logger.logInfo(error: error))")
         }
+        status = .normal
     }
 }
 
@@ -268,7 +270,7 @@ private extension HomeContentController {
     }
     
     func requestData(status setStatus: HomeView.Status) {
-        guard status != .loading && status != .refresh else { return }
+        guard status != .loading && status != .refresh() else { return }
         status = setStatus
         Task(priority: .userInitiated) {
             do {
