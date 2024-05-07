@@ -46,7 +46,7 @@ final class AppUpdateCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var headerLabelsStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [titleLabel, appVersionLabel, changesStackView])
+        let stack = UIStackView(arrangedSubviews: [titleLabel, appVersionLabel, changesView])
         stack.axis = .vertical
         stack.spacing = 2
         return stack
@@ -67,12 +67,7 @@ final class AppUpdateCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var changesStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [changesLabel, changesImageView])
-        stack.axis = .horizontal
-        stack.alignment = .center
-        return stack
-    }()
+    private var changesView = UIView()
     
     private lazy var changesLabel: UILabel = {
         let label = UILabel()
@@ -115,6 +110,7 @@ final class AppUpdateCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         setupView()
+        setupChangesView()
         setupLayout()
         setupGestures()
     }
@@ -133,6 +129,11 @@ private extension AppUpdateCollectionViewCell {
         layer.masksToBounds = true
     }
     
+    func setupChangesView() {
+        changesView.addSubview(changesLabel)
+        changesView.addSubview(changesImageView)
+    }
+    
     func setupLayout() {
         addSubview(mainStackView)
         
@@ -146,11 +147,23 @@ private extension AppUpdateCollectionViewCell {
             iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
             iconImageView.widthAnchor.constraint(lessThanOrEqualToConstant: 64)
         ])
+        
+        changesLabel.translatesAutoresizingMaskIntoConstraints = false
+        changesImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            changesLabel.topAnchor.constraint(equalTo: changesView.topAnchor),
+            changesLabel.leadingAnchor.constraint(equalTo: changesView.leadingAnchor),
+            changesLabel.bottomAnchor.constraint(equalTo: changesView.bottomAnchor),
+            
+            changesImageView.trailingAnchor.constraint(equalTo: changesView.trailingAnchor),
+            changesImageView.heightAnchor.constraint(equalTo: changesLabel.heightAnchor),
+            changesImageView.widthAnchor.constraint(equalTo: changesImageView.heightAnchor)
+        ])
     }
     
     func setupGestures() {
         let tapChangesStackGesture = UITapGestureRecognizer(target: self, action: #selector(changesHStackTapped))
-        changesStackView.addGestureRecognizer(tapChangesStackGesture)
+        changesView.addGestureRecognizer(tapChangesStackGesture)
         
         let tapNewsLabelGesture = UITapGestureRecognizer(target: self, action: #selector(changesHStackTapped))
         newsLabel.addGestureRecognizer(tapNewsLabelGesture)
