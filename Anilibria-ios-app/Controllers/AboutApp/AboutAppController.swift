@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 final class AboutAppController: UIViewController, HasCustomView, ProfileFlow {
     typealias CustomView = AboutAppView
@@ -37,6 +38,7 @@ private extension AboutAppController {
 
 extension AboutAppController: AboutAppContentControllerDelegate {
     func githubItemDidSelected(url: URL) {
-        UIApplication.shared.open(url)
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
 }

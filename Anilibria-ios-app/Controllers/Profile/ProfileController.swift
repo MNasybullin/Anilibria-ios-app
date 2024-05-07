@@ -7,6 +7,7 @@
 
 import UIKit
 import FDFullscreenPopGesture
+import SafariServices
 
 final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
     typealias CustomView = ProfileView
@@ -51,7 +52,8 @@ private extension ProfileController {
 
 extension ProfileController: ProfileContentControllerDelegate {
     func showSite(url: URL) {
-        UIApplication.shared.open(url)
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     func showTeam(data: TeamAPIModel) {
