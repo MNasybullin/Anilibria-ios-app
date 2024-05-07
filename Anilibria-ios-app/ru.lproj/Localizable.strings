@@ -118,6 +118,9 @@
 
 // MARK: - User Info View
 "UserInfoView.logoutButton" = "Выйти";
+"UserInfoView.logoutActionController.title" = "Вы действительно хотите выйти?";
+"UserInfoView.logoutActionController.logoutAction" = "Выйти";
+"UserInfoView.logoutActionController.cancelAction" = "Отмена";
 
 // MARK: - Video Player
 "VideoPlayerView.skipButton" = "Пропустить";

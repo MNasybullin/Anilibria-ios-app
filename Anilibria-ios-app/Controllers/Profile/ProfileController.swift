@@ -81,7 +81,7 @@ extension ProfileController: ProfileContentControllerDelegate {
         
         alertController.addAction(anilibria)
         alertController.addAction(developer)
-        alertController.addAction(UIAlertAction(title: DonateLocalization.cancel, style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: DonateLocalization.cancel, style: .cancel))
         present(alertController, animated: true)
     }
 }
