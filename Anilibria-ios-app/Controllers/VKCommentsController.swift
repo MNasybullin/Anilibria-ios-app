@@ -26,14 +26,12 @@ final class VKCommentsController: UIViewController, HasCustomView {
         let vkCommentsView = VKCommentsView()
         vkCommentsView.webView.navigationDelegate = self
         vkCommentsView.webView.uiDelegate = self
-        
-        view = VKCommentsView()
+        view = vkCommentsView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupFD()
         loadHTML()
     }
 }
@@ -41,10 +39,6 @@ final class VKCommentsController: UIViewController, HasCustomView {
 // MARK: - Private methods
 
 private extension VKCommentsController {
-    func setupFD() {
-        fd_interactivePopDisabled = true
-    }
-    
     func loadHTML() {
         let html = model.getHTML()
         customView.loadHTML(html: html, url: nil)

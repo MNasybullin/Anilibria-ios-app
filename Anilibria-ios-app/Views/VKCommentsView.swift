@@ -9,7 +9,13 @@ import UIKit
 import WebKit
 
 final class VKCommentsView: UIView {
-    let webView = WKWebView()
+    let webView: WKWebView = {
+        let config = WKWebViewConfiguration()
+        config.dataDetectorTypes = [.all]
+        let webView = WKWebView(frame: .zero, configuration: config)
+        return webView
+    }()
+    
     private let progressView = UIProgressView(progressViewStyle: .bar)
     
     private var observation: NSKeyValueObservation?
