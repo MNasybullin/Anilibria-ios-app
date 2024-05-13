@@ -41,7 +41,8 @@ final class VKCommentsController: UIViewController, HasCustomView {
 private extension VKCommentsController {
     func loadHTML() {
         let html = model.getHTML()
-        customView.loadHTML(html: html, url: nil)
+        let url = model.getCommentsURLComponents()?.url
+        customView.loadHTML(html: html, url: url)
     }
 }
 
