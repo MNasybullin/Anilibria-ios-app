@@ -51,6 +51,11 @@ private extension EpisodesController {
 // MARK: - EpisodesContentControllerDelegate
 
 extension EpisodesController: EpisodesContentControllerDelegate {
+    var fdInteractivePopDisabled: Bool {
+        get { fd_interactivePopDisabled }
+        set { fd_interactivePopDisabled = newValue }
+    }
+    
     func didSelectItem(animeItem: AnimeItem, currentPlaylist: Int) {
         navigator?.show(.videoPlayer(data: animeItem, currentPlaylist: currentPlaylist))
     }

@@ -34,31 +34,6 @@ class StatusAlertView: UIView {
 // MARK: - Private methods
 
 private extension StatusAlertView {
-    func setupLayout() {
-        addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        [imageView, titleLabel, messageLabel, actionButton].forEach {
-            stackView.addArrangedSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-            
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-            imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.25)
-            
-        ])
-    }
-}
-
-// MARK: - Setup
-
-extension StatusAlertView {
     func setupStackView() {
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -89,17 +64,24 @@ extension StatusAlertView {
         actionButton.tintColor = .systemRed
     }
     
-    func setActionButton(action: UIAction, for event: UIControl.Event) {
-        actionButton.addAction(action, for: event)
-    }
-    
-    func setupFullScreenConstraints(to view: UIView) {
-        self.translatesAutoresizingMaskIntoConstraints = false
+    func setupLayout() {
+        addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        [imageView, titleLabel, messageLabel, actionButton].forEach {
+            stackView.addArrangedSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
         NSLayoutConstraint.activate([
-            self.topAnchor.constraint(equalTo: view.topAnchor),
-            self.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            self.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.25)
+            
         ])
     }
 }
@@ -123,8 +105,22 @@ extension StatusAlertView {
         actionButton.setTitle(title, for: state)
     }
     
+    func setActionButton(action: UIAction, for event: UIControl.Event) {
+        actionButton.addAction(action, for: event)
+    }
+    
     var actionButtonIsHidden: Bool {
         get { actionButton.isHidden }
         set { actionButton.isHidden = newValue }
+    }
+    
+    func setupFullScreenConstraints(to view: UIView) {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.topAnchor.constraint(equalTo: view.topAnchor),
+            self.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            self.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }

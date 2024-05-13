@@ -53,13 +53,13 @@ extension ProfileNavigator: BasicNavigator {
 // MARK: - Navigator
 
 extension ProfileNavigator: Navigator {
-    enum Destinition {
+    enum Destination {
         case team(rawData: TeamAPIModel)
         case settings
         case aboutApp
     }
     
-    func show(_ destination: Destinition) {
+    func show(_ destination: Destination) {
         let viewController: UIViewController
         switch destination {
             case .team(let rawData):

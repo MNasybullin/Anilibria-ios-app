@@ -48,6 +48,14 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
+    private lazy var statusLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        return label
+    }()
+    
     private (set) lazy var watchAndDownloadButtonsView = WatchAndDownloadButtonsView()
     
     private lazy var genresLabel: UILabel = {
@@ -75,6 +83,19 @@ final class AnimeInfoView: UIView {
     
     init() {
         super.init(frame: .zero)
+        
+        setupLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Private methods
+
+private extension AnimeInfoView {
+    func setupLayout() {
         addSubview(contentVStack)
         
         [ruNameLabel, engNameAndSeasonAndTypeVStack, watchAndDownloadButtonsView,
@@ -82,18 +103,10 @@ final class AnimeInfoView: UIView {
          animeEpisodesView]
             .forEach { contentVStack.addArrangedSubview($0) }
         
-        [engNameLabel, seasonAndTypeLabel].forEach {
+        [engNameLabel, seasonAndTypeLabel, statusLabel].forEach {
             engNameAndSeasonAndTypeVStack.addArrangedSubview($0)
         }
         
-        setupConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupConstraints() {
         contentVStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             contentVStack.topAnchor.constraint(equalTo: topAnchor, constant: 20),
@@ -102,11 +115,17 @@ final class AnimeInfoView: UIView {
             contentVStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
         ])
     }
-    
-    func configureView(item: AnimeItem) {
+}
+
+// MARK: - Internal methods
+
+extension AnimeInfoView {
+    func configureView(item: AnimeItem, continueWatchingEpisodeNumber: Float?) {
         ruNameLabel.text = item.ruName
         engNameLabel.text = item.engName
         seasonAndTypeLabel.text = item.seasonAndType
+        statusLabel.text = "\(Strings.AnimeModule.AnimeView.statusLabel) \(item.status)."
+        watchAndDownloadButtonsView.configureWatchButton(episodeNumber: continueWatchingEpisodeNumber)
         genresLabel.text = item.genres
         descriptionLabel.text = item.description
         animeTeamInfoView.configureView(withData: item.team)

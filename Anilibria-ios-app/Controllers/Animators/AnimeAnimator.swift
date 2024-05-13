@@ -132,7 +132,7 @@ final class AnimeAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                     $0.layer.cornerRadius = self.isPresenting ? 0 : PosterCollectionViewCell.Constants.imageViewCornerRadius
                 }
             }
-            UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.9) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.45) {
                 fadeView.alpha = self.isPresenting ? 1 : 0
             }
             if swapImage {

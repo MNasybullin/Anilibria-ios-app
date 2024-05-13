@@ -63,8 +63,14 @@
 "HomeModule.buttonTitle.allDays" = "Все дни";
 "HomeModule.buttonTitle.all" = "Все";
 
+"HomeModule.watchingMenu.aboutAnimeTitle" = "О аниме";
+"HomeModule.watchingMenu.aboutAnimeImageName" = "rectangle.portrait.tophalf.inset.filled";
+"HomeModule.watchingMenu.episodesTitle" = "Серии";
+"HomeModule.watchingMenu.episodesImageName" = "rectangle.fill.on.rectangle.fill";
 "HomeModule.watchingMenu.hideTitle" = "Скрыть из подборки";
 "HomeModule.watchingMenu.hideImageName" = "minus.circle";
+
+"HomeModule.watchingMenu.loadingDataTitle" = "Идет загрузка данных...";
 
 "HomeModule.error.failedRequestData" = "Ошибка загрузки данных";
 "HomeModule.error.failedHidingWatched" = "Не удалось скрыть просмотренное";
@@ -112,6 +118,9 @@
 
 // MARK: - User Info View
 "UserInfoView.logoutButton" = "Выйти";
+"UserInfoView.logoutActionController.title" = "Вы действительно хотите выйти?";
+"UserInfoView.logoutActionController.logoutAction" = "Выйти";
+"UserInfoView.logoutActionController.cancelAction" = "Отмена";
 
 // MARK: - Video Player
 "VideoPlayerView.skipButton" = "Пропустить";
@@ -132,6 +141,8 @@
 // MARK: - Episodes Module
 "EpisodesModule.episodesTitle" = "Серии";
 "EpisodesModule.episodes" = "серий";
+"EpisodesModule.swipeActions.removeFromWatching" = "Убрать из просмотренных";
+"EpisodesModule.swipeActions.MarkAsWatched" = "Отметить как просмотренное";
 
 // MARK: - RandomAnime Module
 "RandomAnimeModule.title.randomAnime" = "Случайное аниме";
@@ -166,6 +177,11 @@
 "ProfileModule.Anilibria.youtube" = "YouTube";
 "ProfileModule.Anilibria.discord" = "Discord";
 
+"ProfileModule.Donate.alertTitle" = "Кого хотите поддержать?";
+"ProfileModule.Donate.anilibria" = "Команду Анилибрии";
+"ProfileModule.Donate.developer" = "Разработчика приложения";
+"ProfileModule.Donate.cancel" = "Отмена";
+
 "ProfileModule.App.settings" = "Настройки";
 "ProfileModule.App.aboutApp" = "О приложении";
 
@@ -189,6 +205,7 @@
 "AnimeModule.AnimeView.watchButton" = "Смотреть";
 "AnimeModule.AnimeView.favoriteButton" = "Избранное";
 "AnimeModule.AnimeView.shareButton" = "Поделиться";
+"AnimeModule.AnimeView.statusLabel" = "Статус:";
 
 "AnimeModule.AnimeEpisodesView.episodesTitle" = "Серии";
 "AnimeModule.AnimeEpisodesView.allButton" = "Все";
@@ -201,5 +218,14 @@
 "UserModule.error.authorizationFailure" = "Ошибка авторизации";
 "UserModule.error.logoutFailure" = "Ошибка выхода";
 
-// MARK: - Schedule Module
-"ScheduleModule.error.errorLoadingSchedule" = "Ошибка загрузки расписания";
+// MARK: Status Alert View
+"StatusAlertView.Error.image" = "exclamationmark.triangle";
+"StatusAlertView.Error.title" = "Ошибка";
+"StatusAlertView.Error.refreshButtonTitle" = "Обновить";
+
+// MARK: - AppUpdateCell
+"AppUpdateCell.title" = "Новая версия приложения";
+"AppUpdateCell.whatIsNew" = "Что нового?";
+
+// MARK: - AnimeItem
+"AnimeItem.noData" = "Нет данных";

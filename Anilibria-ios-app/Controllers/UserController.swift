@@ -10,6 +10,7 @@ import OSLog
 
 final class UserController: UIViewController, HasCustomView {
     typealias CustomView = UserView
+    typealias Localization = Strings.UserInfoView
     
     private let model = UserModel()
     private let userDefaults = UserDefaults.standard
@@ -65,8 +66,18 @@ extension UserController: SignInViewDelegate {
 
 extension UserController: UserInfoViewDelegate {
     func logoutButtonDidTapped() {
-        customView.userInfoView.logoutButton(isEnabled: false)
-        model.logout()
+        let alertController = UIAlertController(title: Localization.LogoutActionController.title,
+                                           message: nil,
+                                           preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: Localization.LogoutActionController.logoutAction,
+                                           style: .destructive,
+                                           handler: { [weak self] _ in
+            self?.customView.userInfoView.logoutButton(isEnabled: false)
+            self?.model.logout()
+        }))
+        alertController.addAction(UIAlertAction(title: Localization.LogoutActionController.cancelAction,
+                                           style: .cancel))
+        present(alertController, animated: true)
     }
 }
 

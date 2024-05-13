@@ -8,11 +8,6 @@
 import Foundation
 
 enum NetworkConstants {
-    static let anilibriaURL = "https://www.anilibria.tv"
-    static let baseImagesURL = "https://static.anilibria.tv"
-    static let mirrorAnilibriaURL = "https://anilibria-ios-app.anilib.moe"
-    static let mirrorBaseImagesURL = "https://static.anilib.moe"
-    static let apiAnilibriaURL = "https://api.anilibria.tv"
     static let youTubeWatchURL = "https://www.youtube.com/watch?v="
     static let youtube = "/v3/youtube"
     static let title = "/v3/title"
@@ -42,6 +37,10 @@ enum NetworkConstants {
     static let anilibriaTelegram = "https://t.me/anilibria_tv"
     static let anilibriaYouTube = "https://www.youtube.com/@anilibriatv"
     static let anilibriaDiscord = "https://discord.gg/anilibria"
+    static let donateURLPath = "/pages/donate.php"
+    
+    // VK
+    static let vkCommentsURL = "https://vk.com/widget_comments.php"
     
     // App
     static let github = "https://github.com/MNasybullin/Anilibria-ios-app"

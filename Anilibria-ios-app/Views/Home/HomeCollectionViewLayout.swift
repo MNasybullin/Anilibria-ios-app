@@ -89,15 +89,15 @@ private extension HomeCollectionViewLayout {
                 cellConfigurable: TodayHomePosterCollectionCell.self),
             .watching: .init(
                 groupWidthFraction: 0.7,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: WatchingHomeCollectionViewCell.self),
             .updates: .init(
                 groupWidthFraction: 0.45,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: UpdatesHomePosterCollectionCell.self),
             .youtube: .init(
                 groupWidthFraction: 0.9,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: YouTubeHomePosterCollectionCell.self)
         ]
     }
@@ -105,20 +105,20 @@ private extension HomeCollectionViewLayout {
     func configurePadSectionConfigurations() -> [Section: SectionConfiguration] {
         return [
             .today: .init(
-                groupWidthFraction: 0.4,
+                groupWidthFraction: 0.3,
                 orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
                 cellConfigurable: TodayHomePosterCollectionCell.self),
             .watching: .init(
                 groupWidthFraction: 0.45,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: WatchingHomeCollectionViewCell.self),
             .updates: .init(
-                groupWidthFraction: 0.3,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                groupWidthFraction: 0.25,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: UpdatesHomePosterCollectionCell.self),
             .youtube: .init(
                 groupWidthFraction: 0.55,
-                orthogonalScrollingBehavior: .continuousGroupLeadingBoundary,
+                orthogonalScrollingBehavior: .continuous,
                 cellConfigurable: YouTubeHomePosterCollectionCell.self)
         ]
     }
@@ -156,13 +156,15 @@ private extension HomeCollectionViewLayout {
         }
         section.visibleItemsInvalidationHandler = { (items, offset, environment) in
             let screenWidth = environment.container.contentSize.width
-            let minScale: CGFloat = 0.95
+            let minScale: CGFloat = 0.9
             let maxScale: CGFloat = 1.0
             
             items.forEach { item in
                 guard item.representedElementCategory == .cell else { return }
-                let distanceFromCenter = abs((item.frame.midX - offset.x) - screenWidth / 2.0)
-                let scale = max(maxScale - (distanceFromCenter / screenWidth), minScale)
+                let cellCenterX = item.center.x - offset.x
+                let distanceFromCenter = abs(cellCenterX - screenWidth / 2.0)
+                let maxDistance = screenWidth / 2.0
+                let scale = max(maxScale - (distanceFromCenter / maxDistance) * (maxScale - minScale), minScale)
                 item.transform = CGAffineTransform(scaleX: scale, y: scale)
                 
                 if let offsetX = self.offsetX,

@@ -27,4 +27,14 @@ public class WatchingEntity: NSManagedObject {
             throw error
         }
     }
+    
+    static func create(forUser user: UserEntity, animeItem: AnimeItem, context: NSManagedObjectContext) -> WatchingEntity {
+        let watchingEntity = WatchingEntity(context: context)
+        watchingEntity.animeId = Int64(animeItem.id)
+        watchingEntity.animeName = animeItem.ruName
+        watchingEntity.animeImage = animeItem.image
+        watchingEntity.user = user
+        watchingEntity.isHidden = false
+        return watchingEntity
+    }
 }

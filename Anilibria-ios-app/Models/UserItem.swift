@@ -25,16 +25,16 @@ extension UserItem {
                   vkId: model.vkId,
                   patreonId: model.patreonId,
                   image: model.image,
-                  imageUrl: NetworkConstants.mirrorBaseImagesURL + model.imageUrl
+                  imageUrl: AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + model.imageUrl
         )
     }
     
     init(userApiModel model: UserAPIModel) {
         var imageUrl: String
         if model.avatar != nil {
-            imageUrl = NetworkConstants.mirrorBaseImagesURL + model.avatarOriginal
+            imageUrl = AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + model.avatarOriginal
         } else {
-            imageUrl = NetworkConstants.mirrorBaseImagesURL + NetworkConstants.noAvatarSuffix
+            imageUrl = AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + NetworkConstants.noAvatarSuffix
         }
         self.init(login: model.login,
                   nickname: model.nickname,

@@ -7,9 +7,11 @@
 
 import UIKit
 import FDFullscreenPopGesture
+import SafariServices
 
 final class ProfileController: UIViewController, ProfileFlow, HasCustomView {
     typealias CustomView = ProfileView
+    typealias DonateLocalization = Strings.ProfileModule.Donate
     
     weak var navigator: ProfileNavigator?
     
@@ -50,7 +52,8 @@ private extension ProfileController {
 
 extension ProfileController: ProfileContentControllerDelegate {
     func showSite(url: URL) {
-        UIApplication.shared.open(url)
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     func showTeam(data: TeamAPIModel) {
@@ -64,5 +67,21 @@ extension ProfileController: ProfileContentControllerDelegate {
             case .aboutApp:
                 navigator?.show(.aboutApp)
         }
+    }
+    
+    func showDonate(anilibriaURL: URL, developerURL: URL) {
+        let alertController = UIAlertController(title: DonateLocalization.alertTitle, message: nil, preferredStyle: .actionSheet)
+        
+        let anilibria = UIAlertAction(title: DonateLocalization.anilibria, style: .default) { [weak self] _ in
+            self?.showSite(url: anilibriaURL)
+        }
+        let developer = UIAlertAction(title: DonateLocalization.developer, style: .default) { [weak self] _ in
+            self?.showSite(url: developerURL)
+        }
+        
+        alertController.addAction(anilibria)
+        alertController.addAction(developer)
+        alertController.addAction(UIAlertAction(title: DonateLocalization.cancel, style: .cancel))
+        present(alertController, animated: true)
     }
 }

@@ -12,9 +12,9 @@ protocol BasicNavigator {
 }
 
 protocol Navigator {
-    associatedtype Destinition
+    associatedtype Destination
     
-    func show(_ destination: Destinition)
+    func show(_ destination: Destination)
 }
 
 final class MainNavigator {

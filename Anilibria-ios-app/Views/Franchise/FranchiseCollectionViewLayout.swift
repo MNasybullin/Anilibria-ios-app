@@ -8,8 +8,6 @@
 import UIKit
 
 final class FranchiseCollectionViewLayout {
-    typealias ElementKind = FranchiseView.ElementKind
-    
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] _, environment in
             guard let self else { fatalError("Layout instance is nil.") }
@@ -59,7 +57,7 @@ final class FranchiseCollectionViewLayout {
             heightDimension: .estimated(40))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
-            elementKind: ElementKind.sectionHeader,
+            elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         
         section.boundarySupplementaryItems = [sectionHeader]

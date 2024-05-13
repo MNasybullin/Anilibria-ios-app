@@ -10,11 +10,48 @@ import SkeletonView
 
 protocol HomeViewOutput: AnyObject {
     func handleRefreshControl()
+    func refreshButtonDidTapped()
 }
 
+@MainActor
 final class HomeView: UIView {
+    enum Status {
+        case loading
+        case refresh(animated: Bool = true)
+        case normal
+        case error(Error)
+        
+        static func == (lhs: Status, rhs: Status) -> Bool {
+            switch (lhs, rhs) {
+                case (.normal, .normal),
+                    (.loading, .loading),
+                    (.refresh, .refresh),
+                    (.error, .error):
+                    return true
+                default:
+                    return false
+            }
+        }
+        
+        static func != (lhs: Status, rhs: Status) -> Bool {
+            return !(lhs == rhs)
+        }
+    }
+    
     let homeCollectionViewLayout = HomeCollectionViewLayout()
     private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: homeCollectionViewLayout.createLayout())
+    
+    private lazy var errorView: StatusAlertView = {
+        let statusView = StatusAlertView()
+        let image = UIImage(systemName: Strings.StatusAlertView.Error.image)?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+        statusView.setImage(image)
+        statusView.setTitle(text: Strings.StatusAlertView.Error.title)
+        statusView.setActionButton(title: Strings.StatusAlertView.Error.refreshButtonTitle, for: .normal)
+        statusView.setActionButton(action: UIAction(handler: { [weak self] _ in
+            self?.delegate?.refreshButtonDidTapped()
+        }), for: .touchUpInside)
+        return statusView
+    }()
     
     weak var delegate: HomeViewOutput?
     
@@ -81,6 +118,46 @@ private extension HomeView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        addSubview(errorView)
+        errorView.setupFullScreenConstraints(to: self)
+    }
+    
+    func showSkeletonCollectionView() {
+        collectionView.showAnimatedSkeleton()
+    }
+    
+    func hideSkeletonCollectionView() {
+        if collectionView.sk.isSkeletonActive {
+            collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
+        }
+    }
+    
+    func beginRefreshing() {
+        guard collectionView.refreshControl?.isRefreshing == false else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.collectionView.refreshControl?.beginRefreshing()
+            self.scrollToTop(animated: false)
+        }
+    }
+    
+    func refreshControlEndRefreshing() {
+        guard collectionView.refreshControl?.isRefreshing == true else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.collectionView.refreshControl?.endRefreshing()
+            self.scrollSectionsToTop()
+        }
+    }
+    
+    func scrollSectionsToTop() {
+        for section in 0..<collectionView.numberOfSections {
+            let indexPath = IndexPath(row: 0, section: section)
+            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
     }
 }
 
@@ -88,6 +165,10 @@ private extension HomeView {
 
 private extension HomeView {
     @objc func handleRefreshControll() {
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.prepare()
+        generator.impactOccurred()
+        
         delegate?.handleRefreshControl()
     }
 }
@@ -100,34 +181,28 @@ extension HomeView {
         collectionView.setContentOffset(topOffset, animated: animated)
     }
     
-    func refreshControlEndRefreshing() {
-        guard collectionView.refreshControl?.isRefreshing == true else {
-            return
-        }
-        scrollSectionsToTop()
-        collectionView.refreshControl?.endRefreshing()
-    }
-    
-    func scrollSectionsToTop() {
-        for section in 0..<collectionView.numberOfSections {
-            let indexPath = IndexPath(row: 0, section: section)
-            collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
-        }
-    }
-    
-    func programaticallyBeginRefreshing() {
-        collectionView.refreshControl?.beginRefreshing()
-        scrollToTop(animated: false)
-        delegate?.handleRefreshControl()
-    }
-    
-    func showSkeletonCollectionView() {
-        collectionView.showAnimatedSkeleton()
-    }
-    
-    func hideSkeletonCollectionView() {
-        if collectionView.sk.isSkeletonActive {
-            collectionView.hideSkeleton(reloadDataAfter: false, transition: .none)
+    func updateView(withStatus status: Status) {
+        switch status {
+            case .loading:
+                errorView.isHidden = true
+                collectionView.isHidden = false
+                showSkeletonCollectionView()
+            case .refresh(let animated):
+                errorView.isHidden = true
+                collectionView.isHidden = false
+                if animated {
+                    beginRefreshing()
+                }
+            case .normal:
+                errorView.isHidden = true
+                collectionView.isHidden = false
+                refreshControlEndRefreshing()
+                hideSkeletonCollectionView()
+            case .error(let error):
+                errorView.isHidden = false
+                collectionView.isHidden = true
+                refreshControlEndRefreshing()
+                errorView.setMessage(text: error.localizedDescription)
         }
     }
 }

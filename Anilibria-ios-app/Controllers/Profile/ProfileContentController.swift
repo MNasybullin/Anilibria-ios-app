@@ -12,6 +12,7 @@ protocol ProfileContentControllerDelegate: AnyObject {
     func showSite(url: URL)
     func showTeam(data: TeamAPIModel)
     func showAppItem(type: ProfileContentController.AppItem)
+    func showDonate(anilibriaURL: URL, developerURL: URL)
 }
 
 @MainActor
@@ -21,20 +22,26 @@ final class ProfileContentController: NSObject {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
     enum Section: Int, CaseIterable {
-        case user, anilibria, app
+        case user, appUpdate, anilibria, donate, app
     }
     
     enum Item: Hashable {
         case user
+        case appUpdate
         case anilibria(AnilibriaItem)
+        case donate
         case app(AppItem)
         
         static func == (lhs: Item, rhs: Item) -> Bool {
             switch (lhs, rhs) {
                 case (.user, .user):
                     return true
+                case (.appUpdate, .appUpdate):
+                    return true
                 case (.anilibria(let leftAnilibriaItem), .anilibria(let rightAnilibriaItem)):
                     return leftAnilibriaItem == rightAnilibriaItem
+                case (.donate, .donate):
+                    return true
                 case (.app(let leftAppItem), .app(let rightAppItem)):
                     return leftAppItem == rightAppItem
                 default:
@@ -46,9 +53,13 @@ final class ProfileContentController: NSObject {
             switch self {
                 case .user:
                     hasher.combine("user")
+                case .appUpdate:
+                    hasher.combine("appUpdate")
                 case .anilibria(let anilibriaItem):
                     hasher.combine("anilibria")
                     hasher.combine(anilibriaItem)
+                case .donate:
+                    hasher.combine("donate")
                 case .app(let appItem):
                     hasher.combine("app")
                     hasher.combine(appItem)
@@ -85,6 +96,7 @@ final class ProfileContentController: NSObject {
     private let customView: ProfileView
     private let userController = UserController()
     private let model = ProfileModel()
+    private let appUpdateModel = AppUpdateModel()
     private lazy var dataSource = makeDataSource()
     weak var delegate: ProfileContentControllerDelegate?
     
@@ -102,6 +114,7 @@ final class ProfileContentController: NSObject {
 private extension ProfileContentController {
     func setupCollectionView() {
         customView.collectionView.delegate = self
+        customView.layout.dataSource = dataSource
     }
     
     func makeDataSource() -> DataSource {
@@ -112,8 +125,12 @@ private extension ProfileContentController {
                 switch itemIdentifier {
                     case .user:
                         self?.configureUserCell(collectionView, indexPath: indexPath)
+                    case .appUpdate:
+                        self?.configureAppUpdateCell(collectionView, indexPath: indexPath)
                     case .anilibria(let type):
                         self?.configureListCell(collectionView, indexPath: indexPath, text: type.description)
+                    case .donate:
+                        self?.configureListCell(collectionView, indexPath: indexPath, text: "Поддержать проект")
                     case .app(let type):
                         self?.configureListCell(collectionView, indexPath: indexPath, text: type.description)
                 }
@@ -127,6 +144,12 @@ private extension ProfileContentController {
         
         snapshot.appendItems([.user], toSection: .user)
         
+        if appUpdateModel.isNeedUpdateApp() {
+            snapshot.appendItems([Item.appUpdate], toSection: .appUpdate)
+        } else {
+            snapshot.deleteSections([.appUpdate])
+        }
+        
         snapshot.appendItems([
             .anilibria(.site),
             .anilibria(.team),
@@ -135,6 +158,8 @@ private extension ProfileContentController {
             .anilibria(.youtube),
             .anilibria(.discord)
         ], toSection: .anilibria)
+        
+        snapshot.appendItems([.donate], toSection: .donate)
         
         snapshot.appendItems([
             .app(.settings),
@@ -156,6 +181,17 @@ private extension ProfileContentController {
             userController.customView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
             userController.customView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
         ])
+        return cell
+    }
+    
+    func configureAppUpdateCell(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppUpdateCollectionViewCell.reuseIdentifier, for: indexPath) as? AppUpdateCollectionViewCell else {
+            fatalError("Can`t create new appUpdate cell")
+        }
+        let appVersion = appUpdateModel.getAppVersion()
+        let news = appUpdateModel.getNews()
+        cell.configureCell(appVersion: appVersion, news: news)
+        cell.delegate = self
         return cell
     }
     
@@ -183,6 +219,13 @@ extension ProfileContentController: UICollectionViewDelegate {
         }
         switch item {
             case .user: break
+            case .appUpdate:
+                guard let url = appUpdateModel.getGitHubUrl() else {
+                    let logger = Logger(subsystem: .profile, category: .data)
+                    logger.error("\(Logger.logInfo()) url is nil")
+                    return
+                }
+                delegate?.showSite(url: url)
             case .anilibria(let type):
                 if type == .team {
                     didSelectTeamRow(indexPath: indexPath)
@@ -194,6 +237,12 @@ extension ProfileContentController: UICollectionViewDelegate {
                     }
                     delegate?.showSite(url: url)
                 }
+            case .donate:
+                guard let anilibria = model.getAnilbriaDonateURL(),
+                      let developer = model.getDeveloperDonateURL() else {
+                    return
+                }
+                delegate?.showDonate(anilibriaURL: anilibria, developerURL: developer)
             case .app(let type):
                 delegate?.showAppItem(type: type)
         }
@@ -232,5 +281,13 @@ extension ProfileContentController: UICollectionViewDelegate {
                 NotificationBannerView(data: data).show(onView: customView)
             }
         }
+    }
+}
+
+// MARK: - AppUpdateCollectionViewCellDelegate
+
+extension ProfileContentController: AppUpdateCollectionViewCellDelegate {
+    func updateCellHeight() {
+        customView.collectionView.performBatchUpdates(nil, completion: nil)
     }
 }

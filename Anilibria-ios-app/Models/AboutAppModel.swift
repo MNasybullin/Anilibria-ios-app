@@ -8,8 +8,10 @@
 import Foundation
 
 final class AboutAppModel {
+    private let appVersionManager = AppVersionManager()
+    
     func getAppVersion() -> String {
-        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        return appVersionManager.currentVersion ?? ""
     }
     
     func getGithubURL() -> URL {

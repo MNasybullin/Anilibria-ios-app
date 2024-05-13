@@ -26,6 +26,12 @@ final class ScheduleContentController: NSObject {
     private let customView: ScheduleView
     private var data: [ScheduleItem] = []
     
+    private var status: ScheduleView.Status = .normal {
+        didSet {
+            customView.updateView(withStatus: status)
+        }
+    }
+    
     init(customView: ScheduleView, delegate: ScheduleContentControllerDelegate?) {
         self.customView = customView
         self.delegate = delegate
@@ -34,37 +40,17 @@ final class ScheduleContentController: NSObject {
         setupCollectionView()
         requestData()
     }
-    
+}
+
+// MARK: - Private methods
+
+private extension ScheduleContentController {
     func setupCollectionView() {
         customView.collectionView.delegate = self
         customView.collectionView.dataSource = self
         customView.collectionView.prefetchDataSource = self
     }
     
-    func requestData() {
-        customView.collectionView.showAnimatedSkeleton()
-        Task {
-            do {
-                data = try await model.requestData()
-                customView.collectionView.hideSkeleton(reloadDataAfter: false)
-                customView.collectionView.reloadData()
-            } catch {
-                let logger = Logger(subsystem: .schedule, category: .data)
-                logger.error("\(Logger.logInfo(error: error))")
-                
-                let data = NotificationBannerView.BannerData(title: Strings.ScheduleModule.Error.errorLoadingSchedule,
-                                                             detail: error.localizedDescription,
-                                                             type: .error)
-                NotificationBannerView(data: data).show(onView: customView)
-                
-            }
-        }
-    }
-}
-
-// MARK: - Private methods
-
-private extension ScheduleContentController {
     func cancelRequestImage(indexPath: IndexPath) {
         let row = indexPath.row
         let section = indexPath.section
@@ -73,6 +59,26 @@ private extension ScheduleContentController {
             return
         }
         model.cancelImageTask(forUrlString: item.imageUrlString)
+    }
+}
+
+// MARK: - Internal methods
+
+extension ScheduleContentController {
+    func requestData() {
+        guard status != .loading else { return }
+        status = .loading
+        Task {
+            do {
+                data = try await model.requestData()
+                status = .normal
+                customView.collectionView.reloadData()
+            } catch {
+                let logger = Logger(subsystem: .schedule, category: .data)
+                logger.error("\(Logger.logInfo(error: error))")
+                status = .error(error)
+            }
+        }
     }
 }
 

@@ -31,13 +31,14 @@ extension AnimeNavigator: BasicNavigator {
 // MARK: - Navigator
 
 extension AnimeNavigator: Navigator {
-    enum Destinition {
+    enum Destination {
         case anime(data: TitleAPIModel, image: UIImage?)
         case episodes(data: AnimeItem)
         case videoPlayer(data: AnimeItem, currentPlaylist: Int)
+        case vkComments(data: AnimeItem)
     }
     
-    func show(_ destination: Destinition) {
+    func show(_ destination: Destination) {
         switch destination {
             case .anime(let data, let image):
                 let animeController = AnimeController(rawData: data, image: image, hasInteractiveTransitionController: navigationController.delegate != nil)
@@ -51,6 +52,10 @@ extension AnimeNavigator: Navigator {
             case .videoPlayer(let item, let currentPlaylist):
                 let playerNavigator = VideoPlayerNavigator.shared
                 playerNavigator.show(.player(data: item, currentPlaylist: currentPlaylist, presentatingController: navigationController))
+            case .vkComments(let data):
+                let vkComments = VKCommentsController(data: data)
+                vkComments.title = data.ruName
+                navigationController.pushViewController(vkComments, animated: true)
         }
     }
 }

@@ -33,7 +33,8 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     override func loadView() {
         let item = model.getAnimeItem()
-        view = AnimeView(delegate: self, item: item)
+        let episodeNumber = model.getContinueWatchingEpisodeNumber()
+        view = AnimeView(delegate: self, item: item, continueWatchingEpisodeNumber: episodeNumber)
     }
     
     override func viewDidLoad() {
@@ -121,7 +122,8 @@ private extension AnimeController {
         let franchises = model.getFranchises()
         guard franchises.isEmpty == false else { return }
         franchiseController = FranchiseController(franchisesData: franchises)
-        franchiseController?.delegate = self
+        franchiseController!.delegate = self
+        franchiseController!.animeView = customView
         
         addChild(franchiseController!)
         
@@ -136,6 +138,11 @@ private extension AnimeController {
 extension AnimeController: AnimeViewOutput {
     func navBarBackButtonTapped() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func navBarCommentsButtonTapped() {
+        let item = model.getAnimeItem()
+        navigator?.show(.vkComments(data: item))
     }
 }
 
@@ -163,7 +170,11 @@ extension AnimeController: AnimeEpisodesViewDelegate {
 extension AnimeController: WatchAndDownloadButtonsViewDelegate {
     func watchButtonClicked() {
         let data = model.getAnimeItem()
-        navigator?.show(.episodes(data: data))
+        if let currentPlaylist = model.getContinueWatchingCurrentPlaylist() {
+            navigator?.show(.videoPlayer(data: data, currentPlaylist: currentPlaylist))
+        } else {
+            navigator?.show(.episodes(data: data))
+        }
     }
     
     func downloadButtonClicked() {
@@ -236,8 +247,14 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
 // MARK: - FranchiseControllerDelegate
 
 extension AnimeController: FranchiseControllerDelegate {
-    func showAnime(data: TitleAPIModel, image: UIImage?) {
-        navigator?.show(.anime(data: data, image: image))
+    func didSelectItem(data: TitleAPIModel, image: UIImage?) {
+        let currentAnime = model.getAnimeItem()
+        
+        if data.id == currentAnime.id {
+            customView.scrollToTop()
+        } else {
+            navigator?.show(.anime(data: data, image: image))
+        }
     }
 }
 

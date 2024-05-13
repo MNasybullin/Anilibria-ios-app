@@ -13,10 +13,19 @@ final class AuthorizationService: NetworkQuery {
     
     private let securityStorage = SecurityStorage()
     private let userDefaults = UserDefaults.standard
+    private let remoteConfig = AppRemoteConfig.shared
+    
+    private var apiAnilibria: String {
+        remoteConfig.string(forKey: .apiAnilibriaURL)
+    }
+    
+    private var mirrorAnilibria: String {
+        remoteConfig.string(forKey: .mirrorAnilibriaURL)
+    }
     
     /// Авторизация
     func login(email: String, password: String) async throws -> LoginAPIModel {
-        guard let url = URL(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.login) else {
+        guard let url = URL(string: mirrorAnilibria + NetworkConstants.login) else {
             throw MyNetworkError.invalidURLComponents
         }
         var urlRequest = URLRequest(url: url)
@@ -54,7 +63,7 @@ final class AuthorizationService: NetworkQuery {
     
     /// Выход
     func logout() async throws {
-        let urlComponents = URLComponents(string: NetworkConstants.mirrorAnilibriaURL + NetworkConstants.logout)
+        let urlComponents = URLComponents(string: mirrorAnilibria + NetworkConstants.logout)
         _ = try await dataRequest(with: urlComponents, httpMethod: .post)
         
         try securityStorage.deleteSession()
@@ -70,7 +79,7 @@ final class AuthorizationService: NetworkQuery {
         }
         let sessionId = try securityStorage.getSession()
         
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.getUserFavorites)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.getUserFavorites)
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
             URLQueryItem(name: "playlist_type", value: "array"),
@@ -90,7 +99,7 @@ final class AuthorizationService: NetworkQuery {
         }
         let sessionId = try securityStorage.getSession()
         
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.putUserFavorites)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.putUserFavorites)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -113,7 +122,7 @@ final class AuthorizationService: NetworkQuery {
         
         let sessionId = try securityStorage.getSession()
         
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.delUserFavorites)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.delUserFavorites)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId),
@@ -132,7 +141,7 @@ final class AuthorizationService: NetworkQuery {
     func user() async throws -> UserAPIModel {
         let sessionId = try securityStorage.getSession()
         
-        var urlComponents = URLComponents(string: NetworkConstants.apiAnilibriaURL + NetworkConstants.user)
+        var urlComponents = URLComponents(string: apiAnilibria + NetworkConstants.user)
         
         urlComponents?.queryItems = [
             URLQueryItem(name: "session", value: sessionId)

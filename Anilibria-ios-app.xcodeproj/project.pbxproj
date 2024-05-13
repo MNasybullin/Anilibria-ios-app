@@ -33,6 +33,18 @@
 		271A0E3C2AE97F10005958CB /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E3B2AE97F10005958CB /* ScheduleModel.swift */; };
 		271A0E452AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E442AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift */; };
 		271A0E472AEA6F66005958CB /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271A0E462AEA6F66005958CB /* RootView.swift */; };
+		2726C1BE2BC6DBB300B0A94E /* AppVersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1BD2BC6DBB300B0A94E /* AppVersionManager.swift */; };
+		2726C1DD2BC6E49E00B0A94E /* AppVersionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1C02BC6DF3D00B0A94E /* AppVersionManagerTests.swift */; };
+		2726C1DE2BC6E4A100B0A94E /* SecurityStorageCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */; };
+		2726C1DF2BC6E4A400B0A94E /* SecurityStorageSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */; };
+		2726C1E02BC6E4A700B0A94E /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
+		2726C1E12BC6E4AA00B0A94E /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
+		2726C1E22BC6E4AC00B0A94E /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
+		2726C1E42BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E32BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift */; };
+		2726C1E62BCECA2100B0A94E /* AppUpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */; };
+		2726C1E82BD2501200B0A94E /* VKCommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E72BD2501200B0A94E /* VKCommentsController.swift */; };
+		2726C1EA2BD2508400B0A94E /* VKCommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1E92BD2508400B0A94E /* VKCommentsView.swift */; };
+		2726C1EC2BD4105F00B0A94E /* VKCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726C1EB2BD4105F00B0A94E /* VKCommentsModel.swift */; };
 		272D6532288AEF3800FA4F60 /* NetworkQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6531288AEF3800FA4F60 /* NetworkQuery.swift */; };
 		272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6534288C63E100FA4F60 /* YouTubeAPIModel.swift */; };
 		272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */; };
@@ -43,6 +55,7 @@
 		272D6545288ECB4500FA4F60 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 272D6544288ECB4500FA4F60 /* README.md */; };
 		272D6547288ED42B00FA4F60 /* TitleAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D6546288ED42B00FA4F60 /* TitleAPIModel.swift */; };
 		272D65492897E22100FA4F60 /* ScheduleAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272D65482897E22100FA4F60 /* ScheduleAPIModel.swift */; };
+		272DD0AE2BA9F6D60013F1B2 /* AppRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272DD0AD2BA9F6D60013F1B2 /* AppRemoteConfig.swift */; };
 		2733B2032B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2733B2022B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift */; };
 		273ECAFE2B1F53C500402612 /* VideoPlayerSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273ECAFD2B1F53C500402612 /* VideoPlayerSettingsController.swift */; };
 		273ECB002B20E93600402612 /* VideoPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273ECAFF2B20E93600402612 /* VideoPlayerItem.swift */; };
@@ -105,6 +118,7 @@
 		276880C92B47F36700F5FD06 /* FavoritesCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276880C82B47F36700F5FD06 /* FavoritesCollectionViewLayout.swift */; };
 		276880CC2B49359400F5FD06 /* FavoritesDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276880CB2B49359400F5FD06 /* FavoritesDiffableDataSource.swift */; };
 		276880CE2B49BB7400F5FD06 /* FavoritesContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276880CD2B49BB7400F5FD06 /* FavoritesContentController.swift */; };
+		277075762BA5BC5600B5C9E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 277075752BA5BC5600B5C9E7 /* GoogleService-Info.plist */; };
 		277513E92B624DF300947AED /* ListAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277513E82B624DF300947AED /* ListAPIModel.swift */; };
 		277513EB2B63E1CE00947AED /* FranchisesAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277513EA2B63E1CE00947AED /* FranchisesAPIModel.swift */; };
 		277513ED2B63F34500947AED /* FranchiseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277513EC2B63F34500947AED /* FranchiseController.swift */; };
@@ -180,11 +194,6 @@
 		27E1BA262B837B4A00A9C73C /* AboutAppContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA252B837B4A00A9C73C /* AboutAppContentController.swift */; };
 		27E1BA292B837B9300A9C73C /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA282B837B9300A9C73C /* AboutAppView.swift */; };
 		27E1BA2B2B83929300A9C73C /* AboutAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E1BA2A2B83929300A9C73C /* AboutAppModel.swift */; };
-		27E2837B2B72997100651E0B /* AuthorizationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A429B518AD00B66C62 /* AuthorizationServiceTests.swift */; };
-		27E2837C2B72997100651E0B /* ImageLoaderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A629B518E200B66C62 /* ImageLoaderServiceTests.swift */; };
-		27E2837D2B72997100651E0B /* PublicApiServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2710E9A229B5187000B66C62 /* PublicApiServiceTests.swift */; };
-		27E2837E2B72997D00651E0B /* SecurityStorageCredentialsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865842ACF093100F98884 /* SecurityStorageCredentialsTests.swift */; };
-		27E2837F2B72997D00651E0B /* SecurityStorageSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275865862ACF094200F98884 /* SecurityStorageSessionTests.swift */; };
 		27E4D03F2B4ED5780039BFE6 /* Pods_Anilibria_ios_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD8495556304339F1EB1F8DC /* Pods_Anilibria_ios_app.framework */; };
 		27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392929C4565400D777AE /* AnimeImageView.swift */; };
 		27EA392C29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */; };
@@ -208,17 +217,11 @@
 		27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */; };
 		27F70CF62B2CB680004036FD /* UIImageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F70CF52B2CB680004036FD /* UIImageTransformer.swift */; };
 		27F8D8E529C2245900D8F4D1 /* SearchResultsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */; };
+		65B2EDB26AD640471DDAFE15 /* Pods_Anilibria_ios_app_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936FC0676B068629E250A87B /* Pods_Anilibria_ios_app_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		27E283692B72991500651E0B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 27F5E54C287C6DCA00BCF61C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 27F5E553287C6DCA00BCF61C;
-			remoteInfo = "Anilibria-ios-app";
-		};
-		27E283762B72992700651E0B /* PBXContainerItemProxy */ = {
+		2726C1D82BC6E45800B0A94E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 27F5E54C287C6DCA00BCF61C /* Project object */;
 			proxyType = 1;
@@ -258,6 +261,14 @@
 		271A0E3B2AE97F10005958CB /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		271A0E442AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleHeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		271A0E462AEA6F66005958CB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		2726C1BD2BC6DBB300B0A94E /* AppVersionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManager.swift; sourceTree = "<group>"; };
+		2726C1C02BC6DF3D00B0A94E /* AppVersionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionManagerTests.swift; sourceTree = "<group>"; };
+		2726C1D42BC6E45800B0A94E /* Anilibria-ios-app-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Anilibria-ios-app-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2726C1E32BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateCollectionViewCell.swift; sourceTree = "<group>"; };
+		2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateModel.swift; sourceTree = "<group>"; };
+		2726C1E72BD2501200B0A94E /* VKCommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKCommentsController.swift; sourceTree = "<group>"; };
+		2726C1E92BD2508400B0A94E /* VKCommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKCommentsView.swift; sourceTree = "<group>"; };
+		2726C1EB2BD4105F00B0A94E /* VKCommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKCommentsModel.swift; sourceTree = "<group>"; };
 		272D6531288AEF3800FA4F60 /* NetworkQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkQuery.swift; sourceTree = "<group>"; };
 		272D6534288C63E100FA4F60 /* YouTubeAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeAPIModel.swift; sourceTree = "<group>"; };
 		272D653A288EC4EC00FA4F60 /* IB-Segues+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IB-Segues+Generated.swift"; sourceTree = "<group>"; };
@@ -268,6 +279,7 @@
 		272D6544288ECB4500FA4F60 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		272D6546288ED42B00FA4F60 /* TitleAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleAPIModel.swift; sourceTree = "<group>"; };
 		272D65482897E22100FA4F60 /* ScheduleAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAPIModel.swift; sourceTree = "<group>"; };
+		272DD0AD2BA9F6D60013F1B2 /* AppRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRemoteConfig.swift; sourceTree = "<group>"; };
 		2733B2022B6CD846002E53C9 /* PopSwipeInteractiveTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopSwipeInteractiveTransitionController.swift; sourceTree = "<group>"; };
 		273ECAFD2B1F53C500402612 /* VideoPlayerSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerSettingsController.swift; sourceTree = "<group>"; };
 		273ECAFF2B20E93600402612 /* VideoPlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerItem.swift; sourceTree = "<group>"; };
@@ -332,6 +344,7 @@
 		276880C82B47F36700F5FD06 /* FavoritesCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCollectionViewLayout.swift; sourceTree = "<group>"; };
 		276880CB2B49359400F5FD06 /* FavoritesDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDiffableDataSource.swift; sourceTree = "<group>"; };
 		276880CD2B49BB7400F5FD06 /* FavoritesContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesContentController.swift; sourceTree = "<group>"; };
+		277075752BA5BC5600B5C9E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		277513E82B624DF300947AED /* ListAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAPIModel.swift; sourceTree = "<group>"; };
 		277513EA2B63E1CE00947AED /* FranchisesAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FranchisesAPIModel.swift; sourceTree = "<group>"; };
 		277513EC2B63F34500947AED /* FranchiseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FranchiseController.swift; sourceTree = "<group>"; };
@@ -407,8 +420,6 @@
 		27E1BA252B837B4A00A9C73C /* AboutAppContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppContentController.swift; sourceTree = "<group>"; };
 		27E1BA282B837B9300A9C73C /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		27E1BA2A2B83929300A9C73C /* AboutAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppModel.swift; sourceTree = "<group>"; };
-		27E283652B72991500651E0B /* APITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		27E283722B72992700651E0B /* SecurityStorageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecurityStorageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27EA392929C4565400D777AE /* AnimeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeImageView.swift; sourceTree = "<group>"; };
 		27EA392B29C5B5AB00D777AE /* SearchResultsErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsErrorFooterView.swift; sourceTree = "<group>"; };
 		27EA393029C5FBBB00D777AE /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
@@ -433,25 +444,28 @@
 		27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		27F70CF52B2CB680004036FD /* UIImageTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTransformer.swift; sourceTree = "<group>"; };
 		27F8D8E429C2245900D8F4D1 /* SearchResultsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsHeaderView.swift; sourceTree = "<group>"; };
+		287DFCBB42A58741319A0C32 /* Pods_APITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_APITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F5962FBABCB9571C5DD6C36 /* Pods-Anilibria-ios-app-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anilibria-ios-app-Tests.debug.xcconfig"; path = "Target Support Files/Pods-Anilibria-ios-app-Tests/Pods-Anilibria-ios-app-Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		3992ADA050FDD2C7A79DBD6F /* Pods-APITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APITests.debug.xcconfig"; path = "Target Support Files/Pods-APITests/Pods-APITests.debug.xcconfig"; sourceTree = "<group>"; };
 		48BB9CC5BFBA7CD49EC7BFAF /* Pods-Anilibria-ios-appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anilibria-ios-appTests.release.xcconfig"; path = "Target Support Files/Pods-Anilibria-ios-appTests/Pods-Anilibria-ios-appTests.release.xcconfig"; sourceTree = "<group>"; };
+		4F8D61F1862C950CF7327548 /* Pods-SecurityStorageTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecurityStorageTests.debug.xcconfig"; path = "Target Support Files/Pods-SecurityStorageTests/Pods-SecurityStorageTests.debug.xcconfig"; sourceTree = "<group>"; };
+		538A48F69F10733B1669FC9E /* Pods-SecurityStorageTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecurityStorageTests.release.xcconfig"; path = "Target Support Files/Pods-SecurityStorageTests/Pods-SecurityStorageTests.release.xcconfig"; sourceTree = "<group>"; };
 		69CF2E766D3F193A1ED5B4D2 /* Pods-Anilibria-ios-app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anilibria-ios-app.debug.xcconfig"; path = "Target Support Files/Pods-Anilibria-ios-app/Pods-Anilibria-ios-app.debug.xcconfig"; sourceTree = "<group>"; };
+		6A35A389B427555C9C6B7B44 /* Pods-APITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APITests.release.xcconfig"; path = "Target Support Files/Pods-APITests/Pods-APITests.release.xcconfig"; sourceTree = "<group>"; };
 		7DC94A4732698CC5341FCBC3 /* Pods-Anilibria-ios-app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anilibria-ios-app.release.xcconfig"; path = "Target Support Files/Pods-Anilibria-ios-app/Pods-Anilibria-ios-app.release.xcconfig"; sourceTree = "<group>"; };
+		8F878771441EBE3644761B96 /* Pods-Anilibria-ios-app-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anilibria-ios-app-Tests.release.xcconfig"; path = "Target Support Files/Pods-Anilibria-ios-app-Tests/Pods-Anilibria-ios-app-Tests.release.xcconfig"; sourceTree = "<group>"; };
+		936FC0676B068629E250A87B /* Pods_Anilibria_ios_app_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Anilibria_ios_app_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3B8371301DF9A4944AF1934 /* Pods_SecurityStorageTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SecurityStorageTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBE2C43AB048EA575235E750 /* Pods_Anilibria_ios_appTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Anilibria_ios_appTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD8495556304339F1EB1F8DC /* Pods_Anilibria_ios_app.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Anilibria_ios_app.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		27E283622B72991500651E0B /* Frameworks */ = {
+		2726C1D12BC6E45800B0A94E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27E2836F2B72992700651E0B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				65B2EDB26AD640471DDAFE15 /* Pods_Anilibria_ios_app_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +485,9 @@
 			children = (
 				CD8495556304339F1EB1F8DC /* Pods_Anilibria_ios_app.framework */,
 				CBE2C43AB048EA575235E750 /* Pods_Anilibria_ios_appTests.framework */,
+				287DFCBB42A58741319A0C32 /* Pods_APITests.framework */,
+				A3B8371301DF9A4944AF1934 /* Pods_SecurityStorageTests.framework */,
+				936FC0676B068629E250A87B /* Pods_Anilibria_ios_app_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -531,6 +548,7 @@
 				271072E22ADDD7AC0024530D /* PosterCollectionViewCell.swift */,
 				2758A44E2B4301090089E475 /* Episodes */,
 				2744762A29B8CCF60062F6D2 /* SearchResultsTableViewCell.swift */,
+				2726C1E32BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -565,6 +583,24 @@
 				271A0E442AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift */,
 			);
 			path = Schedule;
+			sourceTree = "<group>";
+		};
+		2726C1BF2BC6DF2100B0A94E /* CommonTests */ = {
+			isa = PBXGroup;
+			children = (
+				2726C1C02BC6DF3D00B0A94E /* AppVersionManagerTests.swift */,
+			);
+			path = CommonTests;
+			sourceTree = "<group>";
+		};
+		2726C1D52BC6E45800B0A94E /* Anilibria-ios-app-Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2726C1BF2BC6DF2100B0A94E /* CommonTests */,
+				27E283732B72992700651E0B /* SecurityStorageTests */,
+				27E283662B72991500651E0B /* APITests */,
+			);
+			path = "Anilibria-ios-app-Tests";
 			sourceTree = "<group>";
 		};
 		272D6533288C63CA00FA4F60 /* Models */ = {
@@ -699,6 +735,7 @@
 				27E1BA0A2B7B834100A9C73C /* TeamView.swift */,
 				27E1BA282B837B9300A9C73C /* AboutAppView.swift */,
 				27B98C422B89EC8100B1ABC4 /* ResizeInsidePointButton.swift */,
+				2726C1E92BD2508400B0A94E /* VKCommentsView.swift */,
 				27B98C462B8A11C500B1ABC4 /* NotificationBanner */,
 				27E1BA1C2B822C2000A9C73C /* Settings */,
 				27934FFF2B77852000B7BD07 /* Profile */,
@@ -725,6 +762,7 @@
 				275865AE2AD9C97700F98884 /* TabBarController.swift */,
 				275865BE2ADADBF400F98884 /* UserController.swift */,
 				27B7070A2AF290A900DD8DC6 /* RandomAnimeController.swift */,
+				2726C1E72BD2501200B0A94E /* VKCommentsController.swift */,
 				27E1BA272B837B4E00A9C73C /* AboutApp */,
 				27E1BA192B822A5D00A9C73C /* Settings */,
 				27E1BA0E2B7B836D00A9C73C /* Team */,
@@ -756,6 +794,8 @@
 				27E1BA0F2B7B862E00A9C73C /* TeamModel.swift */,
 				27E1BA212B82613900A9C73C /* SettingsModel.swift */,
 				27E1BA2A2B83929300A9C73C /* AboutAppModel.swift */,
+				2726C1E52BCECA2100B0A94E /* AppUpdateModel.swift */,
+				2726C1EB2BD4105F00B0A94E /* VKCommentsModel.swift */,
 				27103DC62B68401900B4CA49 /* Franchise */,
 				273ECB012B20E96500402612 /* VideoPlayer */,
 				27B707232AF3E33900DD8DC6 /* SearchResults */,
@@ -871,15 +911,6 @@
 			path = RandomAnime;
 			sourceTree = "<group>";
 		};
-		27934FF92B737A6900B7BD07 /* Anilibria-ios-app-Tests */ = {
-			isa = PBXGroup;
-			children = (
-				27E283732B72992700651E0B /* SecurityStorageTests */,
-				27E283662B72991500651E0B /* APITests */,
-			);
-			path = "Anilibria-ios-app-Tests";
-			sourceTree = "<group>";
-		};
 		27934FFC2B77846100B7BD07 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -909,6 +940,8 @@
 				27CF02432B0B6FFD006DEE88 /* AppOrientation.swift */,
 				276880C02B46DDAE00F5FD06 /* ExpiredDateManager.swift */,
 				27D73AA22B937B8000AAB30E /* ThreadSafeDictionary.swift */,
+				272DD0AD2BA9F6D60013F1B2 /* AppRemoteConfig.swift */,
+				2726C1BD2BC6DBB300B0A94E /* AppVersionManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1120,7 +1153,7 @@
 				27F5E5A8287EC07D00BCF61C /* .swiftlint.yml */,
 				27F5E5A5287EAC8100BCF61C /* SwiftGen */,
 				27F5E556287C6DCA00BCF61C /* Anilibria-ios-app */,
-				27934FF92B737A6900B7BD07 /* Anilibria-ios-app-Tests */,
+				2726C1D52BC6E45800B0A94E /* Anilibria-ios-app-Tests */,
 				27F5E555287C6DCA00BCF61C /* Products */,
 				903D15975B5DFA73E3CD4ABF /* Pods */,
 				0C075EB6F56FFB753DC07815 /* Frameworks */,
@@ -1131,8 +1164,7 @@
 			isa = PBXGroup;
 			children = (
 				27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */,
-				27E283652B72991500651E0B /* APITests.xctest */,
-				27E283722B72992700651E0B /* SecurityStorageTests.xctest */,
+				2726C1D42BC6E45800B0A94E /* Anilibria-ios-app-Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1155,6 +1187,7 @@
 				27F5E5A2287EAA5D00BCF61C /* Localizable.strings */,
 				27F5E562287C6DCB00BCF61C /* LaunchScreen.storyboard */,
 				27F5E565287C6DCB00BCF61C /* Info.plist */,
+				277075752BA5BC5600B5C9E7 /* GoogleService-Info.plist */,
 			);
 			path = "Anilibria-ios-app";
 			sourceTree = "<group>";
@@ -1174,6 +1207,12 @@
 				7DC94A4732698CC5341FCBC3 /* Pods-Anilibria-ios-app.release.xcconfig */,
 				20F323270BF3B56BCA33C439 /* Pods-Anilibria-ios-appTests.debug.xcconfig */,
 				48BB9CC5BFBA7CD49EC7BFAF /* Pods-Anilibria-ios-appTests.release.xcconfig */,
+				3992ADA050FDD2C7A79DBD6F /* Pods-APITests.debug.xcconfig */,
+				6A35A389B427555C9C6B7B44 /* Pods-APITests.release.xcconfig */,
+				4F8D61F1862C950CF7327548 /* Pods-SecurityStorageTests.debug.xcconfig */,
+				538A48F69F10733B1669FC9E /* Pods-SecurityStorageTests.release.xcconfig */,
+				2F5962FBABCB9571C5DD6C36 /* Pods-Anilibria-ios-app-Tests.debug.xcconfig */,
+				8F878771441EBE3644761B96 /* Pods-Anilibria-ios-app-Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1181,40 +1220,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		27E283642B72991500651E0B /* APITests */ = {
+		2726C1D32BC6E45800B0A94E /* Anilibria-ios-app-Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 27E2836B2B72991500651E0B /* Build configuration list for PBXNativeTarget "APITests" */;
+			buildConfigurationList = 2726C1DA2BC6E45800B0A94E /* Build configuration list for PBXNativeTarget "Anilibria-ios-app-Tests" */;
 			buildPhases = (
-				27E283612B72991500651E0B /* Sources */,
-				27E283622B72991500651E0B /* Frameworks */,
-				27E283632B72991500651E0B /* Resources */,
+				501D80B5D7BDD499F31F968F /* [CP] Check Pods Manifest.lock */,
+				2726C1D02BC6E45800B0A94E /* Sources */,
+				2726C1D12BC6E45800B0A94E /* Frameworks */,
+				2726C1D22BC6E45800B0A94E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				27E2836A2B72991500651E0B /* PBXTargetDependency */,
+				2726C1D92BC6E45800B0A94E /* PBXTargetDependency */,
 			);
-			name = APITests;
-			productName = APITests;
-			productReference = 27E283652B72991500651E0B /* APITests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		27E283712B72992700651E0B /* SecurityStorageTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 27E283782B72992700651E0B /* Build configuration list for PBXNativeTarget "SecurityStorageTests" */;
-			buildPhases = (
-				27E2836E2B72992700651E0B /* Sources */,
-				27E2836F2B72992700651E0B /* Frameworks */,
-				27E283702B72992700651E0B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				27E283772B72992700651E0B /* PBXTargetDependency */,
-			);
-			name = SecurityStorageTests;
-			productName = SecurityStorageTests;
-			productReference = 27E283722B72992700651E0B /* SecurityStorageTests.xctest */;
+			name = "Anilibria-ios-app-Tests";
+			productName = "Anilibria-ios-app-Tests";
+			productReference = 2726C1D42BC6E45800B0A94E /* Anilibria-ios-app-Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */ = {
@@ -1228,14 +1250,13 @@
 				27F5E551287C6DCA00BCF61C /* Frameworks */,
 				27F5E552287C6DCA00BCF61C /* Resources */,
 				CA9DA40BA54C7AE9C08CAF0F /* [CP] Embed Pods Frameworks */,
+				277075782BA5C37B00B5C9E7 /* Firebase Crashlytics */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Anilibria-ios-app";
-			packageProductDependencies = (
-			);
 			productName = "Anilibria-ios-app";
 			productReference = 27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */;
 			productType = "com.apple.product-type.application";
@@ -1247,15 +1268,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1520;
-				LastUpgradeCheck = 1520;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
-					27E283642B72991500651E0B = {
-						CreatedOnToolsVersion = 15.2;
-						TestTargetID = 27F5E553287C6DCA00BCF61C;
-					};
-					27E283712B72992700651E0B = {
-						CreatedOnToolsVersion = 15.2;
+					2726C1D32BC6E45800B0A94E = {
+						CreatedOnToolsVersion = 15.3;
 						TestTargetID = 27F5E553287C6DCA00BCF61C;
 					};
 					27F5E553287C6DCA00BCF61C = {
@@ -1273,28 +1290,18 @@
 				ru,
 			);
 			mainGroup = 27F5E54B287C6DCA00BCF61C;
-			packageReferences = (
-			);
 			productRefGroup = 27F5E555287C6DCA00BCF61C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */,
-				27E283642B72991500651E0B /* APITests */,
-				27E283712B72992700651E0B /* SecurityStorageTests */,
+				2726C1D32BC6E45800B0A94E /* Anilibria-ios-app-Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		27E283632B72991500651E0B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27E283702B72992700651E0B /* Resources */ = {
+		2726C1D22BC6E45800B0A94E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1312,6 +1319,7 @@
 				27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */,
 				27F5E5A6287EAC8100BCF61C /* SwiftGen in Resources */,
 				27AD52A02B4EB8C300C9E4C7 /* Podfile in Resources */,
+				277075762BA5BC5600B5C9E7 /* GoogleService-Info.plist in Resources */,
 				272D6545288ECB4500FA4F60 /* README.md in Resources */,
 				27F5E59F287EA83400BCF61C /* Colors.xcassets in Resources */,
 			);
@@ -1320,6 +1328,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		277075782BA5C37B00B5C9E7 /* Firebase Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Firebase Crashlytics";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		27F5E5A4287EAB8700BCF61C /* SwiftGen */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -1358,6 +1385,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"${PODS_ROOT}/SwiftLint/swiftlint\" ]]; then\n  \"${PODS_ROOT}/SwiftLint/swiftlint\" --config .swiftlint.yml\nelse\n  echo \"warning: SwiftLint is not installed. Run 'pod install --repo-update' to install it.\"\nfi\n";
+		};
+		501D80B5D7BDD499F31F968F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Anilibria-ios-app-Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		61259703A46C6E8D6577C3B9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1401,22 +1450,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		27E283612B72991500651E0B /* Sources */ = {
+		2726C1D02BC6E45800B0A94E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27E2837C2B72997100651E0B /* ImageLoaderServiceTests.swift in Sources */,
-				27E2837B2B72997100651E0B /* AuthorizationServiceTests.swift in Sources */,
-				27E2837D2B72997100651E0B /* PublicApiServiceTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27E2836E2B72992700651E0B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				27E2837E2B72997D00651E0B /* SecurityStorageCredentialsTests.swift in Sources */,
-				27E2837F2B72997D00651E0B /* SecurityStorageSessionTests.swift in Sources */,
+				2726C1DE2BC6E4A100B0A94E /* SecurityStorageCredentialsTests.swift in Sources */,
+				2726C1DD2BC6E49E00B0A94E /* AppVersionManagerTests.swift in Sources */,
+				2726C1E02BC6E4A700B0A94E /* ImageLoaderServiceTests.swift in Sources */,
+				2726C1DF2BC6E4A400B0A94E /* SecurityStorageSessionTests.swift in Sources */,
+				2726C1E12BC6E4AA00B0A94E /* PublicApiServiceTests.swift in Sources */,
+				2726C1E22BC6E4AC00B0A94E /* AuthorizationServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1425,6 +1468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27AB03F62B2850F40007E750 /* YouTubeController.swift in Sources */,
+				2726C1EC2BD4105F00B0A94E /* VKCommentsModel.swift in Sources */,
 				272D6535288C63E100FA4F60 /* YouTubeAPIModel.swift in Sources */,
 				276880C32B47E58A00F5FD06 /* FavoritesNavigator.swift in Sources */,
 				27E1BA242B837B3900A9C73C /* AboutAppController.swift in Sources */,
@@ -1459,6 +1503,7 @@
 				271A0E1F2AE7EBA4005958CB /* HomeTodayModel.swift in Sources */,
 				2704619E2AE1850900AF02E4 /* HomeHeaderSupplementaryView.swift in Sources */,
 				27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */,
+				2726C1E42BCE6C1000B0A94E /* AppUpdateCollectionViewCell.swift in Sources */,
 				277A73BA2B95BF0B009E1F8C /* Logger+Extension.swift in Sources */,
 				276880CC2B49359400F5FD06 /* FavoritesDiffableDataSource.swift in Sources */,
 				275865CF2ADC117700F98884 /* UserDefaults+Extension.swift in Sources */,
@@ -1477,6 +1522,7 @@
 				27A66E5229771D4500369EAF /* Alert.swift in Sources */,
 				277513EB2B63E1CE00947AED /* FranchisesAPIModel.swift in Sources */,
 				271A0E472AEA6F66005958CB /* RootView.swift in Sources */,
+				272DD0AE2BA9F6D60013F1B2 /* AppRemoteConfig.swift in Sources */,
 				27AB03F82B2851010007E750 /* YouTubeContentController.swift in Sources */,
 				2748DD082AEE4EBC00D53E9B /* AnimeNavigator.swift in Sources */,
 				2786D5B82B8B3B4C009EF542 /* HomeDiffableDataSource.swift in Sources */,
@@ -1522,6 +1568,7 @@
 				27EA392A29C4565400D777AE /* AnimeImageView.swift in Sources */,
 				271A0E3C2AE97F10005958CB /* ScheduleModel.swift in Sources */,
 				270461A02AE189EF00AF02E4 /* ReuseIdentifierExtensions.swift in Sources */,
+				2726C1E62BCECA2100B0A94E /* AppUpdateModel.swift in Sources */,
 				27F8D8E529C2245900D8F4D1 /* SearchResultsHeaderView.swift in Sources */,
 				27E1BA072B7AB70A00A9C73C /* ProfileModel.swift in Sources */,
 				27CF02442B0B6FFD006DEE88 /* AppOrientation.swift in Sources */,
@@ -1534,6 +1581,7 @@
 				274EFEE42B8C85710094804C /* HomeWatchingModel.swift in Sources */,
 				271A0E3A2AE903F8005958CB /* ScheduleCollectionViewLayout.swift in Sources */,
 				271A0E212AE7EBBE005958CB /* HomeUpdatesModel.swift in Sources */,
+				2726C1EA2BD2508400B0A94E /* VKCommentsView.swift in Sources */,
 				277513E92B624DF300947AED /* ListAPIModel.swift in Sources */,
 				276880BF2B45649D00F5FD06 /* FavoritesModel.swift in Sources */,
 				275865B82ADA889F00F98884 /* ProfileController.swift in Sources */,
@@ -1565,6 +1613,7 @@
 				271072DC2ADDBA3E0024530D /* HomeView.swift in Sources */,
 				27E1BA222B82613900A9C73C /* SettingsModel.swift in Sources */,
 				27CE88592B2343E0004DC558 /* NetworkConstants.swift in Sources */,
+				2726C1E82BD2501200B0A94E /* VKCommentsController.swift in Sources */,
 				27B707062AF253DC00DD8DC6 /* EpisodesModel.swift in Sources */,
 				27B707252AF5599100DD8DC6 /* HasSearchBar.swift in Sources */,
 				2758A4372B30B7020089E475 /* UserEntity+CoreDataProperties.swift in Sources */,
@@ -1575,6 +1624,7 @@
 				27E1BA2B2B83929300A9C73C /* AboutAppModel.swift in Sources */,
 				276880C92B47F36700F5FD06 /* FavoritesCollectionViewLayout.swift in Sources */,
 				277513F42B63F44300947AED /* FranchiseView.swift in Sources */,
+				2726C1BE2BC6DBB300B0A94E /* AppVersionManager.swift in Sources */,
 				271A0E452AE98F99005958CB /* ScheduleHeaderSupplementaryView.swift in Sources */,
 				27E1BA092B7B82F300A9C73C /* TeamController.swift in Sources */,
 				277841D72B1CB93A00E64B48 /* VideoPlayerEpisodesController.swift in Sources */,
@@ -1616,15 +1666,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		27E2836A2B72991500651E0B /* PBXTargetDependency */ = {
+		2726C1D92BC6E45800B0A94E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */;
-			targetProxy = 27E283692B72991500651E0B /* PBXContainerItemProxy */;
-		};
-		27E283772B72992700651E0B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 27F5E553287C6DCA00BCF61C /* Anilibria-ios-app */;
-			targetProxy = 27E283762B72992700651E0B /* PBXContainerItemProxy */;
+			targetProxy = 2726C1D82BC6E45800B0A94E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1648,8 +1693,9 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		27E2836C2B72991500651E0B /* Debug */ = {
+		2726C1DB2BC6E45800B0A94E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F5962FBABCB9571C5DD6C36 /* Pods-Anilibria-ios-app-Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1662,12 +1708,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Nasybullin.APITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -1676,8 +1724,9 @@
 			};
 			name = Debug;
 		};
-		27E2836D2B72991500651E0B /* Release */ = {
+		2726C1DC2BC6E45800B0A94E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F878771441EBE3644761B96 /* Pods-Anilibria-ios-app-Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1690,67 +1739,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Nasybullin.APITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Anilibria-ios-app";
-			};
-			name = Release;
-		};
-		27E283792B72992700651E0B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = ZQ774W5T35;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Nasybullin.SecurityStorageTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Anilibria-ios-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Anilibria-ios-app";
-			};
-			name = Debug;
-		};
-		27E2837A2B72992700651E0B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = ZQ774W5T35;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Nasybullin.SecurityStorageTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1815,6 +1811,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1871,6 +1868,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1887,6 +1885,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = ZQ774W5T35;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Anilibria-ios-app/Info.plist";
@@ -1902,7 +1901,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1929,7 +1928,7 @@
 				DEVELOPMENT_TEAM = ZQ774W5T35;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Anilibria-ios-app/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "AniLibria Debug";
+				INFOPLIST_KEY_CFBundleDisplayName = AniLibria;
 				"INFOPLIST_KEY_CFBundleDisplayName[sdk=iphoneos*]" = AniLibria;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1941,7 +1940,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1959,20 +1958,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		27E2836B2B72991500651E0B /* Build configuration list for PBXNativeTarget "APITests" */ = {
+		2726C1DA2BC6E45800B0A94E /* Build configuration list for PBXNativeTarget "Anilibria-ios-app-Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				27E2836C2B72991500651E0B /* Debug */,
-				27E2836D2B72991500651E0B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		27E283782B72992700651E0B /* Build configuration list for PBXNativeTarget "SecurityStorageTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				27E283792B72992700651E0B /* Debug */,
-				27E2837A2B72992700651E0B /* Release */,
+				2726C1DB2BC6E45800B0A94E /* Debug */,
+				2726C1DC2BC6E45800B0A94E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

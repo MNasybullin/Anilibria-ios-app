@@ -9,10 +9,6 @@ import UIKit
 import SkeletonView
 
 final class YouTubeView: UIView {
-    enum ElementKind {
-        static let sectionFooter = "section-footer-element-kind"
-    }
-    
     enum Status {
         case normal
         case loadingMore
@@ -60,7 +56,7 @@ private extension YouTubeView {
             YouTubeHomePosterCollectionCell.self,
             forCellWithReuseIdentifier: YouTubeHomePosterCollectionCell.reuseIdentifier
         )
-        collectionView.register(YouTubeFooterSupplementaryView.self, forSupplementaryViewOfKind: ElementKind.sectionFooter, withReuseIdentifier: YouTubeFooterSupplementaryView.reuseIdentifier)
+        collectionView.register(YouTubeFooterSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: YouTubeFooterSupplementaryView.reuseIdentifier)
         
         collectionView.isSkeletonable = true
     }

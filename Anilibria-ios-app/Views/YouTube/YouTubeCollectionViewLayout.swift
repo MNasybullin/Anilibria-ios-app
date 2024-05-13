@@ -8,8 +8,6 @@
 import UIKit
 
 final class YouTubeCollectionViewLayout {
-    typealias ElementKind = YouTubeView.ElementKind
-    
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] _, environment in
             guard let self else { fatalError("Layout instance is nil.") }
@@ -58,7 +56,7 @@ final class YouTubeCollectionViewLayout {
             heightDimension: .estimated(10))
         let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
-            elementKind: ElementKind.sectionFooter,
+            elementKind: UICollectionView.elementKindSectionFooter,
             alignment: .bottom)
         
         section.boundarySupplementaryItems = [sectionFooter]

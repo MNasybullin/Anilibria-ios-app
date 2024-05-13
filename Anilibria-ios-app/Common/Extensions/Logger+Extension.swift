@@ -21,6 +21,7 @@ extension Logger {
         case search
         case user
         case profile
+        case remoteConfig
     }
     
     enum Category: String {

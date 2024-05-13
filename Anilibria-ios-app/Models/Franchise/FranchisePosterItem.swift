@@ -34,7 +34,7 @@ extension FranchisePosterItem {
         self.init(
             id: model.id,
             name: model.names.ru,
-            imageUrlString: NetworkConstants.mirrorBaseImagesURL + model.posters.original.url,
+            imageUrlString: AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + model.posters.original.url,
             sectionName: sectionName
         )
     }

@@ -8,13 +8,16 @@
 import UIKit
 
 protocol FranchiseControllerDelegate: AnyObject {
-    func showAnime(data: TitleAPIModel, image: UIImage?)
+    func didSelectItem(data: TitleAPIModel, image: UIImage?)
 }
 
 final class FranchiseController: UIViewController, HasCustomView {
     typealias CustomView = FranchiseView
     
     weak var delegate: FranchiseControllerDelegate?
+    
+    // for notification banner
+    weak var animeView: UIView?
     
     private var contentController: FranchiseContentController!
     private let franchisesData: [FranchisesAPIModel]
@@ -55,7 +58,14 @@ private extension FranchiseController {
 
 extension FranchiseController: FranchiseContentControllerDelegate {
     func didSelectItem(data: TitleAPIModel, image: UIImage?) {
-        delegate?.showAnime(data: data, image: image)
+        delegate?.didSelectItem(data: data, image: image)
+    }
+    
+    func removeFranchiseFromParent() {
+        willMove(toParent: nil)
+        removeFromParent()
+        customView.removeFromSuperview()
+        didMove(toParent: nil)
     }
 }
 

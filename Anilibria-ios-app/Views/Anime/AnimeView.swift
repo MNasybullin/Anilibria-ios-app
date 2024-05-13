@@ -9,6 +9,7 @@ import UIKit
 
 protocol AnimeViewOutput: AnyObject {
     func navBarBackButtonTapped()
+    func navBarCommentsButtonTapped()
 }
 
 final class AnimeView: UIView {
@@ -42,14 +43,14 @@ final class AnimeView: UIView {
     
     private weak var delegate: AnimeViewOutput?
     
-    init(delegate: AnimeController, item: AnimeItem) {
+    init(delegate: AnimeController, item: AnimeItem, continueWatchingEpisodeNumber episodeNumber: Float?) {
         self.delegate = delegate
         self.animeName = item.ruName
         super.init(frame: .zero)
         
         configureView()
         animeImageView.configureView(with: item.image)
-        configureAnimeInfoView(item: item, delegate: delegate)
+        configureAnimeInfoView(item: item, delegate: delegate, continueWatchingEpisodeNumber: episodeNumber)
         configureNavigationBar()
         configureScrollView()
         configureLayout()
@@ -80,12 +81,20 @@ private extension AnimeView {
     
     func configureNavBarItem() {
         let backButtonImage = UIImage(systemName: "chevron.left")?.applyingSymbolConfiguration(.init(weight: .semibold))
-        let backBarButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(testBackBarButton))
+        let backBarButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(navBarBackButtonTapped))
         navBarItem.leftBarButtonItem = backBarButton
+        
+        let commentsButtonImage = UIImage(systemName: "message")?.applyingSymbolConfiguration(.init(weight: .semibold))
+        let commentsBarButton = UIBarButtonItem(image: commentsButtonImage, style: .plain, target: self, action: #selector(navBarCommentsButtonTapped))
+        navBarItem.rightBarButtonItem = commentsBarButton
     }
     
-    @objc func testBackBarButton() {
+    @objc func navBarBackButtonTapped() {
         delegate?.navBarBackButtonTapped()
+    }
+    
+    @objc func navBarCommentsButtonTapped() {
+        delegate?.navBarCommentsButtonTapped()
     }
     
     func configureScrollView() {
@@ -94,12 +103,12 @@ private extension AnimeView {
         scrollView.showsVerticalScrollIndicator = false
     }
     
-    func configureAnimeInfoView(item: AnimeItem, delegate: AnimeController) {
+    func configureAnimeInfoView(item: AnimeItem, delegate: AnimeController, continueWatchingEpisodeNumber episodeNumber: Float?) {
         animeInfoView.animeEpisodesView.delegate = delegate
         animeInfoView.watchAndDownloadButtonsView.delegate = delegate
         animeInfoView.favoriteAndShareButtonsView.delegate = delegate
         
-        animeInfoView.configureView(item: item)
+        animeInfoView.configureView(item: item, continueWatchingEpisodeNumber: episodeNumber)
     }
     
     func configureLayout() {
@@ -171,6 +180,11 @@ extension AnimeView {
     
     func appendFranchiseView(_ franchiseView: FranchiseView) {
         contentVStack.addArrangedSubview(franchiseView)
+    }
+    
+    func scrollToTop() {
+        let topOffset = CGPoint(x: 0, y: -scrollView.adjustedContentInset.top)
+        scrollView.setContentOffset(topOffset, animated: true)
     }
 }
 

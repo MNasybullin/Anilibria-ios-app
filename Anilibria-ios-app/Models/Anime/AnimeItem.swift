@@ -14,6 +14,7 @@ struct AnimeItem {
     let code: String
     let engName: String?
     let seasonAndType: String
+    let status: String
     let genres: String?
     let team: [Team]
     let description: String?
@@ -33,6 +34,7 @@ extension AnimeItem {
             code: item.code,
             engName: item.names.en,
             seasonAndType: Self.getSeasonAndTypeText(item),
+            status: Self.getStatus(item),
             genres: Self.getgenresText(item.genres),
             team: Self.convertToTeam(from: item.team),
             description: Self.getDescriptionText(item.description),
@@ -48,6 +50,10 @@ extension AnimeItem {
         let season = model.season?.string == nil ? "" : (model.season?.string)! + ", "
         let type = model.type?.fullString ?? ""
         return year + season + type
+    }
+    
+    private static func getStatus(_ model: TitleAPIModel) -> String {
+        model.status?.string ?? Strings.AnimeItem.noData
     }
     
     private static func getgenresText(_ genres: [String]?) -> String? {

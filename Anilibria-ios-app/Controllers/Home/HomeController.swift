@@ -31,14 +31,9 @@ final class HomeController: UIViewController, HomeFlow, HasCustomView {
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        notificationCenterSubscription()
         
-        guard expiredDateManager.isExpired() == true else {
-            contentController.requestRefreshWatchingData()
-            return
-        }
-        customView.programaticallyBeginRefreshing()
-        expiredDateManager.start()
+        notificationCenterSubscription()
+        checkRefreshData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -58,15 +53,19 @@ private extension HomeController {
         contentController = HomeContentController(customView: customView, delegate: self)
     }
     
+    func checkRefreshData() {
+        guard expiredDateManager.isExpired() == true else {
+            contentController.requestRefreshWatchingData()
+            return
+        }
+        contentController.requestDataWithRefreshStatus()
+        expiredDateManager.start()
+    }
+    
     func notificationCenterSubscription() {
         NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
             .sink { [weak self] _ in
-                guard self?.expiredDateManager.isExpired() == true else {
-                    self?.contentController.requestRefreshWatchingData()
-                    return
-                }
-                self?.customView.programaticallyBeginRefreshing()
-                self?.expiredDateManager.start()
+                self?.checkRefreshData()
             }
             .store(in: &subscriptions)
     }
@@ -76,45 +75,26 @@ private extension HomeController {
 
 extension HomeController: HomeViewOutput {
     func handleRefreshControl() {
-        guard NetworkMonitor.shared.isConnected == true else {
+        if NetworkMonitor.shared.isConnected == false {
             MainNavigator.shared.rootViewController.showFlashNetworkActivityView()
-            customView.refreshControlEndRefreshing()
-            return
         }
-        contentController.requestRefreshData()
+        contentController.requestDataWithRefreshStatus()
+    }
+    
+    func refreshButtonDidTapped() {
+        contentController.requestDataWithLoadingStatus()
     }
 }
 
 // MARK: - HomeContentControllerDelegate
 
 extension HomeController: HomeContentControllerDelegate {
-    func didSelectTodayItem(_ rawData: TitleAPIModel?, image: UIImage?) {
-        guard let rawData else { return }
-        navigator?.show(.anime(data: rawData, image: image))
+    func show(_ destination: HomeNavigator.Destination) {
+        navigator?.show(destination)
     }
     
-    func didSelectWatchingItem(animeId: Int, numberOfEpisode: Float) {
-        navigator?.show(.videoPlayer(animeId: animeId, numberOfEpisode: numberOfEpisode))
-    }
-    
-    func didSelectUpdatesItem(_ rawData: TitleAPIModel?, image: UIImage?) {
-        guard let rawData else { return }
-        navigator?.show(.anime(data: rawData, image: image))
-    }
-    
-    func didSelectYoutubeItem(_ rawData: YouTubeAPIModel?) {
-        guard let rawData else { return }
-        let urlString = NetworkConstants.youTubeWatchURL + rawData.youtubeId
-        guard let url = URL(string: urlString) else { return }
+    func openURL(_ url: URL) {
         UIApplication.shared.open(url)
-    }
-    
-    func todayHeaderButtonTapped() {
-        navigator?.show(.schedule)
-    }
-    
-    func youTubeHeaderButtonTapped(data: [HomePosterItem], rawData: [YouTubeAPIModel]) {
-        navigator?.show(.youTube(data: data, rawData: rawData))
     }
 }
 
