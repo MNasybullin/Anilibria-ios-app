@@ -207,6 +207,7 @@
 		27EA50912B01402600A1B987 /* VideoPlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50902B01402600A1B987 /* VideoPlayerModel.swift */; };
 		27EA50952B022F0100A1B987 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50942B022F0100A1B987 /* Playlist.swift */; };
 		27EA50992B03CDCD00A1B987 /* VideoPlayerNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EA50982B03CDCD00A1B987 /* VideoPlayerNavigator.swift */; };
+		27F158272BF784B100A8E903 /* FavoritesButtonParticleEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F158262BF784B100A8E903 /* FavoritesButtonParticleEffectView.swift */; };
 		27F5E558287C6DCA00BCF61C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E557287C6DCA00BCF61C /* AppDelegate.swift */; };
 		27F5E55A287C6DCA00BCF61C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */; };
 		27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F5E560287C6DCB00BCF61C /* Assets.xcassets */; };
@@ -432,6 +433,7 @@
 		27EA50902B01402600A1B987 /* VideoPlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerModel.swift; sourceTree = "<group>"; };
 		27EA50942B022F0100A1B987 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		27EA50982B03CDCD00A1B987 /* VideoPlayerNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerNavigator.swift; sourceTree = "<group>"; };
+		27F158262BF784B100A8E903 /* FavoritesButtonParticleEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesButtonParticleEffectView.swift; sourceTree = "<group>"; };
 		27F5E554287C6DCA00BCF61C /* Anilibria-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anilibria-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F5E557287C6DCA00BCF61C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F5E559287C6DCA00BCF61C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 				275287B429D5911700D403F6 /* AnimeInfoView */,
 				27EA392829C4564200D777AE /* AnimeImageView */,
 				2748DD052AEC2ACA00D53E9B /* AnimeView.swift */,
+				27F158262BF784B100A8E903 /* FavoritesButtonParticleEffectView.swift */,
 			);
 			path = Anime;
 			sourceTree = "<group>";
@@ -1540,6 +1543,7 @@
 				2744C87729BC71A700105F11 /* SearchResultsLoadingFooterView.swift in Sources */,
 				27E1BA0B2B7B834100A9C73C /* TeamView.swift in Sources */,
 				27A66E7B2990F0ED00369EAF /* NetworkStatusView.swift in Sources */,
+				27F158272BF784B100A8E903 /* FavoritesButtonParticleEffectView.swift in Sources */,
 				27B7070F2AF2962200DD8DC6 /* RandomAnimeModel.swift in Sources */,
 				275865BF2ADADBF400F98884 /* UserController.swift in Sources */,
 				271A0E382AE90390005958CB /* ScheduleController.swift in Sources */,
