@@ -516,7 +516,6 @@ extension HomeContentController: UICollectionViewDelegate {
         selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
         selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         
-        let row = indexPath.row
         switch section {
             case .today:
                 didSelectTodayCell(indexPath: indexPath)
