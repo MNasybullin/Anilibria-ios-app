@@ -22,6 +22,7 @@ extension Logger {
         case user
         case profile
         case remoteConfig
+        case hapticEngine
     }
     
     enum Category: String {
