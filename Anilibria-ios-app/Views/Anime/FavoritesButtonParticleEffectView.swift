@@ -85,7 +85,7 @@ extension FavoritesButtonParticleEffectView {
     private func createFadeAnimation() -> CATransition {
         let transition = CATransition()
         transition.type = .fade
-        transition.duration = 3
+        transition.duration = 4
         transition.timingFunction = CAMediaTimingFunction(name: .easeOut)
         transition.isRemovedOnCompletion = false
         return transition
