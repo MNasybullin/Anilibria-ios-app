@@ -23,6 +23,7 @@ final class AnimeView: UIView {
         return stack
     }()
     private lazy var animeInfoView = AnimeInfoView()
+    private let favoriteButtonParticleEffectView = FavoritesButtonParticleEffectView()
     
     private let animeName: String
     
@@ -116,6 +117,7 @@ private extension AnimeView {
         addSubview(navigationBar)
         scrollView.addSubview(animeImageView)
         scrollView.addSubview(contentVStack)
+        scrollView.addSubview(favoriteButtonParticleEffectView)
         contentVStack.addArrangedSubview(animeInfoView)
         
         // MARK: navigationBar constraints
@@ -176,6 +178,11 @@ extension AnimeView {
     var favoriteButtonShowActivityIndicator: Bool {
         get { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator }
         set { animeInfoView.favoriteAndShareButtonsView.favoriteButtonShowActivityIndicator = newValue }
+    }
+    
+    func showFavoriteButtonEffect() {
+        let favoriteButtonPosition = animeInfoView.favoriteAndShareButtonsView.getFavoriteButtonCenterConverted(to: scrollView)
+        favoriteButtonParticleEffectView.emit(position: favoriteButtonPosition)
     }
     
     func appendFranchiseView(_ franchiseView: FranchiseView) {

@@ -8,6 +8,8 @@
 import UIKit
 
 final class FavoritesButtonParticleEffectView: UIView {
+    private let hapticEngineService = HapticEngineService()
+    
     init() {
         super.init(frame: .zero)
         commonInit()
@@ -27,7 +29,9 @@ final class FavoritesButtonParticleEffectView: UIView {
         frame = superview.bounds
         isUserInteractionEnabled = false
     }
+}
 
+extension FavoritesButtonParticleEffectView {
     private func commonInit() {
         isUserInteractionEnabled = false
     }
@@ -46,6 +50,7 @@ final class FavoritesButtonParticleEffectView: UIView {
             emitterLayer.removeFromSuperlayer()
             completion?()
         }
+        hapticEngineService.playHapticsPattern(.favoritesButton)
         emitterLayer.add(birthRateValueAnimation, forKey: nil)
         emitterLayer.add(fadeAnimation, forKey: nil)
         CATransaction.commit()
@@ -66,31 +71,6 @@ final class FavoritesButtonParticleEffectView: UIView {
         return layer
     }
     
-    private func createEmitterCell() -> CAEmitterCell {
-        let cell = CAEmitterCell()
-        cell.contents = UIImage(named: "heart.fill.png")?.cgImage
-        cell.birthRate = 990.0
-        cell.lifetime = 5.0
-        cell.lifetimeRange = 1.0
-        cell.velocity = 95.0
-        cell.velocityRange = 490.0
-        cell.xAcceleration = 0
-        cell.yAcceleration = 220.0
-        cell.emissionLatitude = 0.0 * (.pi / 180.0)
-        cell.emissionLongitude = 0.0 * (.pi / 180.0)
-        cell.emissionRange = 360.0 * (.pi / 180.0)
-        cell.spin = 65.0 * (.pi / 180.0)
-        cell.spinRange = 314.0 * (.pi / 180.0)
-        cell.scale = 0.5
-        cell.scaleSpeed = -0.077
-        cell.alphaSpeed = 0.42
-        cell.color = UIColor(red: 255.0/255.0, green: 38.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
-        cell.redRange = 0.3
-        cell.greenRange = 0.21
-        cell.blueRange = 0.6
-        return cell
-    }
-    
     private func createBirthRateValueAnimation() -> CAKeyframeAnimation {
         let animation = CAKeyframeAnimation(keyPath: #keyPath(CAEmitterLayer.birthRate))
         animation.duration = 0.1
@@ -109,5 +89,30 @@ final class FavoritesButtonParticleEffectView: UIView {
         transition.timingFunction = CAMediaTimingFunction(name: .easeOut)
         transition.isRemovedOnCompletion = false
         return transition
+    }
+    
+    private func createEmitterCell() -> CAEmitterCell {
+        let cell = CAEmitterCell()
+        cell.contents = UIImage(named: "heart.fill.png")?.cgImage
+        cell.birthRate = 990.0
+        cell.lifetime = 5.0
+        cell.lifetimeRange = 1.0
+        cell.velocity = 95.0
+        cell.velocityRange = 490.0
+        cell.xAcceleration = 0
+        cell.yAcceleration = 220.0
+        cell.emissionLatitude = CGFloat(Float.random(in: 0...360) * (.pi / 180.0))
+        cell.emissionLongitude = CGFloat(Float.random(in: 0...360) * (.pi / 180.0))
+        cell.emissionRange = 360.0 * (.pi / 180.0)
+        cell.spin = 65.0 * (.pi / 180.0)
+        cell.spinRange = 314.0 * (.pi / 180.0)
+        cell.scale = 0.5
+        cell.scaleSpeed = -0.077
+        cell.alphaSpeed = 0.42
+        cell.color = UIColor(red: 255.0/255.0, green: 38.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
+        cell.redRange = 0.3
+        cell.greenRange = 0.21
+        cell.blueRange = 0.6
+        return cell
     }
 }

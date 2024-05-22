@@ -123,4 +123,8 @@ extension FavoriteAndShareButtonsView {
             }
         }
     }
+    
+    func getFavoriteButtonCenterConverted(to view: UIView) -> CGPoint {
+        return hStack.convert(favoriteButton.center, to: view)
+    }
 }
