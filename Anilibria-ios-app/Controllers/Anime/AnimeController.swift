@@ -189,50 +189,67 @@ extension AnimeController: FavoriteAndShareButtonsViewDelegate {
         let feedbackGenerator = UISelectionFeedbackGenerator()
         feedbackGenerator.selectionChanged()
         
-        button.isSelected = !button.isSelected
-        Task(priority: .utility) {
-            if button.isSelected == true {
-                await addFavorite()
-            } else {
-                await delFavorite()
+        let buttonIsSelected = !button.isSelected
+        customView.favoriteButtonShowActivityIndicator = true
+        
+        Task(priority: .userInitiated) {
+            await handleFavoriteAction(buttonIsSelected: buttonIsSelected)
+        }
+    }
+
+    private func handleFavoriteAction(buttonIsSelected: Bool) async {
+        let status: Bool
+        if buttonIsSelected {
+            status = await addFavorite()
+        } else {
+            status = await delFavorite()
+        }
+        updateUIAfterFavoriteAction(isSelected: buttonIsSelected, actionSucceeded: status)
+    }
+
+    private func updateUIAfterFavoriteAction(isSelected: Bool, actionSucceeded: Bool) {
+        customView.favoriteButtonShowActivityIndicator = false
+        
+        if actionSucceeded {
+            customView.favoriteButtonIsSelected = isSelected
+            if isSelected {
+                customView.showFavoriteButtonEffect()
             }
+        } else {
+            customView.favoriteButtonIsSelected = !isSelected
         }
     }
     
-    private func addFavorite() async {
+    private func addFavorite() async -> Bool {
         do {
             try await model.addFavorite()
+            return true
         } catch {
-            customView.favoriteButtonIsSelected = false
-            
-            let logger = Logger(subsystem: .anime, category: .empty)
-            logger.error("\(Logger.logInfo(error: error))")
-            
-            let bannerData = NotificationBannerView.BannerData(
-                title: Localization.Error.addFavorite,
-                detail: error.localizedDescription,
-                type: .error)
-            NotificationBannerView(data: bannerData)
-                .show()
+            errorHandlerForFavoriteAction(error: error, title: Localization.Error.addFavorite)
+            return false
         }
     }
     
-    private func delFavorite() async {
+    private func delFavorite() async -> Bool {
         do {
             try await model.delFavorite()
+            return true
         } catch {
-            customView.favoriteButtonIsSelected = true
-            
-            let logger = Logger(subsystem: .anime, category: .empty)
-            logger.error("\(Logger.logInfo(error: error))")
-            
-            let bannerData = NotificationBannerView.BannerData(
-                title: Localization.Error.delFavorite,
-                detail: error.localizedDescription,
-                type: .error)
-            NotificationBannerView(data: bannerData)
-                .show()
+            errorHandlerForFavoriteAction(error: error, title: Localization.Error.delFavorite)
+            return false
         }
+    }
+    
+    private func errorHandlerForFavoriteAction(error: Error, title: String) {
+        let logger = Logger(subsystem: .anime, category: .empty)
+        logger.error("\(Logger.logInfo(error: error))")
+        
+        let bannerData = NotificationBannerView.BannerData(
+            title: title,
+            detail: error.localizedDescription,
+            type: .error)
+        NotificationBannerView(data: bannerData)
+            .show()
     }
     
     func shareButtonClicked() {
