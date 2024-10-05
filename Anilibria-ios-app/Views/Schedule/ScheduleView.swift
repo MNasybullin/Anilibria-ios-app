@@ -35,7 +35,7 @@ final class ScheduleView: UIView {
     }
     
     private lazy var layout = ScheduleCollectionViewLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
+    private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
     
     private lazy var errorView: StatusAlertView = {
         let statusView = StatusAlertView()

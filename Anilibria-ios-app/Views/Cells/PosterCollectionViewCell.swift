@@ -30,7 +30,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    private (set) lazy var imageView: UIImageView = {
+    private(set) lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constants.imageViewCornerRadius

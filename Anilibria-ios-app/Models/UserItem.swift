@@ -31,8 +31,8 @@ extension UserItem {
     
     init(userApiModel model: UserAPIModel) {
         var imageUrl: String
-        if model.avatar != nil {
-            imageUrl = AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + model.avatarOriginal
+        if let avatarOriginal = model.avatarOriginal {
+            imageUrl = AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + avatarOriginal
         } else {
             imageUrl = AppRemoteConfig.shared.string(forKey: .mirrorBaseImagesURL) + NetworkConstants.noAvatarSuffix
         }

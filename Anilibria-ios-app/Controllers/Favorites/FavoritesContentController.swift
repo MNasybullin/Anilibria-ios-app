@@ -18,8 +18,8 @@ final class FavoritesContentController: NSObject {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, HomePosterItem>
     
     // MARK: Transition properties
-    private (set) var selectedCell: PosterCollectionViewCell?
-    private (set) var selectedCellImageViewSnapshot: UIView?
+    private(set) var selectedCell: PosterCollectionViewCell?
+    private(set) var selectedCellImageViewSnapshot: UIView?
     
     enum Section: Int {
         case main

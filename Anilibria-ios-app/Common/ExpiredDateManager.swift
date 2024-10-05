@@ -8,7 +8,7 @@
 import Foundation
 
 final class ExpiredDateManager {
-    private (set) var expireTimeInSeconds: Double
+    private(set) var expireTimeInSeconds: Double
     
     private var expiredDate: Date?
     

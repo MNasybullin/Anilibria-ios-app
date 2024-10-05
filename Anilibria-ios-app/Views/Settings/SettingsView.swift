@@ -9,7 +9,7 @@ import UIKit
 
 final class SettingsView: UIView {
     private let layout = SettingsCollectionViewLayout().createLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     
     init() {
         super.init(frame: .zero)

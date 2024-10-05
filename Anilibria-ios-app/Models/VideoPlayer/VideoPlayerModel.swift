@@ -22,10 +22,10 @@ final class VideoPlayerModel {
     private let logger = Logger(subsystem: .videoPlayer, category: .empty)
     
     private var animeItem: AnimeItem
-    private (set) var currentPlaylistNumber: Int
-    private (set) var currentHLS: HLS?
-    private (set) var skips: [(Double, Double)] = []
-    private (set) var currentRate: Float = 1.0
+    private(set) var currentPlaylistNumber: Int
+    private(set) var currentHLS: HLS?
+    private(set) var skips: [(Double, Double)] = []
+    private(set) var currentRate: Float = 1.0
     
     private let userDefaults = UserDefaults.standard
     

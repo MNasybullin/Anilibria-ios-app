@@ -18,7 +18,7 @@ final class FranchiseView: UIView {
     }()
     
     private let layout = FranchiseCollectionViewLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
+    private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
     
     private var heightConstraint: NSLayoutConstraint!
     

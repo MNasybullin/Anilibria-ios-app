@@ -21,7 +21,7 @@ final class YouTubeModel: ImageModel {
     private let publicApiService = PublicApiService()
     private var rawData: [YouTubeAPIModel]
     private var pagination: ListPagination = .initialData()
-    private (set) var needLoadMoreData: Bool = true
+    private(set) var needLoadMoreData: Bool = true
     
     init(rawData: [YouTubeAPIModel]) {
         self.rawData = rawData

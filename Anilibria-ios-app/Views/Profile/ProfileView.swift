@@ -9,7 +9,7 @@ import UIKit
 
 final class ProfileView: UIView {
     let layout = ProfileCollectionViewLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
+    private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout.createLayout())
     
     private lazy var currentWindow: UIWindow? = {
         let scenes = UIApplication.shared.connectedScenes

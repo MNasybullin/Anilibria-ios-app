@@ -12,7 +12,7 @@ struct UserAPIModel: Decodable {
     let nickname: String?
     let email: String
     let avatar: String?
-    let avatarOriginal: String
+    let avatarOriginal: String?
     let vkId: String?
     let patreonId: String?
 }

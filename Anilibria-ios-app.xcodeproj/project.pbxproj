@@ -170,6 +170,9 @@
 		27B98C432B89EC8100B1ABC4 /* ResizeInsidePointButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B98C422B89EC8100B1ABC4 /* ResizeInsidePointButton.swift */; };
 		27B98C452B8A11BD00B1ABC4 /* NotificationBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B98C442B8A11BD00B1ABC4 /* NotificationBannerView.swift */; };
 		27C6B4CA2AE2E6DC00BC0184 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */; };
+		27C6D8B02BFE35A40090C237 /* FavoritesButtonHaptic.ahap in Resources */ = {isa = PBXBuildFile; fileRef = 27C6D8AC2BFE35A40090C237 /* FavoritesButtonHaptic.ahap */; };
+		27C6D8B12BFE35A40090C237 /* HapticEngineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6D8AE2BFE35A40090C237 /* HapticEngineService.swift */; };
+		27C6D8B32BFE36290090C237 /* FavoritesButtonParticleEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6D8B22BFE36290090C237 /* FavoritesButtonParticleEffectView.swift */; };
 		27CB080328847D39009E2583 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 27CB080228847D39009E2583 /* .gitignore */; };
 		27CE88552B2316E6004DC558 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88542B2316E6004DC558 /* Team.swift */; };
 		27CE88572B231D29004DC558 /* AnimeTeamInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CE88562B231D29004DC558 /* AnimeTeamInfoView.swift */; };
@@ -396,6 +399,9 @@
 		27B98C422B89EC8100B1ABC4 /* ResizeInsidePointButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeInsidePointButton.swift; sourceTree = "<group>"; };
 		27B98C442B8A11BD00B1ABC4 /* NotificationBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerView.swift; sourceTree = "<group>"; };
 		27C6B4C92AE2E6DC00BC0184 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
+		27C6D8AC2BFE35A40090C237 /* FavoritesButtonHaptic.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FavoritesButtonHaptic.ahap; sourceTree = "<group>"; };
+		27C6D8AE2BFE35A40090C237 /* HapticEngineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticEngineService.swift; sourceTree = "<group>"; };
+		27C6D8B22BFE36290090C237 /* FavoritesButtonParticleEffectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesButtonParticleEffectView.swift; sourceTree = "<group>"; };
 		27CB080228847D39009E2583 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		27CE88542B2316E6004DC558 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		27CE88562B231D29004DC558 /* AnimeTeamInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeTeamInfoView.swift; sourceTree = "<group>"; };
@@ -664,6 +670,7 @@
 				275287B429D5911700D403F6 /* AnimeInfoView */,
 				27EA392829C4564200D777AE /* AnimeImageView */,
 				2748DD052AEC2ACA00D53E9B /* AnimeView.swift */,
+				27C6D8B22BFE36290090C237 /* FavoritesButtonParticleEffectView.swift */,
 			);
 			path = Anime;
 			sourceTree = "<group>";
@@ -942,6 +949,7 @@
 				27D73AA22B937B8000AAB30E /* ThreadSafeDictionary.swift */,
 				272DD0AD2BA9F6D60013F1B2 /* AppRemoteConfig.swift */,
 				2726C1BD2BC6DBB300B0A94E /* AppVersionManager.swift */,
+				27C6D8AF2BFE35A40090C237 /* HapticEngine */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1050,6 +1058,23 @@
 				274EFEDF2B8C7CC60094804C /* WatchingHomeCollectionViewCell.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		27C6D8AD2BFE35A40090C237 /* Patterns */ = {
+			isa = PBXGroup;
+			children = (
+				27C6D8AC2BFE35A40090C237 /* FavoritesButtonHaptic.ahap */,
+			);
+			path = Patterns;
+			sourceTree = "<group>";
+		};
+		27C6D8AF2BFE35A40090C237 /* HapticEngine */ = {
+			isa = PBXGroup;
+			children = (
+				27C6D8AE2BFE35A40090C237 /* HapticEngineService.swift */,
+				27C6D8AD2BFE35A40090C237 /* Patterns */,
+			);
+			path = HapticEngine;
 			sourceTree = "<group>";
 		};
 		27DEEBCA2886F44E0014055F /* Network */ = {
@@ -1314,6 +1339,7 @@
 			files = (
 				27CB080328847D39009E2583 /* .gitignore in Resources */,
 				27F5E5A9287EC07D00BCF61C /* .swiftlint.yml in Resources */,
+				27C6D8B02BFE35A40090C237 /* FavoritesButtonHaptic.ahap in Resources */,
 				27F5E564287C6DCB00BCF61C /* LaunchScreen.storyboard in Resources */,
 				27F5E5A0287EAA5D00BCF61C /* Localizable.strings in Resources */,
 				27F5E561287C6DCB00BCF61C /* Assets.xcassets in Resources */,
@@ -1489,6 +1515,7 @@
 				277513F62B63F48200947AED /* FranchiseCollectionViewLayout.swift in Sources */,
 				276880C72B47E6B600F5FD06 /* FavoritesView.swift in Sources */,
 				27CE88552B2316E6004DC558 /* Team.swift in Sources */,
+				27C6D8B12BFE35A40090C237 /* HapticEngineService.swift in Sources */,
 				275BD3E829DADABF006A00EA /* WatchAndDownloadButtonsView.swift in Sources */,
 				272D653E288EC4EC00FA4F60 /* IB-Segues+Generated.swift in Sources */,
 				27E1BA1B2B822C1C00A9C73C /* SettingsCollectionViewLayout.swift in Sources */,
@@ -1606,6 +1633,7 @@
 				27B707182AF2ACBC00DD8DC6 /* SearchView.swift in Sources */,
 				2748DD0A2AEE5D1B00D53E9B /* AnimeModel.swift in Sources */,
 				275865C92ADAFDDF00F98884 /* UserModel.swift in Sources */,
+				27C6D8B32BFE36290090C237 /* FavoritesButtonParticleEffectView.swift in Sources */,
 				2758A4362B30B7020089E475 /* UserEntity+CoreDataClass.swift in Sources */,
 				2758A44D2B4300B90089E475 /* EpisodeImageView.swift in Sources */,
 				27103DCB2B6A46C900B4CA49 /* AnimeAnimator.swift in Sources */,
@@ -1901,7 +1929,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1940,7 +1968,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "Nasybullin.Anilibria-ios-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -22,12 +22,12 @@ final class NetworkMonitor {
     
     private let isConnectedSubject = PassthroughSubject<Bool, Never>()
     
-    private (set) var isConnected: Bool = true {
+    private(set) var isConnected: Bool = true {
         didSet {
             isConnectedSubject.send(isConnected)
         }
     }
-    private (set) var connectionType: ConnectionType = .unknown
+    private(set) var connectionType: ConnectionType = .unknown
     
     enum ConnectionType {
         case wifi

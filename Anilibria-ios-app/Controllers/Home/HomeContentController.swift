@@ -49,8 +49,8 @@ final class HomeContentController: NSObject {
     }
     
     // MARK: Transition properties
-    private (set) var selectedCell: PosterCollectionViewCell?
-    private (set) var selectedCellImageViewSnapshot: UIView?
+    private(set) var selectedCell: PosterCollectionViewCell?
+    private(set) var selectedCellImageViewSnapshot: UIView?
     
     weak var delegate: HomeContentControllerDelegate?
     
@@ -516,7 +516,6 @@ extension HomeContentController: UICollectionViewDelegate {
         selectedCell = collectionView.cellForItem(at: indexPath) as? PosterCollectionViewCell
         selectedCellImageViewSnapshot = selectedCell?.imageView.snapshotView(afterScreenUpdates: false)
         
-        let row = indexPath.row
         switch section {
             case .today:
                 didSelectTodayCell(indexPath: indexPath)
