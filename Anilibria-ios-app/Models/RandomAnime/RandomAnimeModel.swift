@@ -19,7 +19,7 @@ final class RandomAnimeModel {
     private let publicApiService = PublicApiService()
     private let remoteConfig = AppRemoteConfig.shared
     
-    private (set) var isDataTaskLoading = false
+    private(set) var isDataTaskLoading = false
     private var rawData: TitleAPIModel?
     private var image: UIImage?
     

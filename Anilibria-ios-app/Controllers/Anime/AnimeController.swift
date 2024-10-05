@@ -15,7 +15,7 @@ final class AnimeController: UIViewController, AnimeFlow, HasCustomView {
     
     private var franchiseController: FranchiseController?
     private let model: AnimeModel
-    private (set) var interactiveTransitionController: PopSwipeInteractiveTransitionController?
+    private(set) var interactiveTransitionController: PopSwipeInteractiveTransitionController?
     private let hasInteractiveTransitionController: Bool
     
     // MARK: LifeCycle

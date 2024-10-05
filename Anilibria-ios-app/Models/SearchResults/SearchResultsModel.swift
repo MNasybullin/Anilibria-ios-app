@@ -22,7 +22,7 @@ final class SearchResultsModel: ImageModel {
     private var rawData: [TitleAPIModel] = []
     private var pagination: ListPagination = .initialData()
     private var loadingDataTask: Task<(), Never>?
-    private (set) var needLoadMoreData: Bool = true
+    private(set) var needLoadMoreData: Bool = true
     
     weak var delegate: SearchResultsModelDelegate?
     

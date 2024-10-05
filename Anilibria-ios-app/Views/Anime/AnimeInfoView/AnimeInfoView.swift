@@ -56,7 +56,7 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    private (set) lazy var watchAndDownloadButtonsView = WatchAndDownloadButtonsView()
+    private(set) lazy var watchAndDownloadButtonsView = WatchAndDownloadButtonsView()
     
     private lazy var genresLabel: UILabel = {
         let label = UILabel()
@@ -67,7 +67,7 @@ final class AnimeInfoView: UIView {
         return label
     }()
     
-    private (set) lazy var favoriteAndShareButtonsView = FavoriteAndShareButtonsView()
+    private(set) lazy var favoriteAndShareButtonsView = FavoriteAndShareButtonsView()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -79,7 +79,7 @@ final class AnimeInfoView: UIView {
     }()
     
     private lazy var animeTeamInfoView = AnimeTeamInfoView()
-    private (set) lazy var animeEpisodesView = AnimeEpisodesView()
+    private(set) lazy var animeEpisodesView = AnimeEpisodesView()
     
     init() {
         super.init(frame: .zero)

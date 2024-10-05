@@ -16,7 +16,7 @@ final class YouTubeView: UIView {
     }
     
     private lazy var collectionViewLayout = YouTubeCollectionViewLayout()
-    private (set) var collectionView: UICollectionView!
+    private(set) var collectionView: UICollectionView!
     
     var collectionViewDelegate: UICollectionViewDelegate? {
         get { collectionView.delegate }

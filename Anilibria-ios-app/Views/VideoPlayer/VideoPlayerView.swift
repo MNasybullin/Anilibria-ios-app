@@ -60,7 +60,7 @@ final class VideoPlayerView: UIView {
     private var landscapeConstraints: [NSLayoutConstraint]!
     private var portraitConstraints: [NSLayoutConstraint]!
     
-    private (set) var isOverlaysHidden = false
+    private(set) var isOverlaysHidden = false
     
     weak var delegate: VideoPlayerViewDelegate?
     

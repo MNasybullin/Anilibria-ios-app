@@ -39,7 +39,7 @@ final class HomeView: UIView {
     }
     
     let homeCollectionViewLayout = HomeCollectionViewLayout()
-    private (set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: homeCollectionViewLayout.createLayout())
+    private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: homeCollectionViewLayout.createLayout())
     
     private lazy var errorView: StatusAlertView = {
         let statusView = StatusAlertView()

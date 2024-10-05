@@ -18,8 +18,8 @@ final class ScheduleContentController: NSObject {
     weak var delegate: ScheduleContentControllerDelegate?
     
     // MARK: Transition properties
-    private (set) var selectedCell: PosterCollectionViewCell?
-    private (set) var selectedCellImageViewSnapshot: UIView?
+    private(set) var selectedCell: PosterCollectionViewCell?
+    private(set) var selectedCellImageViewSnapshot: UIView?
     
     private lazy var model = ScheduleModel()
     

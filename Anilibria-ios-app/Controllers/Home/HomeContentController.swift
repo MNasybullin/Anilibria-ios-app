@@ -49,8 +49,8 @@ final class HomeContentController: NSObject {
     }
     
     // MARK: Transition properties
-    private (set) var selectedCell: PosterCollectionViewCell?
-    private (set) var selectedCellImageViewSnapshot: UIView?
+    private(set) var selectedCell: PosterCollectionViewCell?
+    private(set) var selectedCellImageViewSnapshot: UIView?
     
     weak var delegate: HomeContentControllerDelegate?
     

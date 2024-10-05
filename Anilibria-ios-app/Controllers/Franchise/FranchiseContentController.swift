@@ -21,8 +21,8 @@ final class FranchiseContentController: NSObject {
     typealias Snapshot = NSDiffableDataSourceSnapshot<String, FranchisePosterItem>
     
     // MARK: Transition properties
-    private (set) var selectedCell: PosterCollectionViewCell?
-    private (set) var selectedCellImageViewSnapshot: UIView?
+    private(set) var selectedCell: PosterCollectionViewCell?
+    private(set) var selectedCellImageViewSnapshot: UIView?
     
     enum Status {
         case normal

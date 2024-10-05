@@ -16,7 +16,7 @@ final class AnimeView: UIView {
     private lazy var navigationBar = UINavigationBar()
     private lazy var navBarItem = UINavigationItem()
     private lazy var scrollView = UIScrollView()
-    private (set) lazy var animeImageView = AnimeImageView()
+    private(set) lazy var animeImageView = AnimeImageView()
     private lazy var contentVStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
